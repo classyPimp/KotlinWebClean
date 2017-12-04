@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: j_estzhe_development
+  pool: 5
+  username: postgres
+  password: postgres
+  host: localhost

@@ -1,0 +1,6 @@
+development:
+  userName: postgres
+  password: postgres
+  url: jdbc:postgresql://localhost/j_estzhe_development
+  driverClassName: org.postgresql.Driver
+

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": { 
+    "outDir": "./dist/",
+    "baseUrl": "./javascript",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./javascript/**/*",
+    "./hilfhund/**/*"
+  ]
+}

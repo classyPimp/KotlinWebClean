@@ -1,0 +1,5 @@
+development:
+    pathToPublicFolderParentDir: "assets/developmentBuild"
+    relativeToContextPublicFolderName: "public"
+    relativeToContextAssetsPath: "public/assets"
+    pathToUploads: "uploads"

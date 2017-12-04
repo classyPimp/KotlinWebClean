@@ -1,0 +1,7 @@
+.idea/**
+.gradle/**
+assets/developmentBuild/**
+assets/node_modules/**
+build/**
+uploads/**
+out/**

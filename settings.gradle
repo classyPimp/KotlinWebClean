@@ -1,0 +1,4 @@
+rootProject.name = 'estzhe'
+include 'orm'
+include 'microFramework'
+
