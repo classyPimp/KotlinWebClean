@@ -18,6 +18,9 @@ abstract class ComposerBase {
             failImmediately(error)
             return
         }
+        if (failed) {
+            return
+        }
         try {
             compose()
         } catch (error: Throwable) {
