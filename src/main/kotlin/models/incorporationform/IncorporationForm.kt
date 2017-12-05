@@ -1,6 +1,6 @@
 package models.incorporationform
 
-import models.company.Company
+import models.counterparty.CounterParty
 import org.jooq.generated.tables.IncorporationForms
 import orm.annotations.*
 import orm.incorporationformgeneratedrepository.IncorporationFormRecord
@@ -27,8 +27,8 @@ class IncorporationForm {
     @TableField(name = "UPDATED_AT")
     var updatedAt: Timestamp? = null
 
-    @HasMany(model=Company::class, fieldOnThis = "ID", fieldOnThat = "INCORPORATION_FORM_ID")
-    var companies: MutableList<Company>? = null
+    @HasMany(model=CounterParty::class, fieldOnThis = "ID", fieldOnThat = "INCORPORATION_FORM_ID")
+    var counter_parties: MutableList<CounterParty>? = null
 
 }
 

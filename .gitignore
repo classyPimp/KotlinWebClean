@@ -1,0 +1,10 @@
+.grade
+.idea
+assets/developmentBuild
+assets/node_modules
+nodeModules
+build
+out
+microFramework/build
+orm/build
+gradle

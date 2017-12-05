@@ -192,16 +192,18 @@ object AssociationBeansFactory {
 
     private fun getAssociatedModelDataModel(block: ()->Unit): ModelDataModel {
         var associatedModelDataModel: ModelDataModel? = null
+        val simpleName2: String
         try {
             block.invoke()
             throw Exception("block should throw MirroredTypeException")
         } catch (error: MirroredTypeException) {
             val typeMirror = error.typeMirror
             val simpleName = typeMirror.toString().split('.').last()
+            simpleName2=  simpleName
             associatedModelDataModel =  AggregateModelsBank.models[simpleName]
         }
         if (associatedModelDataModel == null) {
-            throw Exception("Associated class not found")
+            throw Exception("Associated class not found ${simpleName2}")
         } else {
             return associatedModelDataModel
         }
