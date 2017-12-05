@@ -8,6 +8,8 @@ interface IObjectNode {
 
     fun set(key: String, value: String?)
 
+    fun set(key: String, value: Boolean?)
+
     fun set(key: String, value: Int?)
 
     fun set(key: String, value: Long?)

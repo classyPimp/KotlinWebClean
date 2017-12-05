@@ -26,6 +26,10 @@ class JacksonObjectNodeAdapter(val objectNode: ObjectNode): IObjectNode
         objectNode.set(key, null)
     }
 
+    override fun set(key: String, value: Boolean?) {
+        objectNode.put(key, value)
+    }
+
     override fun set(key: String, value: String?) {
         objectNode.put(key, value)
     }

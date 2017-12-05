@@ -4,7 +4,7 @@ import { HasOne } from '../../modelLayer/annotations/HasOne';
 import { IncorporationForm } from './IncorporationForm';
 
 
-export class Company extends BaseModel {
+export class CounterParty extends BaseModel {
 
     static className = "company"
 
@@ -19,15 +19,6 @@ export class Company extends BaseModel {
 
     @Property
     nameShort: string
-
-    @Property
-    adressLegal: string
-
-    @Property
-    adressPostal: string
-
-    @Property
-    bin: string
 
     @HasOne(IncorporationForm)
     incorporationForm: IncorporationForm

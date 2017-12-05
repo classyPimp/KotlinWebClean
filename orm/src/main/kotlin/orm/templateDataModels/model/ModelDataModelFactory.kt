@@ -24,6 +24,9 @@ object ModelDataModelFactory {
         val setToInject = mutableSetOf<String>()
 
         for (associationBean in associationBeans) {
+            if (associationBean.associatedModelDataModel.modelClass == modelDataModel.modelClass) {
+                continue
+            }
             if (associationBean.associationType == "BELONGS_TO_POLYMORPHIC") {
                 associationBean.associatedPolymorphicModelDataModels.forEach {
                     setToInject.add(it.packagesBean.model)

@@ -5,7 +5,7 @@ import * as React from 'react';
 export class Main extends BaseReactComponent {
 
     render(){
-        return <div className="contragents-main">
+        return <div className="counterParties-main">
             
         </div>
     }

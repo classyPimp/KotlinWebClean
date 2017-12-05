@@ -8,3 +8,8 @@ out
 microFramework/build
 orm/build
 gradle
+orm/build
+orm/out
+microFramework/build
+microFramework/out
+src/main/java/org/jooq

@@ -1,7 +1,7 @@
 import { New } from './New';
 import { Main } from './Main';
 
-export let ContragentsComponents =  {
+export let CounterPartiesComponents =  {
     
     main: Main,
     new: New,
