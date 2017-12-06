@@ -2,6 +2,8 @@ package models.persontocounterpartylink
 
 import models.counterparty.CounterParty
 import models.person.Person
+import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReason
+import org.jooq.generated.tables.PersonToCounterPartyLinkReasons
 import org.jooq.generated.tables.PersonToCounterPartyLinks
 import orm.annotations.BelongsTo
 import orm.annotations.IsModel
@@ -28,8 +30,8 @@ class PersonToCounterPartyLink {
     @TableField(name = "COUNTER_PARTY_ID")
     var counterPartyId: Long? = null
 
-    @TableField(name = "LINK_REASON")
-    var linkReason: Int? = null
+    @TableField(name = "PERSON_TO_COUNTER_PARTY_LINK_REASON_ID")
+    var linkReasonId: Long? = null
 
     @TableField(name = "SPECIFIC_DETAILS")
     var specificDetails: String? = null
@@ -45,5 +47,8 @@ class PersonToCounterPartyLink {
 
     @BelongsTo(model = CounterParty::class, fieldOnThis = "COUNTER_PARTY_ID", fieldOnThat = "ID")
     var counterParty: CounterParty? = null
+
+    @BelongsTo(model = PersonToCounterPartyLinkReason::class, fieldOnThis = "PERSON_TO_COUNTER_PARTY_LINK_REASON_ID", fieldOnThat = "ID")
+    var personToCounterPartyLinkReason: PersonToCounterPartyLinkReason? = null
 
 }

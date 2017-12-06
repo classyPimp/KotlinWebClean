@@ -1,5 +1,6 @@
 package models.uploadeddocument
 
+import models.persontocounterpartylinktouploadeddocumentlink.PersonToCounterPartyLinkToUploadedDocumentLink
 import org.jooq.generated.tables.UploadedDocuments
 import orm.annotations.*
 import orm.uploadeddocumentgeneratedrepository.UploadedDocumentRecord
@@ -50,5 +51,8 @@ class UploadedDocument {
 
     @BelongsTo(model=  UploadedDocument::class, fieldOnThat = "ID", fieldOnThis = "UPLOADED_DOCUMENT_ID")
     var parentDocument: UploadedDocument? = null
+
+    @HasMany(model = PersonToCounterPartyLinkToUploadedDocumentLink::class, fieldOnThis = "ID", fieldOnThat = "UPLOADED_DOCUMENT_ID")
+    var personToCounterPartyLinkToUploadedDocumentLinks: MutableList<PersonToCounterPartyLinkToUploadedDocumentLink>? = null
 
 }
