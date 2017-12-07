@@ -1,7 +1,7 @@
 import { BaseModel } from '../../modelLayer/BaseModel';
 import { Property } from '../../modelLayer/annotations/Property';
 import { HasOne } from '../../modelLayer/annotations/HasOne';
-import { CounterParty } from './counterParty'
+import { CounterParty } from './CounterParty'
 
 export class CounterPartyContact extends BaseModel {
 
