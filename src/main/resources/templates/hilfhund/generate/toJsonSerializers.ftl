@@ -1,4 +1,4 @@
-package models.${decapitalizedClassName}.tojsonserializers
+package models.${classNameLowerCase}.tojsonserializers
 
 object ${className}Serializers {
 

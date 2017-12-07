@@ -1,7 +1,7 @@
-package models.${decapitalizedClassName}.tojsonserializers${jsonSerializerPackage!""}
+package models.${classNameLowerCase}.tojsonserializers${jsonSerializerPackage!""}
 
 import models.${classNameLowerCase}.${className}
-import orm.${decapitalizedClassName}generatedrepository.${className}ToJsonSerializer
+import orm.${classNameLowerCase}generatedrepository.${className}ToJsonSerializer
 
 object ${toJsonSerializerName} {
 

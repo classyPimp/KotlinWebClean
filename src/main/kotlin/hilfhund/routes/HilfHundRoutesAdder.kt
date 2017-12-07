@@ -46,6 +46,18 @@ object HilfHundRoutesAdder: RoutesDrawer(Router) {
                 post("/toJsonSerializer") {
                     GenerationController(it).generateToJsonSerializer()
                 }
+
+                post("/jsModel") {
+                    GenerationController(it).generateJsModel()
+                }
+
+                post("/reactComponent") {
+                    GenerationController(it).generateReactComponent()
+                }
+
+                post("/composer") {
+                    GenerationController(it).generateComposer()
+                }
             }
         }
 

@@ -48,7 +48,7 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
 
         val fileContent = renderTemplateToString("hilfhund/generate/model.ftl", model)
 
-        val modelFileToGenerate = File("src/main/kotlin/models/${model.className!!.toLowerCase()}/${model.className!!}.kt")
+        val modelFileToGenerate = File("src/main/kotlin/models/${model.classNameLowerCase}/${model.className!!}.kt")
 
         modelFileToGenerate.let {
             if (it.exists()) {
@@ -94,7 +94,7 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
 
         val packagePart = dataModel.factoryPackage?.replace('.', '/') ?: ""
 
-        val fileToCreate = File("src/main/kotlin/models/${dataModel.decapitalizedClassName}/factories${packagePart}/${factoryFileName}")
+        val fileToCreate = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/factories${packagePart}/${factoryFileName}")
 
         fileToCreate.let {
             if (it.exists()) {
@@ -194,6 +194,143 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
                 }
             }
         }
+
+        renderJson("{\"message\": \"ok\"}")
+    }
+
+
+    fun generateJsModel() {
+        val json = ObjectMapper().readTree(context.request.reader)
+
+        val model = Model(json.get("model"))
+
+        model.let {
+            if (it.className == null) {
+                it.addError("className", "invalid")
+            }
+            it.className?.let { reactComponentName ->
+                if (reactComponentName.length < 1) {
+                    it.addError("className", "invalid")
+                }
+            }
+        }
+
+        model.errors?.let {
+            if (it.isNotEmpty()) {
+                renderJson(
+                        model.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val fileContent = renderTemplateToString("hilfhund/generate/jsModel.ftl", model)
+
+        val modelFileToGenerate = File("assets/javascript/application/models/${model.className}.tsx")
+
+        modelFileToGenerate.let {
+            if (it.exists()) {
+                model.addError("general", "model file already exists")
+                renderJson(model.toJsonWithErrors())
+                return
+            }
+            if (!it.parentFile.exists()) {
+                it.parentFile.mkdirs()
+                it.createNewFile()
+            }
+            it.writeText(fileContent)
+        }
+
+        renderJson(model.toJson())
+    }
+
+    fun generateReactComponent() {
+        val json = ObjectMapper().readTree(context.request.reader)
+
+        val model = Model(json.get("model"))
+
+        model.let {
+            if (it.reactComponentName == null) {
+                it.addError("reactComponentName", "invalid")
+            }
+            it.reactComponentName?.let { reactComponentName ->
+                if (reactComponentName.length < 1) {
+                    it.addError("reactComponentName", "invalid")
+                }
+            }
+
+        }
+
+        model.errors?.let {
+            if (it.isNotEmpty()) {
+                renderJson(
+                        model.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val fileContent = renderTemplateToString("hilfhund/generate/reactComponent.ftl", model)
+
+        val modelFileToGenerate = File("assets/javascript/application/components/${model.reactComponentUriPartFromComponentsFolder}.tsx")
+
+        modelFileToGenerate.let {
+            if (it.exists()) {
+                model.addError("general", "model file already exists")
+                renderJson(model.toJsonWithErrors())
+                return
+            }
+            if (!it.parentFile.exists()) {
+                it.parentFile.mkdirs()
+                it.createNewFile()
+            }
+            it.writeText(fileContent)
+        }
+
+        renderJson(model.toJson())
+    }
+
+    fun generateComposer(){
+        val dataModel: Model
+        val json = ObjectMapper().readTree(context.request.reader)
+        dataModel = Model(json.get("model"))
+
+        dataModel.let {
+            if (dataModel.composerName == null) {
+                it.addError("general", "can't generate composer no composer name given")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val composerFileContent = renderTemplateToString("hilfhund/generate/composer.ftl", dataModel)
+
+        val composerFileName = dataModel.composerName + ".kt"
+
+        val packagePart = dataModel.composerPackage?.replace('.', '/') ?: ""
+
+        val fileToCreate = File("src/main/kotlin/composers${packagePart}/${composerFileName}")
+
+        fileToCreate.let {
+            if (it.exists()) {
+                dataModel.addError("general", "such composer already exists")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            } else {
+                it.parentFile.let {
+                    if (!it.exists()) {
+                        it.mkdirs()
+                    }
+                }
+                it.createNewFile()
+            }
+        }
+
+        fileToCreate.writeText(composerFileContent)
 
         renderJson("{\"message\": \"ok\"}")
     }

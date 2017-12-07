@@ -23,6 +23,12 @@ export class Model extends BaseModel {
     @Property
     toJsonSerializerName: string
 
+    @Property
+    reactComponentName: string
+
+    @Property
+    composerName: string
+
     @HasMany(TableField)
     tableFields: ModelCollection<TableField>
 
@@ -90,6 +96,39 @@ export class Model extends BaseModel {
             }
             return this
         })
+    }
+
+    @Route("POST", {url: "/hilfhund/generate/jsModel"})
+    generateJsModel: (options?: RequestOptions)=>Promise<any>
+
+    beforeGenerateJsModelRequest(options: RequestOptions) {
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateJsModelRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
+    }
+
+    @Route("POST", {url: "/hilfhund/generate/reactComponent"})
+    generateReactComponent: (options?: RequestOptions)=>Promise<any>
+
+    beforeGenerateReactComponentRequest(options: RequestOptions) {
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateReactComponentRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
+    }
+
+    @Route("POST", {url: "/hilfhund/generate/composer"})
+    generateComposer: (options?: RequestOptions)=>Promise<any>
+
+    beforeGenerateComposerRequest(options: RequestOptions) {
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateComposerRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
     }
 
 }

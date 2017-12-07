@@ -22,11 +22,22 @@ class Model(json: JsonNode? = null) {
     var toJsonSerializerName: String? = null
     var jsonSerializerPackage: String? = null
 
+    var reactComponentName: String? = null
+    var reactComponentUriPartFromComponentsFolder: String? = null
+    var cdToJsApplicationRootUriPart: String? = null
+
+    var composerName: String? = null
+    var composerPackage: String? = null
+
     init {
         json?.let {
             className = it.get("className")?.asText()
             decapitalizedClassName = className?.let {
-                it[0].toLowerCase() + it.substring(1)
+                if (it.length > 0) {
+                    it[0].toLowerCase() + it.substring(1)
+                } else {
+                    ""
+                }
             }
             classNameLowerCase = className?.toLowerCase()
 
@@ -61,6 +72,24 @@ class Model(json: JsonNode? = null) {
                         jsonSerializerPackage = "." + it.subList(0, it.size - 1).joinToString(".").toLowerCase()
                     }
                     toJsonSerializerName = it.last()
+                }
+            }
+
+            it.get("reactComponentName")?.asText()?.let {
+                it.split('/').let {
+                    reactComponentName = it.last()
+                    reactComponentUriPartFromComponentsFolder = it.joinToString("/")
+                    cdToJsApplicationRootUriPart = "../".repeat(it.size + 1)
+                }
+            }
+
+            it.get("composerName")?.asText()?.let {
+                it.split('/').let {
+                    composerName = it.last()
+
+                    if (it.size > 1) {
+                        composerPackage = "." + it.subList(0, it.size - 1).joinToString(".").toLowerCase()
+                    }
                 }
             }
         }

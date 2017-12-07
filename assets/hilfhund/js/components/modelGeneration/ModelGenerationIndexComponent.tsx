@@ -69,12 +69,30 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                         generate factory
                     </button>
                 </div>
-                <div className="factory">
+                <div className="jsonSerializer">
                     <PlainInputElement model={this.state.model} propertyName="toJsonSerializerName" registerInput={this.registerInput} optional={{placeholder: "toJsonSerialier name"}}/>
                     <button onClick={this.generateToJsonSerializer}>
                         generate factory
                     </button>
                 </div>
+
+                <div className="jsComponent">
+                <PlainInputElement model={this.state.model} propertyName="reactComponentName" registerInput={this.registerInput} optional={{placeholder: "react component name"}}/>
+                <button onClick={this.generateReactComponent}>
+                    generate react component
+                </button>
+                <button onClick={this.generateJsModel}>
+                    generate js model
+                </button>
+
+                <div className="jsComponent">
+                <PlainInputElement model={this.state.model} propertyName="composerName" registerInput={this.registerInput} optional={{placeholder: "composer name"}}/>
+                <button onClick={this.generateComposer}>
+                    generate composer
+                </button>
+                </div>
+
+            </div>
 
             </div>
         </div>
@@ -145,6 +163,30 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
         this.state.model.generateToJsonSerializer().then(()=>{
             this.setState({})
         })
+    }
+
+    @autobind
+    generateReactComponent() {
+        this.collectInputs()
+        this.state.model.generateReactComponent().then(()=>{
+            this.setState({})
+        })
+    }
+
+    @autobind
+    generateJsModel() {
+        this.collectInputs()
+        this.state.model.generateJsModel().then(()=>{
+            this.setState({})
+        })
+    }
+
+    @autobind
+    generateComposer(){
+        this.collectInputs()
+        this.state.model.generateComposer().then(()=>{
+            this.setState({})
+        }) 
     }
 
 }
