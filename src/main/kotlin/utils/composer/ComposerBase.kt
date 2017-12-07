@@ -14,32 +14,29 @@ abstract class ComposerBase {
     fun run() {
         try {
             beforeCompose()
-        } catch(error: Exception) {
-            failImmediately(error)
-            return
-        }
-        if (failed) {
+        } catch(error: Throwable) {
+            fail(error)
             return
         }
         try {
             compose()
         } catch (error: Throwable) {
             if (error is DataAccessException) {
-                failImmediately(error.cause!!)
+                fail(error.cause!!)
                 return
             }
-            failImmediately(error)
+            fail(error)
             return
         }
         if (failed) {
-            return
+            fail(Throwable("Unknown Reason"))
         }
         success()
     }
 
     fun failImmediately(failure: Throwable) {
         failed = true
-        fail(failure)
+        throw failure
     }
 
     private fun recordFailureAndContinue(failure: Throwable){
@@ -47,7 +44,6 @@ abstract class ComposerBase {
         this.hasMultipleFailures = true
         this.recordedMultipleFailures.add(failure)
     }
-
 
     abstract fun compose()
 

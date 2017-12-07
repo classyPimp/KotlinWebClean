@@ -1,9 +1,9 @@
 package models.persontocounterpartylinktouploadeddocumentlink
 
 import models.persontocounterpartylink.PersonToCounterPartyLink
+import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReason
 import models.uploadeddocument.UploadedDocument
 import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocumentLinks
-import org.jooq.generated.tables.PersonToCounterPartyLinks
 import orm.annotations.BelongsTo
 import orm.annotations.IsModel
 import orm.annotations.IsPrimaryKey
@@ -29,8 +29,8 @@ class PersonToCounterPartyLinkToUploadedDocumentLink {
     @TableField(name = "UPLOADED_DOCUMENT_ID")
     var uploadedDocumentId: Long? = null
 
-    @TableField(name = "TYPE")
-    var type: Int? = null
+    @TableField(name = "PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOC_LINK_REASON_ID")
+    var personToCounterPartyLinkToUploadedDocLinkReasonId: Long? = null
 
     @TableField(name = "CREATED_AT")
     var createdAt: Timestamp? = null
@@ -43,5 +43,8 @@ class PersonToCounterPartyLinkToUploadedDocumentLink {
 
     @BelongsTo(model = UploadedDocument::class, fieldOnThat = "ID", fieldOnThis = "UPLOADED_DOCUMENT_ID")
     var uploadedDocument: UploadedDocument? = null
+
+    @BelongsTo(model = PersonToCounterPartyLinkToUploadedDocLinkReason::class, fieldOnThat = "ID", fieldOnThis = "PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOC_LINK_REASON_ID")
+    var personToCounterPartyLinkToUploadedDocLinkReason: PersonToCounterPartyLinkToUploadedDocLinkReason? = null
 
 }

@@ -1,6 +1,6 @@
 package models.person
 
-import models.personcontact.PersonContact
+import models.persontocontactlink.PersonToContactLink
 import models.persontocounterpartylink.PersonToCounterPartyLink
 import org.jooq.generated.tables.People
 import orm.annotations.*
@@ -28,8 +28,8 @@ class Person {
     @TableField(name = "UPDATED_AT")
     var updatedAt: Timestamp? = null
 
-    @HasMany(model = PersonContact::class, fieldOnThis = "ID", fieldOnThat = "PERSON_ID")
-    var personContacts: MutableList<PersonContact>? = null
+    @HasMany(model = PersonToContactLink::class, fieldOnThis = "ID", fieldOnThat = "PERSON_ID")
+    var personContacts: MutableList<PersonToContactLink>? = null
 
     @HasMany(model = PersonToCounterPartyLink::class, fieldOnThat = "PERSON_ID", fieldOnThis = "ID")
     var personToCounterPartyLinks: MutableList<PersonToCounterPartyLink>? = null

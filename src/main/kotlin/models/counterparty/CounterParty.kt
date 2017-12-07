@@ -1,6 +1,6 @@
 package models.counterparty
 
-import models.counterpartycontacts.CounterPartyContact
+import models.counterpartytocontactlink.CounterPartyToContactLink
 import models.incorporationform.IncorporationForm
 import models.persontocounterpartylink.PersonToCounterPartyLink
 import org.jooq.generated.tables.CounterParties
@@ -38,8 +38,8 @@ class CounterParty {
     @BelongsTo(model = IncorporationForm::class, fieldOnThis = "INCORPORATION_FORM_ID", fieldOnThat = "ID")
     var incorporationForm: IncorporationForm? = null
 
-    @HasMany(model = CounterPartyContact::class, fieldOnThat = "COUNTER_PARTY_ID", fieldOnThis = "ID")
-    var counterPartyContacts: MutableList<CounterPartyContact>? = null
+    @HasMany(model = CounterPartyToContactLink::class, fieldOnThat = "COUNTER_PARTY_ID", fieldOnThis = "ID")
+    var counterPartyContacts: MutableList<CounterPartyToContactLink>? = null
 
     @HasMany(model = PersonToCounterPartyLink::class , fieldOnThis = "ID", fieldOnThat = "COUNTER_PARTY_ID")
     var personToCounterPartyLinks: MutableList<PersonToCounterPartyLink>? = null

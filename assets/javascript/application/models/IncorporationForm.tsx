@@ -18,7 +18,13 @@ export class IncorporationForm extends BaseModel {
     @Property
     nameShort: string
 
+    @Property
+    updatedAt: string
+
+    @Property
+    createdAt: string
+
     @HasMany(CounterParty)
-    companies: ModelCollection<CounterParty>
+    counterParties: ModelCollection<CounterParty>
 
 }

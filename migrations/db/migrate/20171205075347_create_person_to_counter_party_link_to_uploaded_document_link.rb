@@ -4,6 +4,7 @@ class CreatePersonToCounterPartyLinkToUploadedDocumentLink < ActiveRecord::Migra
       t.references :person_to_counter_party_link, foreign_key: true, index: {name: "psn_to_co_prty_to_upl_links_idx"}
       t.references :uploaded_document, foreign_key: true, index: {name: "up_doc_links_idx"}
       t.integer :type
+      t.references :person_to_counter_party_link_to_uploaded_doc_link_reason, foreign_key: true, index: {name: "ptcpltudl_ptcpltuplr_fk"}
       t.timestamps
     end
   end
