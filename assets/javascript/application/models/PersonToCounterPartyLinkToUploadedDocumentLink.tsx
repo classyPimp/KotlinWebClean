@@ -1,34 +1,41 @@
-import { BaseModel } from '../../modelLayer/BaseModel';
-import { Property } from '../../modelLayer/annotations/Property';
-import { HasOne } from '../../modelLayer/annotations/HasOne';
+import { Property } from '../../modelLayer/annotations/Property'
+import { BaseModel } from '../../modelLayer/BaseModel'
+import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
+import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { PersonToCounterPartyLink } from './PersonToCounterPartyLink'
 import { UploadedDocument } from './UploadedDocument'
+import { PersonToCounterPartyLinkToUploadedDocLinkReason } from './PersonToCounterPartyLinkToUploadedDocLinkReason'
 
 export class PersonToCounterPartyLinkToUploadedDocumentLink extends BaseModel {
 
-  @Property
-  id: number
+    static className = "personToCounterPartyLinkToUploadedDocumentLink"
 
-  @Property
-  personToCounterPartyLinkId: number
+    @Property
+    id: number
 
-  @Property
-  uploadedDocumentId: number
+    @Property
+    personToCounterPartyLinkId: number
 
-  @Property
-  type: number
+    @Property
+    uploadedDocumentId: number
 
-  @Property
-  createdAt: number
+    @Property
+    personToCounterPartyLinkToUploadedDocLinkReasonId: number
 
-  @Property
-  updatedAt: number
+    @Property
+    updatedAt: string
 
-  @HasOne(PersonToCounterPartyLink)
-  personToCounterPartyLink: PersonToCounterPartyLink
+    @Property
+    createdAt: string
 
-  @HasOne(UploadedDocument)
-  uploadedDocument: UploadedDocument
+    @HasOne(PersonToCounterPartyLink)
+    personToCounterPartyLink: PersonToCounterPartyLink
+
+    @HasOne(UploadedDocument) 
+    uploadedDocument: UploadedDocument
+
+    @HasOne(PersonToCounterPartyLinkToUploadedDocLinkReason)
+    personToCounterPartyLinkToUploadedDocLinkReason: PersonToCounterPartyLinkToUploadedDocLinkReason
 
 }

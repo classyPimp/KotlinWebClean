@@ -1,40 +1,44 @@
-import { BaseModel } from '../../modelLayer/BaseModel';
-import { Property } from '../../modelLayer/annotations/Property';
-import { HasOne } from '../../modelLayer/annotations/HasOne';
+import { Property } from '../../modelLayer/annotations/Property'
+import { BaseModel } from '../../modelLayer/BaseModel'
+import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
-import { CounterParty } from './CounterParty'
 import { Person } from './Person'
- 
+import { CounterParty } from './CounterParty'
+import { PersonToCounterPartyLinkReason } from './PersonToCounterPartyLinkReason'
+
 
 export class PersonToCounterPartyLink extends BaseModel {
 
-  static className: "person_to_counter_party_link"
+    static className = "personToCounterPartyLink"
 
-  @Property
-  id: number
+    @Property
+    id: number
 
-  @Property
-  personId: number
+    @Property
+    personId: number
 
-  @Property
-  counterPartyId: number
+    @Property
+    counterPartyId: number
 
-  @Property
-  linkReason: number
+    @Property
+    personToCounterPartyLinkReasonId: number
 
-  @Property
-  specificDetails: string
+    @Property
+    specificDetails: string
 
-  @Property
-  createdAt: string
+    @Property
+    updatedAt: string
 
-  @Property
-  updatedAt: string
+    @Property
+    createdAt: string
 
-  @HasOne(CounterParty)
-  counterParty: CounterParty
+    @HasOne(Person)
+    person: Person
 
-  @HasOne(Person)
-  person: Person
+    @HasOne(CounterParty)
+    counterParty: CounterParty
+
+    @HasOne(PersonToCounterPartyLinkReason)
+    personToCounterPartyLinkReason: PersonToCounterPartyLinkReason
 
 }

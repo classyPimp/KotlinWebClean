@@ -2,18 +2,21 @@ import { Property } from '../../modelLayer/annotations/Property'
 import { BaseModel } from '../../modelLayer/BaseModel'
 import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
-import { ModelCollection } from '../../modelLayer/ModelCollection'
-import { PersonToContactLink } from './PersonToContactLink'
+import { Contact} from './Contact'
+import { CounterParty } from './CounterParty'
 
-export class Person extends BaseModel {
+export class CounterPartyToContactLink extends BaseModel {
 
-    static className = "person"
+    static className = "counterPartyToContactLink"
 
     @Property
     id: number
 
     @Property
-    name: string
+    counterPartyId: number
+
+    @Property
+    contactId: number    
 
     @Property
     updatedAt: string
@@ -21,9 +24,10 @@ export class Person extends BaseModel {
     @Property
     createdAt: string
 
-    @HasMany(PersonToContactLink)
-    personToContactLinks: ModelCollection<PersonToContactLink>
+    @HasOne(Contact)
+    contact: Contact
 
-
+    @HasOne(CounterParty)
+    counterParty: CounterParty
 
 }

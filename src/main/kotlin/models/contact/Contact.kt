@@ -35,10 +35,10 @@ class Contact {
     @BelongsTo(model = ContactType::class, fieldOnThis = "CONTACT_TYPE_ID", fieldOnThat = "ID")
     var contactType: ContactType? = null
 
-    @HasMany(model = PersonToContactLink::class, fieldOnThis = "ID", fieldOnThat = "CONTACT_ID")
-    var personToContactLinks: MutableList<PersonToContactLink>? = null
+    @HasOne(model = PersonToContactLink::class, fieldOnThis = "ID", fieldOnThat = "CONTACT_ID")
+    var personToContactLink: PersonToContactLink? = null
 
-    @HasMany(model = CounterPartyToContactLink::class, fieldOnThat = "CONTACT_ID", fieldOnThis = "ID")
-    var counterPartyToContactLinks: MutableList<CounterPartyToContactLink>? = null
+    @HasOne(model = CounterPartyToContactLink::class, fieldOnThat = "CONTACT_ID", fieldOnThis = "ID")
+    var counterPartyToContactLink: CounterPartyToContactLink? = null
 
 }

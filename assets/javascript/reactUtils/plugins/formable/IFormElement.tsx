@@ -2,7 +2,7 @@ import { BaseModel } from '../../../modelLayer/BaseModel';
 import { IModelProperties } from '../../../modelLayer/interfaces/IModelProperties';
 import { BaseReactComponent } from '../../BaseReactComponent';
 import { Component } from 'react';
-
+import { MixinFormableTrait } from './MixinFormableTrait'
 
 
 export interface  IFormElement extends BaseReactComponent {

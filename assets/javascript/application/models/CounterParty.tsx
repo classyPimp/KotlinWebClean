@@ -1,15 +1,16 @@
-import { BaseModel } from '../../modelLayer/BaseModel';
-import { Property } from '../../modelLayer/annotations/Property';
-import { HasOne } from '../../modelLayer/annotations/HasOne';
-import { IncorporationForm } from './IncorporationForm';
+import { Property } from '../../modelLayer/annotations/Property'
+import { BaseModel } from '../../modelLayer/BaseModel'
+import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
-import { CounterPartyContact } from './CounterPartyContact'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
+import { IncorporationForm } from './IncorporationForm'
+import { CounterPartyToContactLink } from './CounterPartyToContactLink'
+import { PersonToCounterPartyLink } from './PersonToCounterPartyLink'
 
 
 export class CounterParty extends BaseModel {
 
-    static className = "company"
+    static className = "counterParty"
 
     @Property
     id: number
@@ -32,7 +33,10 @@ export class CounterParty extends BaseModel {
     @HasOne(IncorporationForm)
     incorporationForm: IncorporationForm
 
-    @HasMany(CounterPartyContact)
-    counterPartyContacts: ModelCollection<CounterPartyContact>
+    @HasMany(CounterPartyToContactLink)
+    counterPartyContacts: ModelCollection<CounterPartyToContactLink>
+
+    @HasMany(PersonToCounterPartyLink)
+    personToCounterPartyLinks: ModelCollection<PersonToCounterPartyLink>
 
 }

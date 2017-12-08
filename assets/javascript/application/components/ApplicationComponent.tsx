@@ -7,14 +7,22 @@ import { BaseReactComponent } from '../../reactUtils/BaseReactComponent'
 import { Router, Route, BrowserRouter, Link, match, Switch } from 'react-router-dom';
 import {TopMenu} from "./shared/TopMenu"
 import {UsersComponents} from './users/UsersComponents'
+import {XhrRequestMaker} from '../../modelLayer/utils/XhrRequestMaker'
 
 export class ApplicationComponent extends BaseReactComponent {
 
-    props: {match?: match<any>}
+    props: {match?: match<any>, history?: History}
 
     constructor(props: any) {
         super(props)
         CurrentUser.instance.tryLoginFromCookie()
+        XhrRequestMaker.onFailHandler = this.xhrOnFailHandler
+    }
+
+    xhrOnFailHandler(xhr: XMLHttpRequest) {
+        if (xhr.status === 404) {
+            this.props.history.pushState(null, "not found", "/404")
+        }
     }
 
     render() {

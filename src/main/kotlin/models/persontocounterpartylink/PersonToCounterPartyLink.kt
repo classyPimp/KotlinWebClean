@@ -31,7 +31,7 @@ class PersonToCounterPartyLink {
     var counterPartyId: Long? = null
 
     @TableField(name = "PERSON_TO_COUNTER_PARTY_LINK_REASON_ID")
-    var linkReasonId: Long? = null
+    var personToCounterPartyLinkReasonId: Long? = null
 
     @TableField(name = "SPECIFIC_DETAILS")
     var specificDetails: String? = null

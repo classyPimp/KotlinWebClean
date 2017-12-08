@@ -4,6 +4,8 @@ import { RequestOptions } from '../annotations/ModelRoute'
 
 export class XhrRequestMaker {
 
+    static onFailHandler: (xhr: XMLHttpRequest)=>void
+
     static get(options: RequestOptions): DefferedPromise<any>{
         options.httpMethod = "GET"
         let requestMaker = new this(options)
@@ -70,7 +72,7 @@ export class XhrRequestMaker {
 
     setParameters(){
         let options = this.options
-        if (options.httpMethod === "GET" && !!(options.params)) {
+        if (options.httpMethod === "GET" && options.params) {
             options.url = `${options.url}?${this.objectToQueryString(options.params)}`
         } else {
             
@@ -92,6 +94,9 @@ export class XhrRequestMaker {
                 }
             }
             else {
+                if (XhrRequestMaker.onFailHandler) {
+                    XhrRequestMaker.onFailHandler(this.xhr)
+                }
                 this.deferredPromise.reject(this.xhr)
             }
         }

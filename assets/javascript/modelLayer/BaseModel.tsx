@@ -5,7 +5,7 @@ import { IAssociationsConfig } from './interfaces/IAssociationsConfig';
 import { ModelCollection } from './ModelCollection'
 import {MixinSerializableTrait} from "./modelTraits/MixinSerializableTrait"
 import {MixinValidatableTrait} from "./modelTraits/MixinValidatableTrait"
-
+import { RequestOptions } from './annotations/ModelRoute'
 
 class ModelClassMixinContainer {
     constructor(...args: Array<any>){}
@@ -76,6 +76,44 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
         
         // Not an object
         return false;
+    }
+
+    static afterIndexRequest(options: RequestOptions){
+        options.deferredPromise.then((resp)=>{
+           let collection = new ModelCollection<BaseModel>()
+           let returnedArray: Array<IModelProperties> = resp
+           returnedArray.forEach((properties)=>{
+             collection.push(new this(properties))
+           })
+           return collection
+        })
+    }
+
+
+    static afterGetRequest(options: RequestOptions){
+        options.deferredPromise.then((resp)=>{
+           return new this(resp)
+        })   
+    }
+
+    beforeUpdateRequest(options: RequestOptions){
+        this.beforeCreateRequest(options)
+    }
+
+    afterUpdateRequest(options: RequestOptions){
+        this.afterCreateRequest(options)
+    }
+
+    beforeCreateRequest(options: RequestOptions) {
+        options.params = this.getPureProperties()
+    }
+
+    afterCreateRequest(options: RequestOptions) {
+        options.deferredPromise.then((resp)=>{
+            let modelToReturn = this.constructor(resp)
+            modelToReturn.validate()
+            return modelToReturn
+        })
     }
 
 } 

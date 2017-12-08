@@ -30,7 +30,7 @@ export class Main extends BaseReactComponent {
                 <DashboardsComponents.sideBar/>
             </div>
             <div className="dashboards-index pure-u-4-5">
-                <Route path={`${this.props.match.url}/counter_parties/new`} component={CounterPartiesComponents.new} />                
+                
             </div>
         </div>
     }

@@ -29,7 +29,7 @@ class Person {
     var updatedAt: Timestamp? = null
 
     @HasMany(model = PersonToContactLink::class, fieldOnThis = "ID", fieldOnThat = "PERSON_ID")
-    var personContacts: MutableList<PersonToContactLink>? = null
+    var personToContactLinks: MutableList<PersonToContactLink>? = null
 
     @HasMany(model = PersonToCounterPartyLink::class, fieldOnThat = "PERSON_ID", fieldOnThis = "ID")
     var personToCounterPartyLinks: MutableList<PersonToCounterPartyLink>? = null
