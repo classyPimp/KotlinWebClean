@@ -1,8 +1,10 @@
 package routes
 
 import controllers.HomeController
+import controllers.contacttypes.ContactTypesController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
+import models.contact.Contact
 import router.RoutesDrawer
 import router.src.Router
 import servletUtils.SimpleFileServer
@@ -41,6 +43,29 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     UsersController(it).create()
                 }
             }
+
+            namespace("/contactTypes") {
+                post("") {
+                    ContactTypesController(it).create()
+                }
+
+                get("") {
+                    ContactTypesController(it).index()
+                }
+
+                get("/:id") {
+                    ContactTypesController(it).get()
+                }
+
+                put("/:id") {
+                    ContactTypesController(it).update()
+                }
+
+                delete("/:id") {
+                    ContactTypesController(it).destroy()
+                }
+            }
+
 
             namespace("/sessions") {
                 post("") {

@@ -58,6 +58,10 @@ object HilfHundRoutesAdder: RoutesDrawer(Router) {
                 post("/composer") {
                     GenerationController(it).generateComposer()
                 }
+
+                post("/validator") {
+                    GenerationController(it).generateValidator()
+                }
             }
         }
 

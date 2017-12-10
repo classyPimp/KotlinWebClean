@@ -10,6 +10,9 @@ import dagger.Module
 import dagger.Provides
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
+import org.jooq.impl.DefaultConfiguration
+import org.jooq.impl.DefaultExecuteListenerProvider
+import utils.jooqexecutionlisteners.JooqExecutionsLogger
 import javax.inject.Singleton
 import javax.sql.DataSource
 
@@ -44,7 +47,12 @@ class DatabaseModule {
             jooqProperties: JooqProperties,
             dataSource: DataSource
     ): DSLContext {
-        return DSL.using(dataSource, jooqProperties.dialect)
+        val config = DefaultConfiguration().also {
+            it.set(dataSource)
+            it.set(jooqProperties.dialect)
+            it.set(DefaultExecuteListenerProvider(JooqExecutionsLogger()))
+        }
+        return DSL.using(config)
     }
 
 }

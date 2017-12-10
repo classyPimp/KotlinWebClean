@@ -1,11 +1,11 @@
-import clientimplementedutils.security.JwtPlucker
+
 import orm.dependencymanagement.OrmDependenciesManager
 import router.src.Router
 import dependencymanagement.MicroFrameworkDependencyManager
 import hilfhund.routes.HilfHundRoutesAdder
-import org.zeroturnaround.exec.ProcessExecutor
-import utils.sessions.JwtSessionHandler
-import java.io.File
+
+
+
 
 /**
  * Created by Муса on 01.11.2017.
@@ -31,6 +31,7 @@ class RunOnApplicationBootstrap: Runnable {
         OrmDependenciesManager.provider = OrmDependenciesProvider
         MicroFrameworkDependencyManager.provider = MicroframeworkDependenciesProvider
     }
+
 
 
 }

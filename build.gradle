@@ -51,8 +51,8 @@ dependencies {
     compile project(":orm")
 
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.10.0'
-
+//    //compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.10.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.10.0'
 
     compile(group: 'org.docx4j', name: 'docx4j', version: '3.3.6') {
         exclude(group: 'org.slf4j')
@@ -63,22 +63,24 @@ dependencies {
 
     compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
 
-    compile group: 'org.yaml', name: 'snakeyaml', version: '1.18'
-    compile group: 'org.freemarker', name: 'freemarker', version: '2.3.26-incubating'
+    compile(group: 'org.yaml', name: 'snakeyaml', version: '1.18')
+
+    compile (group: 'org.freemarker', name: 'freemarker', version: '2.3.26-incubating')
 
     compile project(":microFramework")
 
     compile "com.google.dagger:dagger:2.11"
     kapt "com.google.dagger:dagger-compiler:2.11"
 
-    compile group: 'org.im4java', name: 'im4java', version: '1.4.0'
+    compile (group: 'org.im4java', name: 'im4java', version: '1.4.0')
 
-    compile group: 'com.j256.simplemagic', name: 'simplemagic', version: '1.1'
+    compile (group: 'com.j256.simplemagic', name: 'simplemagic', version: '1.1')
 
-    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+    compile (group: 'org.mindrot', name: 'jbcrypt', version: '0.4')
 
-    compile group: 'org.zeroturnaround', name: 'zt-exec', version: '1.10'
-    compile group: 'com.auth0', name: 'java-jwt', version: '3.3.0'
+    compile (group: 'org.zeroturnaround', name: 'zt-exec', version: '1.10')
+
+    compile (group: 'com.auth0', name: 'java-jwt', version: '3.3.0')
 
 
 }

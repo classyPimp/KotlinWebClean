@@ -5,6 +5,7 @@ import { MixinFormableTrait } from '../../../reactUtils/plugins/formable/MixinFo
 import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElements/PlainInput'
 import autobind from 'autobind-decorator'
 import { ErrorsShow } from '../shared/ErrorsShow'
+import { ApplicationComponent } from '../ApplicationComponent';
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
@@ -13,6 +14,7 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     } = {
       contactType: new ContactType()
     }
+
 
     render(){
         return <div >
@@ -34,10 +36,13 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     @autobind
     submit(){
         this.state.contactType.create().then((contactType)=>{
-            if (contactType.isValid()) {
-
+            if (!contactType.isValid()) {
+                this.setState({contactType})
+            } else {
+                ApplicationComponent.instance.flashMessageQueue.addMessage(
+                    <p>contact type successfully created</p>
+                )
             }
-            this.setState({contactType})
         })
     }
 

@@ -12,7 +12,7 @@ module.exports = {
     'js/index': './javascript/index.tsx',
     'css/index': './css/index.js',
     'js/hilfhund': './hilfhund/js/index.tsx',
-    'css/hilfhund': './hilfhund/css/index.js'
+    //'css/hilfhund': './hilfhund/css/index.js'
   },
   watch: true,
   watchOptions: {

@@ -28,6 +28,7 @@ class Model(json: JsonNode? = null) {
 
     var composerName: String? = null
     var composerPackage: String? = null
+    var composerRoot: String? = null
 
     init {
         json?.let {
@@ -90,6 +91,8 @@ class Model(json: JsonNode? = null) {
                     if (it.size > 1) {
                         composerPackage = "." + it.subList(0, it.size - 1).joinToString(".").toLowerCase()
                     }
+
+                    composerRoot = it.first()
                 }
             }
         }

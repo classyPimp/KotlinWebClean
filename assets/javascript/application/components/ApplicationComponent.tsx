@@ -1,3 +1,4 @@
+import autobind from 'autobind-decorator';
 import { NotFound } from './shared/NotFound';
 import { CurrentUser } from '../services/CurrentUser';
 import { DashboardsComponents } from './dashboards/DashboardsComponents';
@@ -8,25 +9,35 @@ import { Router, Route, BrowserRouter, Link, match, Switch } from 'react-router-
 import {TopMenu} from "./shared/TopMenu"
 import {UsersComponents} from './users/UsersComponents'
 import {XhrRequestMaker} from '../../modelLayer/utils/XhrRequestMaker'
+import { FlashMessageQueue } from './shared/FlashMessageQueue';
 
 export class ApplicationComponent extends BaseReactComponent {
 
-    props: {match?: match<any>, history?: History}
+    static instance: ApplicationComponent
+
+    flashMessageQueue: FlashMessageQueue
+
+    props: {match?: match<any>, history?: any}
 
     constructor(props: any) {
         super(props)
         CurrentUser.instance.tryLoginFromCookie()
         XhrRequestMaker.onFailHandler = this.xhrOnFailHandler
+        ApplicationComponent.instance = this
     }
 
+    @autobind
     xhrOnFailHandler(xhr: XMLHttpRequest) {
         if (xhr.status === 404) {
-            this.props.history.pushState(null, "not found", "/404")
+            console.log("should redirect")
+            console.log(this.props)
+            this.props.history.push("/404", {})
         }
     }
 
     render() {
         return <div>
+            <FlashMessageQueue ref={(it)=>{this.flashMessageQueue = it}}/>
             <TopMenu/>
             <Switch>
                 <Route path={`${this.props.match.url}demo`} component={ DemoComponent }/>

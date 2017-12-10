@@ -11,6 +11,12 @@ export class SideBar extends BaseReactComponent {
                     <Link to="/dashboards/contragents/new" className="pure-menu-link">
                         new contragent
                     </Link>
+                    <Link to="/dashboards/contactTypes/new" className="pure-menu-link">
+                        new contact  type
+                    </Link>
+                    <Link to="/dashboards/contactTypes" className="pure-menu-link">
+                        index contact  types
+                    </Link>
                 </li>
             </ul>
         </div>

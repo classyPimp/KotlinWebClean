@@ -69,6 +69,11 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                         generate factory
                     </button>
                 </div>
+                <div className="validator">
+                    <button onClick={this.generateValidator}>
+                        generate validator
+                    </button>
+                </div>
                 <div className="jsonSerializer">
                     <PlainInputElement model={this.state.model} propertyName="toJsonSerializerName" registerInput={this.registerInput} optional={{placeholder: "toJsonSerialier name"}}/>
                     <button onClick={this.generateToJsonSerializer}>
@@ -187,6 +192,14 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
         this.state.model.generateComposer().then(()=>{
             this.setState({})
         }) 
+    }
+
+    @autobind
+    generateValidator(){
+        this.collectInputs()
+        this.state.model.generateValidator().then(()=>{
+            this.setState({})
+        })
     }
 
 }

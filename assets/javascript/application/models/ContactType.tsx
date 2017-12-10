@@ -5,6 +5,7 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { Contact } from './Contact'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
+import autobind from 'autobind-decorator';
 
 export class ContactType extends BaseModel {
 
@@ -28,7 +29,7 @@ export class ContactType extends BaseModel {
     @HasMany(Contact)
     contacts: ModelCollection<Contact>
 
-    @Route("POST", {url: "/api/contactTypes/create"})
+    @Route("POST", {url: "/api/contactTypes"})
     create: (options?: RequestOptions) => Promise<ContactType>
 
     @Route("GET", {url: "/api/contactTypes"})
@@ -37,7 +38,7 @@ export class ContactType extends BaseModel {
     @Route("GET", {url: "/api/contactTypes/:id"})
     static get: (options?: RequestOptions) => Promise<ContactType>
 
-    @Route("UPDATE", {url: "/api/contactTypes/:id", defaultWilds: ["id"]})
+    @Route("PUT", {url: "/api/contactTypes/:id", defaultWilds: ["id"]})
     update: (options?: RequestOptions) => Promise<ContactType>
 
     @Route("DELETE", {url: "/api/contactTypes/:id", defaultWilds: ["id"]})

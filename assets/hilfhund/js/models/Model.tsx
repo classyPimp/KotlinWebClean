@@ -131,5 +131,18 @@ export class Model extends BaseModel {
         this.afterGenerateToJsonSerializerRequest(options)
     }
 
+    @Route("POST", {url: "/hilfhund/generate/validator"})
+    generateValidator: (options?: RequestOptions)=>Promise<any>
+
+    beforeGenerateValidatorRequest(options: RequestOptions) {
+        console.log("before generate validator")
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateValidatorRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
+    }
+
+
 }
 

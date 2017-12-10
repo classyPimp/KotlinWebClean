@@ -3,6 +3,7 @@ import {IAssociationsConfig} from "../interfaces/IAssociationsConfig"
 import {IModelProperties} from "../interfaces/IModelProperties"
 import {ModelSerializer} from "../ModelSerializer"
 import {AnyConstructor} from "../utils/AnyConstructor"
+import autobind from 'autobind-decorator';
 
 
 export function MixinSerializableTrait<TBase extends AnyConstructor>(Base: TBase) {
@@ -30,7 +31,7 @@ export function MixinSerializableTrait<TBase extends AnyConstructor>(Base: TBase
       properties: IModelProperties;
 
       constructor(...args: Array<any>){
-          super(args)
+            super(args)
           args = args[0]
           this.properties = this.parsePropertes(args as IModelProperties)
       }

@@ -160,7 +160,7 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
 
         val packagePart = dataModel.jsonSerializerPackage?.replace('.', '/') ?: ""
 
-        val fileToCreate = File("src/main/kotlin/models/${dataModel.decapitalizedClassName}/tojsonserializers${packagePart}/${jsonSerializerFileName}")
+        val fileToCreate = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/tojsonserializers${packagePart}/${jsonSerializerFileName}")
 
         fileToCreate.let {
             if (it.exists()) {
@@ -333,6 +333,43 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
         fileToCreate.writeText(composerFileContent)
 
         renderJson("{\"message\": \"ok\"}")
+    }
+
+    fun generateValidator(){
+        val dataModel: Model
+        val json = ObjectMapper().readTree(context.request.reader)
+        dataModel = Model(json.get("model"))
+
+        dataModel.let {
+            if (dataModel.className == null || dataModel.className.isNullOrBlank()) {
+                it.addError("className", "should ne provided")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val fileContent = renderTemplateToString("hilfhund/generate/validator.ftl", dataModel)
+
+        val modelFileToGenerate = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/${dataModel.className!!}Validator.kt")
+
+        modelFileToGenerate.let {
+            if (it.exists()) {
+                dataModel.addError("general", "validator file already exists")
+                renderJson(dataModel.toJsonWithErrors())
+                return
+            }
+            if (!it.parentFile.exists()) {
+                it.parentFile.mkdirs()
+                it.createNewFile()
+            }
+            it.writeText(fileContent)
+        }
+
+        renderJson(dataModel.toJson())
+
+
     }
 
 

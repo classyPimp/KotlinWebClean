@@ -40,7 +40,6 @@ export class ModelSerializer {
                 parsedProperties[key] = value
             }
         }
-
         return parsedProperties
     }
 
