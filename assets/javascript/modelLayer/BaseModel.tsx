@@ -116,4 +116,12 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
         })
     }
 
+    beforeDeleteRequest(options: RequestOptions) {
+
+    }
+
+    afterDeleteRequest(options: RequestOptions) {
+        this.afterUpdateRequest(options)
+    }
+
 } 

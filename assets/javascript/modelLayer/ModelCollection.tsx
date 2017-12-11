@@ -31,5 +31,9 @@ export class ModelCollection<T extends BaseModel> {
         return (this.array.length > 0) 
     }
 
+    filter(lambda: (it: T)=>boolean) {
+        this.array = this.array.filter(lambda)
+    }
+
 }
 
