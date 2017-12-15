@@ -9,13 +9,28 @@ import { MixinFormableTrait } from '../../reactUtils/plugins/formable/MixinForma
 import { Modal } from './shared/Modal';
 import { ApplicationComponent } from './ApplicationComponent';
 
+import { DropDownSelectServerFed } from './formelements/DropdownSelectServerFed'
+import { ContactType } from '../models/ContactType'
+import { ModelCollection } from '../../modelLayer/ModelCollection'
+
 export class DemoComponent extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
-        modal: Modal
-    }= {
-        modal: null
+        modal: Modal,
+        selectOptions: ModelCollection<ContactType>
+        [id: string]: any
+    } = {
+        modal: null, 
+        selectOptions: new ModelCollection<ContactType>(),
+        user: new User()
     }
+
+    componentDidMount(){
+      ContactType.index().then((contactTypes)=>{
+         this.setState({selectOptions: contactTypes})
+      })
+    }
+
 
     render(){
         return (
@@ -26,6 +41,17 @@ export class DemoComponent extends MixinFormableTrait(BaseReactComponent) {
                 </button>
                 <button onClick={this.addFlash}>
                     add flash message
+                </button>
+                <DropDownSelectServerFed 
+                  model={this.state.user}
+                  propertyName="id"
+                  modelsToWrapAsOptions={this.state.selectOptions}  
+                  propertyToSelect="id" 
+                  propertyToShow="name"
+                  registerInput={(it)=>{this.registerInput(it)}}
+                />
+                <button onClick={this.submit}>
+                  submit
                 </button>
             </div>
         )
@@ -52,6 +78,14 @@ export class DemoComponent extends MixinFormableTrait(BaseReactComponent) {
             Why do we use it?
             </div>
         )
+    }
+
+    @autobind
+    submit(){
+      console.log("submit")
+      console.log(this.state.user)
+      this.collectInputs()
+      console.log(this.state.user)
     }
 
 

@@ -1,0 +1,18 @@
+.formElements-dropdownSelect {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownSelect-optionsContainer {
+    display: none;
+    position: absolute;
+    background-color: white;
+}
+
+.formElements-dropdownSelect:hover .dropdownSelect-optionsContainer {
+    display: block;
+}
+
+.dropdown-selectOption {
+  display: block;
+}

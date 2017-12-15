@@ -13,7 +13,7 @@ export interface  IFormElement extends BaseReactComponent {
 }
 
 export interface IFormElementProps {
-    model: BaseModel,
+    model?: BaseModel,
     propertyName: string,
     registerInput: (element: IFormElement)=>void
     ref?: (arg: any)=> void,
