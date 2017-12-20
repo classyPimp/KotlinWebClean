@@ -1,0 +1,20 @@
+package composers.persons
+
+import utils.requestparameters.IParam
+
+/**
+ * Created by Муса on 20.12.2017.
+ */
+object PersonsComposers {
+    fun create(params: IParam): Create {
+        return Create(params)
+    }
+
+    fun update(params: IParam, id: Long?): Update {
+        return Update(params, id)
+    }
+
+    fun destroy(id: Long?): Destroy {
+        return Destroy(id)
+    }
+}

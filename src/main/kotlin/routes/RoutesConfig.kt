@@ -2,6 +2,7 @@ package routes
 
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
+import controllers.persons.PersonsController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
 import models.contact.Contact
@@ -73,6 +74,28 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 }
                 delete("") {
                     SessionsController(it).destroy()
+                }
+            }
+
+            namespace("/persons") {
+                post("") {
+                    PersonsController(it).create()
+                }
+
+                get("") {
+                    PersonsController(it).index()
+                }
+
+                get("/:id") {
+                    PersonsController(it).get()
+                }
+
+                put("/:id") {
+                    PersonsController(it).update()
+                }
+
+                delete("/:id") {
+                    PersonsController(it).destroy()
                 }
             }
 

@@ -8,6 +8,7 @@ import { Route, match, Switch } from 'react-router-dom';
 import { CurrentUser } from '../../services/CurrentUser';
 import { ApplicationComponent } from '../ApplicationComponent';
 import { Show } from '../contacttypes/Show';
+import { PersonsComponents } from '../persons/PersonsComponents';
 
 export class Main extends BaseReactComponent {
 
@@ -40,6 +41,11 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/contactTypes`} component={ContactTypesComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/contactTypes/:id/edit`} component={ContactTypesComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/contactTypes/:id`} component={ContactTypesComponents.Show}/>
+                    
+                    <Route exact path={`${this.props.match.url}/persons/new`} component={PersonsComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/persons`} component={PersonsComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/persons/:id/edit`} component={PersonsComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/persons/:id`} component={PersonsComponents.Show}/>
                 </Switch>
             </div>
         </div>

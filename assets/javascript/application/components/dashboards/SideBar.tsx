@@ -17,6 +17,14 @@ export class SideBar extends BaseReactComponent {
                     <Link to="/dashboards/contactTypes" className="pure-menu-link">
                         index contact  types
                     </Link>
+
+                    <Link to="/dashboards/persons/new" className="pure-menu-link">
+                        new person
+                    </Link>
+                    <Link to="/dashboards/persons" className="pure-menu-link">
+                        index persons
+                    </Link>
+
                 </li>
             </ul>
         </div>

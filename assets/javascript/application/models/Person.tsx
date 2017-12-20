@@ -4,6 +4,8 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { PersonToContactLink } from './PersonToContactLink'
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
+
 
 export class Person extends BaseModel {
 
@@ -24,6 +26,19 @@ export class Person extends BaseModel {
     @HasMany(PersonToContactLink)
     personToContactLinks: ModelCollection<PersonToContactLink>
 
+    @Route("POST", {url: '/api/persons'})
+    create: (options?: RequestOptions)=>Promise<Person>
 
+    @Route("GET", {url: "/api/persons"})
+    static index: (options?: RequestOptions)=>Promise<ModelCollection<Person>>
 
-}
+    @Route("GET", {url: "/api/persons/:id"})
+    static get: (options?: RequestOptions)=>Promise<Person>
+
+    @Route("PUT", {url: "/api/persons/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions)=>Promise<Person>
+
+    @Route("PUT", {url: "/api/persons/:id", defaultWilds: ["id"]})
+    delete: (options?: RequestOptions)=>Promise<Person>
+
+}  

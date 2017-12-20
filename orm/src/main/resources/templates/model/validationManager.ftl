@@ -34,6 +34,10 @@ class ${modelClass}ValidationManager : ModelValidationManagerTrait {
     }
     </#list>
 
+    fun addGeneralError(errorMessage: String){
+        addError("general", errorMessage)
+    }
+
     <#list associationBeans as ab>
     fun add${ab.capitalizedPropertyName}Error(message: String) {
         addError("${ab.propertyName}", message)

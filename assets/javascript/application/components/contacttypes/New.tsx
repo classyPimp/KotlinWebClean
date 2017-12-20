@@ -35,6 +35,7 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     submit(){
+        this.collectInputs()
         this.state.contactType.create().then((contactType)=>{
             if (!contactType.isValid()) {
                 this.setState({contactType})
