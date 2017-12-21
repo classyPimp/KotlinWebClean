@@ -7,7 +7,9 @@ object Create {
 
     fun onSuccess(person: Person): String {
         PersonToJsonSerializer(person).let {
-
+            it.includePersonToContactLinks() {
+                it.includeContact()
+            }
             return it.serializeToString()
         }
     }

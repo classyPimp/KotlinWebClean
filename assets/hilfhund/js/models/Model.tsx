@@ -29,6 +29,9 @@ export class Model extends BaseModel {
     @Property
     composerName: string
 
+    @Property
+    updaterName: string
+
     @HasMany(TableField)
     tableFields: ModelCollection<TableField>
 
@@ -140,6 +143,30 @@ export class Model extends BaseModel {
     }
 
     afterGenerateValidatorRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
+    }
+
+    @Route("POST", {url: "/hilfhund/generate/updater"})
+    generateUpdater: (options?: RequestOptions)=>Promise<any>
+
+    beforeGenerateUpdaterRequest(options: RequestOptions) {
+        console.log("before generate updater")
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateUpdaterRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
+    }
+
+    @Route("POST", {url: "/hilfhund/generate/requestParametersWrapper"})
+    generateRequestParametersWrapper: (options?: RequestOptions)=>Promise<any>
+
+    beforeGenerateRequestParametersWrapperRequest(options: RequestOptions) {
+        console.log("before generate updater")
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateRequestParametersWrapperRequest(options: RequestOptions) {
         this.afterGenerateToJsonSerializerRequest(options)
     }
 

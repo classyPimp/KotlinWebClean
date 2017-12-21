@@ -7,6 +7,7 @@ import { Contact } from './Contact'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
 import autobind from 'autobind-decorator';
 
+
 export class ContactType extends BaseModel {
 
     static className = "contactType"
@@ -44,5 +45,11 @@ export class ContactType extends BaseModel {
     @Route("DELETE", {url: "/api/contactTypes/:id", defaultWilds: ["id"]})
     delete: (options?: RequestOptions) => Promise<ContactType>
 
+    @Route("GET", {url: "/api/contactTypes/inputFeeds/person"})
+    static indexInputFeedForPerson: (options?: RequestOptions)=>Promise<ModelCollection<ContactType>>
+
+    static afterIndexInputFeedForPersonRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
 
 }

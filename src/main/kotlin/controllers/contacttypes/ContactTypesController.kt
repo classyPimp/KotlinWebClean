@@ -2,6 +2,7 @@ package controllers.contacttypes
 
 import composers.contacttypes.ContactTypesComposers
 import controllers.ApplicationControllerBase
+import controllers.contacttypes.inputfeeds.ContactTypeInputFeedsController
 import models.contacttype.ContactType
 import models.contacttype.tojsonserializers.ContactTypeSerializers
 import org.jooq.generated.tables.ContactTypes.CONTACT_TYPES
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletResponse
 
 class ContactTypesController(context: ServletRequestContext) : ApplicationControllerBase(context) {
 
+    companion object {
+        val inputFeeds = ContactTypeInputFeedsController
+    }
 
     fun create(){
         ContactTypesComposers.create(requestParams()).let {

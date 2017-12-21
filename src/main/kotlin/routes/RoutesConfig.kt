@@ -65,6 +65,13 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 delete("/:id") {
                     ContactTypesController(it).destroy()
                 }
+
+                namespace("/inputFeeds") {
+                    get("/person") {
+                        ContactTypesController.inputFeeds.forPerson(it).index()
+                    }
+                }
+
             }
 
 
@@ -96,6 +103,10 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 delete("/:id") {
                     PersonsController(it).destroy()
+                }
+
+                post("/:personId/contacts") {
+                    PersonsController.contacts(it).create()
                 }
             }
 

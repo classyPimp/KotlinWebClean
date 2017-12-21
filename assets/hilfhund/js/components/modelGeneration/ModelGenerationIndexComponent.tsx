@@ -63,6 +63,11 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                 <button onClick={this.generateModel}>
                     generate model
                 </button>
+
+                <button onClick={this.generateRequestParametersWrapper}>
+                    generate request parameters wrapper
+                </button>
+
                 <div className="factory">
                     <PlainInputElement model={this.state.model} propertyName="factoryName" registerInput={this.registerInput} optional={{placeholder: "factory name"}}/>
                     <button onClick={this.generateFactory}>
@@ -77,24 +82,31 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                 <div className="jsonSerializer">
                     <PlainInputElement model={this.state.model} propertyName="toJsonSerializerName" registerInput={this.registerInput} optional={{placeholder: "toJsonSerialier name"}}/>
                     <button onClick={this.generateToJsonSerializer}>
-                        generate factory
+                        generate jsonserializer
+                    </button>
+                </div>
+
+                <div className="updater">
+                    <PlainInputElement model={this.state.model} propertyName="updaterName" registerInput={this.registerInput} optional={{placeholder: "updater name"}}/>
+                    <button onClick={this.generateUpdater}>
+                        generate updater
                     </button>
                 </div>
 
                 <div className="jsComponent">
                 <PlainInputElement model={this.state.model} propertyName="reactComponentName" registerInput={this.registerInput} optional={{placeholder: "react component name"}}/>
-                <button onClick={this.generateReactComponent}>
-                    generate react component
-                </button>
-                <button onClick={this.generateJsModel}>
-                    generate js model
-                </button>
+                  <button onClick={this.generateReactComponent}>
+                      generate react component
+                  </button>
+                  <button onClick={this.generateJsModel}>
+                      generate js model
+                  </button>
 
-                <div className="jsComponent">
-                <PlainInputElement model={this.state.model} propertyName="composerName" registerInput={this.registerInput} optional={{placeholder: "composer name"}}/>
-                <button onClick={this.generateComposer}>
-                    generate composer
-                </button>
+                  <div className="jsComponent">
+                  <PlainInputElement model={this.state.model} propertyName="composerName" registerInput={this.registerInput} optional={{placeholder: "composer name"}}/>
+                  <button onClick={this.generateComposer}>
+                      generate composer
+                  </button>
                 </div>
 
             </div>
@@ -200,6 +212,22 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
         this.state.model.generateValidator().then(()=>{
             this.setState({})
         })
+    }
+
+    @autobind
+    generateUpdater(){
+      this.collectInputs()
+      this.state.model.generateUpdater().then(()=>{
+        this.setState({})
+      })
+    }
+
+    @autobind
+    generateRequestParametersWrapper(){
+      this.collectInputs()
+      this.state.model.generateRequestParametersWrapper().then(()=>{
+        this.setState({})
+      })
     }
 
 }

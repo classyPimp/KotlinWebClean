@@ -372,5 +372,112 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
 
     }
 
+    fun generateUpdater(){
+        val json = ObjectMapper().readTree(context.request.reader)
+        val dataModel: Model = Model(json.get("model"))
+
+        dataModel.let {
+            if (dataModel.className == null) {
+                it.addError("general", "can't generate updater no model class name given")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            }
+            if (dataModel.updaterName == null) {
+                it.addError("general", "no updater name provided")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val updaterFileContent = renderTemplateToString("hilfhund/generate/updater.ftl", dataModel)
+
+        val updaterFileName = dataModel.updaterName + ".kt"
+
+        val packagePart = dataModel.updaterPackage?.replace('.', '/') ?: ""
+
+        val fileToCreate = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/updaters${packagePart}/${updaterFileName}")
+
+        fileToCreate.let {
+            if (it.exists()) {
+                dataModel.addError("general", "such updater already exists")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            } else {
+                it.parentFile.let {
+                    if (!it.exists()) {
+                        it.mkdirs()
+                    }
+                }
+                it.createNewFile()
+            }
+        }
+
+        fileToCreate.writeText(updaterFileContent)
+
+        val file = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/updaters/${dataModel.className}Updaters.kt")
+
+        file.let {
+            if (it.exists()) {
+
+            } else {
+                it.createNewFile()
+                renderTemplateToString("hilfhund/generate/updaters.ftl", dataModel).let {
+                    content ->
+                    it.writeText(content)
+                }
+            }
+        }
+
+        renderJson("{\"message\": \"ok\"}")
+    }
+
+    fun generateRequestParametersWrapper(){
+        val json = ObjectMapper().readTree(context.request.reader)
+        val dataModel: Model = Model(json.get("model"))
+
+        dataModel.let {
+            if (dataModel.className == null) {
+                it.addError("general", "can't generate request parameter wrapper no model class name given")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val requestParametersWrapperFileContent = renderTemplateToString("hilfhund/generate/requestParametersWrapper.ftl", dataModel)
+
+        val requestParametersWrapperFileName = dataModel.className + "RequestParametersWrapper" + ".kt"
+
+        val fileToCreate = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/${requestParametersWrapperFileName}")
+
+        fileToCreate.let {
+            if (it.exists()) {
+                dataModel.addError("general", "paratmeters wrapper already exists")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            } else {
+                it.parentFile.let {
+                    if (!it.exists()) {
+                        it.mkdirs()
+                    }
+                }
+                it.createNewFile()
+            }
+        }
+
+        fileToCreate.writeText(requestParametersWrapperFileContent)
+
+        renderJson("{\"message\": \"ok\"}")
+    }
+
 
 }

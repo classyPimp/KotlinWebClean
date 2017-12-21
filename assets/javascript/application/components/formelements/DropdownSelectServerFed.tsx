@@ -68,6 +68,7 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
 
     render(){
         return <div className="formelements-DropDowndSelectServerFed">
+            {this.showPlaceholderIfNecessary()}
             <div className="formElements-dropdownSelect">
               <div className="dropdownSelect-header">
                  {this.state.currentlySelected ?
@@ -143,6 +144,16 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
       }
       selectOption.select()
       this.setState({currentlySelected: selectOption})
+    }
+
+    @autobind
+    showPlaceholderIfNecessary() {
+      if (this.props.optional && this.props.optional.placeholder) {
+        return <p>
+          {this.props.optional.placeholder}
+        </p>
+        
+      }
     }
 
 }

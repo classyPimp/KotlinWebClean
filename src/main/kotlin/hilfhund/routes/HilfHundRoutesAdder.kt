@@ -62,6 +62,14 @@ object HilfHundRoutesAdder: RoutesDrawer(Router) {
                 post("/validator") {
                     GenerationController(it).generateValidator()
                 }
+
+                post("/updater") {
+                    GenerationController(it).generateUpdater()
+                }
+
+                post("/requestParametersWrapper") {
+                    GenerationController(it).generateRequestParametersWrapper()
+                }
             }
         }
 

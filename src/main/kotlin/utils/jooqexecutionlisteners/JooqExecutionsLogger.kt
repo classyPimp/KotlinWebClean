@@ -17,6 +17,7 @@ class JooqExecutionsLogger : DefaultExecuteListener() {
     )
 
     override fun executeStart(ctx: ExecuteContext) {
+        logger.info("--------------------------------")
         ctx.query()?.let {
             logger.info(context.renderInlined(ctx.query()))
         }
@@ -28,5 +29,6 @@ class JooqExecutionsLogger : DefaultExecuteListener() {
 //        if (!StringUtils.isBlank(ctx.sql())) {
 //            logger.info(ctx.sql())
 //        }
+        logger.info("---------------------------------")
     }
 }

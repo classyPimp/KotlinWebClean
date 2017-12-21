@@ -2,10 +2,14 @@ import {New} from './New'
 import {Edit} from './Edit'
 import {Index} from './Index'
 import { Show } from './Show';
+import { New as ContactsNew } from './contacts/New'
 
 export let PersonsComponents = {
   New,
   Edit,
   Index,
-  Show
+  Show,
+  contacts: {
+    New: ContactsNew
+  }
 }

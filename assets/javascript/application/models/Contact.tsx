@@ -6,6 +6,7 @@ import { ContactType } from './ContactType'
 import { PersonToContactLink } from './PersonToContactLink'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { CounterPartyToContactLink } from './CounterPartyToContactLink'
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
 
 export class Contact extends BaseModel {
 
@@ -33,6 +34,17 @@ export class Contact extends BaseModel {
     personToContactLink: PersonToContactLink
 
     @HasOne(CounterPartyToContactLink)
-    counterPartyToContactLink: CounterPartyToContactLink
+    counterPartyToContactLink: CounterPartyToContactLink   
+
+    @Route("POST", {url: "/api/persons/:personId/contacts"})
+    createForPerson: (options?: RequestOptions)=>Promise<Contact>
+
+    beforeCreateForPersonRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterCreateForPersonRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
 
 }

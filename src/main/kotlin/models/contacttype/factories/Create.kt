@@ -2,8 +2,7 @@ package models.contacttype.factories
 
 import models.contacttype.ContactType
 import utils.requestparameters.IParam
-import utils.stdlibextensions.trimAndSquishWhiteSpace
-import java.util.regex.Pattern
+import utils.stdlibextensions.string.trimAndSquishWhiteSpace
 
 object Create {
 

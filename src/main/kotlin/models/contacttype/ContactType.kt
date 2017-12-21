@@ -36,4 +36,11 @@ class ContactType {
     @HasMany(model = Contact::class, fieldOnThat = "CONTACT_TYPE_ID", fieldOnThis = "ID")
     var contacts: MutableList<Contact>? = null
 
+    companion object {
+        object IsSpecificForTypeAllowedValues {
+            val person = "person"
+            val counterParty = "counterParty"
+        }
+    }
+
 }

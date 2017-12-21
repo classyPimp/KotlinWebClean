@@ -5,7 +5,7 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { PersonToContactLink } from './PersonToContactLink'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
-
+import { Contact } from "./Contact"
 
 export class Person extends BaseModel {
 
@@ -38,7 +38,14 @@ export class Person extends BaseModel {
     @Route("PUT", {url: "/api/persons/:id", defaultWilds: ["id"]})
     update: (options?: RequestOptions)=>Promise<Person>
 
-    @Route("PUT", {url: "/api/persons/:id", defaultWilds: ["id"]})
+    @Route("DELETE", {url: "/api/persons/:id", defaultWilds: ["id"]})
     delete: (options?: RequestOptions)=>Promise<Person>
+
+    addContact(){
+      let contact = new Contact()
+      let personToContactLink = new PersonToContactLink()
+      personToContactLink.contact = contact
+      this.personToContactLinks.push(personToContactLink)
+    }
 
 }  

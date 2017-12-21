@@ -1,7 +1,9 @@
 package composers.persons
 
 import models.person.Person
+import models.person.PersonRequestParametersWrapper
 import models.person.PersonValidator
+import models.person.updaters.PersonUpdaters
 import org.jooq.generated.Tables.PEOPLE
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.persongeneratedrepository.PersonRecord
@@ -9,7 +11,6 @@ import orm.services.ModelInvalidException
 import utils.composer.ComposerBase
 import utils.composer.composerexceptions.UnprocessableEntryError
 import utils.requestparameters.IParam
-import utils.stdlibextensions.trimAndSquishWhiteSpace
 
 class Update(val params: IParam, val id: Long?) : ComposerBase() {
 
@@ -17,7 +18,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var onError: (Person)->Unit
 
     lateinit var personBeingUpdate: Person
-    lateinit var personParams: IParam
+    lateinit var wrappedPersonParams: PersonRequestParametersWrapper
 
     override fun beforeCompose(){
         if (id == null) {
@@ -25,21 +26,19 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
         }
 
         params.get("person")?.let {
-            personParams = it
+            wrappedPersonParams = PersonRequestParametersWrapper(it)
        } ?: failImmediately(UnprocessableEntryError("no params under 'person' given"))
 
         PersonRecord.GET().where(PEOPLE.ID.eq(id!!)).execute().firstOrNull()?.let {
             personBeingUpdate = it
         } ?: failImmediately(ModelNotFoundError("person with id: ${id} not found"))
 
-        updateFields()
+        updateProperties()
         validate()
     }
 
-    private fun updateFields() {
-        personBeingUpdate.record.let {
-            it.name = personParams.get("name")?.string?.trimAndSquishWhiteSpace()
-        }
+    private fun updateProperties() {
+        PersonUpdaters.defaultUpdater.update(personBeingUpdate, wrappedPersonParams)
     }
 
     private fun validate() {

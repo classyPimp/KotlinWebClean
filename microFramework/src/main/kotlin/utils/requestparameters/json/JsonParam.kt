@@ -41,6 +41,10 @@ class JsonParam(val jsonNode: JsonNode): IParam {
         return jsonNode.intValue()
     }
 
+    override fun long(): Long? {
+        return jsonNode.longValue()
+    }
+
     override val stringList: MutableList<String>
         get() {
             if (listIsCached) {

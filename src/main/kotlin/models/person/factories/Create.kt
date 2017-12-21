@@ -2,8 +2,7 @@ package models.person.factories
 
 import models.person.Person
 import utils.requestparameters.IParam
-import utils.stdlibextensions.trimAndSquishWhiteSpace
-import java.util.regex.Pattern
+import utils.stdlibextensions.string.trimAndSquishWhiteSpace
 
 
 object Create {

@@ -2,6 +2,9 @@ package controllers.persons
 
 import composers.persons.PersonsComposers
 import controllers.BaseController
+import controllers.persons.contacts.PersonContactsController
+import models.contact.Contact
+import models.contact.tojsonserializers.ContactSerializers
 import models.person.Person
 import models.person.tojsonserializers.PersonSerializers
 import org.jooq.generated.Tables.PEOPLE
@@ -40,7 +43,13 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
         var person: Person? = null
 
         id?.let {
-            person = PersonRecord.GET().where(PEOPLE.ID.eq(it)).execute().firstOrNull()
+            person = PersonRecord.GET().where(PEOPLE.ID.eq(it)).preload {
+                it.personToContactLinks() {
+                    it.preload {
+                        it.contact()
+                    }
+                }
+            }.execute().firstOrNull()
         }
 
         person?.let {
@@ -99,5 +108,10 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
         cmpsr.run()
     }
 
+    companion object {
+        fun contacts(context: ServletRequestContext): PersonContactsController {
+            return PersonContactsController(context)
+        }
+    }
 
 }

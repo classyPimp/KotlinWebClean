@@ -10,4 +10,8 @@ object ContactTypeSerializers {
 
     val destroy = Create
 
+    object InputFeeds {
+        val person = Index
+    }
+
 }
