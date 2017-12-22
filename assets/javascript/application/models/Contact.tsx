@@ -7,6 +7,7 @@ import { PersonToContactLink } from './PersonToContactLink'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { CounterPartyToContactLink } from './CounterPartyToContactLink'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class Contact extends BaseModel {
 
@@ -27,13 +28,13 @@ export class Contact extends BaseModel {
     @Property
     createdAt: string
 
-    @HasOne(ContactType)
+    @HasOne("ContactType")
     contactType: ContactType
 
-    @HasOne(PersonToContactLink)
+    @HasOne("PersonToContactLink")
     personToContactLink: PersonToContactLink
 
-    @HasOne(CounterPartyToContactLink)
+    @HasOne("CounterPartyToContactLink")
     counterPartyToContactLink: CounterPartyToContactLink   
 
     @Route("POST", {url: "/api/persons/:personId/contacts"})
@@ -48,3 +49,5 @@ export class Contact extends BaseModel {
     }
 
 }
+
+ModelRegistry.register("Contact", Contact)

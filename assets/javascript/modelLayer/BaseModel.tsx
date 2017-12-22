@@ -92,7 +92,8 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
 
     static afterGetRequest(options: RequestOptions){
         options.deferredPromise.then((resp)=>{
-           return new this(resp)
+          let x = new this(resp)
+          return x
         })   
     }
 

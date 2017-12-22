@@ -2,9 +2,9 @@ import { IAssociationsConfig, IAssociationsConfigEntry } from '../interfaces/IAs
 import { BaseModel } from '../BaseModel';
 import { IModelConstructor } from '../interfaces/IModelConstructor';
 import { AssociationTypesEnum } from '../AssociationTypesEnum';
+import { ModelRegistry } from '../ModelRegistry'
 
-
-export function HasOne(thatModelContructor: IModelConstructor, parseAliases: Array<string> = null) {
+export function HasOne(stringifiedClassName: string, parseAliases: Array<string> = null) {
 
     return function(target: BaseModel, propertyName: string) {
 
@@ -21,7 +21,7 @@ export function HasOne(thatModelContructor: IModelConstructor, parseAliases: Arr
       
         let associationsConfigEntry: IAssociationsConfigEntry = {
             associationType: AssociationTypesEnum.hasOne,
-            thatModelConstructor: thatModelContructor,
+            getThatModelConstructor: ModelRegistry.modelGetterFuntion(stringifiedClassName),
             aliasedTo: null
         } 
         associationsConfig[propertyName] = associationsConfigEntry
@@ -32,7 +32,7 @@ export function HasOne(thatModelContructor: IModelConstructor, parseAliases: Arr
             parseAliases.forEach((alias)=>{
                 let associationsConfigEntryForAlias: IAssociationsConfigEntry = {
                     associationType: AssociationTypesEnum.hasOne,
-                    thatModelConstructor: thatModelContructor,
+                    getThatModelConstructor: ModelRegistry.modelGetterFuntion(stringifiedClassName),
                     aliasedTo: propertyName 
                 };
 

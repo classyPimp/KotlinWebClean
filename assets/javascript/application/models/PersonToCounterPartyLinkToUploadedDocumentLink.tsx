@@ -6,6 +6,7 @@ import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { PersonToCounterPartyLink } from './PersonToCounterPartyLink'
 import { UploadedDocument } from './UploadedDocument'
 import { PersonToCounterPartyLinkToUploadedDocLinkReason } from './PersonToCounterPartyLinkToUploadedDocLinkReason'
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class PersonToCounterPartyLinkToUploadedDocumentLink extends BaseModel {
 
@@ -29,13 +30,15 @@ export class PersonToCounterPartyLinkToUploadedDocumentLink extends BaseModel {
     @Property
     createdAt: string
 
-    @HasOne(PersonToCounterPartyLink)
+    @HasOne("PersonToCounterPartyLink")
     personToCounterPartyLink: PersonToCounterPartyLink
 
-    @HasOne(UploadedDocument) 
+    @HasOne("UploadedDocument") 
     uploadedDocument: UploadedDocument
 
-    @HasOne(PersonToCounterPartyLinkToUploadedDocLinkReason)
+    @HasOne("PersonToCounterPartyLinkToUploadedDocLinkReason")
     personToCounterPartyLinkToUploadedDocLinkReason: PersonToCounterPartyLinkToUploadedDocLinkReason
 
 }
+
+ModelRegistry.register("PersonToCounterPartyLinkToUploadedDocumentLink", PersonToCounterPartyLinkToUploadedDocumentLink)

@@ -1,4 +1,5 @@
 import { User } from '../models/User';
+import { Person } from '../models/Person';
 import autobind from 'autobind-decorator';
 import { PlainInputElement } from '../../reactUtils/plugins/formable/formElements/PlainInput';
 
@@ -26,8 +27,13 @@ export class DemoComponent extends MixinFormableTrait(BaseReactComponent) {
     }
 
     componentDidMount(){
-      ContactType.index().then((contactTypes)=>{
-         this.setState({selectOptions: contactTypes})
+      // ContactType.index().then((contactTypes)=>{
+      //    this.setState({selectOptions: contactTypes})
+      // })
+      Person.get({wilds: {id: "1"}}).then((person)=>{
+        console.log("demo returned:")
+        console.log(person)
+        console.log(person.properties)
       })
     }
 

@@ -3,16 +3,14 @@ import { AssociationTypesEnum } from '../AssociationTypesEnum';
 import { IModelConstructor } from '../interfaces/IModelConstructor';
 import { BaseModel } from '../BaseModel';
 import { ModelCollection } from '../ModelCollection';
+import { ModelRegistry } from '../ModelRegistry'
 
-
-export function HasMany(thatModelConstructor: IModelConstructor, parseAliases: Array<string> = null) {
+export function HasMany(stringifiedClassName: string, parseAliases: Array<string> = null, thatConstructor?: IModelConstructor) {
 
     return function(target: BaseModel, propertyName: string){
 
         let get = function(){
-            
             let valueAtProperty = this.properties[propertyName]
-
             if (valueAtProperty == null) {
                 let defaultValue = new ModelCollection<BaseModel>()
                 this[propertyName] = defaultValue
@@ -24,6 +22,7 @@ export function HasMany(thatModelConstructor: IModelConstructor, parseAliases: A
         }
 
         let set = function(valueToSet: ModelCollection<BaseModel>) {
+
             this.properties[propertyName] = valueToSet
         }
 
@@ -31,7 +30,7 @@ export function HasMany(thatModelConstructor: IModelConstructor, parseAliases: A
         
         let associationsConfigEntry: IAssociationsConfigEntry = {
             associationType: AssociationTypesEnum.hasMany,
-            thatModelConstructor: thatModelConstructor,
+            getThatModelConstructor: ModelRegistry.modelGetterFuntion(stringifiedClassName),
             aliasedTo: null
         }; 
         associationsConfig[propertyName] = associationsConfigEntry
@@ -40,7 +39,7 @@ export function HasMany(thatModelConstructor: IModelConstructor, parseAliases: A
             parseAliases.forEach((alias)=>{
                 let configEntryForAlias: IAssociationsConfigEntry = {
                     associationType: AssociationTypesEnum.hasMany,
-                    thatModelConstructor: thatModelConstructor,
+                    getThatModelConstructor: ModelRegistry.modelGetterFuntion(stringifiedClassName),
                     aliasedTo: propertyName 
                 };
                 associationsConfig[alias] = configEntryForAlias

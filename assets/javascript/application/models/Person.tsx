@@ -1,11 +1,12 @@
+import { PersonToContactLink } from './PersonToContactLink'
+import { Contact } from "./Contact"
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 import { Property } from '../../modelLayer/annotations/Property'
 import { BaseModel } from '../../modelLayer/BaseModel'
 import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
-import { PersonToContactLink } from './PersonToContactLink'
-import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
-import { Contact } from "./Contact"
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 
 export class Person extends BaseModel {
 
@@ -23,7 +24,7 @@ export class Person extends BaseModel {
     @Property
     createdAt: string
 
-    @HasMany(PersonToContactLink)
+    @HasMany("PersonToContactLink")
     personToContactLinks: ModelCollection<PersonToContactLink>
 
     @Route("POST", {url: '/api/persons'})
@@ -49,3 +50,5 @@ export class Person extends BaseModel {
     }
 
 }  
+
+ModelRegistry.register("Person", Person)

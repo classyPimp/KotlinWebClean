@@ -8,6 +8,7 @@ object PersonCreate {
     fun onSuccess(contact: Contact): String {
         ContactToJsonSerializer(contact).let {
             it.includeContactType()
+            it.includePersonToContactLink()
             return it.serializeToString()
         }
     }
@@ -16,6 +17,9 @@ object PersonCreate {
         ContactToJsonSerializer(contact). let {
             it.includeErrors()
             it.includePersonToContactLink() {
+                it.includeErrors()
+            }
+            it.includeContactType() {
                 it.includeErrors()
             }
             return it.serializeToString()

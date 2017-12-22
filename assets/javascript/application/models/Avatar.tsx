@@ -2,7 +2,7 @@ import { User } from './User';
 import { HasOne } from '../../modelLayer/annotations/HasOne';
 import { BaseModel } from '../../modelLayer/BaseModel';
 import { Property } from '../../modelLayer/annotations/Property';
-
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class Avatar extends BaseModel {
 
@@ -14,7 +14,7 @@ export class Avatar extends BaseModel {
     @Property
     fileName: string
 
-    @HasOne(User)
+    @HasOne("User")
     user: User
 
     cachedFilePath: string
@@ -52,3 +52,5 @@ export class Avatar extends BaseModel {
     }
 
 }
+
+ModelRegistry.register("Avatar", Avatar)

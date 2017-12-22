@@ -27,7 +27,8 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
     componentDidMount(){
         let id = this.props.match.params.id
-        Person.get({wilds: {id}}).then((person)=>{
+        let x = Person.get({wilds: {id}})
+        x.then((person)=>{
             this.setState({person})
         })
     }
@@ -48,7 +49,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                     <div className="contacts">
                       {
                         this.state.person.personToContactLinks.map((it, index)=>{
-                          return <div className="contact">
+                          return <div className="contact" key={index}>
                             {it.contact.contactType.name}: {it.contact.value}
                           </div>
                         })

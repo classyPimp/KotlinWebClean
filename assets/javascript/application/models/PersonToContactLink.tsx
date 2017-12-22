@@ -1,3 +1,4 @@
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry'
 import { Property } from '../../modelLayer/annotations/Property'
 import { BaseModel } from '../../modelLayer/BaseModel'
 import { HasOne } from '../../modelLayer/annotations/HasOne'
@@ -24,10 +25,13 @@ export class PersonToContactLink extends BaseModel {
     @Property
     createdAt: string
 
-    @HasOne(Person)
+    @HasOne("Person")
     person: Person
 
-    @HasOne(Contact)
+    @HasOne("Contact")
     contact: Contact
 
 }
+
+ModelRegistry.register("PersonToContactLink", PersonToContactLink)
+

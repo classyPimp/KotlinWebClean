@@ -6,7 +6,7 @@ import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { Contact } from './Contact'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute';
 import autobind from 'autobind-decorator';
-
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class ContactType extends BaseModel {
 
@@ -27,7 +27,7 @@ export class ContactType extends BaseModel {
     @Property
     createdAt: string
 
-    @HasMany(Contact)
+    @HasMany("Contact")
     contacts: ModelCollection<Contact>
 
     @Route("POST", {url: "/api/contactTypes"})
@@ -53,3 +53,5 @@ export class ContactType extends BaseModel {
     }
 
 }
+
+ModelRegistry.register("ContactType", ContactType)

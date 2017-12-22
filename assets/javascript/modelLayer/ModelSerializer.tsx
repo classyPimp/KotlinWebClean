@@ -53,12 +53,16 @@ export class ModelSerializer {
             key = configEntry.aliasedTo
         }
         let associationType = configEntry.associationType
-        if (associationType === AssociationTypesEnum.hasMany) {
-            parsedProperties[key] = this.parseCollectionOfBaseModel(configEntry.thatModelConstructor, value as Array<IModelProperties>)
+        if (value) {
+          if (associationType === AssociationTypesEnum.hasMany) {
+              parsedProperties[key] = this.parseCollectionOfBaseModel(configEntry.getThatModelConstructor(), value as Array<IModelProperties>)
+          }
+          if (associationType === AssociationTypesEnum.hasOne) {
+              parsedProperties[key] = this.parseSingleBaseModel(configEntry.getThatModelConstructor(), value)
+          } 
+        } else {
+           parsedProperties[key] = null
         }
-        if (associationType === AssociationTypesEnum.hasOne) {
-            parsedProperties[key] = this.parseSingleBaseModel(configEntry.thatModelConstructor, value)
-        } 
     }
 
     private static parseSingleBaseModel(
@@ -74,8 +78,9 @@ export class ModelSerializer {
     ): ModelCollection<BaseModel> {
         let collectionToReturn = new ModelCollection()
         for (let properties of propertiesArray) {
+            let newModel = new modelConstructor(properties)
             collectionToReturn.push(
-                new modelConstructor(properties)
+                newModel
             )
         }
         return collectionToReturn

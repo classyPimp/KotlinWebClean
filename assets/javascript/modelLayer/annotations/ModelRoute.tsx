@@ -158,6 +158,10 @@ export function Route(httpMethod: string, options: RouteOptions) {
 
             options.deferredPromise = new DefferedPromise<any>()
 
+            //options.deferredPromise.catch((reason: any)=>{throw reason as any})
+
+            XhrRequestMaker.create(options as RequestOptions) 
+                                    
             if (afterRequestFunc){
                 (this as any)[`after${propertyName.charAt(0).toUpperCase() + propertyName.slice(1)}Request`](options as RequestOptions)
             }
@@ -167,7 +171,6 @@ export function Route(httpMethod: string, options: RouteOptions) {
                   this.options.serializeAsForm = true
                 }
             }
-            XhrRequestMaker.create(options as RequestOptions)            
             
             return options.deferredPromise
         }

@@ -4,6 +4,7 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { Contact} from './Contact'
 import { CounterParty } from './CounterParty'
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class CounterPartyToContactLink extends BaseModel {
 
@@ -24,10 +25,12 @@ export class CounterPartyToContactLink extends BaseModel {
     @Property
     createdAt: string
 
-    @HasOne(Contact)
+    @HasOne("Contact")
     contact: Contact
 
-    @HasOne(CounterParty)
+    @HasOne("CounterParty")
     counterParty: CounterParty
 
 }
+
+ModelRegistry.register("CounterPartyToContactLink", CounterPartyToContactLink)

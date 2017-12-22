@@ -6,7 +6,7 @@ import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { IncorporationForm } from './IncorporationForm'
 import { CounterPartyToContactLink } from './CounterPartyToContactLink'
 import { PersonToCounterPartyLink } from './PersonToCounterPartyLink'
-
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class CounterParty extends BaseModel {
 
@@ -30,13 +30,15 @@ export class CounterParty extends BaseModel {
     @Property
     createdAt: string
 
-    @HasOne(IncorporationForm)
+    @HasOne("IncorporationForm")
     incorporationForm: IncorporationForm
 
-    @HasMany(CounterPartyToContactLink)
+    @HasMany("CounterPartyToContactLink")
     counterPartyContacts: ModelCollection<CounterPartyToContactLink>
 
-    @HasMany(PersonToCounterPartyLink)
+    @HasMany("PersonToCounterPartyLink")
     personToCounterPartyLinks: ModelCollection<PersonToCounterPartyLink>
 
 }
+
+ModelRegistry.register("CounterParty", CounterParty)

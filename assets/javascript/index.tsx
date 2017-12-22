@@ -1,4 +1,3 @@
-import { ModelRegistrySingleton } from './modelLayer/ModelRegistry'
 import { initApplication } from './application/initApplication';
 // let collection = ModelSerializer.parseCollection<User>(
 //     User, 

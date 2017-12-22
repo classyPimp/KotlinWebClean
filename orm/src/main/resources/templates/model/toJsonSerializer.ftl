@@ -192,7 +192,7 @@ class ${modelClass}ToJsonSerializer(val model: ${modelClass}) {
             it.forEach { thatModel ->
                 val thatModelSerializer = ${ab.associatedModelDataModel.modelClass}ToJsonSerializer(thatModel)
                 block.invoke(thatModelSerializer)
-                arrayNode.add(${ab.associatedModelDataModel.modelClass}ToJsonSerializer(thatModel).serializeToNode())
+                arrayNode.add(thatModelSerializer.serializeToNode())
             }
             root.set("${ab.propertyName}", arrayNode)
             return this

@@ -34,4 +34,8 @@ export class DefferedPromise<T> {
         return this.lastThen 
     }
 
+    catch(callback: (reason: any)=>void): Thenable<any> {
+      this.lastThen = (this.lastThen as Promise<any>).catch(callback)
+      return this.lastThen
+    }
 }

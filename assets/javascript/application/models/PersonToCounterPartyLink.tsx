@@ -5,6 +5,7 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { Person } from './Person'
 import { CounterParty } from './CounterParty'
 import { PersonToCounterPartyLinkReason } from './PersonToCounterPartyLinkReason'
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 
 export class PersonToCounterPartyLink extends BaseModel {
@@ -32,13 +33,15 @@ export class PersonToCounterPartyLink extends BaseModel {
     @Property
     createdAt: string
 
-    @HasOne(Person)
+    @HasOne("Person")
     person: Person
 
-    @HasOne(CounterParty)
+    @HasOne("CounterParty")
     counterParty: CounterParty
 
-    @HasOne(PersonToCounterPartyLinkReason)
+    @HasOne("PersonToCounterPartyLinkReason")
     personToCounterPartyLinkReason: PersonToCounterPartyLinkReason
 
 }
+
+ModelRegistry.register("PersonToCounterPartyLink", PersonToCounterPartyLink)

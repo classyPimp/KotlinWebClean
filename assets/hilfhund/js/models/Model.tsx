@@ -32,10 +32,10 @@ export class Model extends BaseModel {
     @Property
     updaterName: string
 
-    @HasMany(TableField)
+    @HasMany("TableField")
     tableFields: ModelCollection<TableField>
 
-    @HasMany(AssociatedModel)
+    @HasMany("AssociatedModel")
     associatedModels: ModelCollection<AssociatedModel>
 
     @Route("POST", {url: "/hilfhund/generate/model"})

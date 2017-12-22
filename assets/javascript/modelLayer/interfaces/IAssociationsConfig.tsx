@@ -9,6 +9,6 @@ export interface IAssociationsConfig {
 
 export interface IAssociationsConfigEntry {
     associationType: AssociationTypesEnum,
-    thatModelConstructor: IModelConstructor,
-    aliasedTo: string | null
+    getThatModelConstructor: ()=>IModelConstructor,
+    aliasedTo: string | null,
 }

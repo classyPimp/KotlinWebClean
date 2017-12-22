@@ -33,7 +33,8 @@ export function MixinSerializableTrait<TBase extends AnyConstructor>(Base: TBase
       constructor(...args: Array<any>){
             super(args)
           args = args[0]
-          this.properties = this.parsePropertes(args as IModelProperties)
+          let properties = this.parsePropertes(args as IModelProperties)
+          this.properties = properties
       }
 
       parsePropertes(properties: IModelProperties): IModelProperties{

@@ -6,7 +6,7 @@ import { Property } from '../../modelLayer/annotations/Property';
 import { BaseModel } from '../../modelLayer/BaseModel';
 import {Account} from './Account'
 import { Avatar } from './Avatar'
-
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class User extends BaseModel {
    
@@ -59,11 +59,11 @@ export class User extends BaseModel {
         })
     }
 
-    @HasOne(Account)
+    @HasOne("Account")
     account: Account
 
 
-    @HasOne(Avatar)
+    @HasOne("Avatar")
     avatar: Avatar
     // @HasMany(Account, ["fooAcs"])
     // accounts: ModelCollection<Account>
@@ -74,3 +74,5 @@ export class User extends BaseModel {
         // }
     }
 }
+
+ModelRegistry.register("User", User)

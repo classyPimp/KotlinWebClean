@@ -8,6 +8,7 @@ import models.contact.tojsonserializers.ContactSerializers
 import models.person.Person
 import models.person.tojsonserializers.PersonSerializers
 import org.jooq.generated.Tables.PEOPLE
+import orm.contactgeneratedrepository.ContactRecord
 import orm.persongeneratedrepository.PersonRecord
 import orm.persongeneratedrepository.PersonToJsonSerializer
 import router.src.ServletRequestContext
@@ -39,6 +40,15 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
     }
 
     fun get(){
+        val conts = ContactRecord.GET().preload {
+            it.contactType()
+        }.execute()
+
+        conts.forEach {
+            println(it.contactTypeId)
+            println(it.contactType)
+        }
+
         val id: Long? = context.routeParameters.get("id")?.toLongOrNull()
         var person: Person? = null
 
@@ -46,7 +56,11 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
             person = PersonRecord.GET().where(PEOPLE.ID.eq(it)).preload {
                 it.personToContactLinks() {
                     it.preload {
-                        it.contact()
+                        it.contact() {
+                            it.preload {
+                                it.contactType()
+                            }
+                        }
                     }
                 }
             }.execute().firstOrNull()

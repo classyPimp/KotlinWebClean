@@ -4,6 +4,7 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { CounterParty } from './CounterParty'
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class IncorporationForm extends BaseModel {
 
@@ -24,7 +25,9 @@ export class IncorporationForm extends BaseModel {
     @Property
     createdAt: string
 
-    @HasMany(CounterParty)
+    @HasMany("CounterParty")
     counterParties: ModelCollection<CounterParty>
 
 }
+
+ModelRegistry.register("IncorporationForm", IncorporationForm)

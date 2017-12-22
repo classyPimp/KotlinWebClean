@@ -4,6 +4,7 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { PersonToCounterPartyLinkToUploadedDocumentLink } from './PersonToCounterPartyLinkToUploadedDocumentLink'
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class UploadedDocument extends BaseModel {
 
@@ -39,13 +40,15 @@ export class UploadedDocument extends BaseModel {
     @Property
     createdAt: string
 
-    @HasMany(UploadedDocument)
+    @HasMany("UploadedDocument")
     childDocuments: ModelCollection<UploadedDocument>
 
-    @HasOne(UploadedDocument)
+    @HasOne("UploadedDocument")
     parentDocument: UploadedDocument
 
-    @HasMany(PersonToCounterPartyLinkToUploadedDocumentLink)
+    @HasMany("PersonToCounterPartyLinkToUploadedDocumentLink")
     personToCounterPartyLinkToUploadedDocumentLinks: ModelCollection<PersonToCounterPartyLinkToUploadedDocumentLink>
 
 }
+
+ModelRegistry.register("UploadedDocument", UploadedDocument)
