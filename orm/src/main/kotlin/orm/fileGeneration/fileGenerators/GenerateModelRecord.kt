@@ -15,7 +15,7 @@ class GenerateModelRecord(val modelDataModel: ModelDataModel) {
     fun run(){
         val file: File = GeneratedFileFactory.createDefault(
                 packageName = modelDataModel.packagesBean.baseGenerated,
-                fileName = "${modelDataModel.modelClass}Record.kt"
+                fileName = "${modelDataModel.modelClass}Record"
         )
 
         val templateName: String = TemplateFilePathsConfig.modelRecord

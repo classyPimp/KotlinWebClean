@@ -24,36 +24,36 @@ open class RoutesDrawer(open val router: Router) {
     }
 
     fun get(path: String, block: (ServletRequestContext)->Unit) {
-        var path = path
+        var finalPath = path
         this.currentNameSpace?.let {
-            path = currentNameSpace + path
+            finalPath = currentNameSpace + finalPath
         }
-        router.get(path, block)
+        router.get(finalPath, block)
     }
 
     fun post(path: String, block: (ServletRequestContext)->Unit) {
-        var path = path
+        var finalPath = path
         this.currentNameSpace?.let {
-            path = currentNameSpace + path
+            finalPath = currentNameSpace + finalPath
         }
-        router.post(path, block)
+        router.post(finalPath, block)
     }
 
     fun put(path: String, block: (ServletRequestContext)->Unit) {
-        var path = path
+        var finalPath = path
         this.currentNameSpace?.let {
-            path = currentNameSpace + path
+            finalPath = currentNameSpace + finalPath
         }
-        router.put(path, block)
+        router.put(finalPath, block)
     }
 
 
     fun delete(path: String, block: (ServletRequestContext)->Unit) {
-        var path = path
+        var finalPath = path
         this.currentNameSpace?.let {
-            path = currentNameSpace + path
+            finalPath = currentNameSpace + finalPath
         }
-        router.delete(path, block)
+        router.delete(finalPath, block)
     }
 
     open fun run() {

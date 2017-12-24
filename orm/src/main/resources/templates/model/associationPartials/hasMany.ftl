@@ -63,17 +63,16 @@
         merge${ab.capitalizedPropertyName}(modelReferenceMap, associatedModels)
     }
 
-    fun merge${ab.capitalizedPropertyName}(modelReferenceMap: MutableMap<${ab.fieldOnThis.nonNullableType}, ${modelClass}>, thoseModels: MutableList<${ab.associatedModelDataModel.modelClass}>){
+    fun merge${ab.capitalizedPropertyName}(modelReferenceMap: MutableMap<${ab.fieldOnThis.nonNullableType}, MutableList<${modelClass}>>, thoseModels: MutableList<${ab.associatedModelDataModel.modelClass}>){
         for (thatModel in thoseModels) {
             val thatField = thatModel.${ab.fieldOnThat.property}
             if (thatField != null) {
-                val model = modelReferenceMap[thatField]
-                if (model != null) {
-                    val thatModelList = model.${ab.propertyName}
+                modelReferenceMap[thatField]?.forEach {
+                    val thatModelList = it.${ab.propertyName}
                     if (thatModelList != null) {
                         thatModelList.add(thatModel)
                     } else {
-                      model.${ab.propertyName} = mutableListOf<${ab.associatedModelDataModel.modelClass}>(thatModel)
+                      it.${ab.propertyName} = mutableListOf<${ab.associatedModelDataModel.modelClass}>(thatModel)
                     }
                 }
             }

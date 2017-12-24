@@ -64,12 +64,11 @@
         merge${ab.capitalizedPropertyName}(modelReferenceMap, associatedModels)
     }
 
-    fun merge${ab.capitalizedPropertyName}(modelReferenceMap: MutableMap<${ab.fieldOnThis.nonNullableType}, ${modelClass}>, thoseModels: MutableList<${ab.associatedModelDataModel.modelClass}>){
+    fun merge${ab.capitalizedPropertyName}(modelReferenceMap: MutableMap<${ab.fieldOnThis.nonNullableType}, MutableList<${modelClass}>>, thoseModels: MutableList<${ab.associatedModelDataModel.modelClass}>){
         for (thatModel in thoseModels) {
             thatModel.${ab.fieldOnThat.property}?.let {
-                val model = modelReferenceMap[it]
-                model?.let {
-                    it.${ab.propertyName} = thatModel
+                modelReferenceMap[it]?.forEach {
+                  it.${ab.propertyName} = thatModel
                 }
             }
         }

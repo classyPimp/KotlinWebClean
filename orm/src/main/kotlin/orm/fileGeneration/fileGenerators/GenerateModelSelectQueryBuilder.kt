@@ -15,7 +15,7 @@ class GenerateModelSelectQueryBuilder(val modelDataModel: ModelDataModel) {
     fun run(){
         val file: File = GeneratedFileFactory.createDefault(
                 packageName = modelDataModel.packagesBean.baseGenerated,
-                fileName = "${modelDataModel.modelClass}SelectQueryBuilder.kt"
+                fileName = "${modelDataModel.modelClass}SelectQueryBuilder"
         )
 
         val templateName: String = TemplateFilePathsConfig.modelSelectQueryBuilder

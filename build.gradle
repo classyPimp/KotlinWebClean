@@ -50,9 +50,9 @@ dependencies {
     kapt project(":orm")
     compile project(":orm")
 
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
 //    //compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.10.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.10.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.8.2'
 
     compile(group: 'org.docx4j', name: 'docx4j', version: '3.3.6') {
         exclude(group: 'org.slf4j')

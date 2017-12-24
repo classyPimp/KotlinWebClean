@@ -59,7 +59,7 @@ constructor(
         return this
     }
 
-    inline fun executeThrowIfNotFoundFirst(block: (DSLContext)->ResultSet): ${modelClass} {
+    fun executeThrowIfNotFoundFirst(): ${modelClass} {
         val model = execute().firstOrNull()
         if (model == null) {
             throwModelNotFoundException("foo")

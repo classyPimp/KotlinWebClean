@@ -23,7 +23,7 @@
 
     class ${ab.capitalizedPropertyName}ReferenceMaps(models: MutableList<${modelClass}>) {
         <#list ab.associatedPolymorphicModelDataModels as associatedModelDataModel>
-        var ${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map = mutableMapOf<${ab.fieldOnThat.nonNullableType}, ${modelClass}>()
+        var ${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map = mutableMapOf<${ab.fieldOnThat.nonNullableType}, MutableList<${modelClass}>>()
         </#list>
         init {
             for (model in models) {
@@ -31,7 +31,11 @@
                     when(model.${ab.polymorphicTypeField.property}) {
                         <#list ab.associatedPolymorphicModelDataModels as associatedModelDataModel>
                         "${associatedModelDataModel.modelClass}" -> {
-                            ${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map[it] = model
+                            if (${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map[it] != null) {
+                               ${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map[it]!!.add(model)
+                            } else {
+                               ${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map[it] = mutableListOf<${modelClass}>(model)
+                            }
                         }
                         </#list>
                     }
@@ -159,9 +163,8 @@
         thatModelLists.${associatedModelDataModel.modelClassDecapitalized}List?.let {
             for (thatModel in it) {
                 thatModel.${ab.fieldOnThat.property}?.let {
-                    val model = referenceMaps.${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map[it]
-                    model?.let {
-                        model.${ab.propertyName} = thatModel
+                    referenceMaps.${associatedModelDataModel.modelClassDecapitalized}${ab.fieldOnThat.capitalizedProperty}To${modelClass}Map[it]?.forEach {
+                        it.${ab.propertyName} = thatModel
                     }
                 }
             }

@@ -18,11 +18,15 @@ import ${fieldType}
 object ${modelClass}Utils {
 
     <#list fieldBeans as fieldBean>
-    fun build${fieldBean.capitalizedProperty}To${modelClass}Map(models: MutableList<${modelClass}>): MutableMap<${fieldBean.nonNullableType}, ${modelClass}> {
-        val map = mutableMapOf<${fieldBean.nonNullableType}, ${modelClass}>()
+    fun build${fieldBean.capitalizedProperty}To${modelClass}Map(models: MutableList<${modelClass}>): MutableMap<${fieldBean.nonNullableType}, MutableList<${modelClass}>> {
+        val map = mutableMapOf<${fieldBean.nonNullableType}, MutableList<${modelClass}>>()
         for (model in models) {
             model.${fieldBean.property}?.let {
-                map[it] = model
+                if (map[it] != null) {
+                    map[it]!!.add(model)
+                } else {
+                    map[it] = mutableListOf<${modelClass}>(model)
+                }
             }
         }
         return map
