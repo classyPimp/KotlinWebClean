@@ -53,11 +53,6 @@ class ContactsCreate(val params: IParam, val personId: Long?) : ComposerBase() {
     }
 
     private fun validate() {
-        contactBeingCreated.let {
-            println(it.contactType)
-            println(it.contactTypeId)
-            println(it.value)
-        }
         ContactValidator(contactBeingCreated).personCreateScenario()
     }
 

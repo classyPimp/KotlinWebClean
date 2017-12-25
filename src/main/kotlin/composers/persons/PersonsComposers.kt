@@ -1,6 +1,8 @@
 package composers.persons
 
+import composers.persons.contacts.ContactsDestroy
 import composers.persons.contacts.ContactsCreate
+import composers.persons.contacts.ContactsUpdate
 import utils.requestparameters.IParam
 
 /**
@@ -23,6 +25,15 @@ object PersonsComposers {
         fun create(params: IParam, id: Long?): ContactsCreate {
             return ContactsCreate(params, id)
         }
+
+        fun destroy(personId: Long?, id: Long?): ContactsDestroy {
+            return ContactsDestroy(personId, id)
+        }
+
+        fun update(params: IParam, personId: Long?, id: Long?): ContactsUpdate {
+            return ContactsUpdate(params, personId, id)
+        }
+
     }
 
 }

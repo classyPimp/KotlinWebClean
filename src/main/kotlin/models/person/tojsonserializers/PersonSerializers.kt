@@ -8,7 +8,7 @@ object PersonSerializers {
 
     val index: Index = Index
 
-    val udpate: Create = Create
+    val udpate: Update = Update
 
     val destroy: Create = Create
 }

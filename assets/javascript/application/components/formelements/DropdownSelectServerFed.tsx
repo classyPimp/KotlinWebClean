@@ -18,6 +18,7 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
         propertyToShow: string
         propertyToSelect: string,
         modelsToWrapAsOptions: ModelCollection<BaseModel>,
+        preselected?: any,
         ref?: (arg: any)=> void,
         optional?: {
             placeholder?: string
@@ -53,22 +54,31 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
 
     prepareOptions(modelsToWrapAsOptions: ModelCollection<BaseModel>) {
       let options = modelsToWrapAsOptions.array.map((it)=>{
+        if (this.props.preselected) {
+          if (this.props.preselected === it.properties[this.props.propertyToSelect]) {
+            let preselected = new BaseModelSelectChoiseWrapper(it, this.props.propertyToShow, this.props.propertyToSelect, true)
+            this.state.currentlySelected = preselected
+            return preselected
+          }
+        } 
         return new BaseModelSelectChoiseWrapper(it, this.props.propertyToShow, this.props.propertyToSelect)
       })
       let allOptions = options.slice(0)
       this.state.options = options
       this.state.allOptions = allOptions
+
     }
 
     componentWillReceiveProps(nextProps: any){
       let options = nextProps.modelsToWrapAsOptions
       this.prepareOptions(options)
-      this.forceUpdate()
+      this.setState({})
     }
 
     render(){
         return <div className="formelements-DropDowndSelectServerFed">
             {this.showPlaceholderIfNecessary()}
+            {this.showErrorIfNecessary()}
             <div className="formElements-dropdownSelect">
               <div className="dropdownSelect-header">
                  {this.state.currentlySelected ?
@@ -104,7 +114,6 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
     }
 
     collect(){
-      console.log("collecting")
       let value: any
       if (this.state.currentlySelected) {
         value = this.state.currentlySelected.getSelectedValue()
@@ -129,6 +138,20 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
     @autobind
     cancelSelected(){
       this.clearInputs()
+    }
+
+    @autobind
+    showErrorIfNecessary(){
+      let errors = this.props.model.getErrorsFor(this.props.propertyName)
+      if(errors) {
+          return <div className="errors-list">
+              {errors.map((error, index)=>{
+                  return <p className="errors-individual" key={index}>
+                      {error}
+                  </p>
+              })}
+          </div>
+      }
     }
 
     clearInputs(){

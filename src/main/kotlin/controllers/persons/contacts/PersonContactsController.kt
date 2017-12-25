@@ -16,6 +16,7 @@ class PersonContactsController(context: ServletRequestContext) : BaseController(
 
         cmpsr.onSuccess = {
             contact: Contact ->
+            println("should render on success")
             renderJson(
                     ContactSerializers.personCreate.onSuccess(contact)
             )
@@ -23,12 +24,62 @@ class PersonContactsController(context: ServletRequestContext) : BaseController(
 
         cmpsr.onError = {
             contact: Contact ->
+            val toRender = ContactSerializers.personCreate.onError(contact)
+            println("should render on error: ${toRender}")
             renderJson(
                     ContactSerializers.personCreate.onError(contact)
             )
         }
 
         cmpsr.run()
+    }
+
+    fun delete(){
+        val cmpsr = PersonsComposers.Contacts.destroy(
+                context.routeParameters.get("personId")?.toLongOrNull(),
+                context.routeParameters.get("id")?.toLongOrNull()
+        )
+
+        cmpsr.onSuccess = {
+            contact: Contact ->
+            renderJson(
+                    ContactSerializers.personDestroy.onSuccess(contact)
+            )
+        }
+
+        cmpsr.onError = {
+            contact: Contact ->
+            renderJson(
+                    ContactSerializers.personDestroy.onError(contact)
+            )
+        }
+
+        cmpsr.run()
+
+    }
+
+    fun update(){
+        val composer = PersonsComposers.Contacts.update(
+                requestParams(),
+                context.routeParameters.get("personId")?.toLongOrNull(),
+                context.routeParameters.get("id")?.toLongOrNull()
+        )
+
+        composer.onSuccess = {
+            contact: Contact ->
+            ContactSerializers.personUpdate.onSuccess(contact).let {
+                renderJson(it)
+            }
+        }
+
+        composer.onError = {
+            contact: Contact ->
+            ContactSerializers.personUpdate.onError(contact).let {
+                renderJson(it)
+            }
+        }
+
+        composer.run()
     }
 
 }

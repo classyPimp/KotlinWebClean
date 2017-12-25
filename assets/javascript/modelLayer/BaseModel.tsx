@@ -92,8 +92,7 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
 
     static afterGetRequest(options: RequestOptions){
         options.deferredPromise.then((resp)=>{
-          let x = new this(resp)
-          return x
+          return new this(resp)
         })   
     }
 
@@ -111,14 +110,14 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
 
     afterCreateRequest(options: RequestOptions) {
         options.deferredPromise.then((resp)=>{
-            let modelToReturn = this.constructor(resp)
+            let modelToReturn = new (this.constructor as any)(resp)
             modelToReturn.validate()
             return modelToReturn
         })
     }
 
     beforeDeleteRequest(options: RequestOptions) {
-
+      this.beforeUpdateRequest(options)
     }
 
     afterDeleteRequest(options: RequestOptions) {

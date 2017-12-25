@@ -40,6 +40,28 @@ export class Contact extends BaseModel {
     @Route("POST", {url: "/api/persons/:personId/contacts"})
     createForPerson: (options?: RequestOptions)=>Promise<Contact>
 
+    @Route("DELETE", {url: "/api/persons/:personId/contacts/:id", defaultWilds: ["id"]})
+    deleteForPerson: (options?: RequestOptions)=>Promise<Contact>
+
+    @Route("PUT", {url: "/api/persons/:personId/contacts/:id", defaultWilds: ["id"]})
+    updateForPerson: (options?: RequestOptions)=>Promise<Contact>
+
+    beforeUpdateForPersonRequest(options: RequestOptions) {
+      this.beforeUpdateRequest(options)
+    }
+
+    afterUpdateForPersonRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
+    }
+
+    beforeDeleteForPersonRequest(options: RequestOptions){
+      this.beforeDeleteRequest(options)
+    }
+
+    afterDeleteForPersonRequest(options: RequestOptions) {
+      this.afterDeleteRequest(options)
+    }
+
     beforeCreateForPersonRequest(options: RequestOptions) {
       this.beforeCreateRequest(options)
     }

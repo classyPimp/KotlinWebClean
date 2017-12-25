@@ -44,11 +44,6 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
             it.contactType()
         }.execute()
 
-        conts.forEach {
-            println(it.contactTypeId)
-            println(it.contactType)
-        }
-
         val id: Long? = context.routeParameters.get("id")?.toLongOrNull()
         var person: Person? = null
 

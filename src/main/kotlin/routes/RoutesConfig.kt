@@ -108,6 +108,14 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 post("/:personId/contacts") {
                     PersonsController.contacts(it).create()
                 }
+
+                delete("/:personId/contacts/:id") {
+                    PersonsController.contacts(it).delete()
+                }
+
+                put("/:personId/contacts/:id") {
+                    PersonsController.contacts(it).update()
+                }
             }
 
         }

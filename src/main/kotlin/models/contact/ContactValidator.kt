@@ -19,6 +19,10 @@ class ContactValidator(model: Contact) : ContactValidatorTrait(model, model.reco
         validateContactToPersonLink()
     }
 
+    fun personUpdateScenario() {
+        personCreateScenario()
+    }
+
     fun validateContactType(){
         if (model.contactTypeId == null) {
             model.record.validationManager.addContactTypeIdError("invalid contact type")
@@ -54,8 +58,6 @@ class ContactValidator(model: Contact) : ContactValidatorTrait(model, model.reco
             throw Throwable("no person to contact link on contact")
         }
         PersonToContactLinkValidator(link).createScenario()
-        println("link.isValid(): ${link.record.validationManager.isValid()}")
-        println(link.record.validationManager.errors)
         if (!link.record.validationManager.isValid()) {
             model.record.validationManager.addGeneralError("link is invalid")
         }
