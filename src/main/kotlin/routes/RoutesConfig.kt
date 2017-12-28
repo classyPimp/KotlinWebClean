@@ -3,6 +3,7 @@ package routes
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
 import controllers.persons.PersonsController
+import controllers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
 import models.contact.Contact
@@ -116,6 +117,33 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 put("/:personId/contacts/:id") {
                     PersonsController.contacts(it).update()
                 }
+            }
+
+            namespace("/persontocounterpartylinkreasons") {
+                post("") {
+                    PersonToCounterPartyLinkReasonController(it).create()
+                }
+
+                get("") {
+                    PersonToCounterPartyLinkReasonController(it).index()
+                }
+
+                get("/:id") {
+                    PersonToCounterPartyLinkReasonController(it).show()
+                }
+
+                get("/:id/edit") {
+                    PersonToCounterPartyLinkReasonController(it).edit()
+                }
+
+                put("/:id") {
+                    PersonToCounterPartyLinkReasonController(it).update()
+                }
+
+                delete("/:id") {
+                    PersonToCounterPartyLinkReasonController(it).destroy()
+                }
+
             }
 
         }

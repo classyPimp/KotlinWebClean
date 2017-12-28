@@ -9,6 +9,7 @@ import { CurrentUser } from '../../services/CurrentUser';
 import { ApplicationComponent } from '../ApplicationComponent';
 import { Show } from '../contacttypes/Show';
 import { PersonsComponents } from '../persons/PersonsComponents';
+import { PersonToCounterPartyLinkReasonsComponents } from '../persontocounterpartylinkreasons/PersonToCounterPartyLinkReasonsComponents'
 
 export class Main extends BaseReactComponent {
 
@@ -46,6 +47,12 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/persons`} component={PersonsComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/persons/:id/edit`} component={PersonsComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/persons/:id`} component={PersonsComponents.Show}/>
+                    
+                    <Route exact path={`${this.props.match.url}/persontocounterpartylinkreasons/new`} component={PersonToCounterPartyLinkReasonsComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/persontocounterpartylinkreasons`} component={PersonToCounterPartyLinkReasonsComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/persontocounterpartylinkreasons/:id/edit`} component={PersonToCounterPartyLinkReasonsComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/persontocounterpartylinkreasons/:id`} component={PersonToCounterPartyLinkReasonsComponents.Get}/>
+
                 </Switch>
             </div>
         </div>

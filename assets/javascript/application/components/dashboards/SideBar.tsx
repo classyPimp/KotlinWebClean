@@ -8,9 +8,6 @@ export class SideBar extends BaseReactComponent {
         return <div className="dashboards-sidebar pure-menu custom-restricted-width">
             <ul className="pure-menu-list">
                 <li className="pure-menu-item">
-                    <Link to="/dashboards/contragents/new" className="pure-menu-link">
-                        new contragent
-                    </Link>
                     <Link to="/dashboards/contactTypes/new" className="pure-menu-link">
                         new contact  type
                     </Link>
@@ -22,6 +19,13 @@ export class SideBar extends BaseReactComponent {
                         new person
                     </Link>
                     <Link to="/dashboards/persons" className="pure-menu-link">
+                        index persons
+                    </Link>
+
+                    <Link to="/dashboards/persontocounterpartylinkreasons/new" className="pure-menu-link">
+                        new person
+                    </Link>
+                    <Link to="/dashboards/persontocounterpartylinkreasons" className="pure-menu-link">
                         index persons
                     </Link>
 
