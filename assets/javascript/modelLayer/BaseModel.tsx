@@ -96,6 +96,16 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
         })   
     }
 
+    static afterShowRequest(options: RequestOptions) {
+      options.deferredPromise.then((resp)=>{
+          return new this(resp)
+      }) 
+    }
+
+    static afterEditRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }  
+
     beforeUpdateRequest(options: RequestOptions){
         this.beforeCreateRequest(options)
     }
@@ -122,6 +132,14 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
 
     afterDeleteRequest(options: RequestOptions) {
         this.afterUpdateRequest(options)
+    }
+
+    beforeDestroyRequest(options: RequestOptions){
+      this.beforeUpdateRequest(options)
+    }
+
+    afterDestroyRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
     }
 
 } 

@@ -1,11 +1,11 @@
 import { New } from './New'
-import { Get } from './Get'
+import { Show } from './Show'
 import { Index } from './Index'
 import { Edit } from './Edit'
 
 export let PersonToCounterPartyLinkReasonsComponents = {
   New,
-  Get,
+  Show,
   Index,
   Edit,
 }

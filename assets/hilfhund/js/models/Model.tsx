@@ -170,6 +170,17 @@ export class Model extends BaseModel {
         this.afterGenerateToJsonSerializerRequest(options)
     }
 
+    @Route("POST", {url: "/hilfhund/generate/daos"})
+    generateDaos: (options?: RequestOptions) => Promise<any>
+
+    beforeGenerateDaosRequest(options: RequestOptions) {
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateDaosRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
+    }
+
 
 }
 

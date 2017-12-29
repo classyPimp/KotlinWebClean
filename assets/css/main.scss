@@ -3,4 +3,14 @@
 }
 @import 'modal';
 @import 'flashMessageQueue';
-@import 'dropdownSelect'
+@import 'dropdownSelect';
+
+
+.dashboards-Sidebar {
+  border-right: thin solid grey;
+  height: 100vh;
+
+  a {
+    white-space:normal;
+  }
+}

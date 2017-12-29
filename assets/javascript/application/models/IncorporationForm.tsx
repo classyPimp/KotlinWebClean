@@ -5,6 +5,7 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { CounterParty } from './CounterParty'
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 
 export class IncorporationForm extends BaseModel {
 
@@ -27,6 +28,25 @@ export class IncorporationForm extends BaseModel {
 
     @HasMany("CounterParty")
     counterParties: ModelCollection<CounterParty>
+
+    @Route("POST", {url: "/api/incorporationForm"})
+    create: (options?: RequestOptions) => Promise<IncorporationForm>
+
+    @Route("GET", {url: "/api/incorporationForm"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<IncorporationForm>>
+
+    @Route("GET", {url: "/api/incorporationForm/:id"})
+    static show: (options?: RequestOptions) => Promise<IncorporationForm>
+
+    @Route("GET", {url: "/api/incorporationForm/:id/edit"})
+    static edit: (options?: RequestOptions) => Promise<IncorporationForm>
+
+    @Route("PUT", {url: "/api/incorporationForm/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<IncorporationForm>
+
+    @Route("DELETE", {url: "/api/incorporationForm/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<IncorporationForm>
+
 
 }
 

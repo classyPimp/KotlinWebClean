@@ -479,5 +479,117 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
         renderJson("{\"message\": \"ok\"}")
     }
 
+    fun generateDaos() {
+        val json = ObjectMapper().readTree(context.request.reader)
+        val dataModel = Model(json.get("model"))
+
+        dataModel.let {
+            if (dataModel.className == null) {
+                it.addError("general", "can't generate daos: no model class name given")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val baseDaoFileContent = renderTemplateToString("hilfhund/generate/dao/daos.ftl", dataModel)
+
+        val baseDaoFileName = "${dataModel.className}Daos.kt"
+
+        val fileToCreate = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/daos/${baseDaoFileName}")
+
+        fileToCreate.let {
+            if (it.exists()) {
+                dataModel.addError("general", "daos already generated for this model")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            } else {
+                it.parentFile.let {
+                    if (!it.exists()) {
+                        it.mkdirs()
+                    }
+                }
+                it.createNewFile()
+            }
+        }
+
+        fileToCreate.writeText(baseDaoFileContent)
+
+        val destroyDaoFile = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/daos/${dataModel.className}DestroyDao.kt")
+
+        destroyDaoFile.let {
+            if (it.exists()) {
+
+            } else {
+                it.createNewFile()
+                renderTemplateToString("hilfhund/generate/dao/destroyDao.ftl", dataModel).let {
+                    content ->
+                    it.writeText(content)
+                }
+            }
+        }
+
+        val editDaoFile = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/daos/${dataModel.className}EditDao.kt")
+
+        editDaoFile.let {
+            if (it.exists()) {
+
+            } else {
+                it.createNewFile()
+                renderTemplateToString("hilfhund/generate/dao/editDao.ftl", dataModel).let {
+                    content ->
+                    it.writeText(content)
+                }
+            }
+        }
+
+        val indexDao = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/daos/${dataModel.className}IndexDao.kt")
+
+        indexDao.let {
+            if (it.exists()) {
+
+            } else {
+                it.createNewFile()
+                renderTemplateToString("hilfhund/generate/dao/indexDao.ftl", dataModel).let {
+                    content ->
+                    it.writeText(content)
+                }
+            }
+        }
+
+        val showDao = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/daos/${dataModel.className}ShowDao.kt")
+
+        showDao.let {
+            if (it.exists()) {
+
+            } else {
+                it.createNewFile()
+                renderTemplateToString("hilfhund/generate/dao/showDao.ftl", dataModel).let {
+                    content ->
+                    it.writeText(content)
+                }
+            }
+        }
+
+        val updateDao = File("src/main/kotlin/models/${dataModel.classNameLowerCase}/daos/${dataModel.className}updateDao.kt")
+
+        updateDao.let {
+            if (it.exists()) {
+
+            } else {
+                it.createNewFile()
+                renderTemplateToString("hilfhund/generate/dao/updateDao.ftl", dataModel).let {
+                    content ->
+                    it.writeText(content)
+                }
+            }
+        }
+
+        renderJson("{\"message\": \"ok\"}")
+    }
+
 
 }

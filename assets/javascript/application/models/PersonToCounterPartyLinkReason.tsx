@@ -29,6 +29,21 @@ export class PersonToCounterPartyLinkReason extends BaseModel {
     @Route("POST", {url: "/api/persontocounterpartylinkreasons"})
     create: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkReason>
 
+    @Route("GET", {url: "/api/persontocounterpartylinkreasons"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLinkReason>>
+
+    @Route("GET", {url: "/api/persontocounterpartylinkreasons/:id"})
+    static show: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkReason>
+
+    @Route("GET", {url: "/api/persontocounterpartylinkreasons/:id/edit"})
+    static edit: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkReason>
+
+    @Route("PUT", {url: "/api/persontocounterpartylinkreasons/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkReason>
+
+    @Route("DELETE", {url: "/api/persontocounterpartylinkreasons/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkReason>
+
 }
 
 ModelRegistry.register("PersonToCounterPartyLinkReason", PersonToCounterPartyLinkReason)

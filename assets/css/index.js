@@ -1,2 +1,3 @@
-import './main.scss'
 import 'purecss'
+import './main.scss'
+

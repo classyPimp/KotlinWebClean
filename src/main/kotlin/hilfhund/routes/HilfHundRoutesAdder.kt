@@ -70,6 +70,10 @@ object HilfHundRoutesAdder: RoutesDrawer(Router) {
                 post("/requestParametersWrapper") {
                     GenerationController(it).generateRequestParametersWrapper()
                 }
+
+                post("/daos") {
+                    GenerationController(it).generateDaos()
+                }
             }
         }
 

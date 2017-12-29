@@ -26,7 +26,7 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                     <PlainInputElement model={this.state.model} propertyName="className" registerInput={this.registerInput} optional={{ placeholder: "class name" }} />
                     <PlainInputElement model={this.state.model} propertyName="pluralClassname" registerInput={this.registerInput} optional={{ placeholder: "plural class name" }} />
                 </div>
-                <div className="model-tableFields">
+                {/*<div className="model-tableFields">
                     {this.state.model.tableFields.isNotEmpty() &&
                         <div>
                             {this.state.model.tableFields.map((tableField, index) => {
@@ -40,9 +40,9 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                     }
                     <button onClick={this.addField}>
                         add field
-                </button>
-                </div>
-                <div className="model-associatedModels">
+                    </button>
+                </div>*/}
+                {/*<div className="model-associatedModels">
                     {this.state.model.associatedModels &&
                         this.state.model.associatedModels.map((associatedModel, index) => {
                             return <div key={index}>
@@ -59,9 +59,13 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                     <button onClick={this.addAssociatedModel}>
                         add associated model
                   </button>
-                </div>
+                </div>*/}
                 <button onClick={this.generateModel}>
                     generate model
+                </button>
+
+                <button onClick={this.generateDaos}>
+                  generate daos
                 </button>
 
                 <button onClick={this.generateRequestParametersWrapper}>
@@ -226,6 +230,14 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
     generateRequestParametersWrapper(){
       this.collectInputs()
       this.state.model.generateRequestParametersWrapper().then(()=>{
+        this.setState({})
+      })
+    }
+
+    @autobind
+    generateDaos(){
+      this.collectInputs()
+      this.state.model.generateDaos().then(()=>{
         this.setState({})
       })
     }

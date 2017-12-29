@@ -2,6 +2,7 @@ package routes
 
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
+import controllers.incorporationsforms.IncorporationFormsController
 import controllers.persons.PersonsController
 import controllers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonController
 import controllers.sessions.SessionsController
@@ -142,6 +143,33 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 delete("/:id") {
                     PersonToCounterPartyLinkReasonController(it).destroy()
+                }
+
+            }
+
+            namespace("/incorporationforms") {
+                post("") {
+                    IncorporationFormsController(it).create()
+                }
+
+                get("") {
+                    IncorporationFormsController(it).index()
+                }
+
+                get("/:id") {
+                    IncorporationFormsController(it).show()
+                }
+
+                get("/:id/edit") {
+                    IncorporationFormsController(it).edit()
+                }
+
+                put("/:id") {
+                    IncorporationFormsController(it).update()
+                }
+
+                delete("/:id") {
+                    IncorporationFormsController(it).destroy()
                 }
 
             }

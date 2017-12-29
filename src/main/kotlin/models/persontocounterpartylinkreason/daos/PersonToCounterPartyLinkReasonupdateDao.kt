@@ -1,0 +1,11 @@
+package models.persontocounterpartylinkreason.daos
+
+import org.jooq.generated.tables.PersonToCounterPartyLinkReasons
+import orm.persontocounterpartylinkreasongeneratedrepository.PersonToCounterPartyLinkReasonRecord
+import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReason
+
+object PersonToCounterPartyLinkReasonUpdateDao {
+
+
+
+}
