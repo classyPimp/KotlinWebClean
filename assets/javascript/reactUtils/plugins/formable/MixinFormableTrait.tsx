@@ -42,7 +42,6 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
         }   
 
         collectInputs(){
-            console.log(this.inputs.default)
             for (let key in Object.keys(this.inputs.default)) {
                 let childInput = this.inputs.default[key]
                 if (childInput) {

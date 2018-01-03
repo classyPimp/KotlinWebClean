@@ -29,23 +29,30 @@ export class IncorporationForm extends BaseModel {
     @HasMany("CounterParty")
     counterParties: ModelCollection<CounterParty>
 
-    @Route("POST", {url: "/api/incorporationForm"})
+    @Route("POST", {url: "/api/incorporationForms"})
     create: (options?: RequestOptions) => Promise<IncorporationForm>
 
-    @Route("GET", {url: "/api/incorporationForm"})
+    @Route("GET", {url: "/api/incorporationForms"})
     static index: (options?: RequestOptions) => Promise<ModelCollection<IncorporationForm>>
 
-    @Route("GET", {url: "/api/incorporationForm/:id"})
+    @Route("GET", {url: "/api/incorporationForms/:id"})
     static show: (options?: RequestOptions) => Promise<IncorporationForm>
 
-    @Route("GET", {url: "/api/incorporationForm/:id/edit"})
+    @Route("GET", {url: "/api/incorporationForms/:id/edit"})
     static edit: (options?: RequestOptions) => Promise<IncorporationForm>
 
-    @Route("PUT", {url: "/api/incorporationForm/:id", defaultWilds: ["id"]})
+    @Route("PUT", {url: "/api/incorporationForms/:id", defaultWilds: ["id"]})
     update: (options?: RequestOptions) => Promise<IncorporationForm>
 
-    @Route("DELETE", {url: "/api/incorporationForm/:id", defaultWilds: ["id"]})
+    @Route("DELETE", {url: "/api/incorporationForms/:id", defaultWilds: ["id"]})
     destroy: (options?: RequestOptions) => Promise<IncorporationForm>
+
+    @Route("GET", {url: "/api/incorporationForms/formFeeds"})
+    static formFeedsIndex: (options?: RequestOptions) => Promise<ModelCollection<IncorporationForm>>
+
+    static afterFormFeedsIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
 
 
 }

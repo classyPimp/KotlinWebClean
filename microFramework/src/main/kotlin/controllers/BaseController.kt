@@ -52,6 +52,7 @@ abstract class BaseController(
     fun renderJson(body: String) {
         context.response.let {
             it.contentType = "application/json"
+            it.characterEncoding = "UTF-8"
             it.writer.print(body)
             it.writer.close()
         }

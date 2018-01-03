@@ -12,6 +12,7 @@ import { PersonsComponents } from '../persons/PersonsComponents';
 import { PersonToCounterPartyLinkReasonsComponents } from '../persontocounterpartylinkreasons/PersonToCounterPartyLinkReasonsComponents'
 import { IncorporationFormsComponents } from '../incorporationforms/IncorporationFormsComponents'
 
+
 export class Main extends BaseReactComponent {
 
     props: {
@@ -57,7 +58,12 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/incorporationforms/new`} component={IncorporationFormsComponents.New}/>
                     <Route exact path={`${this.props.match.url}/incorporationforms`} component={IncorporationFormsComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/incorporationforms/:id/edit`} component={IncorporationFormsComponents.Edit}/>
-                    <Route exact path={`${this.props.match.url}/incorporationforms/:id`} component={IncorporationFormsComponents.Show}/>                    
+                    <Route exact path={`${this.props.match.url}/incorporationforms/:id`} component={IncorporationFormsComponents.Show}/>    
+
+                    <Route exact path={`${this.props.match.url}/counterParties/new`} component={CounterPartiesComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/counterParties`} component={CounterPartiesComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/counterParties/:id/edit`} component={CounterPartiesComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/counterParties/:id`} component={CounterPartiesComponents.Show}/>                  
                 </Switch>
             </div>
         </div>

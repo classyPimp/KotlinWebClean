@@ -1,6 +1,7 @@
-package controllers.incorporationsforms
+package controllers.incorporationforms
 
 import composers.incorporationforms.IncorporationFormsComposers
+import composers.incorporationforms.formfeeds.FormFeedsController
 import controllers.BaseController
 import models.incorporationform.IncorporationForm
 import models.incorporationform.daos.IncorporationFormDaos
@@ -12,6 +13,12 @@ import javax.servlet.http.HttpServletResponse.*
  * Created by Муса on 29.12.2017.
  */
 class IncorporationFormsController(context: ServletRequestContext) : BaseController(context) {
+
+    companion object {
+        fun formFeeds(context: ServletRequestContext): FormFeedsController {
+            return FormFeedsController(context)
+        }
+    }
 
     fun create() {
         val composer = IncorporationFormsComposers.create(requestParams())
@@ -119,6 +126,7 @@ class IncorporationFormsController(context: ServletRequestContext) : BaseControl
             )
         }
 
+        composer.run()
 
     }
 

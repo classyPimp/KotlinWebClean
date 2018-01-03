@@ -48,6 +48,8 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
     @autobind
     submit(){
         this.collectInputs()
+
+        this.state.contactType.validate()
         if (!this.state.contactType.isValid()) {
             this.setState({})
             return

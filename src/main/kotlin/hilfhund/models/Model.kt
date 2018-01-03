@@ -33,6 +33,9 @@ class Model(json: JsonNode? = null) {
     var updaterName: String? = null
     var updaterPackage: String? = null
 
+    var controllerName: String? = null
+    var controllerPackage: String? = null
+
     init {
         json?.let {
             className = it.get("className")?.asText()
@@ -105,6 +108,16 @@ class Model(json: JsonNode? = null) {
 
                     if (it.size > 1) {
                         updaterPackage = ".${it.subList(0, it.size - 1).joinToString(".").toLowerCase()}"
+                    }
+                }
+            }
+
+            it.get("controllerName")?.asText()?.let {
+                it.split('/').let {
+                    controllerName = it.last()
+
+                    if (it.size > 1) {
+                        controllerPackage = ".${it.subList(0, it.size -1).joinToString(".").toLowerCase()}"
                     }
                 }
             }

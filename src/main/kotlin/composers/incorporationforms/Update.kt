@@ -44,7 +44,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     }
 
     private fun validate() {
-        IncorporationFormValidator(incorporationFormBeingUpdate).createScenario()
+        IncorporationFormValidator(incorporationFormBeingUpdate).updateScenario()
         if (!incorporationFormBeingUpdate.record.validationManager.isValid()) {
             failImmediately(ModelInvalidException(""))
         }

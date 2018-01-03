@@ -47,6 +47,17 @@ export class SideBar extends BaseReactComponent {
                         index incorporation forms
                     </Link>
                 </li>
+
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/counterParties/new" className="pure-menu-link">
+                        new counter party
+                    </Link>
+                </li>
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/counterParties" className="pure-menu-link">
+                        index counter parties
+                    </Link>
+                </li>
             </ul>
         </div>
     }

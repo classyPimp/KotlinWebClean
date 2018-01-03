@@ -7,6 +7,7 @@ import { IncorporationForm } from './IncorporationForm'
 import { CounterPartyToContactLink } from './CounterPartyToContactLink'
 import { PersonToCounterPartyLink } from './PersonToCounterPartyLink'
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 
 export class CounterParty extends BaseModel {
 
@@ -38,6 +39,24 @@ export class CounterParty extends BaseModel {
 
     @HasMany("PersonToCounterPartyLink")
     personToCounterPartyLinks: ModelCollection<PersonToCounterPartyLink>
+
+     @Route("POST", {url: "/api/counterParties"})
+    create: (options?: RequestOptions) => Promise<CounterParty>
+
+    @Route("GET", {url: "/api/counterParties"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<CounterParty>>
+
+    @Route("GET", {url: "/api/counterParties/:id"})
+    static show: (options?: RequestOptions) => Promise<CounterParty>
+
+    @Route("GET", {url: "/api/counterParties/:id/edit"})
+    static edit: (options?: RequestOptions) => Promise<CounterParty>
+
+    @Route("PUT", {url: "/api/counterParties/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<CounterParty>
+
+    @Route("DELETE", {url: "/api/counterParties/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<CounterParty>
 
 }
 

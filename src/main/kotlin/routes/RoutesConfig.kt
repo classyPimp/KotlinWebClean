@@ -2,12 +2,13 @@ package routes
 
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
-import controllers.incorporationsforms.IncorporationFormsController
+import controllers.counterparties.CounterPartiesController
+import controllers.incorporationforms.IncorporationFormsController
 import controllers.persons.PersonsController
 import controllers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
-import models.contact.Contact
+import org.w3c.dom.css.Counter
 import router.RoutesDrawer
 import router.src.Router
 import servletUtils.SimpleFileServer
@@ -147,7 +148,14 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
             }
 
-            namespace("/incorporationforms") {
+            namespace("/incorporationForms") {
+
+                namespace("/formFeeds") {
+                    get("") {
+                        IncorporationFormsController.formFeeds(it).index()
+                    }
+                }
+
                 post("") {
                     IncorporationFormsController(it).create()
                 }
@@ -170,6 +178,36 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 delete("/:id") {
                     IncorporationFormsController(it).destroy()
+                }
+
+            }
+
+            namespace("/counterParties") {
+
+                post("") {
+                    CounterPartiesController(it).create()
+                }
+
+                get("/:id") {
+                    CounterPartiesController(it).show()
+                }
+
+                get("") {
+                    CounterPartiesController(it).index()
+                }
+
+
+                get("/:id/edit") {
+                    CounterPartiesController(it).edit()
+                }
+
+                put("/:id") {
+                    CounterPartiesController(it).update()
+                }
+
+
+                delete("/:id") {
+                    CounterPartiesController(it).destroy()
                 }
 
             }

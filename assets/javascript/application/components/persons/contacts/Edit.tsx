@@ -24,17 +24,6 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
       onCancel: ()=>any
     }
 
-    state: {
-      contactTypesSelectOptions: ModelCollection<ContactType>
-    } = {
-      contactTypesSelectOptions: new ModelCollection<ContactType>()
-    }
-
-    componentDidMount(){
-      ContactType.indexInputFeedForPerson().then((contactTypesSelectOptions)=>{
-        this.setState({contactTypesSelectOptions})
-      })
-    }
 
     render(){
         return <div className="contacts-Edit">
@@ -47,7 +36,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
           <DropDownSelectServerFed 
             model={this.props.contact}
             propertyName="contactTypeId"
-            modelsToWrapAsOptions={this.state.contactTypesSelectOptions}  
+            queryingFunction={ContactType.indexInputFeedForPerson.bind(ContactType)}  
             propertyToSelect="id" 
             propertyToShow="name"
             registerInput={(it)=>{this.registerInput(it)}}

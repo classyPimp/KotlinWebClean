@@ -17,7 +17,7 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
         registerInput: (element: IFormElement)=>void,
         propertyToShow: string
         propertyToSelect: string,
-        modelsToWrapAsOptions: ModelCollection<BaseModel>,
+        queryingFunction: ()=>Promise<ModelCollection<BaseModel>>,
         preselected?: any,
         ref?: (arg: any)=> void,
         optional?: {
@@ -35,6 +35,11 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
 
     componentDidMount(){
       this.props.registerInput(this)
+      
+      this.props.queryingFunction().then((it)=>{
+        this.prepareOptions(it)
+      })
+      
     }
 
     isValid(): boolean{
@@ -49,7 +54,6 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
         searchInput: null,
         allOptions: []
       }
-      this.prepareOptions(this.props.modelsToWrapAsOptions)
     }
 
     prepareOptions(modelsToWrapAsOptions: ModelCollection<BaseModel>) {
@@ -66,12 +70,6 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
       let allOptions = options.slice(0)
       this.state.options = options
       this.state.allOptions = allOptions
-
-    }
-
-    componentWillReceiveProps(nextProps: any){
-      let options = nextProps.modelsToWrapAsOptions
-      this.prepareOptions(options)
       this.setState({})
     }
 

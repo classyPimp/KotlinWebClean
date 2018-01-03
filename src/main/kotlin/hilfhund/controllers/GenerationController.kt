@@ -591,5 +591,49 @@ class GenerationController(context: ServletRequestContext): BaseController(conte
         renderJson("{\"message\": \"ok\"}")
     }
 
+    fun generateController(){
+        val json = ObjectMapper().readTree(context.request.reader)
+        val dataModel = Model(json.get("model"))
+
+        dataModel.let {
+            if (dataModel.controllerName == null || dataModel.controllerName.isNullOrBlank()) {
+                it.addError("general", "can't generate controller no controller name given")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            }
+        }
+
+        val controllerFileContent = renderTemplateToString("hilfhund/generate/controller.ftl", dataModel)
+
+        val controllerFileName = dataModel.controllerName + "Controller.kt"
+
+        val packagePart = dataModel.controllerPackage?.replace('.', '/') ?: ""
+
+        val fileToCreate = File("src/main/kotlin/controllers${packagePart}/${controllerFileName}")
+
+        fileToCreate.let {
+            if (it.exists()) {
+                dataModel.addError("general", "such controller already exists")
+                renderJson(
+                        dataModel.toJsonWithErrors()
+                )
+                return
+            } else {
+                it.parentFile.let {
+                    if (!it.exists()) {
+                        it.mkdirs()
+                    }
+                }
+                it.createNewFile()
+            }
+        }
+
+        fileToCreate.writeText(controllerFileContent)
+
+        renderJson("{\"message\": \"ok\"}")
+    }
+
 
 }

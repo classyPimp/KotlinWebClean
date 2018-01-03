@@ -32,6 +32,9 @@ export class Model extends BaseModel {
     @Property
     updaterName: string
 
+    @Property
+    controllerName: string
+
     @HasMany("TableField")
     tableFields: ModelCollection<TableField>
 
@@ -178,6 +181,17 @@ export class Model extends BaseModel {
     }
 
     afterGenerateDaosRequest(options: RequestOptions) {
+        this.afterGenerateToJsonSerializerRequest(options)
+    }
+
+    @Route("POST", {url: "/hilfhund/generate/controller"})
+    generateController: (options?: RequestOptions) => Promise<any>
+
+    beforeGenerateControllerRequest(options: RequestOptions) {
+        this.beforeGenerateToJsonSerializerRequest(options)
+    }
+
+    afterGenerateControllerRequest(options: RequestOptions) {
         this.afterGenerateToJsonSerializerRequest(options)
     }
 

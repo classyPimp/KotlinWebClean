@@ -1,5 +1,7 @@
 package models.incorporationform.tojsonserializers
 
+import models.incorporationform.tojsonserializers.formfeeds.FormFeedsIndex
+
 object IncorporationFormSerializers {
 
     val create = Create
@@ -13,4 +15,8 @@ object IncorporationFormSerializers {
     val update = Create
 
     val destroy = Create
+
+    object formFeeds {
+        val index = FormFeedsIndex
+    }
 }

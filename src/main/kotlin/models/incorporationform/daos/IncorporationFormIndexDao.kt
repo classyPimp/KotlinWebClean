@@ -9,5 +9,8 @@ object IncorporationFormIndexDao {
         return IncorporationFormRecord.GET().execute()
     }
 
+    fun forFormFeed(): MutableList<IncorporationForm> {
+        return defaultIndex()
+    }
 
 }

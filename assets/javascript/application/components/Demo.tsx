@@ -18,11 +18,9 @@ export class DemoComponent extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
         modal: Modal,
-        selectOptions: ModelCollection<ContactType>
         [id: string]: any
     } = {
         modal: null, 
-        selectOptions: new ModelCollection<ContactType>(),
         user: new User()
     }
 
@@ -48,14 +46,6 @@ export class DemoComponent extends MixinFormableTrait(BaseReactComponent) {
                 <button onClick={this.addFlash}>
                     add flash message
                 </button>
-                <DropDownSelectServerFed 
-                  model={this.state.user}
-                  propertyName="id"
-                  modelsToWrapAsOptions={this.state.selectOptions}  
-                  propertyToSelect="id" 
-                  propertyToShow="name"
-                  registerInput={(it)=>{this.registerInput(it)}}
-                />
                 <button onClick={this.submit}>
                   submit
                 </button>
