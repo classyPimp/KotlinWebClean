@@ -10,4 +10,8 @@ object PersonToCounterPartyLinkReasonIndexDao {
         return PersonToCounterPartyLinkReasonRecord.GET().execute()
     }
 
+    fun forFormFeeds(): MutableList<PersonToCounterPartyLinkReason> {
+        return indexAll()
+    }
+
 }

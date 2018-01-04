@@ -2,6 +2,7 @@ package controllers.persontocounterpartylinkreasons
 
 import composers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonsComposers
 import controllers.BaseController
+import controllers.persontocounterpartylinkreasons.formfeeds.FormFeedsController
 import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReason
 import models.persontocounterpartylinkreason.daos.PersonToCounterPartyLinkReasonDaos
 import models.persontocounterpartylinkreason.tojsonserializers.PersonToCounterPartyLinkReasonSerializers
@@ -13,6 +14,12 @@ import javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
  * Created by Муса on 28.12.2017.
  */
 class PersonToCounterPartyLinkReasonController(context: ServletRequestContext) : BaseController(context) {
+
+    companion object {
+        fun formFeeds(context: ServletRequestContext): FormFeedsController {
+            return FormFeedsController(context)
+        }
+    }
 
     fun create(){
         val composer = PersonToCounterPartyLinkReasonsComposers.create(requestParams())

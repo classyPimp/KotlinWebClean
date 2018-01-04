@@ -6,6 +6,7 @@ import controllers.counterparties.CounterPartiesController
 import controllers.incorporationforms.IncorporationFormsController
 import controllers.persons.PersonsController
 import controllers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonController
+import controllers.persontocounterpartylinks.PersonToCounterPartyLinksController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
 import org.w3c.dom.css.Counter
@@ -42,6 +43,7 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
         }
 
         namespace("/api") {
+
             namespace("/users") {
                 post("/create") {
                     UsersController(it).create()
@@ -88,6 +90,13 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
             }
 
             namespace("/persons") {
+
+                namespace("/formFeeds") {
+                    get("") {
+                        PersonsController.formFeeds(it).index()
+                    }
+                }
+
                 post("") {
                     PersonsController(it).create()
                 }
@@ -122,6 +131,13 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
             }
 
             namespace("/persontocounterpartylinkreasons") {
+
+                namespace("/formFeeds") {
+                    get("") {
+                        PersonToCounterPartyLinkReasonController.formFeeds(it).index()
+                    }
+                }
+
                 post("") {
                     PersonToCounterPartyLinkReasonController(it).create()
                 }
@@ -184,6 +200,18 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
             namespace("/counterParties") {
 
+                namespace("/formFeeds") {
+                    get("") {
+                        CounterPartiesController.formFeeds(it).index()
+                    }
+                }
+
+                namespace("/:counterPartyId/personToCounterPartyLinks") {
+                    get("") {
+                        CounterPartiesController.personToCounterPartyLinks(it).index()
+                    }
+                }
+
                 post("") {
                     CounterPartiesController(it).create()
                 }
@@ -208,6 +236,35 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 delete("/:id") {
                     CounterPartiesController(it).destroy()
+                }
+
+            }
+
+            namespace("/personToCounterPartyLinks") {
+
+                post("") {
+                    println("should create")
+                    PersonToCounterPartyLinksController(it).create()
+                }
+
+                get("/:id") {
+                    PersonToCounterPartyLinksController(it).show()
+                }
+
+                get("") {
+                    PersonToCounterPartyLinksController(it).index()
+                }
+
+                get("/:id/edit") {
+                    PersonToCounterPartyLinksController(it).edit()
+                }
+
+                put("/:id") {
+                    PersonToCounterPartyLinksController(it).update()
+                }
+
+                delete("/:id") {
+                    PersonToCounterPartyLinksController(it).destroy()
                 }
 
             }

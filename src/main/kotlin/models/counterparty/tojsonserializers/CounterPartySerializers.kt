@@ -1,6 +1,12 @@
 package models.counterparty.tojsonserializers
 
+import models.counterparty.tojsonserializers.formfeeds.FormFeedsIndex
+
 object CounterPartySerializers {
+
+    object FormFeeds {
+        val index = FormFeedsIndex
+    }
 
     val create = Create
 

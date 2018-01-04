@@ -1,6 +1,12 @@
 package models.person.tojsonserializers
 
+import models.person.tojsonserializers.formfeeds.FormFeedsIndex
+
 object PersonSerializers {
+
+    object FormFeeds {
+        val index = FormFeedsIndex
+    }
 
     val create: Create = Create
 

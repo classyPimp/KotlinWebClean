@@ -6,7 +6,8 @@ import { Person } from './Person'
 import { CounterParty } from './CounterParty'
 import { PersonToCounterPartyLinkReason } from './PersonToCounterPartyLinkReason'
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
-
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
+import { ModelCollection } from '../../modelLayer/ModelCollection'
 
 export class PersonToCounterPartyLink extends BaseModel {
 
@@ -42,6 +43,30 @@ export class PersonToCounterPartyLink extends BaseModel {
     @HasOne("PersonToCounterPartyLinkReason")
     personToCounterPartyLinkReason: PersonToCounterPartyLinkReason
 
+    @Route("POST", {url: "/api/personToCounterPartyLinks"})
+    create: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    @Route("GET", {url: "/api/personToCounterPartyLinks"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLink>>
+
+    @Route("GET", {url: "/api/personToCounterPartyLinks/:id"})
+    static show: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    @Route("GET", {url: "/api/personToCounterPartyLinks/:id/edit"})
+    static edit: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    @Route("PUT", {url: "/api/personToCounterPartyLinks/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    @Route("DELETE", {url: "/api/personToCounterPartyLinks/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    @Route("GET", {url: "/api/counterParties/:counterPartyId/personToCounterPartyLinks"})
+    static indexForCounterParty: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLink>>
+
+    static afterIndexForCounterPartyRequest(options: RequestOptions){
+      this.afterIndexRequest(options)
+    }
 }
 
 ModelRegistry.register("PersonToCounterPartyLink", PersonToCounterPartyLink)

@@ -14,4 +14,9 @@ object CounterPartyIndexDao {
                 .execute()
     }
 
+    fun forForFormFeeds(): MutableList<CounterParty> {
+        return CounterPartyRecord.GET()
+                .execute()
+    }
+
 }

@@ -58,6 +58,13 @@ export class CounterParty extends BaseModel {
     @Route("DELETE", {url: "/api/counterParties/:id", defaultWilds: ["id"]})
     destroy: (options?: RequestOptions) => Promise<CounterParty>
 
+    @Route("GET", {url: "/api/formFeeds"})
+    static formFeedsIndex: (options?: RequestOptions) => Promise<ModelCollection<CounterParty>>
+    
+    static afterFormFeedsIndex(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    } 
+
 }
 
 ModelRegistry.register("CounterParty", CounterParty)

@@ -9,7 +9,7 @@ object DefaultUpdater {
 
     fun update(model: PersonToCounterPartyLinkReason, params: PersonToCounterPartyLinkReasonRequestParametersWrapper) {
         model.record.let {
-            it.reasonName = params.reasonName?.trimAndSquishWhiteSpace()
+            it.reasonName = params.reasonName
         }
     }
 

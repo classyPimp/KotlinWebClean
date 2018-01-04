@@ -37,7 +37,6 @@ abstract class FileItemFileProperty {
     var operationType: OperationType = OperationType.UNSET
 
 
-
     abstract fun validateFile(uploadedFile: File): Boolean
 
     abstract fun handlePropertiesOnAssign(file: File)

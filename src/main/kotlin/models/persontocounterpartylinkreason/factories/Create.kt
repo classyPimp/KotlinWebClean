@@ -8,7 +8,7 @@ object Create {
 
     fun create(params: PersonToCounterPartyLinkReasonRequestParametersWrapper): PersonToCounterPartyLinkReason {
         return PersonToCounterPartyLinkReason().also {
-            it.reasonName = params.reasonName?.trimAndSquishWhiteSpace()
+            it.reasonName = params.reasonName
         }
     }
 

@@ -3,6 +3,7 @@ package controllers.persons
 import composers.persons.PersonsComposers
 import controllers.BaseController
 import controllers.persons.contacts.PersonContactsController
+import controllers.persons.formfeeds.PersonFormFeedsController
 import models.contact.Contact
 import models.contact.tojsonserializers.ContactSerializers
 import models.person.Person
@@ -120,6 +121,10 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
     companion object {
         fun contacts(context: ServletRequestContext): PersonContactsController {
             return PersonContactsController(context)
+        }
+
+        fun formFeeds(context: ServletRequestContext): PersonFormFeedsController {
+            return PersonFormFeedsController(context)
         }
     }
 

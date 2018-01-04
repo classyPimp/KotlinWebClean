@@ -44,6 +44,13 @@ export class PersonToCounterPartyLinkReason extends BaseModel {
     @Route("DELETE", {url: "/api/persontocounterpartylinkreasons/:id", defaultWilds: ["id"]})
     destroy: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkReason>
 
+    @Route("GET", {url: "/api/persontocounterpartylinkreasons/formFeeds"})
+    static formFeedsIndex: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLinkReason>>
+
+    static afterFormFeedsIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+    
 }
 
 ModelRegistry.register("PersonToCounterPartyLinkReason", PersonToCounterPartyLinkReason)

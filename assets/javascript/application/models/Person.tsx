@@ -42,6 +42,13 @@ export class Person extends BaseModel {
     @Route("DELETE", {url: "/api/persons/:id", defaultWilds: ["id"]})
     delete: (options?: RequestOptions)=>Promise<Person>
 
+    @Route("GET", {url: "/api/persons/formFeeds"})
+    static formFeedsIndex: (options?: RequestOptions) => Promise<ModelCollection<Person>>
+
+    static afterFormFeedsIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
     addContact(){
       let contact = new Contact()
       let personToContactLink = new PersonToContactLink()
