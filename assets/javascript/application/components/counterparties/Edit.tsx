@@ -9,6 +9,10 @@ import autobind from 'autobind-decorator';
 import { FlashMessageQueue } from '../shared/FlashMessageQueue';
 import { DropDownSelectServerFed } from '../formelements/DropdownSelectServerFed'
 import { IncorporationForm } from '../../models/IncorporationForm'
+import { Modal } from '../shared/Modal';
+import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
+import { PersonToCounterPartyLink } from '../../models/PersonToCounterPartyLink'
+import { Index as PersonToCounterPartyLinkIndex } from '../persontocounterpartylinks/Index'
 
 export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
@@ -18,9 +22,14 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
         counterParty: CounterParty
+        linkedPersonsExpanded: boolean
     } = {
-        counterParty: null
+        counterParty: null,
+        linkedPersonsExpanded: false
     }
+
+    modal: Modal
+    personToCounterPartyLinkIndexComponent: PersonToCounterPartyLinkIndex
 
     componentDidMount(){
         let id = this.props.match.params.id
@@ -29,8 +38,10 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
         })
     }
 
+
     render(){
         return <div className="counterParties-Edit">
+            <Modal ref={(it)=>{this.modal = it}}/>
             {this.state.counterParty && 
                 <div>
                     <PlainInputElement 
@@ -58,7 +69,31 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                     <button onClick={this.submit}>
                         update
                     </button>
+                    <div>
+                      <p>
+                        <button onClick={this.initPersonToCounterPartyLinkAddition}>
+                          add link to person
+                        </button>
+                      </p>
+                      {!this.state.linkedPersonsExpanded
+                        ? <div>
+                           <button onClick={this.toggleExpandedLinkedPersons}> 
+                             show linked persons
+                           </button>
+                        </div>
+                        : <div>
+                          <PersonToCounterPartyLinksComponents.Index 
+                            counterParty={this.state.counterParty} 
+                            ref={(it)=>{this.personToCounterPartyLinkIndexComponent = it}}
+                          />
+                          <button onClick={this.toggleExpandedLinkedPersons}>
+                            fold
+                          </button>
+                        </div>
+                      }
+                    </div>
                 </div>
+
             }
         </div>
     }
@@ -82,6 +117,36 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
             }
             this.setState({counterParty})
         })
+    }
+
+    @autobind
+    toggleExpandedLinkedPersons(){
+      this.setState({linkedPersonsExpanded: !this.state.linkedPersonsExpanded})
+    }
+
+    @autobind
+    initPersonToCounterPartyLinkAddition(){
+      this.modal.open(
+        <PersonToCounterPartyLinksComponents.New 
+          counterParty={this.state.counterParty}
+          onCreateSuccess={this.onPersonToCounterPartyLinkCreateSuccess}
+          onCancel={this.onPersonToCounterPartyLinkCreateCancel}
+        />
+      )
+    }
+
+    @autobind
+    onPersonToCounterPartyLinkCreateSuccess(personToCounterPartyLink: PersonToCounterPartyLink){
+      this.state.counterParty.personToCounterPartyLinks.push(personToCounterPartyLink)
+      this.modal.close()
+      this.setState({})
+      this.personToCounterPartyLinkIndexComponent.refresh()
+    }
+
+    @autobind
+    onPersonToCounterPartyLinkCreateCancel(){
+      this.modal.close()
+      console.log(this.personToCounterPartyLinkIndexComponent)
     }
 
 }

@@ -48,11 +48,6 @@ export class Show extends BaseReactComponent {
                   <p> short name: {this.state.counterParty.nameShort} </p>                
                   <p>incorporation form: {this.state.counterParty.incorporationForm.nameShort}({this.state.counterParty.incorporationForm.name})</p>
                   <div>
-                    <p>
-                      <button onClick={this.initPersonToCounterPartyLinkAddition}>
-                        add link to person
-                      </button>
-                    </p>
                     {!this.state.linkedPersonsExpanded
                       ? <div>
                          <button onClick={this.toggleExpandedLinkedPersons}> 
@@ -77,30 +72,5 @@ export class Show extends BaseReactComponent {
       this.setState({linkedPersonsExpanded: !this.state.linkedPersonsExpanded})
     }
 
-    @autobind
-    initPersonToCounterPartyLinkAddition(){
-      this.modal.open(
-        <PersonToCounterPartyLinksComponents.New 
-          counterParty={this.state.counterParty}
-          onCreateSuccess={this.onPersonToCounterPartyLinkCreateSuccess}
-          onCancel={this.onPersonToCounterPartyLinkCreateCancel}
-        />
-      )
-    }
-
-    @autobind
-    onPersonToCounterPartyLinkCreateSuccess(personToCounterPartyLink: PersonToCounterPartyLink){
-      this.state.counterParty.personToCounterPartyLinks.push(personToCounterPartyLink)
-      this.modal.close()
-      this.setState({})
-      ApplicationComponent.instance.flashMessageQueue.addMessage(
-        "link to person successfully created"
-      )
-    }
-
-    @autobind
-    onPersonToCounterPartyLinkCreateCancel(){
-      this.modal.close()
-    }
 
 }

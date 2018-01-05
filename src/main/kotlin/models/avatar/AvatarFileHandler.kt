@@ -27,7 +27,7 @@ class AvatarFileHandler(val model: Avatar) : FileItemFileProperty() {
     }
 
     override fun preprocessFile(file: File) {
-        App.component.imageProcessorFactory().create(file, createEmptyFileThatWherePreprocessedFileWillBeStored("avatarSize")).let {
+        App.component.imageProcessorFactory().create(file, createEmptyFileWherePreprocessedFileWillBeStored("avatarSize")).let {
             it.resize(600, 600)
             it.execute()
         }

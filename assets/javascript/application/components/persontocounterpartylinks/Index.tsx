@@ -21,10 +21,16 @@ export class Index extends BaseReactComponent {
 
     componentDidMount(){
       if (this.props.counterParty) {
+        console.log("comp did mount")
         PersonToCounterPartyLink.indexForCounterParty({wilds: {counterPartyId: `${this.props.counterParty.id}`}}).then((personToCounterPartyLinks)=>{
           this.setState({personToCounterPartyLinks})
         })
       }
+    }
+
+    refresh(){
+      console.log("should refresh")
+      this.componentDidMount()
     }
 
     render(){
@@ -32,22 +38,43 @@ export class Index extends BaseReactComponent {
           {
             this.state.personToCounterPartyLinks.map((it, index)=>{
             
-              {this.props.counterParty 
-                ? <div key={index}>
-                  <p>
-                    linked to person: {it.person.name}
+              {return <div key={index}>
+                {this.props.counterParty 
+                  ? <div>
+                    <p>
+                      linked to person: {it.person.name}
+                    </p>
+                    <p>
+                      link reason: {it.personToCounterPartyLinkReason.reasonName}
+                    </p>
+                  </div>
+                  : <div>
+                    linked to counter party: {it.counterParty.name}
                     link reason: {it.personToCounterPartyLinkReason.reasonName}
-                  </p>
-                </div>
-                : <div key={index}>
-                  linked to counter party: {it.counterParty.name}
-                  link reason: {it.personToCounterPartyLinkReason.reasonName}
+                  </div>
+                 }
+                 <button onClick={()=>{this.destroy(it)}}>
+                   delete
+                 </button>
                 </div>
               }
               
             })
           }
         </div>
+    }
+
+    @autobind
+    destroy(personToCounterPartyLink: PersonToCounterPartyLink) {
+      personToCounterPartyLink.destroy().then((returnedLink)=>{
+        if (returnedLink.isValid()) {
+          console.log('should filter')
+          this.state.personToCounterPartyLinks.filter((it)=>{
+            return (it !== personToCounterPartyLink)
+          })
+          this.setState({})
+        }
+      })
     }
 
 }

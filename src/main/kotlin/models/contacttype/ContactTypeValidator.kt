@@ -11,6 +11,9 @@ class ContactTypeValidator(model: ContactType) : ContactTypeValidatorTrait(model
         model.name?.let {
             validateNameUniqness()
         }
+        model.isSpecificForType?.let {
+            validateIsSpecificForType()
+        }
     }
 
     fun updateScenario() {
@@ -34,6 +37,12 @@ class ContactTypeValidator(model: ContactType) : ContactTypeValidatorTrait(model
     private fun validateNameUniqness(){
         ContactTypeRecord.GET().where(CONTACT_TYPES.NAME.eq(model.name!!)).execute().firstOrNull()?.let {
             model.record.validationManager.addNameError("such name already exists")
+        }
+    }
+
+    private fun validateIsSpecificForType() {
+        if (!ContactType.Companion.IsSpecificForTypeAllowedValues.checkIfAllowed(model.isSpecificForType!!)) {
+            validationManager.addIsSpecificForTypeError("no such specific type allowed")
         }
     }
 

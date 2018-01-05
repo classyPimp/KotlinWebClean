@@ -112,6 +112,7 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
           "link successfully created"
         )
         this.setState({personToCounterPartyLink})
+        this.props.onCreateSuccess(personToCounterPartyLink)
       })
       
     }

@@ -114,7 +114,7 @@ abstract class FileItemFileProperty {
         }
     }
 
-    fun createEmptyFileThatWherePreprocessedFileWillBeStored(namespace: String): File {
+    fun createEmptyFileWherePreprocessedFileWillBeStored(namespace: String): File {
         val fileName = transactionOriginalFile!!.name
         val fileToReturn = File(transactionDir, "/$namespace/${fileName}")
         if (!fileToReturn.parentFile.exists()) {

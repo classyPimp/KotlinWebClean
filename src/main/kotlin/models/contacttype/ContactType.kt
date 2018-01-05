@@ -40,6 +40,17 @@ class ContactType {
         object IsSpecificForTypeAllowedValues {
             val person = "person"
             val counterParty = "counterParty"
+
+            fun checkIfAllowed(valueToCheck: String): Boolean {
+                when(valueToCheck) {
+                    person, counterParty ->{
+                        return true
+                    }
+                    else -> {
+                        return false
+                    }
+                }
+            }
         }
     }
 

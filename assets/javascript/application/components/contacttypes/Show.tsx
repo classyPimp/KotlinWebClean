@@ -31,7 +31,14 @@ export class Show extends BaseReactComponent {
     render(){
         return <div>
             {this.state.contactType &&
+              <div>
                 <p> {this.state.contactType.name}</p>                
+                {this.state.contactType.isSpecificForType &&
+                  <p>
+                    is specific for: {this.state.contactType.isSpecificForType}
+                  </p>
+                }
+              </div>
             }
         </div>
     }

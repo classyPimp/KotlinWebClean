@@ -13,3 +13,11 @@ fun String.trimAndSquishWhiteSpace(): String {
     val toReturn = matcher.replaceAll(" ")
     return toReturn.trim()
 }
+
+fun String.toNullIfBlank(): String? {
+    if (this.isBlank()) {
+        return null
+    } else {
+        return this
+    }
+}

@@ -6,6 +6,7 @@ import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElem
 import autobind from 'autobind-decorator'
 import { ErrorsShow } from '../shared/ErrorsShow'
 import { ApplicationComponent } from '../ApplicationComponent';
+import { PlainSelect } from '../formelements/PlainSelect'
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
@@ -26,6 +27,20 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
             }
             <PlainInputElement model={this.state.contactType} propertyName="name" registerInput={(it)=>{this.registerInput(it)}}
                 optional={{placeholder: "name"}}
+            />
+            <PlainSelect
+              model={this.state.contactType}
+              propertyName={"isSpecificForType"}
+              registerInput={(it)=>{this.registerInput(it)}}
+              options={{
+                "person": "person",
+                "counterParty": "counterParty",
+                "any": "",
+              }}
+              preselected={{"any":""}}
+              optional={{
+                placeholder: "allowed only for type"
+              }}
             />
             <button onClick={this.submit}>
                 submit
