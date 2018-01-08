@@ -52,6 +52,13 @@ export class ContactType extends BaseModel {
       this.afterIndexRequest(options)
     }
 
+    @Route("GET", {url: "/api/contactTypes/inputFeeds/counterParty"})
+    static indexInputFeedForCounterParty: (options?: RequestOptions)=>Promise<ModelCollection<ContactType>>
+
+    static afterIndexInputFeedForCounterPartyRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
 }
 
 ModelRegistry.register("ContactType", ContactType)

@@ -10,4 +10,8 @@ object ContactUpdaters {
         return PersonDefault.update(contact, params)
     }
 
+    fun forCounterPartyDefault(contact: Contact, params: ContactRequestParametersWrapper) {
+        return ForCounterPartyDefaultUpdater.update(contact, params)
+    }
+
 }

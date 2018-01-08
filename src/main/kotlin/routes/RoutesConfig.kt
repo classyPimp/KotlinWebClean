@@ -75,6 +75,10 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     get("/person") {
                         ContactTypesController.inputFeeds.forPerson(it).index()
                     }
+
+                    get("/counterParty") {
+                        ContactTypesController.inputFeeds.forCounterParty(it).index()
+                    }
                 }
 
             }
@@ -199,6 +203,34 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
             }
 
             namespace("/counterParties") {
+
+                namespace("/:counterPartyId/contacts") {
+
+                    post("") {
+                        CounterPartiesController.contacts(it).create()
+                    }
+
+                    get("") {
+                        CounterPartiesController.contacts(it).index()
+                    }
+
+                    get("/:id") {
+                        CounterPartiesController.contacts(it).show()
+                    }
+
+                    get("/:id/edit") {
+                        CounterPartiesController.contacts(it).edit()
+                    }
+
+                    put("/:id") {
+                        CounterPartiesController.contacts(it).update()
+                    }
+
+                    delete("/:id") {
+                        CounterPartiesController.contacts(it).destroy()
+                    }
+
+                }
 
                 namespace("/formFeeds") {
                     get("") {

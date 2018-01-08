@@ -12,6 +12,9 @@ object ContactTypeSerializers {
 
     object InputFeeds {
         val person = Index
+        val counterParty = Index
     }
+
+
 
 }

@@ -35,7 +35,7 @@ export class CounterParty extends BaseModel {
     incorporationForm: IncorporationForm
 
     @HasMany("CounterPartyToContactLink")
-    counterPartyContacts: ModelCollection<CounterPartyToContactLink>
+    counterPartyToContactLinks: ModelCollection<CounterPartyToContactLink>
 
     @HasMany("PersonToCounterPartyLink")
     personToCounterPartyLinks: ModelCollection<PersonToCounterPartyLink>

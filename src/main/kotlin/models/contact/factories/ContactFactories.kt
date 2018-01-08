@@ -9,4 +9,8 @@ object ContactFactories {
         return PersonCreate.create(params, personId)
     }
 
+    fun forCounterPartyCreate(params: ContactRequestParametersWrapper, counterPartyId: Long): Contact {
+        return ForCounterPartyCreate.create(params, counterPartyId)
+    }
+
 }

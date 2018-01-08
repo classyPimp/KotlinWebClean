@@ -40,8 +40,24 @@ export class Contact extends BaseModel {
     @Route("POST", {url: "/api/persons/:personId/contacts"})
     createForPerson: (options?: RequestOptions)=>Promise<Contact>
 
+    beforeCreateForPersonRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterCreateForPersonRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
+
     @Route("DELETE", {url: "/api/persons/:personId/contacts/:id", defaultWilds: ["id"]})
     deleteForPerson: (options?: RequestOptions)=>Promise<Contact>
+
+    beforeDeleteForPersonRequest(options: RequestOptions){
+      this.beforeDeleteRequest(options)
+    }
+
+    afterDeleteForPersonRequest(options: RequestOptions) {
+      this.afterDeleteRequest(options)
+    }
 
     @Route("PUT", {url: "/api/persons/:personId/contacts/:id", defaultWilds: ["id"]})
     updateForPerson: (options?: RequestOptions)=>Promise<Contact>
@@ -54,20 +70,37 @@ export class Contact extends BaseModel {
       this.afterUpdateRequest(options)
     }
 
-    beforeDeleteForPersonRequest(options: RequestOptions){
-      this.beforeDeleteRequest(options)
-    }
+    @Route("POST", {url: "/api/counterParties/:counterPartyId/contacts"})    
+    createForCounterParty: (options?: RequestOptions)=>Promise<Contact>
 
-    afterDeleteForPersonRequest(options: RequestOptions) {
-      this.afterDeleteRequest(options)
-    }
-
-    beforeCreateForPersonRequest(options: RequestOptions) {
+    beforeCreateForCounterPartyRequest(options: RequestOptions) {
       this.beforeCreateRequest(options)
     }
 
-    afterCreateForPersonRequest(options: RequestOptions) {
+    afterCreateForCounterPartyRequest(options: RequestOptions) {
       this.afterCreateRequest(options)
+    }
+
+    @Route("DELETE", {url: "/api/counterParties/:counterPartyId/contacts/:id", defaultWilds: ["id"]})
+    deleteForCounterParty: (options?: RequestOptions)=>Promise<Contact>
+
+    beforeDeleteForCounterPartyRequest(options: RequestOptions){
+      this.beforeDeleteRequest(options)
+    }
+
+    afterDeleteForCounterPartyRequest(options: RequestOptions) {
+      this.afterDeleteRequest(options)
+    }
+
+    @Route("PUT", {url: "/api/counterParties/:counterPartyId/contacts/:id", defaultWilds: ["id"]})
+    updateForCounterParty: (options?: RequestOptions)=>Promise<Contact>
+
+    beforeUpdateForCounterPartyRequest(options: RequestOptions) {
+      this.beforeUpdateRequest(options)
+    }
+
+    afterUpdateForCounterPartyRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
     }
 
 }

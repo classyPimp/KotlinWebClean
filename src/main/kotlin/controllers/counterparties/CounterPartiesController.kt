@@ -2,6 +2,7 @@ package controllers.counterparties
 
 import composers.counterparties.CounterPartiesComposers
 import controllers.BaseController
+import controllers.counterparties.contacts.CounterPartyContactsController
 import controllers.counterparties.formfeeds.CounterPartiesFormFeedsController
 import controllers.counterparties.persontocounterpartylinks.CounterPartiesPersonToCounterPartyLinksController
 import models.counterparty.CounterParty
@@ -20,6 +21,10 @@ class CounterPartiesController(context: ServletRequestContext) : BaseController(
 
         fun personToCounterPartyLinks(context: ServletRequestContext): CounterPartiesPersonToCounterPartyLinksController {
             return CounterPartiesPersonToCounterPartyLinksController(context)
+        }
+
+        fun contacts(context: ServletRequestContext): CounterPartyContactsController {
+            return CounterPartyContactsController(context)
         }
     }
 

@@ -17,4 +17,6 @@ object CounterPartyShowDao {
                 .execute().firstOrNull()
     }
 
+
+
 }

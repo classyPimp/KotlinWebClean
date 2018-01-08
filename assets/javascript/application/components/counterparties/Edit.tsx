@@ -10,9 +10,12 @@ import { FlashMessageQueue } from '../shared/FlashMessageQueue';
 import { DropDownSelectServerFed } from '../formelements/DropdownSelectServerFed'
 import { IncorporationForm } from '../../models/IncorporationForm'
 import { Modal } from '../shared/Modal';
+import { CounterPartiesComponents } from './CounterPartiesComponents'
+import { CounterPartyToContactLink } from '../../models/CounterPartyToContactLink'
+import { Index as PersonToCounterPartyLinkIndex } from '../persontocounterpartylinks/Index'
+import { Contact } from '../../models/Contact'
 import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
 import { PersonToCounterPartyLink } from '../../models/PersonToCounterPartyLink'
-import { Index as PersonToCounterPartyLinkIndex } from '../persontocounterpartylinks/Index'
 
 export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
@@ -70,6 +73,28 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                         update
                     </button>
                     <div>
+                      <h3>
+                        contacts
+                      </h3>
+                      {this.state.counterParty.counterPartyToContactLinks.map((it, index)=>{
+                        return <div key={index}>
+                            <p>
+                              {it.contact.contactType.name}: {it.contact.value}
+                            </p>
+                            <button onClick={()=>{this.deleteContact(it)}}>  
+                              delete
+                            </button>
+                            <button onClick={()=>{this.initContactUpdate(it)}}>
+                              edit
+                            </button> 
+                          </div>
+                        })
+                      }
+                      <button onClick={this.initContactAddition}>
+                        + contact
+                      </button>
+                    </div>
+                    <div>
                       <p>
                         <button onClick={this.initPersonToCounterPartyLinkAddition}>
                           add link to person
@@ -96,6 +121,65 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
             }
         </div>
+    }
+
+    @autobind
+    initContactAddition(){
+      this.modal.open(
+        <CounterPartiesComponents.contacts.New 
+          onCreateSuccess={(contact: Contact)=>{this.onContactCreateSuccess(contact)}}
+          onCancel={this.modal.close}
+          counterPartyId={this.state.counterParty.id}
+        />
+      )
+    }
+
+    @autobind
+    onContactCreateSuccess(contact: Contact) {
+      //TODO: backend wrong return values should include link!
+      try {
+        console.log("create success")
+        let link = contact.counterPartyToContactLink
+        delete contact.properties["counterPartyToContactLink"]
+        let counterParty = this.state.counterParty
+        link.contact = contact
+        counterParty.counterPartyToContactLinks.push(link)
+        console.log("should close modal")
+        this.modal.close()
+        this.setState({counterParty})
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    @autobind
+    deleteContact(link: CounterPartyToContactLink) {
+      link.contact.deleteForCounterParty({wilds: {counterPartyId: `${this.state.counterParty.id}`}}).then((contact)=>{
+        let counterParty = this.state.counterParty
+        counterParty.counterPartyToContactLinks.filter((it)=>{
+          return !(it === link)
+        })
+        this.setState({counterParty})
+      })
+    }
+
+    @autobind
+    initContactUpdate(link: CounterPartyToContactLink){
+      let contact = link.contact
+      this.modal.open(
+        <CounterPartiesComponents.contacts.Edit
+          onUpdateSuccess={(contact: Contact)=>this.finalizeContactUpdate(contact)}
+          onCancel={()=>{this.modal.close()}}
+          counterPartyId={this.state.counterParty.id}
+          contact={contact}
+        />
+      )
+    }
+
+    @autobind
+    finalizeContactUpdate(contact: Contact){
+      this.modal.close()
+      this.setState({counterParty: this.state.counterParty})
     }
 
 

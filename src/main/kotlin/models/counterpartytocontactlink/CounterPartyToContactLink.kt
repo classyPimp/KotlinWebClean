@@ -23,7 +23,7 @@ class CounterPartyToContactLink {
     var id: Long? = null
 
     @TableField(name = "COUNTER_PARTY_ID")
-    var counterPartyLinkId: Long? = null
+    var counterPartyId: Long? = null
 
     @TableField(name = "CONTACT_ID")
     var contactId: Long? = null

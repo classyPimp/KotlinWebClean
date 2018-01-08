@@ -1,6 +1,7 @@
 package models.contact
 
 import models.contacttype.ContactType
+import models.counterpartytocontactlink.CounterPartyToContactLinkValidator
 import models.persontocontactlink.PersonToContactLinkValidator
 import org.jooq.generated.Tables.CONTACT_TYPES
 import orm.contactgeneratedrepository.ContactValidatorTrait
@@ -9,21 +10,31 @@ import orm.contacttypegeneratedrepository.ContactTypeRecord
 class ContactValidator(model: Contact) : ContactValidatorTrait(model, model.record.validationManager) {
 
     fun createScenario(){
-        validateContactType()
         validateValue()
 
     }
 
     fun personCreateScenario(){
         createScenario()
+        validateContactType(ContactType.Companion.IsSpecificForTypeAllowedValues.person)
         validateContactToPersonLink()
+    }
+
+    fun forCounterPartyCreateScenario() {
+        createScenario()
+        validateContactType(ContactType.Companion.IsSpecificForTypeAllowedValues.counterParty)
+        validateCounterPartyToContactLink()
     }
 
     fun personUpdateScenario() {
         personCreateScenario()
     }
 
-    fun validateContactType(){
+    fun forCounterPartyUpdateScenario() {
+        forCounterPartyCreateScenario()
+    }
+
+    fun validateContactType(isSpecificForTypeConstrain: String? = null){
         if (model.contactTypeId == null) {
             model.record.validationManager.addContactTypeIdError("invalid contact type")
             return
@@ -36,8 +47,10 @@ class ContactValidator(model: Contact) : ContactValidatorTrait(model, model.reco
                 model.record.validationManager.addContactTypeIdError("no such contact type")
                 return
             }
-        } else {
-            if (contactType.isSpecificForType != null && contactType.isSpecificForType != ContactType.Companion.IsSpecificForTypeAllowedValues.person) {
+        }
+
+        if (isSpecificForTypeConstrain != null) {
+            if (contactType.isSpecificForType != null && contactType.isSpecificForType != isSpecificForTypeConstrain) {
                 model.record.validationManager.addContactTypeIdError("invalid contact type")
                 return
             }
@@ -60,6 +73,17 @@ class ContactValidator(model: Contact) : ContactValidatorTrait(model, model.reco
         PersonToContactLinkValidator(link).createScenario()
         if (!link.record.validationManager.isValid()) {
             model.record.validationManager.addGeneralError("link is invalid")
+        }
+    }
+
+    private fun validateCounterPartyToContactLink() {
+        val link = model.counterPartyToContactLink
+        if (link == null) {
+            throw Throwable("counterPartyToContactLink expected on contact")
+        }
+        CounterPartyToContactLinkValidator(link).createScenario()
+        if (!link.record.validationManager.isValid()) {
+            validationManager.addGeneralError("link is invalid")
         }
     }
 
