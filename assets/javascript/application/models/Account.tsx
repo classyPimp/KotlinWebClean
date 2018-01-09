@@ -21,5 +21,3 @@ export class Account extends BaseModel {
     user: User
 
 }
-
-ModelRegistry.register("Account", Account)

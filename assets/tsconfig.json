@@ -4,7 +4,7 @@
     "baseUrl": "./javascript",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "commonjs",
+    //"module": "commonjs",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,

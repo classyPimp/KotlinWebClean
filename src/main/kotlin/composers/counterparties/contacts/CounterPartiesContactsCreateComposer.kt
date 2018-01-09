@@ -35,7 +35,7 @@ class CounterPartiesContactsCreateComposer(val params: IParam, val counterPartyI
     }
 
     private fun buildContact() {
-        contactBeingCreated = ContactFactories.forCounterPartyCreate(contactWrappedParams, counterPartyId!!)
+        contactBeingCreated = ContactFactories.forCounterPartyCreate(contactWrappedParams)
     }
 
     private fun buildCounterPartyToContactLink() {

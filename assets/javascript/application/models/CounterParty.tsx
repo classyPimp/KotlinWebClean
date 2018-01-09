@@ -66,5 +66,3 @@ export class CounterParty extends BaseModel {
     } 
 
 }
-
-ModelRegistry.register("CounterParty", CounterParty)

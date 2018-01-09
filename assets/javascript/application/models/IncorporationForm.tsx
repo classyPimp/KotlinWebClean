@@ -56,5 +56,3 @@ export class IncorporationForm extends BaseModel {
 
 
 }
-
-ModelRegistry.register("IncorporationForm", IncorporationForm)

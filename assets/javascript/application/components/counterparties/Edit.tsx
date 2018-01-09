@@ -26,9 +26,11 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
     state: {
         counterParty: CounterParty
         linkedPersonsExpanded: boolean
+        contactsExpanded: boolean
     } = {
         counterParty: null,
-        linkedPersonsExpanded: false
+        linkedPersonsExpanded: false,
+        contactsExpanded: false,
     }
 
     modal: Modal
@@ -73,33 +75,24 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                         update
                     </button>
                     <div>
-                      <h3>
-                        contacts
-                      </h3>
-                      {this.state.counterParty.counterPartyToContactLinks.map((it, index)=>{
-                        return <div key={index}>
-                            <p>
-                              {it.contact.contactType.name}: {it.contact.value}
-                            </p>
-                            <button onClick={()=>{this.deleteContact(it)}}>  
-                              delete
-                            </button>
-                            <button onClick={()=>{this.initContactUpdate(it)}}>
-                              edit
-                            </button> 
-                          </div>
-                        })
+                      {this.state.contactsExpanded
+                        ? <div>
+                          <CounterPartiesComponents.contacts.Index
+                            counterPartyId={this.state.counterParty.id}
+                            editableMode={true}
+                          />
+                          <button onClick={this.toggleContactsExpanded}>
+                            fold contacts
+                          </button>
+                        </div>
+                        : <div>
+                          <button onClick={this.toggleContactsExpanded}>
+                            browse contacts
+                          </button>
+                        </div>
                       }
-                      <button onClick={this.initContactAddition}>
-                        + contact
-                      </button>
                     </div>
                     <div>
-                      <p>
-                        <button onClick={this.initPersonToCounterPartyLinkAddition}>
-                          add link to person
-                        </button>
-                      </p>
                       {!this.state.linkedPersonsExpanded
                         ? <div>
                            <button onClick={this.toggleExpandedLinkedPersons}> 
@@ -110,7 +103,13 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                           <PersonToCounterPartyLinksComponents.Index 
                             counterParty={this.state.counterParty} 
                             ref={(it)=>{this.personToCounterPartyLinkIndexComponent = it}}
+                            editableMode={true}
                           />
+                          <p>
+                            <button onClick={this.initPersonToCounterPartyLinkAddition}>
+                              add link to person
+                            </button>
+                          </p>
                           <button onClick={this.toggleExpandedLinkedPersons}>
                             fold
                           </button>
@@ -165,15 +164,15 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     initContactUpdate(link: CounterPartyToContactLink){
-      let contact = link.contact
-      this.modal.open(
-        <CounterPartiesComponents.contacts.Edit
-          onUpdateSuccess={(contact: Contact)=>this.finalizeContactUpdate(contact)}
-          onCancel={()=>{this.modal.close()}}
-          counterPartyId={this.state.counterParty.id}
-          contact={contact}
-        />
-      )
+      // let contact = link.contact
+      // this.modal.open(
+      //   <CounterPartiesComponents.contacts.Edit
+      //     onUpdateSuccess={(contact: Contact)=>this.finalizeContactUpdate(contact)}
+      //     onCancel={()=>{this.modal.close()}}
+      //     counterPartyId={this.state.counterParty.id}
+      //     contact={contact}
+      //   />
+      // )
     }
 
     @autobind
@@ -231,6 +230,11 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
     onPersonToCounterPartyLinkCreateCancel(){
       this.modal.close()
       console.log(this.personToCounterPartyLinkIndexComponent)
+    }
+
+    @autobind
+    toggleContactsExpanded(){
+      this.setState({contactsExpanded: !this.state.contactsExpanded})
     }
 
 }

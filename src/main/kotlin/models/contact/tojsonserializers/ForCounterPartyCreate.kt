@@ -8,6 +8,7 @@ object ForCounterPartyCreate {
     fun onSuccess(contact: Contact): String {
         ContactToJsonSerializer(contact).let {
             it.includeContactType()
+            it.includeCounterPartyToContactLink()
             return it.serializeToString()
         }
     }
@@ -15,6 +16,9 @@ object ForCounterPartyCreate {
     fun onError(contact: Contact): String {
         ContactToJsonSerializer(contact). let {
             it.includeContactType() {
+                it.includeErrors()
+            }
+            it.includeCounterPartyToContactLink() {
                 it.includeErrors()
             }
             it.includeErrors()

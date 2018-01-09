@@ -74,5 +74,3 @@ export class User extends BaseModel {
         // }
     }
 }
-
-ModelRegistry.register("User", User)

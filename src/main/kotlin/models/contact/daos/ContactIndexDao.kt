@@ -11,6 +11,10 @@ object ContactIndexDao {
         return ContactRecord.GET()
                 .preload {
                     it.contactType()
+                    it.counterPartyToContactLink()
+                }
+                .join {
+                    it.counterPartyToContactLink()
                 }
                 .where(
                         COUNTER_PARTY_TO_CONTACT_LINKS.COUNTER_PARTY_ID.eq(counterPartyId)

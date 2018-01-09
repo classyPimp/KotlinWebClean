@@ -120,9 +120,13 @@ export class BaseModel extends MixinSerializableTrait(MixinValidatableTrait(Mode
 
     afterCreateRequest(options: RequestOptions) {
         options.deferredPromise.then((resp)=>{
-            let modelToReturn = new (this.constructor as any)(resp)
-            modelToReturn.validate()
-            return modelToReturn
+            try {
+              let modelToReturn = new (this.constructor as any)(resp)
+              modelToReturn.validate()
+              return modelToReturn
+            } catch(e) {
+              console.log(e)
+            }
         })
     }
 

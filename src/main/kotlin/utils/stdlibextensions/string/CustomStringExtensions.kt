@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 fun String.trimAndSquishWhiteSpace(): String {
     val pattern = Pattern.compile("\\s+")
     val matcher = pattern.matcher(this)
-    val check = matcher.find()
+    matcher.find()
     val toReturn = matcher.replaceAll(" ")
     return toReturn.trim()
 }

@@ -33,5 +33,4 @@ export class PersonToContactLink extends BaseModel {
 
 }
 
-ModelRegistry.register("PersonToContactLink", PersonToContactLink)
 

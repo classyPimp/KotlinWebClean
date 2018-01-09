@@ -50,5 +50,3 @@ export class UploadedDocument extends BaseModel {
     personToCounterPartyLinkToUploadedDocumentLinks: ModelCollection<PersonToCounterPartyLinkToUploadedDocumentLink>
 
 }
-
-ModelRegistry.register("UploadedDocument", UploadedDocument)

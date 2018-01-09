@@ -1,10 +1,10 @@
+import  { ModelRegistry } from '../../modelLayer/ModelRegistry'
 import { Property } from '../../modelLayer/annotations/Property'
 import { BaseModel } from '../../modelLayer/BaseModel'
 import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { Contact} from './Contact'
 import { CounterParty } from './CounterParty'
-import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 
 export class CounterPartyToContactLink extends BaseModel {
 
@@ -33,4 +33,3 @@ export class CounterPartyToContactLink extends BaseModel {
 
 }
 
-ModelRegistry.register("CounterPartyToContactLink", CounterPartyToContactLink)

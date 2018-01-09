@@ -52,5 +52,3 @@ export class PersonToCounterPartyLinkReason extends BaseModel {
     }
     
 }
-
-ModelRegistry.register("PersonToCounterPartyLinkReason", PersonToCounterPartyLinkReason)

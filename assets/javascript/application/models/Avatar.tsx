@@ -52,5 +52,3 @@ export class Avatar extends BaseModel {
     }
 
 }
-
-ModelRegistry.register("Avatar", Avatar)

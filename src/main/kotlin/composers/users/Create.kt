@@ -32,7 +32,7 @@ class Create(
     }
 
     fun build() {
-        val userParams = params.get("user").let {
+        params.get("user").let {
             if (it == null) {
                 failImmediately(NoParamsSupplied())
             } else {

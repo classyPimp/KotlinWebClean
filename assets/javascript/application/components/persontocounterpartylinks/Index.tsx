@@ -9,8 +9,9 @@ import { Person } from '../../models/Person'
 export class Index extends BaseReactComponent {
 
     props: {
+      editableMode: boolean 
       person?: Person
-      counterParty?: CounterParty 
+      counterParty?: CounterParty
     }
 
     state: {
@@ -53,9 +54,11 @@ export class Index extends BaseReactComponent {
                     link reason: {it.personToCounterPartyLinkReason.reasonName}
                   </div>
                  }
-                 <button onClick={()=>{this.destroy(it)}}>
-                   delete
-                 </button>
+                 {this.props.editableMode &&
+                   <button onClick={()=>{this.destroy(it)}}>
+                     delete
+                   </button>
+                 }
                 </div>
               }
               

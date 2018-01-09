@@ -8,6 +8,7 @@ import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylink
 import { Modal } from '../shared/Modal';
 import { FlashMessageQueue } from '../shared/FlashMessageQueue';
 import { ApplicationComponent } from '../ApplicationComponent';
+import { CounterPartiesComponents } from './CounterPartiesComponents'
 
 export class Show extends BaseReactComponent {
 
@@ -19,9 +20,11 @@ export class Show extends BaseReactComponent {
     state: {
         counterParty: CounterParty
         linkedPersonsExpanded: boolean
+        contactsExpanded: boolean
     } = {
         counterParty: null,
-        linkedPersonsExpanded: false
+        linkedPersonsExpanded: false,
+        contactsExpanded: false,
     }
 
     modal: Modal
@@ -48,6 +51,24 @@ export class Show extends BaseReactComponent {
                   <p> short name: {this.state.counterParty.nameShort} </p>                
                   <p>incorporation form: {this.state.counterParty.incorporationForm.nameShort}({this.state.counterParty.incorporationForm.name})</p>
                   <div>
+                    {this.state.contactsExpanded 
+                      ? <div>
+                        <CounterPartiesComponents.contacts.Index 
+                          counterPartyId={this.state.counterParty.id}
+                          editableMode={false}
+                        />
+                        <button onClick={this.toggleContactsExpanded}>
+                          fold contacts
+                        </button>
+                      </div>
+                      : <div>
+                        <button onClick={this.toggleContactsExpanded}>
+                          browse contacts
+                        </button>
+                      </div>
+                    }
+                  </div>
+                  <div>
                     {!this.state.linkedPersonsExpanded
                       ? <div>
                          <button onClick={this.toggleExpandedLinkedPersons}> 
@@ -55,9 +76,12 @@ export class Show extends BaseReactComponent {
                          </button>
                       </div>
                       : <div>
-                        <PersonToCounterPartyLinksComponents.Index counterParty={this.state.counterParty} />
+                        <PersonToCounterPartyLinksComponents.Index 
+                          counterParty={this.state.counterParty} 
+                          editableMode={false}
+                        />
                         <button onClick={this.toggleExpandedLinkedPersons}>
-                          fold
+                          fold linked persons
                         </button>
                       </div>
                     }
@@ -70,6 +94,11 @@ export class Show extends BaseReactComponent {
     @autobind
     toggleExpandedLinkedPersons(){
       this.setState({linkedPersonsExpanded: !this.state.linkedPersonsExpanded})
+    }
+
+    @autobind
+    toggleContactsExpanded(){
+      this.setState({contactsExpanded: !this.state.contactsExpanded})
     }
 
 

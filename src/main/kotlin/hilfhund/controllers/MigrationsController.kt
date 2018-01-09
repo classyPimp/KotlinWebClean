@@ -105,7 +105,6 @@ class MigrationsController(context: ServletRequestContext) : BaseController(cont
                     Migration.ToJson.createErrors(migration).toString()
             )
             throw e
-            return
         }
     }
 

@@ -41,10 +41,6 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
     }
 
     fun get(){
-        val conts = ContactRecord.GET().preload {
-            it.contactType()
-        }.execute()
-
         val id: Long? = context.routeParameters.get("id")?.toLongOrNull()
         var person: Person? = null
 

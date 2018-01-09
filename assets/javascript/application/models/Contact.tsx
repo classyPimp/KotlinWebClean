@@ -103,6 +103,18 @@ export class Contact extends BaseModel {
       this.afterUpdateRequest(options)
     }
 
-}
+    @Route("GET", {url: "/api/counterParties/:counterPartyId/contacts"})
+    static indexForCounterParty: (options?: RequestOptions) => Promise<ModelCollection<Contact>>
 
-ModelRegistry.register("Contact", Contact)
+    static afterIndexForCounterPartyRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
+    @Route("GET", {url: "/api/counterParties/:counterPartyId/contacts/:id"})
+    static editForCounterParty: (options?: RequestOptions)=>Promise<Contact>
+    
+    static afterEditForCounterPartyRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }
+
+}

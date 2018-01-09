@@ -4,6 +4,8 @@ import { IModelConstructor } from './interfaces/IModelConstructor';
 import { IAssociationsConfig, IAssociationsConfigEntry } from './interfaces/IAssociationsConfig';
 import { IModelProperties } from './interfaces/IModelProperties';
 import { AssociationTypesEnum } from './AssociationTypesEnum';
+import { ModelRegistry } from './ModelRegistry'
+
 export class ModelSerializer {
 
     static parseCollection<T extends BaseModel>(
@@ -54,6 +56,12 @@ export class ModelSerializer {
         }
         let associationType = configEntry.associationType
         if (value) {
+          let thatConstructor = configEntry.getThatModelConstructor()
+
+          if (!thatConstructor) {
+            console.log(`WARNING: ${key} is not registered at ModelRegistrator`)
+          }
+
           if (associationType === AssociationTypesEnum.hasMany) {
               parsedProperties[key] = this.parseCollectionOfBaseModel(configEntry.getThatModelConstructor(), value as Array<IModelProperties>)
           }

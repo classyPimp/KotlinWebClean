@@ -10,6 +10,7 @@ import {TopMenu} from "./shared/TopMenu"
 import {UsersComponents} from './users/UsersComponents'
 import {XhrRequestMaker} from '../../modelLayer/utils/XhrRequestMaker'
 import { FlashMessageQueue } from './shared/FlashMessageQueue';
+import { ModelRegistry } from '../../modelLayer/ModelRegistry'
 
 export class ApplicationComponent extends BaseReactComponent {
 
@@ -34,6 +35,7 @@ export class ApplicationComponent extends BaseReactComponent {
             this.props.history.push("/404", {})
         }
     }
+
 
     render() {
         return <div>

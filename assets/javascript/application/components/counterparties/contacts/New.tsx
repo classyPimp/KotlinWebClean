@@ -54,10 +54,10 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
       this.collectInputs()
       this.state.contact.createForCounterParty({wilds: {counterPartyId: `${this.props.counterPartyId}`}}).then((contact)=>{
         if (contact.isValid()) {
-            this.props.onCreateSuccess(contact)
-          } else {
-            this.setState({contact})
-          }
+          this.props.onCreateSuccess(contact)
+        } else {
+          this.setState({contact})
+        }
       })
     }
 

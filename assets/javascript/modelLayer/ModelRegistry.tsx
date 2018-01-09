@@ -6,6 +6,7 @@ export class ModelRegistry {
   static registeredModels: {[id: string]: IModelConstructor} = {}
 
   static register(stringifiedClassName: string, model: IModelConstructor) {
+    console.log("registering " + stringifiedClassName)
     this.registeredModels[stringifiedClassName] = model
   }
 
@@ -18,6 +19,4 @@ export class ModelRegistry {
       return ModelRegistry.get(key)
     }
   }
-
 }
-

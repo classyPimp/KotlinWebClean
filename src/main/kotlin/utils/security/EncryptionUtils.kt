@@ -18,7 +18,7 @@ class EncryptionUtils {
         return encrypted.toString()
     }
 
-    fun decrypt(valueToDecrypt: String, key: String): String {
+    fun decrypt(valueToDecrypt: String): String {
         val cipher = getAesCipher()
         cipher.init(Cipher.DECRYPT_MODE, aesKey)
         val decrypted = String(cipher.doFinal(valueToDecrypt.toByteArray()))

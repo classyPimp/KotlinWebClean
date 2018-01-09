@@ -68,5 +68,3 @@ export class PersonToCounterPartyLink extends BaseModel {
       this.afterIndexRequest(options)
     }
 }
-
-ModelRegistry.register("PersonToCounterPartyLink", PersonToCounterPartyLink)

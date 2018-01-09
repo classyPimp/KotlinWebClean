@@ -12,6 +12,9 @@ object ContactDestroyDao {
                 .join {
                     it.counterPartyToContactLink()
                 }
+                .preload {
+                    it.counterPartyToContactLink()
+                }
                 .where(
                         CONTACTS.ID.eq(id).and(
                                 COUNTER_PARTY_TO_CONTACT_LINKS.COUNTER_PARTY_ID.eq(counterPartyId)

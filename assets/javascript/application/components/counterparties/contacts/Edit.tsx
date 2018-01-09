@@ -19,45 +19,68 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
       counterPartyId: number,
-      contact: Contact,
-      onUpdateSuccess: (contact: Contact)=>any,
-      onCancel: ()=>any
+      contactId: number,
+      onUpdateSuccess: (contact: Contact, contactOnParent: Contact)=>any,
+      onCancel: ()=>any,
+      contactOnParent?: Contact
     }
 
+    state: {
+      contact: Contact
+    } = {
+      contact: null
+    }
+
+    componentDidMount(){
+      Contact.editForCounterParty(
+        {
+          wilds: {
+            counterPartyId: this.props.counterPartyId.toString(),
+            id: this.props.contactId.toString()
+          }
+        }
+      ).then((contact)=>{
+        this.setState({contact})
+      })
+    }
 
     render(){
-        return <div className="contacts-Edit">
+        return this.state.contact 
+        ? <div className="contacts-Edit">
           <PlainInputElement
-            model={this.props.contact}
+            model={this.state.contact}
             propertyName="value"
             registerInput={(it)=>{this.registerInput(it)}}
             optional={{placeholder: "value"}}
           />
           <DropDownSelectServerFed 
-            model={this.props.contact}
+            model={this.state.contact}
             propertyName="contactTypeId"
             queryingFunction={ContactType.indexInputFeedForCounterParty.bind(ContactType)}  
             propertyToSelect="id" 
             propertyToShow="name"
             registerInput={(it)=>{this.registerInput(it)}}
-            preselected={this.props.contact.contactTypeId}
+            preselected={this.state.contact.contactTypeId}
             optional={{placeholder: "contact type"}}
           />
           <button onClick={this.submit}>update contact</button>
           <button onClick={this.cancel}>cancel</button>
+        </div>
+        : <div>
+
         </div>
     }
 
     @autobind
     submit(){
       this.collectInputs()
-      this.props.contact.validate()
-      this.props.contact.updateForCounterParty({wilds: {counterPartyId: `${this.props.counterPartyId}`}}).then((contact)=>{
+      this.state.contact.validate()
+      this.state.contact.updateForCounterParty({wilds: {counterPartyId: `${this.props.counterPartyId}`}}).then((contact)=>{
         if (contact.isValid()) {
-          this.props.contact.mergeWith(contact)
-          this.props.onUpdateSuccess(contact)
+          this.state.contact.mergeWith(contact)
+          this.props.onUpdateSuccess(contact, this.props.contactOnParent)
         } else {
-          this.props.contact.mergeWith(contact)
+          this.state.contact.mergeWith(contact)
           this.forceUpdate()
         }
       })
@@ -65,7 +88,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     cancel(){
-      this.props.contact.resetErrors()
+      this.state.contact.resetErrors()
       this.props.onCancel()
     }
 

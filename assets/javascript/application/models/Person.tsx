@@ -57,5 +57,3 @@ export class Person extends BaseModel {
     }
 
 }  
-
-ModelRegistry.register("Person", Person)

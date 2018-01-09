@@ -40,5 +40,3 @@ export class PersonToCounterPartyLinkToUploadedDocumentLink extends BaseModel {
     personToCounterPartyLinkToUploadedDocLinkReason: PersonToCounterPartyLinkToUploadedDocLinkReason
 
 }
-
-ModelRegistry.register("PersonToCounterPartyLinkToUploadedDocumentLink", PersonToCounterPartyLinkToUploadedDocumentLink)
