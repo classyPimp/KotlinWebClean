@@ -29,12 +29,22 @@ export class SideBar extends BaseReactComponent {
                 </li>
                 <li className="pure-menu-item">
                     <Link to="/dashboards/persontocounterpartylinkreasons/new" className="pure-menu-link">
-                        new person to counter party link
+                        new person to counter party link reason
                     </Link>
                 </li>
                 <li className="pure-menu-item">
                     <Link to="/dashboards/persontocounterpartylinkreasons" className="pure-menu-link">
-                        index person to counter party links
+                        index person to counter party link reasons
+                    </Link>
+                </li>
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/PersonToCounterPartyLinkToUploadedDocLinkReasons/new" className="pure-menu-link">
+                        new person to counter party to uploaded document link reason
+                    </Link>
+                </li>
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/PersonToCounterPartyLinkToUploadedDocLinkReasons" className="pure-menu-link">
+                        index person to counter party to uploaded document link reason
                     </Link>
                 </li>
                 <li className="pure-menu-item">

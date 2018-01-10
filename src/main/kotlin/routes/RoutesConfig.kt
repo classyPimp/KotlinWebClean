@@ -7,8 +7,10 @@ import controllers.incorporationforms.IncorporationFormsController
 import controllers.persons.PersonsController
 import controllers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonController
 import controllers.persontocounterpartylinks.PersonToCounterPartyLinksController
+import controllers.persontocounterpartylinktouploadeddoclinkreasons.PersonToCounterPartyLinkToUploadedDocLinkReasonController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
+import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReason
 import org.w3c.dom.css.Counter
 import router.RoutesDrawer
 import router.src.Router
@@ -299,6 +301,39 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     PersonToCounterPartyLinksController(it).destroy()
                 }
 
+            }
+
+            namespace("/personToCounterPartyLinkToUploadedDocLinkReasons") {
+
+                namespace("/formFeeds") {
+                    get("") {
+                        PersonToCounterPartyLinkToUploadedDocLinkReasonController.formFeeds(it).index()
+                    }
+                }
+
+                post("") {
+                    PersonToCounterPartyLinkToUploadedDocLinkReasonController(it).create()
+                }
+
+                get("") {
+                    PersonToCounterPartyLinkToUploadedDocLinkReasonController(it).index()
+                }
+
+                get("/:id") {
+                    PersonToCounterPartyLinkToUploadedDocLinkReasonController(it).show()
+                }
+
+                get("/:id/edit") {
+                    PersonToCounterPartyLinkToUploadedDocLinkReasonController(it).edit()
+                }
+
+                put("/:id") {
+                    PersonToCounterPartyLinkToUploadedDocLinkReasonController(it).update()
+                }
+
+                delete("/:id") {
+                    PersonToCounterPartyLinkToUploadedDocLinkReasonController(it).destroy()
+                }
             }
 
         }

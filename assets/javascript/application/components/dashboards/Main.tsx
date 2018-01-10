@@ -11,7 +11,7 @@ import { Show } from '../contacttypes/Show';
 import { PersonsComponents } from '../persons/PersonsComponents';
 import { PersonToCounterPartyLinkReasonsComponents } from '../persontocounterpartylinkreasons/PersonToCounterPartyLinkReasonsComponents'
 import { IncorporationFormsComponents } from '../incorporationforms/IncorporationFormsComponents'
-
+import { PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents } from '../persontocounterpartylinktouploadeddoclinkreasons/PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents' 
 
 export class Main extends BaseReactComponent {
 
@@ -64,6 +64,12 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/counterParties`} component={CounterPartiesComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/counterParties/:id/edit`} component={CounterPartiesComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/counterParties/:id`} component={CounterPartiesComponents.Show}/>                  
+                    
+                    <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons/new`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons/:id/edit`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons/:id`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.Show}/>                    
+
                 </Switch>
             </div>
         </div>

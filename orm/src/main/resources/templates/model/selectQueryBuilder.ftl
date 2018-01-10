@@ -5,6 +5,7 @@ import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.TableLike
 import org.jooq.SelectField
+import org.jooq.impl.DSL.field
 import java.sql.ResultSet
 import ${packagesBean.jooqGeneratedTable}.*
 import ${packagesBean.jooqGeneratedTable}
@@ -46,7 +47,7 @@ constructor(
     }
 
     fun wherePrimaryKeyEq(primaryKey: ${primaryKey.nonNullableType}): ${modelClass}SelectQueryBuilder {
-        where(${jooqTableInstance}.${primaryKey.tableFieldName}.eq(primaryKey))
+        where(tableOrAlias.${primaryKey.tableFieldName}.eq(primaryKey))
         return this
     }
 
@@ -55,7 +56,7 @@ constructor(
     }
 
     fun wherePrimaryKeyIn(primaryKeys: MutableList<${primaryKey.nonNullableType}>): ${modelClass}SelectQueryBuilder {
-        where(${jooqTableInstance}.${primaryKey.tableFieldName}.`in`(primaryKeys))
+        where(tableOrAlias.${primaryKey.tableFieldName}.`in`(primaryKeys))
         return this
     }
 
@@ -99,7 +100,7 @@ constructor(
 
     fun execute(): MutableList<${modelClass}> {
         if (!selectIsCalled) {
-            select(*${jooqTableInstance}.fields())
+            select(field("${r"${tableOrAlias.name}.*"}"))
         }
         val resultSet = selectQuery.fetchResultSet()
         val models = ${modelClass}ResultSetParser.parseResultSet(resultSet)
@@ -111,17 +112,17 @@ constructor(
 
     <#list fieldBeans as fieldBean>
     fun where${fieldBean.capitalizedProperty}Eq(value: ${fieldBean.type}): ${modelClass}SelectQueryBuilder {
-        where(${jooqTableInstance}.${fieldBean.tableFieldName}.eq(value))
+        where(tableOrAlias.${fieldBean.tableFieldName}.eq(value))
         return this
     }
 
     fun where${fieldBean.capitalizedProperty}In(values: MutableList<${fieldBean.nonNullableType}>): ${modelClass}SelectQueryBuilder {
-        where(${jooqTableInstance}.${fieldBean.tableFieldName}.`in`(values))
+        where(tableOrAlias.${fieldBean.tableFieldName}.`in`(values))
         return this
     }
 
     fun where${fieldBean.capitalizedProperty}In(values: MutableSet<${fieldBean.nonNullableType}>): ${modelClass}SelectQueryBuilder {
-      where(${jooqTableInstance}.${fieldBean.tableFieldName}.`in`(values))
+      where(tableOrAlias.${fieldBean.tableFieldName}.`in`(values))
       return this
     }
     </#list>

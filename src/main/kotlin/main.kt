@@ -2,6 +2,9 @@ import applicationServices.ApplicationBootstrapper
 import applicationServices.ApplicationCloser
 import org.docx4j.model.datastorage.migration.VariablePrepare
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage
+import org.jooq.generated.Tables.USERS
+import org.jooq.generated.tables.Users
+import org.jooq.impl.DSL.field
 import java.io.File
 
 

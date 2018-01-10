@@ -1,0 +1,22 @@
+package models.persontocounterpartylinktouploadeddoclinkreason.daos
+
+import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocLinkReasons
+import models.persontocounterpartylinktouploadeddoclinkreason.daos.PersonToCounterPartyLinkToUploadedDocLinkReasonShowDao
+import models.persontocounterpartylinktouploadeddoclinkreason.daos.PersonToCounterPartyLinkToUploadedDocLinkReasonIndexDao
+import models.persontocounterpartylinktouploadeddoclinkreason.daos.PersonToCounterPartyLinkToUploadedDocLinkReasonEditDao
+import models.persontocounterpartylinktouploadeddoclinkreason.daos.PersonToCounterPartyLinkToUploadedDocLinkReasonUpdateDao
+import models.persontocounterpartylinktouploadeddoclinkreason.daos.PersonToCounterPartyLinkToUploadedDocLinkReasonDestroyDao
+
+object PersonToCounterPartyLinkToUploadedDocLinkReasonDaos {
+
+    val show = PersonToCounterPartyLinkToUploadedDocLinkReasonShowDao
+
+    val index = PersonToCounterPartyLinkToUploadedDocLinkReasonIndexDao
+
+    val edit = PersonToCounterPartyLinkToUploadedDocLinkReasonEditDao
+
+    val update = PersonToCounterPartyLinkToUploadedDocLinkReasonUpdateDao
+
+    val destroy = PersonToCounterPartyLinkToUploadedDocLinkReasonDestroyDao
+
+}

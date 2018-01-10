@@ -1,0 +1,11 @@
+package models.persontocounterpartylinktouploadeddoclinkreason.daos
+
+import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocLinkReasons
+import orm.persontocounterpartylinktouploadeddoclinkreasongeneratedrepository.PersonToCounterPartyLinkToUploadedDocLinkReasonRecord
+import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReason
+
+object PersonToCounterPartyLinkToUploadedDocLinkReasonUpdateDao {
+
+
+
+}

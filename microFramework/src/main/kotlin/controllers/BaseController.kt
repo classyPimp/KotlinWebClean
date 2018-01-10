@@ -15,6 +15,10 @@ abstract class BaseController(
         return MicroFrameworkDependencyManager.provider.servletRequestParametersWrapper.createTree(context.request)
     }
 
+    fun routeParams(): Map<String, String> {
+        return context.routeParameters
+    }
+
     fun renderTemplate(
             templateName: String,
             dataModel: Any
@@ -47,6 +51,10 @@ abstract class BaseController(
 
     fun requestQueryStringParams(): Map<String,String> {
         return MicroFrameworkDependencyManager.provider.queryStringParametersWrapper.parse(context.request.queryString)
+    }
+
+    fun sendError(errorCode: Int) {
+        context.response.sendError(errorCode)
     }
 
     fun renderJson(body: String) {
