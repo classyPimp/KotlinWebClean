@@ -4,7 +4,7 @@ import { IModelConstructor } from './interfaces/IModelConstructor';
 import { IAssociationsConfig, IAssociationsConfigEntry } from './interfaces/IAssociationsConfig';
 import { IModelProperties } from './interfaces/IModelProperties';
 import { AssociationTypesEnum } from './AssociationTypesEnum';
-import { ModelRegistry } from './ModelRegistry'
+import { ModelRegistry } from './ModelRegistry';
 
 export class ModelSerializer {
 

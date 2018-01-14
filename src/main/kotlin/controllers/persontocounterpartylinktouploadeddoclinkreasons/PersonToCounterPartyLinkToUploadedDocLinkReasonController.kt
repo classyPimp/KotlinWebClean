@@ -88,7 +88,7 @@ class PersonToCounterPartyLinkToUploadedDocLinkReasonController(context: Servlet
         val id = getIdRouteParam()
         val params = requestParams()
 
-        val composer = PersonToCounterPartyLinkToUploadedDocLinkReasonComposer.update(requestParams(), id)
+        val composer = PersonToCounterPartyLinkToUploadedDocLinkReasonComposer.update(params, id)
 
         composer.onSuccess = {
             renderJson(

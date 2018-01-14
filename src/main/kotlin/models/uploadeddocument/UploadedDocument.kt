@@ -14,6 +14,10 @@ class UploadedDocument {
 
     val record: UploadedDocumentRecord by lazy { UploadedDocumentRecord(this) }
 
+    val file: UploadedDocumentFileHandler by lazy { UploadedDocumentFileHandler(this) }
+        @DelegatesGetter
+        get
+
     @TableField(name = "ID")
     @IsPrimaryKey
     var id: Long? = null
