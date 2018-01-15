@@ -7,6 +7,8 @@ import { PersonToCounterPartyLink } from './PersonToCounterPartyLink'
 import { UploadedDocument } from './UploadedDocument'
 import { PersonToCounterPartyLinkToUploadedDocLinkReason } from './PersonToCounterPartyLinkToUploadedDocLinkReason'
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
+
 
 export class PersonToCounterPartyLinkToUploadedDocumentLink extends BaseModel {
 
@@ -38,5 +40,25 @@ export class PersonToCounterPartyLinkToUploadedDocumentLink extends BaseModel {
 
     @HasOne("PersonToCounterPartyLinkToUploadedDocLinkReason")
     personToCounterPartyLinkToUploadedDocLinkReason: PersonToCounterPartyLinkToUploadedDocLinkReason
+
+
+    @Route("POST", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks"})
+    create: (options?: RequestOptions) => Promise<UploadedDocument>
+
+    @Route("GET", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<UploadedDocument>>
+
+    @Route("GET", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id"})
+    static show: (options?: RequestOptions) => Promise<UploadedDocument>
+
+    @Route("GET", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id/edit"})
+    static edit: (options?: RequestOptions) => Promise<UploadedDocument>
+
+    @Route("PUT", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<UploadedDocument>
+
+    @Route("DELETE", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<UploadedDocument>
+
 
 }

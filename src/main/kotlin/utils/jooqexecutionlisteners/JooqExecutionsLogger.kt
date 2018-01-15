@@ -26,9 +26,6 @@ class JooqExecutionsLogger : DefaultExecuteListener() {
             logger.info(context.renderInlined(ctx.routine()))
         }
 
-//        if (!StringUtils.isBlank(ctx.sql())) {
-//            logger.info(ctx.sql())
-//        }
         logger.info("---------------------------------")
     }
 }

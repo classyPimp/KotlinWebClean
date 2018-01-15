@@ -5,6 +5,7 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { PersonToCounterPartyLinkToUploadedDocumentLink } from './PersonToCounterPartyLinkToUploadedDocumentLink'
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
+import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 
 export class UploadedDocument extends BaseModel {
 
@@ -40,6 +41,15 @@ export class UploadedDocument extends BaseModel {
     @Property
     createdAt: string
 
+    @Property
+    file: File
+
+    fileValidator(){
+      if (this.properties["file"]) {
+        this.hasFile = true
+      }
+    }
+
     @HasMany("UploadedDocument")
     childDocuments: ModelCollection<UploadedDocument>
 
@@ -48,5 +58,6 @@ export class UploadedDocument extends BaseModel {
 
     @HasMany("PersonToCounterPartyLinkToUploadedDocumentLink")
     personToCounterPartyLinkToUploadedDocumentLinks: ModelCollection<PersonToCounterPartyLinkToUploadedDocumentLink>
+
 
 }

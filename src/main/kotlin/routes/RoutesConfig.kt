@@ -276,6 +276,16 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
             namespace("/personToCounterPartyLinks") {
 
+                namespace("/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks") {
+                    get("") {
+                        PersonToCounterPartyLinksController.personToCounterPartyLinkToUploadedDocumentLinks(it).index()
+                    }
+
+                    post("") {
+                        PersonToCounterPartyLinksController.personToCounterPartyLinkToUploadedDocumentLinks(it).create()
+                    }
+                }
+
                 post("") {
                     println("should create")
                     PersonToCounterPartyLinksController(it).create()

@@ -1,0 +1,22 @@
+package models.persontocounterpartylinktouploadeddocumentlink.daos
+
+import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocumentLinks
+import models.persontocounterpartylinktouploadeddocumentlink.daos.PersonToCounterPartyLinkToUploadedDocumentLinkShowDao
+import models.persontocounterpartylinktouploadeddocumentlink.daos.PersonToCounterPartyLinkToUploadedDocumentLinkIndexDao
+import models.persontocounterpartylinktouploadeddocumentlink.daos.PersonToCounterPartyLinkToUploadedDocumentLinkEditDao
+import models.persontocounterpartylinktouploadeddocumentlink.daos.PersonToCounterPartyLinkToUploadedDocumentLinkUpdateDao
+import models.persontocounterpartylinktouploadeddocumentlink.daos.PersonToCounterPartyLinkToUploadedDocumentLinkDestroyDao
+
+object PersonToCounterPartyLinkToUploadedDocumentLinkDaos {
+
+    val show = PersonToCounterPartyLinkToUploadedDocumentLinkShowDao
+
+    val index = PersonToCounterPartyLinkToUploadedDocumentLinkIndexDao
+
+    val edit = PersonToCounterPartyLinkToUploadedDocumentLinkEditDao
+
+    val update = PersonToCounterPartyLinkToUploadedDocumentLinkUpdateDao
+
+    val destroy = PersonToCounterPartyLinkToUploadedDocumentLinkDestroyDao
+
+}

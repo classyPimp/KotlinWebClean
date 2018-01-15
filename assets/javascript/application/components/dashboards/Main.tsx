@@ -12,6 +12,7 @@ import { PersonsComponents } from '../persons/PersonsComponents';
 import { PersonToCounterPartyLinkReasonsComponents } from '../persontocounterpartylinkreasons/PersonToCounterPartyLinkReasonsComponents'
 import { IncorporationFormsComponents } from '../incorporationforms/IncorporationFormsComponents'
 import { PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents } from '../persontocounterpartylinktouploadeddoclinkreasons/PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents' 
+import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
 
 export class Main extends BaseReactComponent {
 
@@ -70,6 +71,10 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons/:id/edit`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons/:id`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.Show}/>                    
 
+                    <Route exact 
+                      path={`${this.props.match.url}/personToCounterPartyLinks/:id/edit`} 
+                      component={PersonToCounterPartyLinksComponents.Edit}
+                    />
                 </Switch>
             </div>
         </div>

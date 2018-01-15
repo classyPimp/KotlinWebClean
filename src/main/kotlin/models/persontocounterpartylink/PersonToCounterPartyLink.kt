@@ -3,12 +3,10 @@ package models.persontocounterpartylink
 import models.counterparty.CounterParty
 import models.person.Person
 import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReason
+import models.persontocounterpartylinktouploadeddocumentlink.PersonToCounterPartyLinkToUploadedDocumentLink
 import org.jooq.generated.tables.PersonToCounterPartyLinkReasons
 import org.jooq.generated.tables.PersonToCounterPartyLinks
-import orm.annotations.BelongsTo
-import orm.annotations.IsModel
-import orm.annotations.IsPrimaryKey
-import orm.annotations.TableField
+import orm.annotations.*
 import orm.persontocounterpartylinkgeneratedrepository.PersonToCounterPartyLinkRecord
 import java.sql.Timestamp
 
@@ -51,4 +49,6 @@ class PersonToCounterPartyLink {
     @BelongsTo(model = PersonToCounterPartyLinkReason::class, fieldOnThis = "PERSON_TO_COUNTER_PARTY_LINK_REASON_ID", fieldOnThat = "ID")
     var personToCounterPartyLinkReason: PersonToCounterPartyLinkReason? = null
 
+    @HasMany(model = PersonToCounterPartyLinkToUploadedDocumentLink::class, fieldOnThis = "ID", fieldOnThat = "PERSON_TO_COUNTER_PARTY_LINK_ID")
+    var personToCounterPartyLinkToUploadedDocumentLinks: MutableList<PersonToCounterPartyLinkToUploadedDocumentLink>? = null
 }

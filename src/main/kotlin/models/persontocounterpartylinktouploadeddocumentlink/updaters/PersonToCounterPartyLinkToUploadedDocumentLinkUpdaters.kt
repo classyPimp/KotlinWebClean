@@ -1,0 +1,6 @@
+package models.persontocounterpartylinktouploadeddocumentlink.updaters
+
+
+object PersonToCounterPartyLinkToUploadedDocumentLinkUpdaters {
+
+}

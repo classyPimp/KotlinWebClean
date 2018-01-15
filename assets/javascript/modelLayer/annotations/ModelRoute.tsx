@@ -150,6 +150,10 @@ export function Route(httpMethod: string, options: RouteOptions) {
             if (beforeRequestFunc) {
                 (this as any)[`before${propertyName.charAt(0).toUpperCase() + propertyName.slice(1)}Request`](options)
             }
+
+            if ((this as BaseModel).hasFile) {
+                options.serializeAsForm = true
+            }
             
             options.httpMethod = httpMethod
             if (options.serializeAsForm) {
@@ -165,12 +169,7 @@ export function Route(httpMethod: string, options: RouteOptions) {
             if (afterRequestFunc){
                 (this as any)[`after${propertyName.charAt(0).toUpperCase() + propertyName.slice(1)}Request`](options as RequestOptions)
             }
-
-            if ((this as BaseModel).hasFile) {
-                if (!this.options.serializeAsForm) {
-                  this.options.serializeAsForm = true
-                }
-            }
+           
             
             return options.deferredPromise
         }

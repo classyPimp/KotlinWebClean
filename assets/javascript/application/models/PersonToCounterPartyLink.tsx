@@ -8,6 +8,7 @@ import { PersonToCounterPartyLinkReason } from './PersonToCounterPartyLinkReason
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
+import { PersonToCounterPartyLinkToUploadedDocumentLink } from './PersonToCounterPartyLinkToUploadedDocumentLink'
 
 export class PersonToCounterPartyLink extends BaseModel {
 
@@ -42,6 +43,9 @@ export class PersonToCounterPartyLink extends BaseModel {
 
     @HasOne("PersonToCounterPartyLinkReason")
     personToCounterPartyLinkReason: PersonToCounterPartyLinkReason
+
+    @HasMany("PersonToCounterPartyLinkToUploadedDocumentLink")
+    personToCounterPartyLinkToUploadedDocumentLinks: ModelCollection<PersonToCounterPartyLinkToUploadedDocumentLink>
 
     @Route("POST", {url: "/api/personToCounterPartyLinks"})
     create: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>

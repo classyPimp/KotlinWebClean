@@ -2,6 +2,7 @@ package controllers.persontocounterpartylinks
 
 import composers.persontocounterpartylinks.PersonToCounterPartyLinksComposers
 import controllers.BaseController
+import controllers.persontocounterpartylinks.persontocounterpartylinktouploadeddocumentlinks.PersonToCounterPartyLinkToUploadedDocumentLinksController
 import models.persontocounterpartylink.PersonToCounterPartyLink
 import models.persontocounterpartylink.daos.PersonToCounterPartyLinkDaos
 import models.persontocounterpartylink.tojsonserializers.PersonToCounterPartyLinkSerializers
@@ -11,6 +12,12 @@ import javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR
 import javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
 
 class PersonToCounterPartyLinksController(context: ServletRequestContext) : BaseController(context) {
+
+    companion object {
+        fun personToCounterPartyLinkToUploadedDocumentLinks(context: ServletRequestContext): PersonToCounterPartyLinkToUploadedDocumentLinksController {
+            return PersonToCounterPartyLinkToUploadedDocumentLinksController(context)
+        }
+    }
 
     fun create() {
         val composer = PersonToCounterPartyLinksComposers.create(requestParams())

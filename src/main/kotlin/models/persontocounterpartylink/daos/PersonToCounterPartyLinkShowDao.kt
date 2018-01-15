@@ -19,5 +19,9 @@ object PersonToCounterPartyLinkShowDao {
         return getByIdforShow(id)
     }
 
+    fun forPersonToCounterPartyLinkToUploadedDocumentLinkCreateById(id: Long): PersonToCounterPartyLink? {
+        return getByIdforShow(id)
+    }
+
 
 }

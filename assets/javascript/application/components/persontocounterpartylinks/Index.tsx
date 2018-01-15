@@ -5,6 +5,7 @@ import { PersonToCounterPartyLink } from '../../models/PersonToCounterPartyLink'
 import { ModelCollection } from '../../../modelLayer/ModelCollection';
 import autobind from 'autobind-decorator';
 import { Person } from '../../models/Person'
+import { Link } from 'react-router-dom';
 
 export class Index extends BaseReactComponent {
 
@@ -55,9 +56,16 @@ export class Index extends BaseReactComponent {
                   </div>
                  }
                  {this.props.editableMode &&
-                   <button onClick={()=>{this.destroy(it)}}>
-                     delete
-                   </button>
+                   <div>
+                     <Link to={`/dashboards/personToCounterPartyLinks/${it.id}/edit`}>
+                       <button>
+                         edit
+                       </button>
+                     </Link>
+                     <button onClick={()=>{this.destroy(it)}}>
+                       delete
+                     </button>
+                   </div>
                  }
                 </div>
               }

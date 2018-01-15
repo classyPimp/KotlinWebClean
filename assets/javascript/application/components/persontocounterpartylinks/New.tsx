@@ -87,6 +87,7 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
             registerInput={(it)=>{this.registerInput(it)}}
             optional={{placeholder: "additional info"}}
           />
+          
           <button onClick={this.submit}>
             submit
           </button>

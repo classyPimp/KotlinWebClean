@@ -11,8 +11,8 @@ import java.io.StringWriter
 abstract class BaseController(
        val context: router.src.ServletRequestContext
 ) {
-    fun requestParams(): IParam {
-        return MicroFrameworkDependencyManager.provider.servletRequestParametersWrapper.createTree(context.request)
+    fun requestParams(maxContentLength: Long? = null): IParam {
+        return MicroFrameworkDependencyManager.provider.servletRequestParametersWrapper.createTree(context.request, maxContentLength)
     }
 
     fun routeParams(): Map<String, String> {
