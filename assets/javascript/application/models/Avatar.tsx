@@ -21,11 +21,10 @@ export class Avatar extends BaseModel {
 
     fileUrl(namespace: string): string {
         if (namespace) {
-        
             if (this.cachedFilePath) {
                 return this.cachedFilePath
             } else {
-                this.cachedFilePath = `uploads/avatars/file/${this.constructChunkedIdPath(this.id)}/namespace/${this.fileName}`
+                this.cachedFilePath = `uploads/avatars/file/${this.constructChunkedIdPath(this.id)}/${namespace}/${this.fileName}`
                 return this.cachedFilePath
             }
         } else {

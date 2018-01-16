@@ -6,7 +6,10 @@ import orm.persontocounterpartylinktouploadeddocumentlinkgeneratedrepository.Per
 object Index {
 
     fun onSuccess(links: MutableList<PersonToCounterPartyLinkToUploadedDocumentLink>): String {
-        return PersonToCounterPartyLinkToUploadedDocumentLinkToJsonSerializer.serialize(links).toString()
+        return PersonToCounterPartyLinkToUploadedDocumentLinkToJsonSerializer.serialize(links) {
+            it.includeUploadedDocument()
+            it.includePersonToCounterPartyLinkToUploadedDocLinkReason()
+        }.toString()
     }
 
 }

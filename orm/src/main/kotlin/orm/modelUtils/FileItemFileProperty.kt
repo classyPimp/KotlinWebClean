@@ -39,7 +39,7 @@ abstract class FileItemFileProperty {
 
     abstract fun validateFile(uploadedFile: File): Boolean
 
-    abstract fun handlePropertiesOnAssign(file: File)
+    abstract fun handlePropertiesOnAssign(fileItem: FileItem)
 
     abstract fun preprocessFile(file: File)
 
@@ -51,7 +51,10 @@ abstract class FileItemFileProperty {
         fileItem = null
     }
 
-    fun assign(fileItem: FileItem) {
+    fun assign(fileItem: FileItem?) {
+        if (fileItem == null) {
+            return
+        }
         if (modelId != null) {
             operationType = OperationType.ASSIGN
             assignWhenIdAvailable(fileItem)
@@ -59,6 +62,7 @@ abstract class FileItemFileProperty {
             this.fileItem = fileItem
             operationType = OperationType.ASSIGN_MODEL_NOT_PERSISTED
         }
+        handlePropertiesOnAssign(fileItem)
     }
 
     fun assignWhenIdAvailable(fileItem: FileItem){
@@ -93,12 +97,11 @@ abstract class FileItemFileProperty {
             throw error
         }
 
-        handlePropertiesOnAssign(transactionOriginalFile!!)
     }
 
     fun delete(){
-        if (modelId == null) {
-            throw IllegalStateException("${this::class.simpleName}#delete(): no id set, can't delete file")
+        if (modelId == null || fileNameOnProperty == null) {
+            return
         }
         this.operationType = OperationType.DELETE
         handlePropertiesOnDelete()
@@ -151,9 +154,7 @@ abstract class FileItemFileProperty {
     }
 
     fun getFile(nameSpace: String = "original"): File? {
-        if (modelId == null) {
-            return null
-        } else if (fileNameOnProperty == null) {
+        if (fileNameOnProperty == null) {
             return null
         }
         val file = File("${prepareRepositoryPath()}/$nameSpace/$fileNameOnProperty")

@@ -6,6 +6,7 @@ import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { PersonToCounterPartyLinkToUploadedDocumentLink } from './PersonToCounterPartyLinkToUploadedDocumentLink'
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
+import { FileUploadUtils } from '../services/FileUploadUtils'
 
 export class UploadedDocument extends BaseModel {
 
@@ -47,6 +48,14 @@ export class UploadedDocument extends BaseModel {
     fileValidator(){
       if (this.properties["file"]) {
         this.hasFile = true
+      }
+    }
+
+    fileUrl(namespace: string = "original"): string {
+      if (this.fileName) {
+        return `/uploads/uploadedDocuments/file/${FileUploadUtils.constructChunkedIdPath(this.id)}/${namespace}/${this.fileName}`
+      } else {
+        return null
       }
     }
 

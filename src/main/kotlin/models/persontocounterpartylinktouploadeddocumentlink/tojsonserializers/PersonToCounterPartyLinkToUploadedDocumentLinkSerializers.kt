@@ -4,4 +4,8 @@ object PersonToCounterPartyLinkToUploadedDocumentLinkSerializers {
 
     val index = Index
 
+    val create = Create
+
+    val destroy = Destroy
+
 }

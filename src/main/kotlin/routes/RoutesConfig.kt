@@ -284,6 +284,10 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     post("") {
                         PersonToCounterPartyLinksController.personToCounterPartyLinkToUploadedDocumentLinks(it).create()
                     }
+
+                    delete("/:id") {
+                        PersonToCounterPartyLinksController.personToCounterPartyLinkToUploadedDocumentLinks(it).destroy()
+                    }
                 }
 
                 post("") {

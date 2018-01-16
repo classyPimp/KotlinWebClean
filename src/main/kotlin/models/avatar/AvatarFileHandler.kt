@@ -1,5 +1,6 @@
 package models.avatar
 
+import org.apache.commons.fileupload.FileItem
 import orm.modelUtils.FileItemFileProperty
 import java.io.File
 
@@ -14,9 +15,9 @@ class AvatarFileHandler(val model: Avatar) : FileItemFileProperty() {
     override val fileNameOnProperty: String?
         get() = model.avatarFileName
 
-    override fun handlePropertiesOnAssign(file: File) {
+    override fun handlePropertiesOnAssign(fileItem: FileItem) {
         model.record.let {
-            it.avatarFileName = file.name
+            it.avatarFileName = fileItem.name
         }
     }
 

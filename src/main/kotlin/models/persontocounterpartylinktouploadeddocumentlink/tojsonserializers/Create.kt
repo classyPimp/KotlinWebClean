@@ -6,17 +6,17 @@ import orm.persontocounterpartylinktouploadeddocumentlinkgeneratedrepository.Per
 object Create {
 
     fun onSuccess(personToCounterPartyLinkToUploadedDocumentLink: PersonToCounterPartyLinkToUploadedDocumentLink): String {
-        PersonToCounterPartyLinkToUploadedDocumentLinkToJsonSerializer(personToCounterPartyLinkToUploadedDocumentLink).let {
-
-            return it.serializeToString()
-        }
+        return PersonToCounterPartyLinkToUploadedDocumentLinkToJsonSerializer(personToCounterPartyLinkToUploadedDocumentLink).also {
+            it.includeUploadedDocument()
+        }.serializeToString()
     }
 
     fun onError(personToCounterPartyLinkToUploadedDocumentLink: PersonToCounterPartyLinkToUploadedDocumentLink): String {
         PersonToCounterPartyLinkToUploadedDocumentLinkToJsonSerializer(personToCounterPartyLinkToUploadedDocumentLink). let {
-
-
             it.includeErrors()
+            it.includeUploadedDocument() {
+                it.includeErrors()
+            }
             return it.serializeToString()
         }
     }

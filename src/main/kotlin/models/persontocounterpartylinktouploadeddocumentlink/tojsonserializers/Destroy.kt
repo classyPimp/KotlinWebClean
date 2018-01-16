@@ -7,15 +7,18 @@ object Destroy {
 
     fun onSuccess(personToCounterPartyLinkToUploadedDocumentLink: PersonToCounterPartyLinkToUploadedDocumentLink): String {
         PersonToCounterPartyLinkToUploadedDocumentLinkToJsonSerializer(personToCounterPartyLinkToUploadedDocumentLink).let {
-
+            it.includeUploadedDocument() {
+                it.includeErrors()
+            }
             return it.serializeToString()
         }
     }
 
     fun onError(personToCounterPartyLinkToUploadedDocumentLink: PersonToCounterPartyLinkToUploadedDocumentLink): String {
         PersonToCounterPartyLinkToUploadedDocumentLinkToJsonSerializer(personToCounterPartyLinkToUploadedDocumentLink). let {
-
-
+            it.includeUploadedDocument() {
+                it.includeErrors()
+            }
             it.includeErrors()
             return it.serializeToString()
         }

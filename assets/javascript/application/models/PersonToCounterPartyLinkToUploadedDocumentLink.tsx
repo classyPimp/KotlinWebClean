@@ -43,22 +43,22 @@ export class PersonToCounterPartyLinkToUploadedDocumentLink extends BaseModel {
 
 
     @Route("POST", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks"})
-    create: (options?: RequestOptions) => Promise<UploadedDocument>
+    create: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocumentLink>
 
     @Route("GET", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks"})
-    static index: (options?: RequestOptions) => Promise<ModelCollection<UploadedDocument>>
+    static index: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLinkToUploadedDocumentLink>>
 
     @Route("GET", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id"})
-    static show: (options?: RequestOptions) => Promise<UploadedDocument>
+    static show: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocumentLink>
 
     @Route("GET", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id/edit"})
-    static edit: (options?: RequestOptions) => Promise<UploadedDocument>
+    static edit: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocumentLink>
 
     @Route("PUT", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id", defaultWilds: ["id"]})
-    update: (options?: RequestOptions) => Promise<UploadedDocument>
+    update: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocumentLink>
 
     @Route("DELETE", {url: "/api/personToCounterPartyLinks/:personToCounterPartyLinkId/personToCounterPartyLinkToUploadedDocumentLinks/:id", defaultWilds: ["id"]})
-    destroy: (options?: RequestOptions) => Promise<UploadedDocument>
+    destroy: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocumentLink>
 
 
 }

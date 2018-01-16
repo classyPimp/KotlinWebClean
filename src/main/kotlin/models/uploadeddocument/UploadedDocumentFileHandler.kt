@@ -1,5 +1,6 @@
 package models.uploadeddocument
 
+import org.apache.commons.fileupload.FileItem
 import orm.modelUtils.FileItemFileProperty
 import java.io.File
 
@@ -26,15 +27,22 @@ class UploadedDocumentFileHandler(val model: UploadedDocument) : FileItemFilePro
         model.record.save()
     }
 
-    override fun handlePropertiesOnAssign(file: File) {
+    override fun handlePropertiesOnAssign(fileItem: FileItem) {
         model.record.let {
-            it.fileName = model.fileName
+            fileItem.let {
+                fileItem ->
+                it.fileName = fileItem.name
+                it.fileSize = fileItem.size.toInt()
+                it.fileMime = App.component.mimeDetector().detect(fileItem.inputStream)
+            }
         }
     }
 
     override fun handlePropertiesOnDelete() {
-        model.let {
-            it.record.fileName = null
+        model.record.let {
+            it.fileName = null
+            it.fileSize = null
+            it.fileMime = null
         }
     }
 

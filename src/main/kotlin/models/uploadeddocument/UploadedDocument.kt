@@ -23,7 +23,6 @@ class UploadedDocument {
     var id: Long? = null
 
     @TableField(name = "UPLOADED_DOCUMENT_ID")
-    @IsPrimaryKey
     var uploadedDocumentId: Long? = null
 
     @TableField(name = "DESCRIPTION")
