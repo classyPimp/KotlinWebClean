@@ -12,11 +12,18 @@ class SimpleFileServer(
 ) {
 
     fun serveFile(context: ServletRequestContext) {
-        val file = File("${rootPathOfServedFile}${context.request.requestURI}")
+        var filePath = "${rootPathOfServedFile}${context.request.requestURI}"
+        if (filePath.startsWith("/")) {
+            filePath = filePath.substring(1)
+        }
+        val file = File(filePath)
         if (!file.exists()) {
             context.response.sendError(404)
             return
         }
+
+        context.response.setHeader("Content-Disposition", "attachment;filename=${file.name}")
+
         val outputStream = context.response.getOutputStream()
         val inputStream = FileInputStream(file)
         val buffer = ByteArray(4096)

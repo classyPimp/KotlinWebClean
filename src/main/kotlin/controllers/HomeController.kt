@@ -12,7 +12,6 @@ class HomeController(
 ) : ApplicationControllerBase(servletRequestContext) {
 
     fun get(){
-
         renderTemplate(
                 "home/index.ftl",
                 App.component.assetsPathProvider()

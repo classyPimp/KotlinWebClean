@@ -37,7 +37,7 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
         get("/uploads/*") {
             SimpleFileServer(
                     ""
-            )
+            ).serveFile(it)
         }
 
         get("/*") {

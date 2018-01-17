@@ -5,7 +5,7 @@ import autobind from 'autobind-decorator';
 import { PersonToCounterPartyLinkToUploadedDocumentLink } from '../../../models/PersonToCounterPartyLinkToUploadedDocumentLink'
 import {Modal} from '../../shared/Modal'
 import { PersonToCounterPartyLinksComponents } from '../PersonToCounterPartyLinksComponents'
-
+import { Link } from 'react-router-dom'
 
 export class Index extends BaseReactComponent {
 
@@ -35,7 +35,10 @@ export class Index extends BaseReactComponent {
             this.state.personToCounterPartyLinkToUploadedDocumentLinks.map((it, index)=>{
               return <div>
                 reason name: /*it.personToCounterPartyLinkToUploadedDocLinkReason.reasonName*/
-                file: {it.uploadedDocument.fileName} : {it.uploadedDocument.fileUrl()}}
+                file:  
+                <a href={it.uploadedDocument.fileUrl()} className="pure-menu-link">
+                  {it.uploadedDocument.fileName}
+                </a>
                 <button onClick={()=>{this.delete(it)}}>
                   delete
                 </button>
