@@ -15,6 +15,8 @@ interface IParam {
 
     val string: String?
 
+    val boolean: Boolean?
+
     val intList: MutableList<Int>?
 
     val stringList: MutableList<String>?

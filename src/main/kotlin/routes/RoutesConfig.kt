@@ -3,6 +3,7 @@ package routes
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
 import controllers.counterparties.CounterPartiesController
+import controllers.documenttemplatevariables.DocumentTemplateVariablesController
 import controllers.incorporationforms.IncorporationFormsController
 import controllers.persons.PersonsController
 import controllers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonController
@@ -347,6 +348,32 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 delete("/:id") {
                     PersonToCounterPartyLinkToUploadedDocLinkReasonController(it).destroy()
+                }
+            }
+
+            namespace("/documentTemplateVariables") {
+                post("") {
+                    DocumentTemplateVariablesController(it).create()
+                }
+
+                get("") {
+                    DocumentTemplateVariablesController(it).index()
+                }
+
+                get("/:id") {
+                    DocumentTemplateVariablesController(it).show()
+                }
+
+                get("/:id/edit") {
+                    DocumentTemplateVariablesController(it).edit()
+                }
+
+                put("/:id") {
+                    DocumentTemplateVariablesController(it).update()
+                }
+
+                delete("/:id") {
+                    DocumentTemplateVariablesController(it).destroy()
                 }
             }
 

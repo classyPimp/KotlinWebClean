@@ -16,6 +16,16 @@ class MultipartFormDataParam : IParam, ParamInParseModeTrait {
             return this.value as String?
         }
 
+    override val boolean: Boolean?
+        get() {
+            val stringValue = this.value as String?
+            if (stringValue != null) {
+                return (stringValue == "true")
+            } else {
+                return null
+            }
+        }
+
     override val intList: MutableList<Int>?
         get() {
             if (this.valueType != ParamTypesEnum.ANY_LIST) {

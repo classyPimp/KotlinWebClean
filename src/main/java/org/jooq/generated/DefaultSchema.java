@@ -17,8 +17,13 @@ import org.jooq.generated.tables.ArInternalMetadata;
 import org.jooq.generated.tables.Avatars;
 import org.jooq.generated.tables.ContactTypes;
 import org.jooq.generated.tables.Contacts;
+import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
+import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
 import org.jooq.generated.tables.CounterPartyToContactLinks;
+import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
+import org.jooq.generated.tables.DocumentTemplateVariables;
+import org.jooq.generated.tables.DocumentTemplates;
 import org.jooq.generated.tables.IncorporationForms;
 import org.jooq.generated.tables.People;
 import org.jooq.generated.tables.PersonToContactLinks;
@@ -45,7 +50,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = -1715589505;
+    private static final long serialVersionUID = 1121719334;
 
     /**
      * The reference instance of <code></code>
@@ -78,6 +83,16 @@ public class DefaultSchema extends SchemaImpl {
     public final Contacts CONTACTS = org.jooq.generated.tables.Contacts.CONTACTS;
 
     /**
+     * The table <code>contract_to_uploaded_document_links</code>.
+     */
+    public final ContractToUploadedDocumentLinks CONTRACT_TO_UPLOADED_DOCUMENT_LINKS = org.jooq.generated.tables.ContractToUploadedDocumentLinks.CONTRACT_TO_UPLOADED_DOCUMENT_LINKS;
+
+    /**
+     * The table <code>contracts</code>.
+     */
+    public final Contracts CONTRACTS = org.jooq.generated.tables.Contracts.CONTRACTS;
+
+    /**
      * The table <code>counter_parties</code>.
      */
     public final CounterParties COUNTER_PARTIES = org.jooq.generated.tables.CounterParties.COUNTER_PARTIES;
@@ -86,6 +101,21 @@ public class DefaultSchema extends SchemaImpl {
      * The table <code>counter_party_to_contact_links</code>.
      */
     public final CounterPartyToContactLinks COUNTER_PARTY_TO_CONTACT_LINKS = org.jooq.generated.tables.CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS;
+
+    /**
+     * The table <code>document_template_to_document_variable_links</code>.
+     */
+    public final DocumentTemplateToDocumentVariableLinks DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS = org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS;
+
+    /**
+     * The table <code>document_template_variables</code>.
+     */
+    public final DocumentTemplateVariables DOCUMENT_TEMPLATE_VARIABLES = org.jooq.generated.tables.DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES;
+
+    /**
+     * The table <code>document_templates</code>.
+     */
+    public final DocumentTemplates DOCUMENT_TEMPLATES = org.jooq.generated.tables.DocumentTemplates.DOCUMENT_TEMPLATES;
 
     /**
      * The table <code>incorporation_forms</code>.
@@ -167,8 +197,13 @@ public class DefaultSchema extends SchemaImpl {
             Avatars.AVATARS,
             ContactTypes.CONTACT_TYPES,
             Contacts.CONTACTS,
+            ContractToUploadedDocumentLinks.CONTRACT_TO_UPLOADED_DOCUMENT_LINKS,
+            Contracts.CONTRACTS,
             CounterParties.COUNTER_PARTIES,
             CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS,
+            DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS,
+            DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES,
+            DocumentTemplates.DOCUMENT_TEMPLATES,
             IncorporationForms.INCORPORATION_FORMS,
             People.PEOPLE,
             PersonToContactLinks.PERSON_TO_CONTACT_LINKS,

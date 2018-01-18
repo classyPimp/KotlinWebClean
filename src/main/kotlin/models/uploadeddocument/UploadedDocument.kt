@@ -1,5 +1,7 @@
 package models.uploadeddocument
 
+import models.contracttouploadeddocumentlink.ContractToUploadedDocumentLink
+import models.documenttemplate.DocumentTemplate
 import models.persontocounterpartylinktouploadeddocumentlink.PersonToCounterPartyLinkToUploadedDocumentLink
 import org.jooq.generated.tables.UploadedDocuments
 import orm.annotations.*
@@ -58,4 +60,9 @@ class UploadedDocument {
     @HasMany(model = PersonToCounterPartyLinkToUploadedDocumentLink::class, fieldOnThis = "ID", fieldOnThat = "UPLOADED_DOCUMENT_ID")
     var personToCounterPartyLinkToUploadedDocumentLinks: MutableList<PersonToCounterPartyLinkToUploadedDocumentLink>? = null
 
+    @HasMany(model = ContractToUploadedDocumentLink::class, fieldOnThis = "ID", fieldOnThat = "UPLOADED_DOCUMENT_ID")
+    var contractToUploadedDocumentLinks: MutableList<ContractToUploadedDocumentLink>? = null
+
+    @HasMany(model = DocumentTemplate::class, fieldOnThat = "UPLOADED_DOCUMENT_ID", fieldOnThis = "ID")
+    var documentTemplates: MutableList<DocumentTemplate>? = null
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171205075347) do
+ActiveRecord::Schema.define(version: 20180118093821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,21 @@ ActiveRecord::Schema.define(version: 20171205075347) do
     t.index ["contact_type_id"], name: "index_contacts_on_contact_type_id"
   end
 
+  create_table "contract_to_uploaded_document_links", force: :cascade do |t|
+    t.bigint "contract_id"
+    t.bigint "uploaded_document_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contract_id"], name: "index_contract_to_uploaded_document_links_on_contract_id"
+    t.index ["uploaded_document_id"], name: "ctupdl_on_ud"
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "counter_parties", force: :cascade do |t|
     t.string "name"
     t.string "name_short"
@@ -63,6 +78,36 @@ ActiveRecord::Schema.define(version: 20171205075347) do
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_counter_party_to_contact_links_on_contact_id"
     t.index ["counter_party_id"], name: "index_counter_party_to_contact_links_on_counter_party_id"
+  end
+
+  create_table "document_template_to_document_variable_links", force: :cascade do |t|
+    t.bigint "document_template_id"
+    t.bigint "document_template_variable_id"
+    t.string "unique_identifier"
+    t.string "default_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_template_id"], name: "dttdvl_to_dtempl_fk"
+    t.index ["document_template_variable_id"], name: "dttdvl_to_dtvar_fk"
+  end
+
+  create_table "document_template_variables", force: :cascade do |t|
+    t.string "name"
+    t.string "humanized_name"
+    t.string "description"
+    t.string "default_value"
+    t.boolean "is_preprogrammed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "document_templates", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "uploaded_document_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uploaded_document_id"], name: "index_document_templates_on_uploaded_document_id"
   end
 
   create_table "incorporation_forms", force: :cascade do |t|
@@ -145,9 +190,14 @@ ActiveRecord::Schema.define(version: 20171205075347) do
   add_foreign_key "accounts", "users"
   add_foreign_key "avatars", "users"
   add_foreign_key "contacts", "contact_types"
+  add_foreign_key "contract_to_uploaded_document_links", "contracts"
+  add_foreign_key "contract_to_uploaded_document_links", "uploaded_documents"
   add_foreign_key "counter_parties", "incorporation_forms"
   add_foreign_key "counter_party_to_contact_links", "contacts"
   add_foreign_key "counter_party_to_contact_links", "counter_parties"
+  add_foreign_key "document_template_to_document_variable_links", "document_template_variables"
+  add_foreign_key "document_template_to_document_variable_links", "document_templates"
+  add_foreign_key "document_templates", "uploaded_documents"
   add_foreign_key "person_to_contact_links", "contacts"
   add_foreign_key "person_to_contact_links", "people"
   add_foreign_key "person_to_counter_party_link_to_uploaded_document_links", "person_to_counter_party_link_to_uploaded_doc_link_reasons"

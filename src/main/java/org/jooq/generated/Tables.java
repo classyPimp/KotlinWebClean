@@ -11,8 +11,13 @@ import org.jooq.generated.tables.ArInternalMetadata;
 import org.jooq.generated.tables.Avatars;
 import org.jooq.generated.tables.ContactTypes;
 import org.jooq.generated.tables.Contacts;
+import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
+import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
 import org.jooq.generated.tables.CounterPartyToContactLinks;
+import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
+import org.jooq.generated.tables.DocumentTemplateVariables;
+import org.jooq.generated.tables.DocumentTemplates;
 import org.jooq.generated.tables.IncorporationForms;
 import org.jooq.generated.tables.People;
 import org.jooq.generated.tables.PersonToContactLinks;
@@ -64,6 +69,16 @@ public class Tables {
     public static final Contacts CONTACTS = org.jooq.generated.tables.Contacts.CONTACTS;
 
     /**
+     * The table <code>contract_to_uploaded_document_links</code>.
+     */
+    public static final ContractToUploadedDocumentLinks CONTRACT_TO_UPLOADED_DOCUMENT_LINKS = org.jooq.generated.tables.ContractToUploadedDocumentLinks.CONTRACT_TO_UPLOADED_DOCUMENT_LINKS;
+
+    /**
+     * The table <code>contracts</code>.
+     */
+    public static final Contracts CONTRACTS = org.jooq.generated.tables.Contracts.CONTRACTS;
+
+    /**
      * The table <code>counter_parties</code>.
      */
     public static final CounterParties COUNTER_PARTIES = org.jooq.generated.tables.CounterParties.COUNTER_PARTIES;
@@ -72,6 +87,21 @@ public class Tables {
      * The table <code>counter_party_to_contact_links</code>.
      */
     public static final CounterPartyToContactLinks COUNTER_PARTY_TO_CONTACT_LINKS = org.jooq.generated.tables.CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS;
+
+    /**
+     * The table <code>document_template_to_document_variable_links</code>.
+     */
+    public static final DocumentTemplateToDocumentVariableLinks DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS = org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS;
+
+    /**
+     * The table <code>document_template_variables</code>.
+     */
+    public static final DocumentTemplateVariables DOCUMENT_TEMPLATE_VARIABLES = org.jooq.generated.tables.DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES;
+
+    /**
+     * The table <code>document_templates</code>.
+     */
+    public static final DocumentTemplates DOCUMENT_TEMPLATES = org.jooq.generated.tables.DocumentTemplates.DOCUMENT_TEMPLATES;
 
     /**
      * The table <code>incorporation_forms</code>.

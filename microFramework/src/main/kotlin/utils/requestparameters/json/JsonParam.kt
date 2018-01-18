@@ -37,6 +37,11 @@ class JsonParam(val jsonNode: JsonNode): IParam {
             return jsonNode.textValue()
         }
 
+    override val boolean: Boolean?
+        get() {
+            return jsonNode.booleanValue()
+        }
+
     override fun int(): Int? {
         return jsonNode.intValue()
     }
