@@ -68,6 +68,16 @@ export class SideBar extends BaseReactComponent {
                         index counter parties
                     </Link>
                 </li>
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/documentTemplateVariables/new" className="pure-menu-link">
+                        new document template variable
+                    </Link>
+                </li>
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/documentTemplateVariables" className="pure-menu-link">
+                        index documentTemplateVariables
+                    </Link>
+                </li>
             </ul>
         </div>
     }

@@ -5,20 +5,9 @@ import orm.documenttemplatevariablegeneratedrepository.DocumentTemplateVariableT
 
 object IndexSerializer {
 
-    fun onSuccess(documentTemplateVariable: DocumentTemplateVariable): String {
-        DocumentTemplateVariableToJsonSerializer(documentTemplateVariable).let {
-
-            return it.serializeToString()
-        }
+    fun onSuccess(documentTemplateVariables: MutableList<DocumentTemplateVariable>): String {
+        return DocumentTemplateVariableToJsonSerializer.serialize(documentTemplateVariables).toString()
     }
 
-    fun onError(documentTemplateVariable: DocumentTemplateVariable): String {
-        DocumentTemplateVariableToJsonSerializer(documentTemplateVariable). let {
-
-
-            it.includeErrors()
-            return it.serializeToString()
-        }
-    }
 
 }

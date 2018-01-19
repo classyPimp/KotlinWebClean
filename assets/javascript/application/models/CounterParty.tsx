@@ -40,7 +40,7 @@ export class CounterParty extends BaseModel {
     @HasMany("PersonToCounterPartyLink")
     personToCounterPartyLinks: ModelCollection<PersonToCounterPartyLink>
 
-     @Route("POST", {url: "/api/counterParties"})
+    @Route("POST", {url: "/api/counterParties"})
     create: (options?: RequestOptions) => Promise<CounterParty>
 
     @Route("GET", {url: "/api/counterParties"})

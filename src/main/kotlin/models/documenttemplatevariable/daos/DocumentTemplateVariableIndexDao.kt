@@ -5,7 +5,10 @@ import orm.documenttemplatevariablegeneratedrepository.DocumentTemplateVariableR
 import models.documenttemplatevariable.DocumentTemplateVariable
 
 object DocumentTemplateVariableIndexDao {
-
+    fun forIndex(): MutableList<DocumentTemplateVariable> {
+        return DocumentTemplateVariableRecord.GET()
+                .execute()
+    }
 
 
 }

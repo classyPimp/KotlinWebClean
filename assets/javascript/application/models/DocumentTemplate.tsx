@@ -4,6 +4,8 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
+import { UploadedDocument } from './UploadedDocument'
+
 
 export class DocumentTemplate extends BaseModel {
 
@@ -13,9 +15,21 @@ export class DocumentTemplate extends BaseModel {
     id: number
 
     @Property
+    name: string
+
+    @Property
+    description: string
+
+    @Property
+    uploadedDocumentId: number
+
+    @Property
     updatedAt: string
 
     @Property
     createdAt: string
+
+    @HasOne("UploadedDocument")
+    uploadedDocument: UploadedDocument
 
 }

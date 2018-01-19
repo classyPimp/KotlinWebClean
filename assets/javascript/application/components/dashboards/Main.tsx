@@ -13,6 +13,8 @@ import { PersonToCounterPartyLinkReasonsComponents } from '../persontocounterpar
 import { IncorporationFormsComponents } from '../incorporationforms/IncorporationFormsComponents'
 import { PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents } from '../persontocounterpartylinktouploadeddoclinkreasons/PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents' 
 import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
+import { DocumentTemplateVariablesComponents } from '../documenttemplatevariables/DocumentTemplateVariablesComponents'
+
 
 export class Main extends BaseReactComponent {
 
@@ -75,6 +77,12 @@ export class Main extends BaseReactComponent {
                       path={`${this.props.match.url}/personToCounterPartyLinks/:id/edit`} 
                       component={PersonToCounterPartyLinksComponents.Edit}
                     />
+
+                    <Route exact path={`${this.props.match.url}/documentTemplateVariables/new`} component={DocumentTemplateVariablesComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/documentTemplateVariables`} component={DocumentTemplateVariablesComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/documentTemplateVariables/:id/edit`} component={DocumentTemplateVariablesComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/documentTemplateVariables/:id`} component={DocumentTemplateVariablesComponents.Show}/>
+                    
                 </Switch>
             </div>
         </div>

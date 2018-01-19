@@ -4,6 +4,8 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
+import { Contract } from './Contract'
+import { UploadedDocument } from './UploadedDocument'
 
 export class ContractToUploadedDocumentLink extends BaseModel {
 
@@ -13,9 +15,21 @@ export class ContractToUploadedDocumentLink extends BaseModel {
     id: number
 
     @Property
+    contractId: number
+
+    @Property
+    uploadedDocumentId: number
+
+    @Property
     updatedAt: string
 
     @Property
     createdAt: string
+
+    @HasOne("Contract")
+    contract: Contract
+
+    @HasOne("UploadedDocument")
+    uploadedDocument: UploadedDocument
 
 }

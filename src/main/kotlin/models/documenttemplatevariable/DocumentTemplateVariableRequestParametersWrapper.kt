@@ -13,4 +13,5 @@ class DocumentTemplateVariableRequestParametersWrapper(val requestParameters: IP
 
     var isPreprogrammed: Boolean? = requestParameters.get("isPreprogrammed")?.boolean
 
+    var description: String? = requestParameters.get("description")?.string
 }

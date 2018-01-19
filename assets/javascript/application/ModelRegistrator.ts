@@ -15,6 +15,12 @@ import { PersonToCounterPartyLinkToUploadedDocLinkReason } from './models/Person
 import { PersonToCounterPartyLinkToUploadedDocumentLink } from './models/PersonToCounterPartyLinkToUploadedDocumentLink'
 import { UploadedDocument } from './models/UploadedDocument'
 import { User } from './models/User'
+import { Contract } from './models/Contract'
+import { ContractToUploadedDocumentLink } from './models/ContractToUploadedDocumentLink'
+import { DocumentTemplate } from './models/DocumentTemplate'
+import { DocumentTemplateToDocumentVariableLink } from './models/DocumentTemplateToDocumentVariableLink'
+import { DocumentTemplateVariable } from './models/DocumentTemplateVariable'
+
 
 export class ModelRegistrator {
   //THIS UGLY HACK SOLVES SOME NASTY CIRCULAR DEPENDENCIES BUGS!
@@ -35,6 +41,11 @@ export class ModelRegistrator {
       PersonToCounterPartyLinkToUploadedDocumentLink,
       UploadedDocument,
       User,
+      Contract,
+      ContractToUploadedDocumentLink,
+      DocumentTemplate,
+      DocumentTemplateToDocumentVariableLink,
+      DocumentTemplateVariable
     }
   }
 

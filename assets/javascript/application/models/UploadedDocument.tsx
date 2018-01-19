@@ -7,6 +7,8 @@ import { PersonToCounterPartyLinkToUploadedDocumentLink } from './PersonToCounte
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { FileUploadUtils } from '../services/FileUploadUtils'
+import { ContractToUploadedDocumentLink } from './ContractToUploadedDocumentLink'
+import { DocumentTemplate } from './DocumentTemplate'
 
 export class UploadedDocument extends BaseModel {
 
@@ -68,5 +70,9 @@ export class UploadedDocument extends BaseModel {
     @HasMany("PersonToCounterPartyLinkToUploadedDocumentLink")
     personToCounterPartyLinkToUploadedDocumentLinks: ModelCollection<PersonToCounterPartyLinkToUploadedDocumentLink>
 
+    @HasMany("ContractToUploadedDocumentLink")
+    contractToUploadedDocumentLinks: ModelCollection<ContractToUploadedDocumentLink>
 
+    @HasMany("DocumentTemplate")
+    documentTemplates: ModelCollection<DocumentTemplate>
 }
