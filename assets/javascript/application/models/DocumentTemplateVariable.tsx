@@ -37,22 +37,22 @@ export class DocumentTemplateVariable extends BaseModel {
     @HasMany("DocumentTemplateToDocumentTemplateVariableLink")
     documentTemplateToDocumentVariableLinks: ModelCollection<DocumentTemplateToDocumentVariableLink>
 
-    @Route("POST", {url: "/api/documentTemplateVariable"})
+    @Route("POST", {url: "/api/documentTemplateVariables"})
     create: (options?: RequestOptions) => Promise<DocumentTemplateVariable>
 
-    @Route("GET", {url: "/api/documentTemplateVariable"})
+    @Route("GET", {url: "/api/documentTemplateVariables"})
     static index: (options?: RequestOptions) => Promise<ModelCollection<DocumentTemplateVariable>>
 
-    @Route("GET", {url: "/api/documentTemplateVariable/:id"})
+    @Route("GET", {url: "/api/documentTemplateVariables/:id"})
     static show: (options?: RequestOptions) => Promise<DocumentTemplateVariable>
 
-    @Route("GET", {url: "/api/documentTemplateVariable/:id/edit"})
+    @Route("GET", {url: "/api/documentTemplateVariables/:id/edit"})
     static edit: (options?: RequestOptions) => Promise<DocumentTemplateVariable>
 
-    @Route("PUT", {url: "/api/documentTemplateVariable/:id", defaultWilds: ["id"]})
+    @Route("PUT", {url: "/api/documentTemplateVariables/:id", defaultWilds: ["id"]})
     update: (options?: RequestOptions) => Promise<DocumentTemplateVariable>
 
-    @Route("DELETE", {url: "/api/documentTemplateVariable/:id", defaultWilds: ["id"]})
+    @Route("DELETE", {url: "/api/documentTemplateVariables/:id", defaultWilds: ["id"]})
     destroy: (options?: RequestOptions) => Promise<DocumentTemplateVariable>
 
 }

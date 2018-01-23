@@ -32,7 +32,7 @@ export class ApplicationComponent extends BaseReactComponent {
         if (xhr.status === 404) {
             console.log("should redirect")
             console.log(this.props)
-            this.props.history.push("/404", {})
+            this.props.history.replace("/404", {})
         }
     }
 

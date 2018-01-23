@@ -1,5 +1,6 @@
 package models.documenttemplate
 
+import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import models.uploadeddocument.UploadedDocument
 import org.jooq.generated.tables.DocumentTemplates
 import orm.annotations.*
@@ -32,6 +33,9 @@ class DocumentTemplate {
 
     @BelongsTo(model = UploadedDocument::class, fieldOnThis = "UPLOADED_DOCUMENT_ID", fieldOnThat = "ID")
     var uploadedDocument: UploadedDocument? = null
+
+    @HasMany(model = DocumentTemplateToDocumentVariableLink::class, fieldOnThat = "DOCUMENT_TEMPLATE_ID", fieldOnThis = "ID")
+    var documentTemplateToDocumentTemplateVariableLinks: MutableList<DocumentTemplateToDocumentVariableLink>? = null
 
 }
 

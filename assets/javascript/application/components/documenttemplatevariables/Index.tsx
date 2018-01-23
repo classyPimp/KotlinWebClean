@@ -15,9 +15,14 @@ export class Index extends BaseReactComponent {
 
     componentDidMount(){
         DocumentTemplateVariable.index().then((documentTemplateVariables: ModelCollection<DocumentTemplateVariable>)=>{
+            try {
             this.setState({
                 documentTemplateVariables
+
             })
+            } catch(error) {
+              console.log(error)
+            }
         })
     }
 

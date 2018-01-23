@@ -39,7 +39,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                     />
                     <PlainInputElement 
                         model={this.state.documentTemplateVariable} 
-                        propertyName="name" 
+                        propertyName="humanizedName" 
                         registerInput={(it)=>{this.registerInput(it)}}
                         optional={{placeholder: "name"}}
                     />

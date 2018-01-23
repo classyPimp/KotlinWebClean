@@ -3,6 +3,7 @@ package routes
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
 import controllers.counterparties.CounterPartiesController
+import controllers.documenttemplates.DocumentTemplatesController
 import controllers.documenttemplatevariables.DocumentTemplateVariablesController
 import controllers.incorporationforms.IncorporationFormsController
 import controllers.persons.PersonsController
@@ -375,6 +376,26 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 delete("/:id") {
                     DocumentTemplateVariablesController(it).destroy()
                 }
+            }
+
+            namespace("/documentTemplates") {
+
+                namespace("/prevalidations") {
+
+                    post("") {
+                        DocumentTemplatesController.prevalidations(it).create()
+                    }
+
+                }
+
+                post("") {
+                    DocumentTemplatesController(it).create()
+                }
+
+                get("") {
+                    DocumentTemplatesController(it).index()
+                }
+
             }
 
         }

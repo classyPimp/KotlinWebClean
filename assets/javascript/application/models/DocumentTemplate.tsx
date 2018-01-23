@@ -5,7 +5,7 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { UploadedDocument } from './UploadedDocument'
-
+import { DocumentTemplateToDocumentVariableLink } from './DocumentTemplateToDocumentVariableLink'
 
 export class DocumentTemplate extends BaseModel {
 
@@ -31,5 +31,19 @@ export class DocumentTemplate extends BaseModel {
 
     @HasOne("UploadedDocument")
     uploadedDocument: UploadedDocument
+
+    @HasMany("DocumentTemplateToDocumentVariableLink")
+    documentTemplateToDocumentVariableLinks: ModelCollection<DocumentTemplateToDocumentVariableLink>
+
+    @Route("POST", {url: "/documentTemplates/prevalidations"})
+    prevalidationsCreate: (options: RequestOptions) => Promise<DocumentTemplate>
+
+    beforePrevalidationsCreateRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterPrevalidationsCreateRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
 
 }
