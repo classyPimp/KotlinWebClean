@@ -30,17 +30,21 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
     lateinit var persistedDocumentTemplateVariablesNameToDocumentTemplateVariableMap: MutableMap<String, DocumentTemplateVariable>
 
     override fun beforeCompose(){
+
         params.get("documentTemplate")?.let {
-            wrappedParams = DocumentTemplateRequestParametersWrapper(params)
+            wrappedParams = DocumentTemplateRequestParametersWrapper(it)
         } ?: failImmediately(UnprocessableEntryError())
 
-        documentTemplate.documentTemplateToDocumentTemplateVariableLinks = estimatedVariableLinks
+        println(wrappedParams.uploadedDocument?.file)
+
+        documentTemplate.documentTemplateToDocumentVariableLinks = estimatedVariableLinks
 
         try {
             createTempfileForValidation()
             prepareEstimatedVariableLinks()
         } finally {
             tempFile?.delete()
+            wrappedParams.uploadedDocument?.file?.delete()
         }
 
         if (estimatedVariableLinks.isEmpty()) {
@@ -55,7 +59,12 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
     private fun createTempfileForValidation() {
         try {
             tempFile = createTempFile(FileNamingUtils.generateUniqueFileName())
+
+            wrappedParams.uploadedDocument?.file?.let {
+                it.write(tempFile)
+            } ?: throw(Throwable("no file in params"))
         } catch(error: Exception) {
+            throw(error)
             documentTemplate.record.validationManager.addGeneralError("file invalid")
             failImmediately(ModelInvalidException())
         }
@@ -66,6 +75,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
         try {
              extractedVariables = DocxTemplateVariablesExtractionProcedure(tempFile!!).execute()
         } catch (error: Exception) {
+            throw (error)
             documentTemplate.record.validationManager.addGeneralError("file invalid")
             failImmediately(ModelInvalidException())
             return
@@ -96,6 +106,9 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
 
         val documentTemplateVariables = DocumentTemplateVariableDaos.index.forDocumentTemplatePrevalidationsCreate(namesByWhichToQueryDocumentTemplateVariables)
 
+        println(documentTemplateVariables)
+        println(nameToLinkMap)
+
         documentTemplateVariables.forEach {
             val link = nameToLinkMap[it.name]
             if (link != null) {
@@ -104,6 +117,23 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
                 link.defaultValue = it.defaultValue
             }
         }
+
+
+        nameToLinkMap.forEach { key, value ->
+            if (value.documentTemplateVariableId == null) {
+                value.documentTemplateVariable = DocumentTemplateVariable().also {
+                    it.name = key
+                    it.record.validationManager.addGeneralError("no ${key} variable in database: create it first")
+                }
+            }
+
+        }
+
+        nameToLinkMap.values.let {
+            documentTemplate.documentTemplateToDocumentVariableLinks = it.toMutableList()
+        }
+
+        println(nameToLinkMap)
 
     }
 

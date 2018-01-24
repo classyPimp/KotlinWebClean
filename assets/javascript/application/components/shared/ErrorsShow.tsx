@@ -8,17 +8,19 @@ export class ErrorsShow extends BaseReactComponent<{
 
     @autobind
     ifErrors(): boolean {
-      return !!(this.props.errors)
+      return this.props.errors ? true : false
     }
 
     render(){
-      return <div className="ErrorsShow">
-          {this.props.errors.map((value, index)=>{
-                  return <div className="individualError" key={index}>
-                      {value}
-                  </div>
-          })}
-      </div>  
+      return this.ifErrors()
+        ? <div className="ErrorsShow">
+            {this.props.errors.map((value, index)=>{
+                    return <div className="individualError" key={index}>
+                        {value}
+                    </div>
+            })}
+        </div>
+        : null  
     }
 
 }

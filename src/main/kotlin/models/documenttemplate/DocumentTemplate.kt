@@ -35,7 +35,7 @@ class DocumentTemplate {
     var uploadedDocument: UploadedDocument? = null
 
     @HasMany(model = DocumentTemplateToDocumentVariableLink::class, fieldOnThat = "DOCUMENT_TEMPLATE_ID", fieldOnThis = "ID")
-    var documentTemplateToDocumentTemplateVariableLinks: MutableList<DocumentTemplateToDocumentVariableLink>? = null
+    var documentTemplateToDocumentVariableLinks: MutableList<DocumentTemplateToDocumentVariableLink>? = null
 
 }
 

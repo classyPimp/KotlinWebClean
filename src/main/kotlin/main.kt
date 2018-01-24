@@ -3,13 +3,8 @@ import applicationServices.ApplicationCloser
 import org.docx4j.jaxb.Context
 import org.docx4j.model.datastorage.migration.VariablePrepare
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage
-import org.docx4j.wml.Body
-import org.docx4j.wml.ContentAccessor
-import org.docx4j.wml.R
-import org.docx4j.wml.Text
-import org.jooq.generated.Tables.USERS
-import org.jooq.generated.tables.Users
-import org.jooq.impl.DSL.field
+import org.docx4j.wml.*
+
 import java.io.File
 import javax.xml.bind.JAXBElement
 
@@ -26,7 +21,7 @@ fun main(args: Array<String>) {
     ApplicationBootstrapper.userDefinedApplicatinBootstrapper.add(RunOnApplicationBootstrap())
     ApplicationCloser.userDefinedApplicationCloser.add(RunOnApplicationShutdown())
     ApplicationBootstrapper.run()
-    //processDocx()
+    processDocx()
 
 }
 
@@ -35,70 +30,58 @@ fun processDocx(){
     println("processing docx")
     val template = WordprocessingMLPackage.load(File("uploads/foo.docx"))
 
+    val stds = template.mainDocumentPart.getJAXBNodesViaXPath("//w:tag", false)
 
-    VariablePrepare.prepare(template)
-
-    val bodyContent = template.mainDocumentPart.jaxbElement.body.content
-
-    traverse(bodyContent)
+    stds.forEach {
+        println(it)
+        when (it) {
+            is Tag -> {
+                println(it.`val`)
+                getStdContentByTag(it)
+            }
+        }
+    }
 
     template.save(File("uploads/mutated.docx").also {it.createNewFile()})
 }
 
-fun traverse(content: MutableList<Any>) {
-    content.forEach {
-        println("processing ${it.javaClass}")
-        when (it) {
-            is ContentAccessor -> {
-                println("content accessor:")
-                traverse(it.content)
-            }
-            is JAXBElement<*> -> {
-                println("jaxb")
-                val value = it.value
-                println(value)
-                when (value) {
-                    is Text -> {
-                        //value.value = "hello world!"
-                        println("parennt is :${value.parent}")
-                        println(value.value)
-                        //value.value = "GELLO"
-                        val parent = value.parent
-                        when(parent) {
-                            is R -> {
-                                //addToR(parent)
-                            }
-                        }
-                    }
+fun getStdContentByTag(tag: Tag) {
+    val parent = tag.parent
+    when (parent) {
+        is SdtPr -> {
+            val std = parent.parent
+            println(std)
+            when (std) {
+                is SdtRun -> {
+                    mutateSdtRun(std)
                 }
             }
-            else -> {
-                println("else")
-                println(it)
-            }
+
         }
     }
 }
 
-
-fun addToR(r: R) {
-    r.content.forEach {
-        when (it) {
-            is Text -> {
-                println("should change in addToR")
-                it.value = "changed"
-            }
-            is JAXBElement<*> -> {
-                println("addToR jaaxb")
-                val value = it.value
-                when(value) {
-                    is Text -> {
-                        it.value = "FOO!"
-                    }
-                }
-            }
-        }
-    }
+fun replaceP(p: P) {
+    val factory = Context.getWmlObjectFactory()
+    val text = factory.createText()
+    val run = factory.createR()
+    text.value = "HELLO"
+    run.content.add(text)
+    p.content.clear()
+    p.content.add(run)
 }
 
+fun mutateSdtRun(std: SdtRun) {
+    val factory = Context.getWmlObjectFactory()
+    val sdtContent = factory.createCTSdtContentRun()
+    val p = factory.createP()
+    val text = factory.createText()
+    val run = factory.createR()
+    text.value = "HELLO"
+    run.content.add(text)
+    //p.content.add(run)
+    sdtContent.content.add(run)
+    println("mutating")
+    std.sdtContent = sdtContent
+}
 

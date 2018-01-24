@@ -1,6 +1,7 @@
 package docxtemplating
 
 import models.documenttemplatevariable.DocumentTemplateVariable
+import org.docx4j.model.datastorage.migration.VariablePrepare
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage
 import org.docx4j.wml.ContentAccessor
 import org.docx4j.wml.Text
@@ -29,6 +30,7 @@ class DocxTemplateVariablesExtractionProcedure(val file: File) {
 
     private fun prepareTemplate() {
         template = WordprocessingMLPackage.load(file)
+        VariablePrepare.prepare(template)
     }
 
     private fun prepareBody(){
@@ -38,6 +40,7 @@ class DocxTemplateVariablesExtractionProcedure(val file: File) {
     private fun extractVariablesTraversingContent(contentToTraverse: MutableList<Any>) {
         contentToTraverse.forEach {
             contentItem ->
+            println(contentItem)
             when (contentItem) {
                 is ContentAccessor -> {
                     extractVariablesTraversingContent(contentItem.content)
@@ -51,6 +54,7 @@ class DocxTemplateVariablesExtractionProcedure(val file: File) {
 
     private fun traverseJaxbElementUsingItsValue(jaxbElement: JAXBElement<*>) {
         val value = jaxbElement.value
+        println(value)
         when (value) {
             is Text -> {
                 probeExtractingVariableFromText(value.value)?.forEach {
@@ -61,6 +65,7 @@ class DocxTemplateVariablesExtractionProcedure(val file: File) {
     }
 
     private fun probeExtractingVariableFromText(textValue: String, startIndex: Int = 0, suplliedSet: MutableSet<String>? = null): MutableSet<String>? {
+        println("probeExtractingVariableFromText: ${textValue}")
         var setToReturn: MutableSet<String>? = suplliedSet
 
         var variableIdentifierStartCharIndex: Int? = null
@@ -68,11 +73,15 @@ class DocxTemplateVariablesExtractionProcedure(val file: File) {
 
         variableIdentifierStartCharIndex = probeFindStartCharIndex(textValue, startIndex)
 
+        println("start: ${variableIdentifierStartCharIndex}")
+
         if (variableIdentifierStartCharIndex == null) {
             return null
         }
 
         variableIdentifierEndCharIndex = probeFindEndCharIndex(variableIdentifierStartCharIndex + 1, textValue)
+
+        println("end: ${variableIdentifierEndCharIndex}")
 
         if (variableIdentifierEndCharIndex == null ) {
             return null
@@ -97,7 +106,7 @@ class DocxTemplateVariablesExtractionProcedure(val file: File) {
         while (cursor < stringLentght) {
             val charAtCursor = string[cursor]
             if (charAtCursor == '$') {
-                if (stringLentght < cursor + 1 && string[cursor+1] == '{') {
+                if (cursor + 1 < stringLentght && string[cursor+1] == '{') {
                     return cursor
                 }
             }

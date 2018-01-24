@@ -35,8 +35,8 @@ export class DocumentTemplate extends BaseModel {
     @HasMany("DocumentTemplateToDocumentVariableLink")
     documentTemplateToDocumentVariableLinks: ModelCollection<DocumentTemplateToDocumentVariableLink>
 
-    @Route("POST", {url: "/documentTemplates/prevalidations"})
-    prevalidationsCreate: (options: RequestOptions) => Promise<DocumentTemplate>
+    @Route("POST", {url: "/api/documentTemplates/prevalidations"})
+    prevalidationsCreate: (options?: RequestOptions) => Promise<DocumentTemplate>
 
     beforePrevalidationsCreateRequest(options: RequestOptions) {
       this.beforeCreateRequest(options)

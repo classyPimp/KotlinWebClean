@@ -15,7 +15,7 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
         }
 
         @autobind
-        registerInput(child: IFormElement){
+        registerInput(child: IFormElement, namespace: string = "default"){
             if (child == null) {
                 return
             }
@@ -23,8 +23,11 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
 
             } else {
                 this.inputElelementsId += 1
-                child.id = this.inputElelementsId    
-                this.inputs["default"][child.id] = child
+                child.id = this.inputElelementsId   
+                if (!this.inputs[namespace]) {
+                  this.inputs[namespace] = {}
+                } 
+                this.inputs[namespace][child.id] = child
             }
         }
 
@@ -41,9 +44,19 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
             )            
         }   
 
-        collectInputs(){
-            for (let key in Object.keys(this.inputs.default)) {
-                let childInput = this.inputs.default[key]
+        collectInputs(
+          options?: {
+            namespace: string
+          }
+        ){
+            let namespace: string = "default"
+            if (options) {
+              if (options.namespace) {
+                namespace = options.namespace
+              }
+            } 
+            for (let key in Object.keys(this.inputs[namespace])) {
+                let childInput = this.inputs[namespace][key]
                 if (childInput) {
                     childInput.collect()
                 }

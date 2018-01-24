@@ -14,7 +14,7 @@ import { IncorporationFormsComponents } from '../incorporationforms/Incorporatio
 import { PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents } from '../persontocounterpartylinktouploadeddoclinkreasons/PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents' 
 import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
 import { DocumentTemplateVariablesComponents } from '../documenttemplatevariables/DocumentTemplateVariablesComponents'
-
+import { DocumentTemplateComponents } from '../documenttemplates/DocumentTemplateComponents'
 
 export class Main extends BaseReactComponent {
 
@@ -83,6 +83,7 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/documentTemplateVariables/:id/edit`} component={DocumentTemplateVariablesComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateVariables/:id`} component={DocumentTemplateVariablesComponents.Show}/>
                     
+                    <Route exact path={`${this.props.match.url}/documentTemplates/new`} component={DocumentTemplateComponents.New}/>
                 </Switch>
             </div>
         </div>

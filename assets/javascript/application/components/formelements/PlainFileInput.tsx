@@ -17,6 +17,8 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
     optional?: {
       placeholder?: string
       [id: string]: any
+      onFileSelected: (file: File) => any
+      onFileDeselected: (file: File) => any
     }
   }
 
@@ -65,6 +67,9 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
   @autobind
   collect(){
     let file = this.state.selectedFile
+    console.log("collected " + this.props.propertyName)
+    console.log(file)
+
     this.props.model.properties[this.props.propertyName] = file
   }
 

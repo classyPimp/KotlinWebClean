@@ -10,15 +10,20 @@ object PrevalidationCreateSerializer {
 
     fun onSuccess(documentTemplate: DocumentTemplate): String {
         return DocumentTemplateToJsonSerializer(documentTemplate).let {
-            it.includeDocumentTemplateToDocumentTemplateVariableLinks()
+            it.includeDocumentTemplateToDocumentVariableLinks() {
+                it.includeDocumentTemplateVariable()
+            }
             it.serializeToString()
         }
     }
 
     fun onError(documentTemplate: DocumentTemplate): String {
         return DocumentTemplateToJsonSerializer(documentTemplate).let {
-            it.includeDocumentTemplateToDocumentTemplateVariableLinks() {
+            it.includeDocumentTemplateToDocumentVariableLinks() {
                 it.includeErrors()
+                it.includeDocumentTemplateVariable() {
+                    it.includeErrors()
+                }
             }
             it.includeErrors()
             it.serializeToString()

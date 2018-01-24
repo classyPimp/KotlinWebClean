@@ -1,10 +1,12 @@
 package docxtemplating
 
+import docxtemplating.elementtrackers.PTracker
+import docxtemplating.elementtrackers.RTracker
+import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import java.io.File
-import models.documenttemplatevariable.DocumentTemplateVariable
+import org.docx4j.model.datastorage.migration.VariablePrepare
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage
-import org.docx4j.wml.ContentAccessor
-import org.docx4j.wml.Text
+import org.docx4j.wml.*
 import javax.xml.bind.JAXBElement
 
 /**
@@ -12,9 +14,10 @@ import javax.xml.bind.JAXBElement
  */
 class DocxTemplateVariableReplacementProcedure(
         val file: File,
-        val variableNameToTemplateVariableMap: MutableMap<String, DocumentTemplateVariable?>
+        val nameToLinkMap: MutableMap<String, DocumentTemplateToDocumentVariableLink?>
 ) {
 
+    val trackedElements: MutableList<IDocxElementTracker> = mutableListOf()
     lateinit var template: WordprocessingMLPackage
     lateinit var bodyContent: MutableList<Any>
 
@@ -25,10 +28,12 @@ class DocxTemplateVariableReplacementProcedure(
     private fun prepareRequiredFields() {
         prepareTemplate()
         prepareBody()
+
     }
 
     private fun prepareTemplate() {
         template = WordprocessingMLPackage.load(file)
+        VariablePrepare.prepare(template)
     }
 
     private fun prepareBody(){
@@ -36,26 +41,67 @@ class DocxTemplateVariableReplacementProcedure(
     }
 
     private fun replaceVariablesTraversingContent(contentToTraverse: MutableList<Any>) {
-        contentToTraverse.forEach {
-            contentItem ->
+        val size = contentToTraverse.size
+        var index = 0
+        while (index < size) {
+            val contentItem = contentToTraverse[index]
+
             when (contentItem) {
-                is ContentAccessor -> {
-                    replaceVariablesTraversingContent(contentItem.content)
-                }
-                is JAXBElement<*> -> {
-                    traverseJaxbElementUsingItsValue(contentItem)
+                is P -> {
+                    val tracker = PTracker(
+                            indexOfThisAtParentsContent = index,
+                            element = contentItem,
+                            parent = null
+                    )
+                    traverseP(contentItem, tracker)
                 }
             }
+
+            index += 1
         }
     }
 
-    private fun traverseJaxbElementUsingItsValue(jaxbElement: JAXBElement<*>) {
-        val value = jaxbElement.value
-        when (value) {
-            is Text -> {
-                probeReplacingVariableInText(value)
+    private fun traverseP(p: P, tracker: IDocxElementTracker) {
+        val content = p.content
+        val size = content.size
+        var index = 0
+        while(index < size) {
+            val contentItem = content[index]
+
+            when(contentItem) {
+                is R -> {
+                    val tracker = RTracker(
+                            indexOfThisAtParentsContent = index,
+                            element = contentItem,
+                            parent = p
+                    )
+                    traverseR(contentItem, tracker)
+                }
             }
+
+            index += 1
         }
+    }
+
+    private fun traverseR(r: R, tracker: IDocxElementTracker) {
+        val content = r.content
+        val size = content.size
+        var index = 0
+        while (index < size) {
+            val contentItem = content[index]
+
+            when(contentItem) {
+                is Text -> {
+                    traverseText(contentItem, tracker)
+                }
+            }
+            index += 1
+        }
+    }
+
+    private fun traverseText(text: Text, tracker: IDocxElementTracker) {
+        val stringValue = text.value
+
     }
 
     private fun probeReplacingVariableInText(text: Text) {
@@ -109,9 +155,9 @@ class DocxTemplateVariableReplacementProcedure(
         val variableName = string.substring(variableStartIndex + 2, variableEndIndex).let {
             extractVariableNameWithoutIdentifier(it)
         }
-        val documentTemplateVariable = variableNameToTemplateVariableMap[variableName]
+        val documentTemplateVariable = nameToLinkMap[variableName]
         if (documentTemplateVariable == null) {
-            variableNameToTemplateVariableMap[variableName] = null
+            nameToLinkMap[variableName] = null
             return
         }
 
