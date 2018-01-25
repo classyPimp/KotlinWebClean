@@ -5,6 +5,6 @@ package models.uploadeddocument.factories
  */
 object UploadedDocumentFactories {
 
-    val forPersonToCounterPartyToUploadedDocumentLinkCreate = ForPersonToCounterPartyToUploadedDocumentLinkCreate
+    val defaultCreate = DefaultCreate
 
 }

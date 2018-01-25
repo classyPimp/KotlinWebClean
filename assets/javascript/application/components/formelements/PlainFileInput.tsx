@@ -17,9 +17,18 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
     optional?: {
       placeholder?: string
       [id: string]: any
-      onFileSelected: (file: File) => any
-      onFileDeselected: (file: File) => any
+      onFileSelected?: (file: File) => any
+      onFileDeselected?: () => any
     }
+  }
+
+  getOptionalProps(): {
+      placeholder?: string
+      [id: string]: any
+      onFileSelected?: (file: File) => any
+      onFileDeselected?: () => any
+    } {
+      return this.props.optional      
   }
 
   state: {
@@ -53,7 +62,7 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
           <p>
             selected file: {this.state.selectedFile.name}
           </p>
-          <button>
+          <button onClick={this.cancelSelect}>
             cancel
           </button>
         </div>
@@ -63,13 +72,27 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
     </div>
   }
 
+  invokeOnFileSelectedPropIfGiven(file: File) {
+    if (this.getOptionalProps()) {
+      let onFileSelected = this.getOptionalProps().onFileSelected
+      if (onFileSelected) {
+        onFileSelected(file)
+      }
+    }
+  }
+
+  invokeOnFileDeselectedPropIfGiven() {
+    if (this.getOptionalProps()) {
+      let onFileDeselected = this.getOptionalProps().onFileDeselected
+      if (onFileDeselected) {
+        onFileDeselected()
+      }
+    }
+  }
 
   @autobind
   collect(){
     let file = this.state.selectedFile
-    console.log("collected " + this.props.propertyName)
-    console.log(file)
-
     this.props.model.properties[this.props.propertyName] = file
   }
 
@@ -77,16 +100,19 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
   handleInputChange() {
     let file = this.mainInput.files[0]
     if (file) {
+      this.invokeOnFileSelectedPropIfGiven(file)
       this.setState({fileIsSelected: true, selectedFile: file})
     } else {
+      this.invokeOnFileDeselectedPropIfGiven()
       this.setState({fileIsSelected: false, selectedFile: null})
     }
   }
 
   @autobind
   cancelSelect() {
-    this.clearInputs()
-    this.setState({fileIsSelected: false})
+    //this.clearInputs()
+    this.invokeOnFileDeselectedPropIfGiven()
+    this.setState({fileIsSelected: false, selectedFile: null})
   }
 
   @autobind
@@ -104,7 +130,7 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
   }
 
   clearInputs(){
-    this.mainInput.value = ""
+    this.cancelSelect()
   }
 
   @autobind

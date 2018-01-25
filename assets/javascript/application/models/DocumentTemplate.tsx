@@ -46,4 +46,7 @@ export class DocumentTemplate extends BaseModel {
       this.afterCreateRequest(options)
     }
 
+    @Route("POST", {url: "/api/documentTemplates"})
+    create: (options?: RequestOptions) => Promise<DocumentTemplate>
+    
 }

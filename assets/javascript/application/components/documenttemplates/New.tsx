@@ -14,8 +14,10 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
       documentTemplate: DocumentTemplate
+      validationReady: boolean
     } = {
-      documentTemplate: new DocumentTemplate({uploadedDocument: new UploadedDocument()})
+      documentTemplate: new DocumentTemplate({uploadedDocument: new UploadedDocument()}),
+      validationReady: false
     }
 
 
@@ -29,6 +31,10 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
                 model={this.state.documentTemplate.uploadedDocument}
                 propertyName="file"
                 registerInput={(it)=>{this.registerInput(it, "file")}}
+                optional={{
+                  placeholder: "select file",
+                  onFileDeselected: this.onFileDeselectedInInput
+                }}
               />
               <button onClick={this.validateTemplate}>
                 validate template
@@ -48,10 +54,22 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
                 </div>
               })
             }
-            <button onClick={this.submit}>
-                submit
-            </button>
+            {this.state.validationReady &&
+              <button onClick={this.submit}>
+                  submit
+              </button>
+            }
         </div>
+    }
+
+    resetDocumentTemplate() {
+      let documentTemplate = new DocumentTemplate({uploadedDocument: new UploadedDocument()})
+      this.setState({documentTemplate})
+    }
+
+    @autobind
+    onFileDeselectedInInput(){
+      this.resetDocumentTemplate()
     }
 
     @autobind
@@ -67,8 +85,7 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
         }
         this.state.documentTemplate.prevalidationsCreate().then((documentTemplate)=>{
             documentTemplate.uploadedDocument = uploadedDocument
-            console.log(documentTemplate)
-            this.setState({documentTemplate})
+            this.setState({documentTemplate, validationReady: true})
         })
     }
 

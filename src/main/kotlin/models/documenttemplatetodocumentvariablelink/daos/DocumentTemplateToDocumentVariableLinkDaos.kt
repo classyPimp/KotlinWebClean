@@ -1,0 +1,22 @@
+package models.documenttemplatetodocumentvariablelink.daos
+
+import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks
+import models.documenttemplatetodocumentvariablelink.daos.DocumentTemplateToDocumentVariableLinkShowDao
+import models.documenttemplatetodocumentvariablelink.daos.DocumentTemplateToDocumentVariableLinkIndexDao
+import models.documenttemplatetodocumentvariablelink.daos.DocumentTemplateToDocumentVariableLinkEditDao
+import models.documenttemplatetodocumentvariablelink.daos.DocumentTemplateToDocumentVariableLinkUpdateDao
+import models.documenttemplatetodocumentvariablelink.daos.DocumentTemplateToDocumentVariableLinkDestroyDao
+
+object DocumentTemplateToDocumentVariableLinkDaos {
+
+    val show = DocumentTemplateToDocumentVariableLinkShowDao
+
+    val index = DocumentTemplateToDocumentVariableLinkIndexDao
+
+    val edit = DocumentTemplateToDocumentVariableLinkEditDao
+
+    val update = DocumentTemplateToDocumentVariableLinkUpdateDao
+
+    val destroy = DocumentTemplateToDocumentVariableLinkDestroyDao
+
+}

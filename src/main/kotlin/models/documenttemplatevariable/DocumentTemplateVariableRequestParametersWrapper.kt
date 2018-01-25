@@ -5,6 +5,8 @@ import utils.requestparameters.IParam
 
 class DocumentTemplateVariableRequestParametersWrapper(val requestParameters: IParam) {
 
+    var id: Long? = requestParameters.get("id")?.string?.toLongOrNull()
+
     var defaultValue: String? = requestParameters.get("defaultValue")?.string
 
     var humanizedName: String? = requestParameters.get("humanizedName")?.string

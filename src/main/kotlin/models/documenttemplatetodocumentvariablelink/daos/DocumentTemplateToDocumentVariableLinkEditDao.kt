@@ -1,0 +1,11 @@
+package models.documenttemplatetodocumentvariablelink.daos
+
+import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks
+import orm.documenttemplatetodocumentvariablelinkgeneratedrepository.DocumentTemplateToDocumentVariableLinkRecord
+import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
+
+object DocumentTemplateToDocumentVariableLinkEditDao {
+
+
+
+}

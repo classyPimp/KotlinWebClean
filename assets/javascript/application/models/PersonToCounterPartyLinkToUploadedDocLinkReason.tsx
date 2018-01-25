@@ -26,25 +26,25 @@ export class PersonToCounterPartyLinkToUploadedDocLinkReason extends BaseModel {
     @HasMany("PersonToCounterPartyLinkToUploadedDocumentLink")
     personToCounterPartyLinkToUploadedDocumentLinks: ModelCollection<PersonToCounterPartyLinkToUploadedDocumentLink>
 
-    @Route("POST", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReason"})
+    @Route("POST", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReasons"})
     create: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocLinkReason>
 
-    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReason"})
+    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReasons"})
     static index: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLinkToUploadedDocLinkReason>>
 
-    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReason/:id"})
+    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReasons/:id"})
     static show: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocLinkReason>
 
-    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReason/:id/edit"})
+    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReasons/:id/edit"})
     static edit: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocLinkReason>
 
-    @Route("PUT", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReason/:id", defaultWilds: ["id"]})
+    @Route("PUT", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReasons/:id", defaultWilds: ["id"]})
     update: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocLinkReason>
 
-    @Route("DELETE", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReason/:id", defaultWilds: ["id"]})
+    @Route("DELETE", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReasons/:id", defaultWilds: ["id"]})
     destroy: (options?: RequestOptions) => Promise<PersonToCounterPartyLinkToUploadedDocLinkReason>
 
-    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReason/formFeeds"})
+    @Route("GET", {url: "/api/personToCounterPartyLinkToUploadedDocLinkReasons/formFeeds"})
     static formFeedsIndex: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLinkToUploadedDocLinkReason>>
 
     static afterFormFeedsIndexRequest(options: RequestOptions) {

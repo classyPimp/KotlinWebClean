@@ -1,6 +1,6 @@
 package composers.documenttemplates.prevalidations
 
-import docxtemplating.DocxTemplateVariablesExtractionProcedure
+import docxtemplating.DocxTemplateVariablesHandler
 import models.documenttemplate.DocumentTemplate
 import models.documenttemplate.DocumentTemplateRequestParametersWrapper
 import utils.composer.ComposerBase
@@ -26,7 +26,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
     lateinit var wrappedParams: DocumentTemplateRequestParametersWrapper
     var tempFile: File? = null
 
-    val estimatedVariableLinks: MutableList<DocumentTemplateToDocumentVariableLink> = mutableListOf()
+
     lateinit var persistedDocumentTemplateVariablesNameToDocumentTemplateVariableMap: MutableMap<String, DocumentTemplateVariable>
 
     override fun beforeCompose(){
@@ -35,20 +35,12 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
             wrappedParams = DocumentTemplateRequestParametersWrapper(it)
         } ?: failImmediately(UnprocessableEntryError())
 
-        println(wrappedParams.uploadedDocument?.file)
-
-        documentTemplate.documentTemplateToDocumentVariableLinks = estimatedVariableLinks
-
         try {
             createTempfileForValidation()
             prepareEstimatedVariableLinks()
         } finally {
             tempFile?.delete()
             wrappedParams.uploadedDocument?.file?.delete()
-        }
-
-        if (estimatedVariableLinks.isEmpty()) {
-            return
         }
 
         validate()
@@ -71,9 +63,9 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
     }
 
     private fun prepareEstimatedVariableLinks() {
-        var extractedVariables: MutableMap<String, DocumentTemplateVariable?>
+        var extractedVariables: MutableSet<String>
         try {
-             extractedVariables = DocxTemplateVariablesExtractionProcedure(tempFile!!).execute()
+             extractedVariables = DocxTemplateVariablesHandler(tempFile!!).extractVariableNamesAsSet()
         } catch (error: Exception) {
             throw (error)
             documentTemplate.record.validationManager.addGeneralError("file invalid")
@@ -84,7 +76,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
         val nameToLinkMap = mutableMapOf<String, DocumentTemplateToDocumentVariableLink>()
         val namesByWhichToQueryDocumentTemplateVariables = mutableSetOf<String>()
 
-        for (it in extractedVariables.keys) {
+        for (it in extractedVariables) {
             if (it.isNullOrBlank()) {
                 nameToLinkMap[""] = DocumentTemplateToDocumentVariableLink().also {
                     documentTemplate.record.validationManager.addGeneralError("some variables are blank")
@@ -106,14 +98,11 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
 
         val documentTemplateVariables = DocumentTemplateVariableDaos.index.forDocumentTemplatePrevalidationsCreate(namesByWhichToQueryDocumentTemplateVariables)
 
-        println(documentTemplateVariables)
-        println(nameToLinkMap)
-
         documentTemplateVariables.forEach {
             val link = nameToLinkMap[it.name]
             if (link != null) {
-                link.documentTemplateVariableId = it.id
                 link.documentTemplateVariable = it
+                link.documentTemplateVariableId = it.id
                 link.defaultValue = it.defaultValue
             }
         }
@@ -140,10 +129,16 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
     private fun validate() {
         var hasError = false
 
-        estimatedVariableLinks.forEach {
-            if (it.documentTemplateVariable == null) {
+        documentTemplate.documentTemplateToDocumentVariableLinks?.forEach {
+            val documentTemplateVariable = it.documentTemplateVariable
+            if (documentTemplateVariable != null) {
+                if (!documentTemplateVariable.record.validationManager.isValid()) {
+                    hasError = true
+                    it.record.validationManager.addGeneralError("does not exist in database")
+                }
+            }
+            if (!it.record.validationManager.isValid()) {
                 hasError = true
-                it.record.validationManager.addGeneralError("does not exist in database")
             }
         }
 
