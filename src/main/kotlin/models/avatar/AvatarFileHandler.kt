@@ -21,6 +21,12 @@ class AvatarFileHandler(val model: Avatar) : FileItemFileProperty() {
         }
     }
 
+    override fun handlePropertiesOnAssign(file: File) {
+        model.let {
+            it.record.avatarFileName = file.name
+        }
+    }
+
     override fun handlePropertiesOnDelete() {
         model.let {
             it.record.avatarFileName = null

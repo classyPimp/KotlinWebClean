@@ -1,14 +1,16 @@
 package orm.modelUtils
 
 import org.apache.commons.fileupload.FileItem
-import java.io.File
-
-import java.io.IOException
+import java.io.*
+import java.nio.file.Files
+import java.nio.file.Paths
 
 /**
  * Created by Муса on 15.11.2017.
  */
 abstract class FileItemFileProperty {
+
+
 
     abstract val baseUploadPath: String
         get
@@ -31,15 +33,24 @@ abstract class FileItemFileProperty {
         UNSET
     }
 
+    enum class OperatesOnType {
+        FILE_ITEM,
+        FILE
+    }
+
     var fileItem: FileItem? = null
+    var file: File? = null
     var transactionDir: File? = null
     var transactionOriginalFile: File? = null
     var operationType: OperationType = OperationType.UNSET
+    var operatesOn: OperatesOnType = OperatesOnType.FILE_ITEM
 
 
     abstract fun validateFile(uploadedFile: File): Boolean
 
     abstract fun handlePropertiesOnAssign(fileItem: FileItem)
+
+    abstract fun handlePropertiesOnAssign(file: File)
 
     abstract fun preprocessFile(file: File)
 
@@ -49,6 +60,21 @@ abstract class FileItemFileProperty {
         transactionDir = null
         operationType = OperationType.UNSET
         fileItem = null
+    }
+
+    fun assign(file: File?) {
+        operatesOn = OperatesOnType.FILE
+        if (file == null) {
+            return
+        }
+        if (modelId != null) {
+            operationType = OperationType.ASSIGN
+            assignWhenIdAvailable(file)
+        } else {
+            this.file = file
+            operationType = OperationType.ASSIGN_MODEL_NOT_PERSISTED
+        }
+        //handlePropertiesOnAssign(file)
     }
 
     fun assign(fileItem: FileItem?) {
@@ -62,7 +88,37 @@ abstract class FileItemFileProperty {
             this.fileItem = fileItem
             operationType = OperationType.ASSIGN_MODEL_NOT_PERSISTED
         }
+
         handlePropertiesOnAssign(fileItem)
+    }
+
+    fun assignWhenIdAvailable(file: File) {
+        val fileName = file.name
+
+        this.transactionDir = createTransactionDir()
+        this.transactionOriginalFile = createTransactionOriginalFile(fileName)
+
+        copyInputStreamToOutputStream(FileInputStream(file), FileOutputStream(transactionOriginalFile))
+
+        try {
+            if (!validateFile(transactionOriginalFile!!)) {
+                destroyTransactionDir()
+                operationType = OperationType.UNSET
+                return
+            }
+        } catch (error: java.lang.Exception) {
+            destroyTransactionDir()
+            operationType = OperationType.UNSET
+            throw error
+        }
+
+        try {
+            preprocessFile(transactionOriginalFile!!)
+        } catch(error: Exception) {
+            destroyTransactionDir()
+            throw error
+        }
+
     }
 
     fun assignWhenIdAvailable(fileItem: FileItem){
@@ -70,7 +126,6 @@ abstract class FileItemFileProperty {
 
         this.transactionDir = createTransactionDir()
         this.transactionOriginalFile = createTransactionOriginalFile(fileName)
-        operationType = OperationType.ASSIGN
 
         try {
             fileItem.write(this.transactionOriginalFile!!)
@@ -174,11 +229,23 @@ abstract class FileItemFileProperty {
                 finalizeDeletion()
             }
             OperationType.ASSIGN_MODEL_NOT_PERSISTED -> {
-                this.fileItem?.let {
-                    assignWhenIdAvailable(it)
-                    afterAssignedToUnpersitedModelAndItsSaved(transactionOriginalFile!!)
-                    finalizeAssignment()
-                } ?: throw IllegalStateException("cant finalize file assignment")
+                when (operatesOn) {
+                    OperatesOnType.FILE_ITEM -> {
+                        this.fileItem?.let {
+                            assignWhenIdAvailable(it)
+                            afterAssignedToUnpersitedModelAndItsSaved(transactionOriginalFile!!)
+                            finalizeAssignment()
+                        } ?: throw IllegalStateException("cant finalize file assignment")
+                    }
+                    OperatesOnType.FILE -> {
+                        this.file?.let {
+                            assignWhenIdAvailable(it)
+                            afterAssignedToUnpersitedModelAndItsSaved(transactionOriginalFile!!)
+                            finalizeAssignment()
+                        } ?: throw IllegalStateException("cant finalize file assignment")
+                    }
+                }
+
             }
             OperationType.UNSET -> {
 
@@ -222,7 +289,6 @@ abstract class FileItemFileProperty {
             }
             file.renameTo(File(depth + "/${file.name}"))
         }
-
     }
 
     fun deletePereviousFilesIfExist(){
@@ -265,6 +331,27 @@ abstract class FileItemFileProperty {
             }
         }
         return finalString.toString()
+    }
+
+    private fun copyInputStreamToOutputStream(`in`: InputStream,
+                                              out: OutputStream) {
+        try {
+            try {
+                val buffer = ByteArray(1024)
+                var n: Int
+
+                n = `in`.read(buffer)
+                while (n != -1) {
+                    out.write(buffer, 0, n)
+                    n = `in`.read(buffer)
+                }
+
+            } finally {
+                out.close()
+            }
+        } finally {
+            `in`.close()
+        }
     }
 
 }
