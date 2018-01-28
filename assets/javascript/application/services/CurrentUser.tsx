@@ -37,6 +37,7 @@ export class CurrentUser extends MixinPubSubbableTrait(EmptyClass) {
     }
     
     publishLoggedIn(user: User){
+        console.log("publishing logged in!")
         this.publish("loginStatusListeners", "onLoggedInEvent", user)
     }
 

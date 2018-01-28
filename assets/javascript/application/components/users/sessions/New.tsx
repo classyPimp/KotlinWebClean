@@ -18,6 +18,15 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     render(){
         return <div className="sessions-new">
+            {(this.state.user.errors && this.state.user.errors["general"]) &&
+                <div>
+                    {this.state.user.errors["general"].map((it, index)=>{
+                        return <p key={index}>
+                            {it}
+                        </p>
+                    })}
+                </div>
+            }
             <PlainInputElement model={this.state.user} propertyName="name" registerInput={(it)=>{this.registerInput(it)}} optional={{placeholder: "name"}}/>
             <PlainInputElement model={this.state.user.account} propertyName="password" registerInput={(it)=>{this.registerInput(it)}} optional={{placeholder: "password"}}/>
             <button onClick={this.submit}>

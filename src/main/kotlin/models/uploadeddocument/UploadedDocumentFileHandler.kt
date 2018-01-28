@@ -7,13 +7,7 @@ import java.io.File
 
 class UploadedDocumentFileHandler(val model: UploadedDocument) : FileProperty() {
 
-    override var fileSize: Long?
-        get() {
-            return model.record.fileSize?.toLong()
-        }
-        set(value) {
-            model.record.fileSize = value?.toInt()
-        }
+
 
     override val maxAllowedSize: Long
         get() {
@@ -34,18 +28,13 @@ class UploadedDocumentFileHandler(val model: UploadedDocument) : FileProperty() 
     override val modelId: Long?
         get() = model.id
 
-    override var fileName: String?
-        get() = model.fileName
-        set(value) {
-            model.record.fileName = value
-        }
 
 
-    override fun onFileAssigned(file: File) {
+    override fun onFileAssigned(file: File, targetFileName: String?) {
         model.record.let {
             file.let {
                 fileItem ->
-                it.fileName = fileItem.name
+                it.fileName = targetFileName
                 it.fileSize = fileItem.length().toInt()
                 it.fileMime = App.component.mimeDetector().detect(file)
             }

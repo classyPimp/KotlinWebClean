@@ -54,6 +54,7 @@ export class LoginStatusComponent extends BaseReactComponent implements LoginSta
     }
 
     onLoggedInEvent(user: User) {
+        console.log("on logged in event")
         this.forceUpdate()
     }
 

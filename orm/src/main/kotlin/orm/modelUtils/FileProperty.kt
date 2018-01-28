@@ -2,8 +2,7 @@ package orm.modelUtils
 
 import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.disk.DiskFileItem
-import java.io.File
-import java.io.IOException
+import java.io.*
 import java.nio.file.Files
 
 /**
@@ -11,19 +10,19 @@ import java.nio.file.Files
  */
 abstract class FileProperty {
 
-    var operationType = OperationTypes.DO_NOTHING
+    private var operationType = OperationTypes.DO_NOTHING
+    private var targetFileName: String? = null
+    private var fileItemBeingProcessed: FileItem? = null
 
     abstract val modelId: Long?
     abstract val maxAllowedSize: Long
-    abstract var fileName: String?
-    abstract var fileSize: Long?
 
     abstract val baseUploadPath: String
     abstract val modelName: String
     abstract val propertyName: String
 
     abstract fun validateFile(file: File): Boolean
-    abstract fun onFileAssigned(file: File)
+    abstract fun onFileAssigned(file: File, targetFileName: String?)
     abstract fun preprocessFile(file: File)
     abstract fun onFileDelete()
 
@@ -41,16 +40,19 @@ abstract class FileProperty {
             return
         }
 
-        fileSize = fileItem.size
-        if (fileSize!! > maxAllowedSize){
+        val fileSize = fileItem.size
+        if (fileSize > maxAllowedSize){
             return
         }
 
         operationType = OperationTypes.ASSIGN
 
+        targetFileName = fileItem.name
+        fileItemBeingProcessed = fileItem
+
         createTransactionOriginalFile(fileItem)
 
-        onFileAssigned(transactionOriginalFile!!)
+        onFileAssigned(transactionOriginalFile!!, targetFileName)
 
         if (!validateFile(transactionOriginalFile!!)) {
             clearTransactionalFiles()
@@ -60,13 +62,41 @@ abstract class FileProperty {
 
         createTransactionDirForProcessedFiles()
 
-        fileName = transactionOriginalFile!!.name
+        transactionOriginalFile!!.name
+    }
 
+    fun assign(file: File?) {
+        if (file == null) {
+            return
+        }
+
+        val fileSize = file.length()
+        if (fileSize > maxAllowedSize){
+            return
+        }
+
+        operationType = OperationTypes.ASSIGN
+
+        targetFileName = file.name
+
+        createTransactionOriginalFile(file)
+
+        onFileAssigned(transactionOriginalFile!!, targetFileName)
+
+        if (!validateFile(transactionOriginalFile!!)) {
+            clearTransactionalFiles()
+            operationType = OperationTypes.DO_NOTHING
+            return
+        }
+
+        createTransactionDirForProcessedFiles()
+
+        transactionOriginalFile!!.name
     }
 
     fun delete() {
         operationType = OperationTypes.DELETE
-
+        onFileDelete()
     }
 
 
@@ -94,6 +124,7 @@ abstract class FileProperty {
         createTargetDirWhereFilesWillBeStored()
         moveTransactionalProcessedFilesToTargetDir()
         moveOriginalTransactionFileToTargetDir()
+        clearTransactionalFiles()
     }
 
     private fun finalizeDeleteOperation(){
@@ -104,7 +135,7 @@ abstract class FileProperty {
     private fun createTransactionOriginalFile(fileItem: FileItem) {
         if (fileItem.isInMemory) {
             try {
-                val tempFile = Files.createTempFile("${System.currentTimeMillis()}-", "tmp").toFile()
+                val tempFile = Files.createTempFile("${System.currentTimeMillis()}-", ".tmp").toFile()
                 fileItem.write(tempFile)
                 transactionOriginalFile = tempFile
 
@@ -117,6 +148,13 @@ abstract class FileProperty {
             val diskFileItem = fileItem as DiskFileItem
             transactionOriginalFile = diskFileItem.storeLocation
         }
+    }
+
+    private fun createTransactionOriginalFile(file: File) {
+        val tempFile = Files.createTempFile("${System.currentTimeMillis()}-", ".tmp").toFile()
+        val inputStream = FileInputStream(file)
+        val outputStream = FileOutputStream(tempFile)
+        copyInputStreamToOutputStream(inputStream, outputStream)
     }
 
     private fun createTransactionDirForProcessedFiles() {
@@ -152,17 +190,18 @@ abstract class FileProperty {
                 it.deleteRecursively()
             }
         }
+        fileItemBeingProcessed?.let {
+            it.delete()
+        }
     }
 
     private fun deletePereviousFilesIfExist(){
         val folder = File(prepareRepositoryPath())
         folder.listFiles()?.forEach {
             if (it.isDirectory) {
-                if (it.name != "transaction") {
-                    if (!it.deleteRecursively()) {
-                        throw IOException("when finalizing file transaction, could not delete old ones")
-                    }
-                }
+                it.deleteRecursively()
+            } else if (it.isFile) {
+                it.delete()
             }
         }
     }
@@ -197,19 +236,21 @@ abstract class FileProperty {
     }
 
     fun moveOriginalTransactionFileToTargetDir() {
-        val targetFile = File("${prepareRepositoryPath()}/original/${transactionOriginalFile!!.name}").also {
-            if (!it.exists()) {
-                it.mkdirs()
-                it.createNewFile()
-            }
+        val targetFile = File("${prepareRepositoryPath()}/original/${targetFileName}")
+        val parent = targetFile.parentFile
+        if (!parent.exists()) {
+            parent.mkdirs()
+        }
+        if (!targetFile.exists()) {
+            targetFile.createNewFile()
         }
         transactionOriginalFile!!.renameTo(targetFile)
     }
 
     fun moveTransactionalProcessedFilesToTargetDir(){
-        val targetFile = File("${prepareRepositoryPath()}/original/${transactionOriginalFile!!.name}").also {
+        val targetFile = File(prepareRepositoryPath()).also {
             if (!it.exists()) {
-                it.mkdirs()
+               it.mkdirs()
             }
         }.toString()
         transactionDirForProcessedFiles!!.listFiles()?.forEach {
@@ -228,9 +269,32 @@ abstract class FileProperty {
                     it.mkdirs()
                 }
             }
-            file.renameTo(File(depth + "/${file.name}"))
+            val fileToMoveTo = File(depth + "/${file.name}").also {
+                it.createNewFile()
+            }
+            file.renameTo(fileToMoveTo)
+        }
+    }
+
+    private fun copyInputStreamToOutputStream(`in`: InputStream,
+                                              out: OutputStream) {
+        try {
+            try {
+                val buffer = ByteArray(1024)
+                var n: Int
+
+                n = `in`.read(buffer)
+                while (n != -1) {
+                    out.write(buffer, 0, n)
+                    n = `in`.read(buffer)
+                }
+
+            } finally {
+                out.close()
+            }
+        } finally {
+            `in`.close()
         }
     }
 
 }
-

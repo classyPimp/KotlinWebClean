@@ -1,3 +1,4 @@
+import { CurrentUser } from '../../../services/CurrentUser';
 import autobind from 'autobind-decorator';
 import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput';
 import { User } from '../../../models/User';
@@ -22,10 +23,6 @@ export class Create extends MixinFormableTrait(BaseReactComponent) {
             <button onClick={this.submit}>
                 submit
             </button>
-
-            <button onClick={this.login}>  
-              log in 
-            </button>
         </div>
     }
 
@@ -34,17 +31,14 @@ export class Create extends MixinFormableTrait(BaseReactComponent) {
         this.collectInputs()
         let user = this.state.user
         user.create().then((newUser)=>{
-            console.log(newUser)
+            if (newUser.isValid()) {
+                CurrentUser.instance.logIn(newUser)
+            } else {
+                user.mergeWith(newUser)
+            }
+            this.setState({user})
         })
     }
 
-    @autobind
-    login(){
-      this.collectInputs()
-      let user = this.state.user
-      user.login().then((returnedUser)=>{
-          console.log(returnedUser)
-      })
-    }
 
 }
