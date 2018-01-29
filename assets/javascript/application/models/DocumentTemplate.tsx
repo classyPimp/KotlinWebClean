@@ -48,5 +48,11 @@ export class DocumentTemplate extends BaseModel {
 
     @Route("POST", {url: "/api/documentTemplates"})
     create: (options?: RequestOptions) => Promise<DocumentTemplate>
+
+    @Route("GET", {url: "/api/documentTemplates"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<DocumentTemplate>>
+
+    @Route("DELETE", {url: "/api/documentTemplates/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<DocumentTemplate>
     
 }

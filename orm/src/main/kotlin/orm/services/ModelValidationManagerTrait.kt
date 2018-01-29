@@ -33,4 +33,15 @@ interface ModelValidationManagerTrait {
         }
     }
 
+    fun addUniqueError(propertyName: String, message: String) {
+        val errorList = nonNullableErrors()[propertyName]
+        if (errorList  == null) {
+            nonNullableErrors()[propertyName] = mutableListOf(message)
+        } else {
+            if (!errorList.contains(message)) {
+                errorList.add(message)
+            }
+        }
+    }
+
 }

@@ -19,6 +19,10 @@ object DefaultCreate {
                 uploadedDocumentParams ->
                 it.uploadedDocument = UploadedDocumentFactories.defaultCreate.create(uploadedDocumentParams)
             }
+
+            it.name = params.name
+
+            it.description = params.description
         }
     }
 

@@ -7,15 +7,12 @@ object DestroySerializer {
 
     fun onSuccess(documentTemplate: DocumentTemplate): String {
         DocumentTemplateToJsonSerializer(documentTemplate).let {
-
             return it.serializeToString()
         }
     }
 
     fun onError(documentTemplate: DocumentTemplate): String {
         DocumentTemplateToJsonSerializer(documentTemplate). let {
-
-
             it.includeErrors()
             return it.serializeToString()
         }

@@ -5,10 +5,13 @@ import models.documenttemplate.DocumentTemplate
 import models.documenttemplate.DocumentTemplateRequestParametersWrapper
 import models.documenttemplate.DocumentTemplateValidator
 import models.documenttemplate.factories.DocumentTemplateFactories
+import models.documenttemplate.tojsonserializers.DocumentTemplateSerializers
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import models.documenttemplatevariable.DocumentTemplateVariable
 import models.documenttemplatevariable.daos.DocumentTemplateVariableDaos
+import orm.documenttemplategeneratedrepository.DocumentTemplateToJsonSerializer
 import orm.services.ModelInvalidException
+import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
 import utils.composer.composerexceptions.UnprocessableEntryError
 import utils.fileutils.FileNamingUtils
@@ -27,11 +30,8 @@ class CreateComposer(val params: IParam) : ComposerBase() {
         buildDocumentTemplateToCreate()
         buildNameToVariableLinks()
         queryDocumentTemplateVariables()
-        try {
-            createTempfileForValidation()
-        } finally {
-            state.tempFile?.delete()
-        }
+        createTempfileForValidation()
+        validateAgainstTemplate()
         validate()
     }
 
@@ -48,7 +48,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     private fun buildNameToVariableLinks() {
         val nameToLinksMap = mutableMapOf<String, MutableList<DocumentTemplateToDocumentVariableLink>>()
 
-        val links = state.documentTemplate.documentTemplateToDocumentVariableLinks
+        val links = state.documentTemplate!!.documentTemplateToDocumentVariableLinks
 
         if (links == null) {
             state.nameToLinksMap = nameToLinksMap
@@ -62,9 +62,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
             }
 
             val name = link.documentTemplateVariable?.name
-            if (link.documentTemplateVariable?.id == null) {
-                link.record.validationManager.addGeneralError("no such variable in database")
-            }
+
             if (name == null) {
                link.record.validationManager.addGeneralError("variable is invalid: blank provided")
                 continue
@@ -87,33 +85,30 @@ class CreateComposer(val params: IParam) : ComposerBase() {
         }
         val documentTemplateVariables = DocumentTemplateVariableDaos.index.forDocumentTemplatePrevalidationsCreate(names)
         val foundNames = mutableListOf<String>()
-        for (it in documentTemplateVariables) {
-            it.name?.let {
+        for (documentTemplateVariable in documentTemplateVariables) {
+            documentTemplateVariable.name?.let {
                 foundNames.add(it)
             }
 
-            val linkList = state.nameToLinksMap[it.name]
+            val linkList = state.nameToLinksMap[documentTemplateVariable.name]
             linkList ?: continue
 
             linkList.forEach {
                 link ->
-                link.documentTemplateVariable = it
+                link.documentTemplateVariableId = documentTemplateVariable.id
+                link.documentTemplateVariable = documentTemplateVariable
             }
         }
 
         val notFoundNames = names.minus(foundNames)
+
         if (notFoundNames.isNotEmpty()) {
             notFoundNames.forEach {
                 name ->
-                val links = state.documentTemplate.documentTemplateToDocumentVariableLinks ?: mutableListOf()
-                links.add(
-                        DocumentTemplateToDocumentVariableLink().also {
-                            it.documentTemplateVariable = DocumentTemplateVariable().also {
-                                it.name = name
-                                it.record.validationManager.addGeneralError("no such link in database")
-                            }
-                        }
-                )
+                val nameToLinks = state.nameToLinksMap.get(name)
+                nameToLinks?.forEach {
+                    it.documentTemplateVariable?.record?.validationManager?.addGeneralError("no such link in database")
+                }
             }
         }
     }
@@ -126,8 +121,9 @@ class CreateComposer(val params: IParam) : ComposerBase() {
                 it.write(tempFile)
             } ?: throw(Throwable("no file in params"))
         } catch(error: Exception) {
+            state.tempFile?.delete()
             throw(error)
-            state.documentTemplate.record.validationManager.addGeneralError("file invalid")
+            state.documentTemplate!!.record.validationManager.addGeneralError("file invalid")
             failImmediately(ModelInvalidException())
         }
     }
@@ -144,10 +140,10 @@ class CreateComposer(val params: IParam) : ComposerBase() {
             name ->
             val link = state.nameToLinksMap[name]
             if (link == null) {
-                if (state.documentTemplate.documentTemplateToDocumentVariableLinks == null) {
-                    state.documentTemplate.documentTemplateToDocumentVariableLinks = mutableListOf()
+                if (state.documentTemplate!!.documentTemplateToDocumentVariableLinks == null) {
+                    state.documentTemplate!!.documentTemplateToDocumentVariableLinks = mutableListOf()
                 }
-                state.documentTemplate.documentTemplateToDocumentVariableLinks!!.add(
+                state.documentTemplate!!.documentTemplateToDocumentVariableLinks!!.add(
                         DocumentTemplateToDocumentVariableLink().also {
                             it.documentTemplateVariable = DocumentTemplateVariable().also {
                                 it.name = name
@@ -160,19 +156,35 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     }
 
     fun validate(){
-        DocumentTemplateValidator(state.documentTemplateCreate).createScenario()
-        if (!state.documentTemplate.record.validationManager.isValid()) {
+        DocumentTemplateValidator(state.documentTemplate!!).createScenario()
+        if (!state.documentTemplate!!.record.validationManager.isValid()) {
             failImmediately(ModelInvalidException())
         }
     }
 
     override fun compose(){
+        TransactionRunner.run {
+            state.documentTemplate!!.record.saveCascade(
+                    dslContext = it.inTransactionDsl,
+                    before = {
 
+                    },
+                    after = {
+                        state.documentTemplate!!.uploadedDocument?.file?.finalizeOperation()
+                    }
+
+            )
+        }
     }
 
     override fun fail(error: Throwable) {
+        clearResources()
         when(error) {
-
+            is ModelInvalidException -> {
+                onError(
+                        state.documentTemplate!!
+                )
+            }
             else -> {
                 throw error
             }
@@ -180,15 +192,19 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     }
 
     override fun success() {
-        onSuccess.invoke(state.documentTemplateCreate)
+        onSuccess.invoke(state.documentTemplate!!)
+    }
+
+    private fun clearResources() {
+        state.tempFile?.delete()
+        state.documentTemplate?.uploadedDocument?.file?.finalizeOperation()
     }
 }
 
 private class State {
     var variableNamesExtractedFromRequest: MutableSet<String>? = null
     var tempFile: File? = null
-    lateinit var documentTemplateCreate: DocumentTemplate
     lateinit var wrappedParams: DocumentTemplateRequestParametersWrapper
-    lateinit var documentTemplate: DocumentTemplate
+    var documentTemplate: DocumentTemplate? = null
     lateinit var nameToLinksMap: MutableMap<String, MutableList<DocumentTemplateToDocumentVariableLink>>
 }

@@ -84,6 +84,8 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/documentTemplateVariables/:id`} component={DocumentTemplateVariablesComponents.Show}/>
                     
                     <Route exact path={`${this.props.match.url}/documentTemplates/new`} component={DocumentTemplateComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/documentTemplates`} component={DocumentTemplateComponents.Index}/>
+
                 </Switch>
             </div>
         </div>

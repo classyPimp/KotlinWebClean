@@ -44,4 +44,24 @@ class DocumentTemplatesController(context: ServletRequestContext) : BaseControll
         )
     }
 
+    fun destroy() {
+        val id = context.routeParameters.get("id")?.toLongOrNull()
+
+        val composer = DocumentTemplateComposers.destroy(id)
+
+        composer.onError = {
+            renderJson(
+                    DocumentTemplateSerializers.destroy.onError(it)
+            )
+        }
+
+        composer.onSuccess = {
+            renderJson(
+                    DocumentTemplateSerializers.destroy.onSuccess(it)
+            )
+        }
+
+        composer.run()
+    }
+
 }

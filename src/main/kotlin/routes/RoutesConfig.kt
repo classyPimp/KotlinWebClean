@@ -396,6 +396,11 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     DocumentTemplatesController(it).index()
                 }
 
+                delete("/:id") {
+                    DocumentTemplatesController(it).destroy()
+                }
+
+
             }
 
         }

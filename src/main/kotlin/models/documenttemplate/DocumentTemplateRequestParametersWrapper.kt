@@ -5,6 +5,7 @@ import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentV
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLinkRequestParametersWrapper
 import models.uploadeddocument.UploadedDocumentRequestParametersWrapper
 import utils.requestparameters.IParam
+import utils.stdlibextensions.string.trimAndSquishWhiteSpace
 
 class DocumentTemplateRequestParametersWrapper(val requestParameters: IParam) {
 
@@ -15,6 +16,10 @@ class DocumentTemplateRequestParametersWrapper(val requestParameters: IParam) {
     val documentTemplateToDocumentVariableLinks: MutableList<DocumentTemplateToDocumentVariableLinkRequestParametersWrapper>?  = requestParameters.get("documentTemplateToDocumentVariableLinks")?.paramList()?.let {
         parseDocumentTemplateToDocumentVariableLinks(it)
     }
+
+    val name: String? = requestParameters.get("name")?.string?.trimAndSquishWhiteSpace()
+
+    val description: String? = requestParameters.get("description")?.string?.trimAndSquishWhiteSpace()
 
     private fun  parseDocumentTemplateToDocumentVariableLinks(list: List<IParam>): MutableList<DocumentTemplateToDocumentVariableLinkRequestParametersWrapper>? {
         val toReturn = mutableListOf<DocumentTemplateToDocumentVariableLinkRequestParametersWrapper>()

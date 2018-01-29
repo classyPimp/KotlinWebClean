@@ -10,6 +10,7 @@ import { PlainSelect } from '../formelements/PlainSelect'
 import { PlainFileInput } from '../formelements/PlainFileInput'
 import { UploadedDocument } from '../../models/UploadedDocument'
 
+
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
@@ -40,6 +41,16 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
                 validate template
               </button>
             </div>
+            {this.state.validationReady &&
+              <PlainInputElement
+                registerInput={(it)=>{this.registerInput(it)}}
+                propertyName="name"
+                model={this.state.documentTemplate}
+                optional={{
+                  placeholder: "template name"
+                }}
+              />
+            }
             {this.state.documentTemplate.getErrorsFor('general') &&
               <ErrorsShow errors={this.state.documentTemplate.getErrorsFor('general')}/>
             }
@@ -91,7 +102,10 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     submit() {
-
+      this.state.documentTemplate.validate()
+      this.state.documentTemplate.create().then((documentTemplate)=>{
+        this.setState({documentTemplate})
+      })
     }
 
 
