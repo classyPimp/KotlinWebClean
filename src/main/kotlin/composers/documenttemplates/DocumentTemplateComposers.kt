@@ -1,5 +1,6 @@
 package composers.documenttemplates
 
+import composers.documenttemplates.arbitrary.DocumentTemplateArbitraryCreateComposer
 import composers.documenttemplates.prevalidations.PrevalidationsCreateComposer
 import utils.requestparameters.IParam
 
@@ -11,6 +12,12 @@ object DocumentTemplateComposers {
     object Prevalidations {
         fun create(params: IParam): PrevalidationsCreateComposer {
             return PrevalidationsCreateComposer(params)
+        }
+    }
+
+    object Arbitrary {
+        fun create(params: IParam): DocumentTemplateArbitraryCreateComposer {
+            return DocumentTemplateArbitraryCreateComposer(params)
         }
     }
 

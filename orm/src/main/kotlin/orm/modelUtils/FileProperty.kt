@@ -21,6 +21,8 @@ abstract class FileProperty {
     abstract val modelName: String
     abstract val propertyName: String
 
+    abstract val fileNameOnModel: String?
+
     abstract fun validateFile(file: File): Boolean
     abstract fun onFileAssigned(file: File, targetFileName: String?)
     abstract fun preprocessFile(file: File)
@@ -33,6 +35,18 @@ abstract class FileProperty {
         ASSIGN,
         DELETE,
         DO_NOTHING
+    }
+
+    fun getFileItself(): File? {
+        if (fileNameOnModel == null) {
+            return null
+        }
+        val fileToReturn = File(prepareRepositoryPath() + "/" + fileNameOnModel)
+        if (fileToReturn.exists()) {
+            return fileToReturn
+        } else {
+            return null
+        }
     }
 
     fun assign(fileItem: FileItem?) {

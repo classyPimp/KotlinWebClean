@@ -21,6 +21,7 @@ import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
 import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
 import org.jooq.generated.tables.CounterPartyToContactLinks;
+import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
@@ -50,7 +51,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = 1121719334;
+    private static final long serialVersionUID = 1120533407;
 
     /**
      * The reference instance of <code></code>
@@ -101,6 +102,11 @@ public class DefaultSchema extends SchemaImpl {
      * The table <code>counter_party_to_contact_links</code>.
      */
     public final CounterPartyToContactLinks COUNTER_PARTY_TO_CONTACT_LINKS = org.jooq.generated.tables.CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS;
+
+    /**
+     * The table <code>document_template_categories</code>.
+     */
+    public final DocumentTemplateCategories DOCUMENT_TEMPLATE_CATEGORIES = org.jooq.generated.tables.DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES;
 
     /**
      * The table <code>document_template_to_document_variable_links</code>.
@@ -201,6 +207,7 @@ public class DefaultSchema extends SchemaImpl {
             Contracts.CONTRACTS,
             CounterParties.COUNTER_PARTIES,
             CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS,
+            DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES,
             DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS,
             DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES,
             DocumentTemplates.DOCUMENT_TEMPLATES,

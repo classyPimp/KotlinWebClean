@@ -1,5 +1,6 @@
 package models.documenttemplate
 
+import models.documenttemplatecategory.DocumentTemplateCategory
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import models.uploadeddocument.UploadedDocument
 import org.jooq.generated.tables.DocumentTemplates
@@ -22,6 +23,9 @@ class DocumentTemplate {
     @TableField(name = "DESCRIPTION")
     var description: String? = null
 
+    @TableField(name = "DOCUMENT_TEMPLATE_CATEGORY_ID")
+    var documentTemplateCategoryId: Long? = null
+
     @TableField(name = "UPLOADED_DOCUMENT_ID")
     var uploadedDocumentId: Long? = null
 
@@ -33,6 +37,9 @@ class DocumentTemplate {
 
     @BelongsTo(model = UploadedDocument::class, fieldOnThis = "UPLOADED_DOCUMENT_ID", fieldOnThat = "ID")
     var uploadedDocument: UploadedDocument? = null
+
+    @BelongsTo(model = DocumentTemplateCategory::class, fieldOnThat = "ID", fieldOnThis = "DOCUMENT_TEMPLATE_CATEGORY_ID")
+    var documentTemplateCategory: DocumentTemplateCategory? = null
 
     @HasMany(model = DocumentTemplateToDocumentVariableLink::class, fieldOnThat = "DOCUMENT_TEMPLATE_ID", fieldOnThis = "ID")
     var documentTemplateToDocumentVariableLinks: MutableList<DocumentTemplateToDocumentVariableLink>? = null

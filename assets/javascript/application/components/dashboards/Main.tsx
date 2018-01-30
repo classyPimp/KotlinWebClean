@@ -15,6 +15,7 @@ import { PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents } from '../p
 import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
 import { DocumentTemplateVariablesComponents } from '../documenttemplatevariables/DocumentTemplateVariablesComponents'
 import { DocumentTemplateComponents } from '../documenttemplates/DocumentTemplateComponents'
+import { DocumentTemplateCategoriesComponents } from '../documenttemplatecategories/DocumentTemplateCategoriesComponents'
 
 export class Main extends BaseReactComponent {
 
@@ -85,6 +86,11 @@ export class Main extends BaseReactComponent {
                     
                     <Route exact path={`${this.props.match.url}/documentTemplates/new`} component={DocumentTemplateComponents.New}/>
                     <Route exact path={`${this.props.match.url}/documentTemplates`} component={DocumentTemplateComponents.Index}/>
+
+                    <Route exact path={`${this.props.match.url}/documentTemplateCategories/new`} component={DocumentTemplateCategoriesComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/documentTemplateCategories`} component={DocumentTemplateCategoriesComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/documentTemplateCategories/:id/edit`} component={DocumentTemplateCategoriesComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/documentTemplateCategories/:id`} component={DocumentTemplateCategoriesComponents.Show}/>
 
                 </Switch>
             </div>

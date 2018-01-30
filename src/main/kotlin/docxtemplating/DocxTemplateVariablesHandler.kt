@@ -18,52 +18,26 @@ class DocxTemplateVariablesHandler(
         val factory = Context.getWmlObjectFactory()
     }
 
-    private val template: WordprocessingMLPackage = WordprocessingMLPackage.load(file)
+    val template: WordprocessingMLPackage = WordprocessingMLPackage.load(file)
 
     fun replaceVariables(
-                    variableNamesToLinksMap: MutableMap<String, MutableList<DocumentTemplateToDocumentVariableLink>>
-    ): MutableSet<String> {
-        val unsupportedVariables = mutableSetOf<String>()
+                    variableNamesToLinksMap: MutableMap<String, DocumentTemplateToDocumentVariableLink>
+    ) {
         val sdtTags = getStdTags()
         sdtTags.forEach {
-            replaceAtTag(it, variableNamesToLinksMap, unsupportedVariables)
+            replaceAtTag(it, variableNamesToLinksMap)
         }
-        return unsupportedVariables
     }
 
     private fun replaceAtTag(
-            tag: Tag, variableNamesToLinksMap: MutableMap<String, MutableList<DocumentTemplateToDocumentVariableLink>>,
-            unsupportedVariables: MutableSet<String>
+            tag: Tag,
+            variableNamesToLinksMap: MutableMap<String, DocumentTemplateToDocumentVariableLink>
     ) {
-        val nameWithIdentifier = tag.`val`.split('-')
-        val name: String = nameWithIdentifier[0]
-        val identifier: String? = nameWithIdentifier.getOrNull(1)
-        var correspondingLink: DocumentTemplateToDocumentVariableLink? = null
-
-        val links = variableNamesToLinksMap[name]
-
-        if (links == null) {
-            unsupportedVariables.add(tag.`val`)
-            return
-        }
-
-        for (link in links) {
-            if (name == link.documentTemplateVariable?.name) {
-                if (identifier == null && link.uniqueIdentifier == null) {
-                    correspondingLink = link
-                    break
-                } else {
-                    if (identifier == link.uniqueIdentifier) {
-                        correspondingLink = link
-                        break
-                    }
-                }
-            }
-        }
+        val name: String = tag.`val`
+        var correspondingLink: DocumentTemplateToDocumentVariableLink? = variableNamesToLinksMap[name]
 
         if (correspondingLink == null) {
-            unsupportedVariables.add(tag.`val`)
-            return
+            throw IllegalStateException()
         }
 
         val sdtRun = getSdtRunFromTag(tag)
@@ -85,7 +59,20 @@ class DocxTemplateVariablesHandler(
     fun extractVariableNamesAsSet(sdtTags: MutableList<Tag> = getStdTags()): MutableSet<String> {
         val setToReturn = mutableSetOf<String>()
         sdtTags.forEach {
-            setToReturn.add(it.`val`)
+            val nameWithIdentifier = it.`val`
+            nameWithIdentifier.split('-').let {
+                setToReturn.add(it[0])
+            }
+
+        }
+        return setToReturn
+    }
+
+    fun extractVariableNamesWithIdentifiersAsSet(sdtTags: MutableList<Tag> = getStdTags()): MutableSet<String> {
+        val setToReturn = mutableSetOf<String>()
+        sdtTags.forEach {
+            val nameWithIdentifier = it.`val`
+            setToReturn.add(nameWithIdentifier)
         }
         return setToReturn
     }

@@ -24,5 +24,21 @@ object DocumentTemplateShowDao {
                 .firstOrNull()
     }
 
+    fun forArbitraryCreate(id: Long): DocumentTemplate? {
+        return DocumentTemplateRecord.GET()
+                .preload {
+                    it.uploadedDocument()
+                    it.documentTemplateToDocumentVariableLinks() {
+                        it.preload {
+                            it.documentTemplateVariable()
+                        }
+                    }
+                }
+                .where(table.ID.eq(id))
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
 
 }

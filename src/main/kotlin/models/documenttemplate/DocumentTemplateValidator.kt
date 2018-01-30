@@ -1,5 +1,7 @@
 package models.documenttemplate
 
+import models.documenttemplatecategory.DocumentTemplateCategory
+import models.documenttemplatecategory.daos.DocumentTemplateCategoryDaos
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLinkValidator
 import org.jooq.generated.Tables.DOCUMENT_TEMPLATES
@@ -11,9 +13,14 @@ class DocumentTemplateValidator(model: DocumentTemplate) : DocumentTemplateValid
     fun createScenario(){
         validateDocumentTemplateToDocumentVariableLinks()
         validateName()
+        validateDocumentTemplateCategoryId()
     }
 
-    fun validateDocumentTemplateToDocumentVariableLinks() {
+    fun arbitraryCreateScenario() {
+        validateDocumentTemplateToDocumentVariableLinksForArbitraryCreate()
+    }
+
+    private fun validateDocumentTemplateToDocumentVariableLinks() {
         val links = model.documentTemplateToDocumentVariableLinks
         var hasNestedErrors = false
         links?.forEach {
@@ -27,6 +34,18 @@ class DocumentTemplateValidator(model: DocumentTemplate) : DocumentTemplateValid
         }
     }
 
+    private fun validateDocumentTemplateToDocumentVariableLinksForArbitraryCreate() {
+        val links = model.documentTemplateToDocumentVariableLinks
+        var hasNestedErrors = false
+        links?.forEach {
+            DocumentTemplateToDocumentVariableLinkValidator(it).whenDocumentTemplateArbitraryCreateScenario()
+            if (!it.record.validationManager.isValid()) {
+                hasNestedErrors = true
+            }
+        }
+        validationManager.addGeneralError("nested errors")
+    }
+
     private fun validateName() {
         val name = model.name
         if (name == null || name.isBlank()) {
@@ -36,6 +55,15 @@ class DocumentTemplateValidator(model: DocumentTemplate) : DocumentTemplateValid
         DocumentTemplateRecord.GET().where(DOCUMENT_TEMPLATES.NAME.eq(name)).execute().firstOrNull()?.let {
             validationManager.addNameError("such template name already exists")
         }
+    }
+
+    private fun validateDocumentTemplateCategoryId() {
+        val id = model.documentTemplateCategoryId
+        if (id == null) {
+            validationManager.addDocumentTemplateCategoryIdError("should be assigned")
+            return
+        }
+        DocumentTemplateCategoryDaos.show.byIdForShow(id) ?: validationManager.addDocumentTemplateCategoryIdError("no such category exists")
     }
 
 }

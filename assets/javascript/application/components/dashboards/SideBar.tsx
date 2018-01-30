@@ -90,6 +90,18 @@ export class SideBar extends BaseReactComponent {
                         create new document template
                     </Link>
                 </li>
+
+                 <li className="pure-menu-item">
+                    <Link to="/dashboards/documentTemplateCategories" className="pure-menu-link">
+                        index document template categories
+                    </Link>
+                </li>
+
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/documentTemplateCategories/new" className="pure-menu-link">
+                        create new document template category
+                    </Link>
+                </li>
             </ul>
         </div>
     }

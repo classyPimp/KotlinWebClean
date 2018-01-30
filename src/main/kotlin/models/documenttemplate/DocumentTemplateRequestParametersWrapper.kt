@@ -21,6 +21,8 @@ class DocumentTemplateRequestParametersWrapper(val requestParameters: IParam) {
 
     val description: String? = requestParameters.get("description")?.string?.trimAndSquishWhiteSpace()
 
+    val documentTemplateCategoryId: Long? = requestParameters.get("documentTemplateCategoryId")?.string?.toLongOrNull()
+
     private fun  parseDocumentTemplateToDocumentVariableLinks(list: List<IParam>): MutableList<DocumentTemplateToDocumentVariableLinkRequestParametersWrapper>? {
         val toReturn = mutableListOf<DocumentTemplateToDocumentVariableLinkRequestParametersWrapper>()
         list.forEach {

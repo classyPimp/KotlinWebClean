@@ -3,6 +3,7 @@ package routes
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
 import controllers.counterparties.CounterPartiesController
+import controllers.documenttemplatecategories.DocumentTemplateCategoriesController
 import controllers.documenttemplates.DocumentTemplatesController
 import controllers.documenttemplatevariables.DocumentTemplateVariablesController
 import controllers.incorporationforms.IncorporationFormsController
@@ -400,6 +401,40 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     DocumentTemplatesController(it).destroy()
                 }
 
+
+            }
+
+            namespace("/documentTemplateCategories") {
+
+                namespace("/inputFeeds") {
+                    get("") {
+                        DocumentTemplateCategoriesController.inputFeeds(it).index()
+                    }
+                }
+
+                get("") {
+                    DocumentTemplateCategoriesController(it).index()
+                }
+
+                get("/:id") {
+                    DocumentTemplateCategoriesController(it).show()
+                }
+
+                get("/:id/edit") {
+                    DocumentTemplateCategoriesController(it).edit()
+                }
+
+                post("") {
+                    DocumentTemplateCategoriesController(it).create()
+                }
+
+                put("/:id") {
+                    DocumentTemplateCategoriesController(it).update()
+                }
+
+                delete("/:id") {
+                    DocumentTemplateCategoriesController(it).destroy()
+                }
 
             }
 

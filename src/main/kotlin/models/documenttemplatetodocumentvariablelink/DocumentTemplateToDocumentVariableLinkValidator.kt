@@ -8,6 +8,11 @@ class DocumentTemplateToDocumentVariableLinkValidator(model: DocumentTemplateToD
         validateDocumentTemplateVariable()
     }
 
+    fun whenDocumentTemplateArbitraryCreateScenario() {
+        validateDefaultValue()
+        validateDocumentTemplateVariable()
+    }
+
     private fun validateDocumentTemplateVariable() {
         val templateVar = model.documentTemplateVariable
         if (templateVar == null) {
@@ -16,6 +21,13 @@ class DocumentTemplateToDocumentVariableLinkValidator(model: DocumentTemplateToD
         }
         if (!templateVar.record.validationManager.isValid()) {
             validationManager.addGeneralError("has nested errors")
+        }
+    }
+
+    private fun validateDefaultValue() {
+        val defaultValue = model.defaultValue
+        if (defaultValue == null || defaultValue.isBlank()) {
+            validationManager.addDefaultValueError("should not be empty")
         }
     }
 

@@ -20,7 +20,7 @@ import { ContractToUploadedDocumentLink } from './models/ContractToUploadedDocum
 import { DocumentTemplate } from './models/DocumentTemplate'
 import { DocumentTemplateToDocumentVariableLink } from './models/DocumentTemplateToDocumentVariableLink'
 import { DocumentTemplateVariable } from './models/DocumentTemplateVariable'
-
+import  { DocumentTemplateCategory } from './models/DocumentTemplateCategory'
 
 export class ModelRegistrator {
   //THIS UGLY HACK SOLVES SOME NASTY CIRCULAR DEPENDENCIES BUGS!
@@ -45,7 +45,8 @@ export class ModelRegistrator {
       ContractToUploadedDocumentLink,
       DocumentTemplate,
       DocumentTemplateToDocumentVariableLink,
-      DocumentTemplateVariable
+      DocumentTemplateVariable,
+      DocumentTemplateCategory
     }
   }
 

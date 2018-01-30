@@ -7,7 +7,8 @@ import java.io.File
 
 class UploadedDocumentFileHandler(val model: UploadedDocument) : FileProperty() {
 
-
+    override val fileNameOnModel: String?
+        get() = model.fileName
 
     override val maxAllowedSize: Long
         get() {

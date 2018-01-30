@@ -18,6 +18,7 @@ import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
 import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
 import org.jooq.generated.tables.CounterPartyToContactLinks;
+import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
@@ -40,6 +41,7 @@ import org.jooq.generated.tables.records.ContractToUploadedDocumentLinksRecord;
 import org.jooq.generated.tables.records.ContractsRecord;
 import org.jooq.generated.tables.records.CounterPartiesRecord;
 import org.jooq.generated.tables.records.CounterPartyToContactLinksRecord;
+import org.jooq.generated.tables.records.DocumentTemplateCategoriesRecord;
 import org.jooq.generated.tables.records.DocumentTemplateToDocumentVariableLinksRecord;
 import org.jooq.generated.tables.records.DocumentTemplateVariablesRecord;
 import org.jooq.generated.tables.records.DocumentTemplatesRecord;
@@ -82,6 +84,7 @@ public class Keys {
     public static final Identity<ContractsRecord, Long> IDENTITY_CONTRACTS = Identities0.IDENTITY_CONTRACTS;
     public static final Identity<CounterPartiesRecord, Long> IDENTITY_COUNTER_PARTIES = Identities0.IDENTITY_COUNTER_PARTIES;
     public static final Identity<CounterPartyToContactLinksRecord, Long> IDENTITY_COUNTER_PARTY_TO_CONTACT_LINKS = Identities0.IDENTITY_COUNTER_PARTY_TO_CONTACT_LINKS;
+    public static final Identity<DocumentTemplateCategoriesRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_CATEGORIES = Identities0.IDENTITY_DOCUMENT_TEMPLATE_CATEGORIES;
     public static final Identity<DocumentTemplateToDocumentVariableLinksRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS = Identities0.IDENTITY_DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS;
     public static final Identity<DocumentTemplateVariablesRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_VARIABLES = Identities0.IDENTITY_DOCUMENT_TEMPLATE_VARIABLES;
     public static final Identity<DocumentTemplatesRecord, Long> IDENTITY_DOCUMENT_TEMPLATES = Identities0.IDENTITY_DOCUMENT_TEMPLATES;
@@ -108,6 +111,7 @@ public class Keys {
     public static final UniqueKey<ContractsRecord> CONTRACTS_PKEY = UniqueKeys0.CONTRACTS_PKEY;
     public static final UniqueKey<CounterPartiesRecord> COUNTER_PARTIES_PKEY = UniqueKeys0.COUNTER_PARTIES_PKEY;
     public static final UniqueKey<CounterPartyToContactLinksRecord> COUNTER_PARTY_TO_CONTACT_LINKS_PKEY = UniqueKeys0.COUNTER_PARTY_TO_CONTACT_LINKS_PKEY;
+    public static final UniqueKey<DocumentTemplateCategoriesRecord> DOCUMENT_TEMPLATE_CATEGORIES_PKEY = UniqueKeys0.DOCUMENT_TEMPLATE_CATEGORIES_PKEY;
     public static final UniqueKey<DocumentTemplateToDocumentVariableLinksRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS_PKEY = UniqueKeys0.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS_PKEY;
     public static final UniqueKey<DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_VARIABLES_PKEY = UniqueKeys0.DOCUMENT_TEMPLATE_VARIABLES_PKEY;
     public static final UniqueKey<DocumentTemplatesRecord> DOCUMENT_TEMPLATES_PKEY = UniqueKeys0.DOCUMENT_TEMPLATES_PKEY;
@@ -137,6 +141,7 @@ public class Keys {
     public static final ForeignKey<DocumentTemplateToDocumentVariableLinksRecord, DocumentTemplatesRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_35564F6AF5 = ForeignKeys0.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_35564F6AF5;
     public static final ForeignKey<DocumentTemplateToDocumentVariableLinksRecord, DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_93F70E3079 = ForeignKeys0.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_93F70E3079;
     public static final ForeignKey<DocumentTemplatesRecord, UploadedDocumentsRecord> DOCUMENT_TEMPLATES__FK_RAILS_FB7BAA7310 = ForeignKeys0.DOCUMENT_TEMPLATES__FK_RAILS_FB7BAA7310;
+    public static final ForeignKey<DocumentTemplatesRecord, DocumentTemplateCategoriesRecord> DOCUMENT_TEMPLATES__FK_RAILS_6A26F12C1D = ForeignKeys0.DOCUMENT_TEMPLATES__FK_RAILS_6A26F12C1D;
     public static final ForeignKey<PersonToContactLinksRecord, PeopleRecord> PERSON_TO_CONTACT_LINKS__FK_RAILS_40531ED1F1 = ForeignKeys0.PERSON_TO_CONTACT_LINKS__FK_RAILS_40531ED1F1;
     public static final ForeignKey<PersonToContactLinksRecord, ContactsRecord> PERSON_TO_CONTACT_LINKS__FK_RAILS_81686FEAF6 = ForeignKeys0.PERSON_TO_CONTACT_LINKS__FK_RAILS_81686FEAF6;
     public static final ForeignKey<PersonToCounterPartyLinkToUploadedDocumentLinksRecord, PersonToCounterPartyLinksRecord> PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_E4130449AE = ForeignKeys0.PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_E4130449AE;
@@ -160,6 +165,7 @@ public class Keys {
         public static Identity<ContractsRecord, Long> IDENTITY_CONTRACTS = createIdentity(Contracts.CONTRACTS, Contracts.CONTRACTS.ID);
         public static Identity<CounterPartiesRecord, Long> IDENTITY_COUNTER_PARTIES = createIdentity(CounterParties.COUNTER_PARTIES, CounterParties.COUNTER_PARTIES.ID);
         public static Identity<CounterPartyToContactLinksRecord, Long> IDENTITY_COUNTER_PARTY_TO_CONTACT_LINKS = createIdentity(CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS, CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS.ID);
+        public static Identity<DocumentTemplateCategoriesRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_CATEGORIES = createIdentity(DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES, DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES.ID);
         public static Identity<DocumentTemplateToDocumentVariableLinksRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS = createIdentity(DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS, DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS.ID);
         public static Identity<DocumentTemplateVariablesRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_VARIABLES = createIdentity(DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES, DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES.ID);
         public static Identity<DocumentTemplatesRecord, Long> IDENTITY_DOCUMENT_TEMPLATES = createIdentity(DocumentTemplates.DOCUMENT_TEMPLATES, DocumentTemplates.DOCUMENT_TEMPLATES.ID);
@@ -184,6 +190,7 @@ public class Keys {
         public static final UniqueKey<ContractsRecord> CONTRACTS_PKEY = createUniqueKey(Contracts.CONTRACTS, "contracts_pkey", Contracts.CONTRACTS.ID);
         public static final UniqueKey<CounterPartiesRecord> COUNTER_PARTIES_PKEY = createUniqueKey(CounterParties.COUNTER_PARTIES, "counter_parties_pkey", CounterParties.COUNTER_PARTIES.ID);
         public static final UniqueKey<CounterPartyToContactLinksRecord> COUNTER_PARTY_TO_CONTACT_LINKS_PKEY = createUniqueKey(CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS, "counter_party_to_contact_links_pkey", CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS.ID);
+        public static final UniqueKey<DocumentTemplateCategoriesRecord> DOCUMENT_TEMPLATE_CATEGORIES_PKEY = createUniqueKey(DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES, "document_template_categories_pkey", DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES.ID);
         public static final UniqueKey<DocumentTemplateToDocumentVariableLinksRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS_PKEY = createUniqueKey(DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS, "document_template_to_document_variable_links_pkey", DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS.ID);
         public static final UniqueKey<DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_VARIABLES_PKEY = createUniqueKey(DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES, "document_template_variables_pkey", DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES.ID);
         public static final UniqueKey<DocumentTemplatesRecord> DOCUMENT_TEMPLATES_PKEY = createUniqueKey(DocumentTemplates.DOCUMENT_TEMPLATES, "document_templates_pkey", DocumentTemplates.DOCUMENT_TEMPLATES.ID);
@@ -211,6 +218,7 @@ public class Keys {
         public static final ForeignKey<DocumentTemplateToDocumentVariableLinksRecord, DocumentTemplatesRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_35564F6AF5 = createForeignKey(org.jooq.generated.Keys.DOCUMENT_TEMPLATES_PKEY, DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS, "document_template_to_document_variable_links__fk_rails_35564f6af5", DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS.DOCUMENT_TEMPLATE_ID);
         public static final ForeignKey<DocumentTemplateToDocumentVariableLinksRecord, DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_93F70E3079 = createForeignKey(org.jooq.generated.Keys.DOCUMENT_TEMPLATE_VARIABLES_PKEY, DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS, "document_template_to_document_variable_links__fk_rails_93f70e3079", DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS.DOCUMENT_TEMPLATE_VARIABLE_ID);
         public static final ForeignKey<DocumentTemplatesRecord, UploadedDocumentsRecord> DOCUMENT_TEMPLATES__FK_RAILS_FB7BAA7310 = createForeignKey(org.jooq.generated.Keys.UPLOADED_DOCUMENTS_PKEY, DocumentTemplates.DOCUMENT_TEMPLATES, "document_templates__fk_rails_fb7baa7310", DocumentTemplates.DOCUMENT_TEMPLATES.UPLOADED_DOCUMENT_ID);
+        public static final ForeignKey<DocumentTemplatesRecord, DocumentTemplateCategoriesRecord> DOCUMENT_TEMPLATES__FK_RAILS_6A26F12C1D = createForeignKey(org.jooq.generated.Keys.DOCUMENT_TEMPLATE_CATEGORIES_PKEY, DocumentTemplates.DOCUMENT_TEMPLATES, "document_templates__fk_rails_6a26f12c1d", DocumentTemplates.DOCUMENT_TEMPLATES.DOCUMENT_TEMPLATE_CATEGORY_ID);
         public static final ForeignKey<PersonToContactLinksRecord, PeopleRecord> PERSON_TO_CONTACT_LINKS__FK_RAILS_40531ED1F1 = createForeignKey(org.jooq.generated.Keys.PEOPLE_PKEY, PersonToContactLinks.PERSON_TO_CONTACT_LINKS, "person_to_contact_links__fk_rails_40531ed1f1", PersonToContactLinks.PERSON_TO_CONTACT_LINKS.PERSON_ID);
         public static final ForeignKey<PersonToContactLinksRecord, ContactsRecord> PERSON_TO_CONTACT_LINKS__FK_RAILS_81686FEAF6 = createForeignKey(org.jooq.generated.Keys.CONTACTS_PKEY, PersonToContactLinks.PERSON_TO_CONTACT_LINKS, "person_to_contact_links__fk_rails_81686feaf6", PersonToContactLinks.PERSON_TO_CONTACT_LINKS.CONTACT_ID);
         public static final ForeignKey<PersonToCounterPartyLinkToUploadedDocumentLinksRecord, PersonToCounterPartyLinksRecord> PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_E4130449AE = createForeignKey(org.jooq.generated.Keys.PERSON_TO_COUNTER_PARTY_LINKS_PKEY, PersonToCounterPartyLinkToUploadedDocumentLinks.PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS, "person_to_counter_party_link_to_uploaded_document_links__fk_rails_e4130449ae", PersonToCounterPartyLinkToUploadedDocumentLinks.PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS.PERSON_TO_COUNTER_PARTY_LINK_ID);

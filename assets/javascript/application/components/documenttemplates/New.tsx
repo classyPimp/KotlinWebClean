@@ -9,7 +9,8 @@ import { ApplicationComponent } from '../ApplicationComponent';
 import { PlainSelect } from '../formelements/PlainSelect'
 import { PlainFileInput } from '../formelements/PlainFileInput'
 import { UploadedDocument } from '../../models/UploadedDocument'
-
+import { DropDownSelectServerFed } from '../formelements/DropdownSelectServerFed'
+import { DocumentTemplateCategory } from '../../models/DocumentTemplateCategory'
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
@@ -41,6 +42,9 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
                 validate template
               </button>
             </div>
+            {this.state.documentTemplate.getErrorsFor('general') &&
+              <ErrorsShow errors={this.state.documentTemplate.getErrorsFor('general')}/>
+            }
             {this.state.validationReady &&
               <PlainInputElement
                 registerInput={(it)=>{this.registerInput(it)}}
@@ -51,8 +55,19 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
                 }}
               />
             }
-            {this.state.documentTemplate.getErrorsFor('general') &&
-              <ErrorsShow errors={this.state.documentTemplate.getErrorsFor('general')}/>
+            {this.state.validationReady &&
+              <DropDownSelectServerFed
+                model={this.state.documentTemplate}
+                propertyName="documentTemplateCategoryId"
+                registerInput={(it)=>{this.registerInput(it)}}
+                propertyToShow="name"
+                propertyToSelect="id"
+                queryingFunction={DocumentTemplateCategory.inputFeedsIndex.bind(DocumentTemplateCategory)}
+                preselected={this.state.documentTemplate.documentTemplateCategoryId}
+                optional={{
+                  placeholder: "select category"
+                }}
+              />
             }
             {
               this.state.documentTemplate.documentTemplateToDocumentVariableLinks.map((link, index)=>{

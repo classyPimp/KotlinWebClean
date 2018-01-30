@@ -15,6 +15,7 @@ import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
 import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
 import org.jooq.generated.tables.CounterPartyToContactLinks;
+import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
@@ -87,6 +88,11 @@ public class Tables {
      * The table <code>counter_party_to_contact_links</code>.
      */
     public static final CounterPartyToContactLinks COUNTER_PARTY_TO_CONTACT_LINKS = org.jooq.generated.tables.CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS;
+
+    /**
+     * The table <code>document_template_categories</code>.
+     */
+    public static final DocumentTemplateCategories DOCUMENT_TEMPLATE_CATEGORIES = org.jooq.generated.tables.DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES;
 
     /**
      * The table <code>document_template_to_document_variable_links</code>.

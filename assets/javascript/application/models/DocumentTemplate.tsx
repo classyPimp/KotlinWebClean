@@ -6,6 +6,7 @@ import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { UploadedDocument } from './UploadedDocument'
 import { DocumentTemplateToDocumentVariableLink } from './DocumentTemplateToDocumentVariableLink'
+import { DocumentTemplateCategory } from './DocumentTemplateCategory'
 
 export class DocumentTemplate extends BaseModel {
 
@@ -29,8 +30,14 @@ export class DocumentTemplate extends BaseModel {
     @Property
     createdAt: string
 
+    @Property
+    documentTemplateCategoryId: number
+
     @HasOne("UploadedDocument")
     uploadedDocument: UploadedDocument
+
+    @HasOne("DocumentTemplateCategory")
+    documentTemplateCategory: DocumentTemplateCategory
 
     @HasMany("DocumentTemplateToDocumentVariableLink")
     documentTemplateToDocumentVariableLinks: ModelCollection<DocumentTemplateToDocumentVariableLink>
