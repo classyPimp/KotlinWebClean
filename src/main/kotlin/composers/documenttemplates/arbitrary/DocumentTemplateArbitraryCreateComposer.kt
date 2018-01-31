@@ -27,6 +27,9 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
     var nameWithIdentifierToLinkMap = mutableMapOf<String, DocumentTemplateToDocumentVariableLink>()
     lateinit var templateHandler: DocxTemplateVariablesHandler
 
+    val providedLinksIdToLinkMap = mutableMapOf<Long, DocumentTemplateToDocumentVariableLink>()
+    val sourceLinksIdToLinkMap = mutableMapOf<Long, DocumentTemplateToDocumentVariableLink>()
+
     override fun beforeCompose(){
         wrapParams()
         instantiateProvidedDocumentTemplate()
@@ -46,14 +49,10 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
 
     private fun instantiateProvidedDocumentTemplate() {
         providedDocumentTemplate = DocumentTemplateFactories.defaultCreate.create(wrappedParams)
-        val id = params.get("documentTemplate")?.let {
-            it.get("id")?.string?.toLongOrNull()
-        }
-        if (id == null) {
+        if (providedDocumentTemplate.id == null) {
             failImmediately(UnprocessableEntryError())
             return
         }
-        providedDocumentTemplate.id = id
         providedDocumentTemplate.documentTemplateToDocumentVariableLinks = providedDocumentTemplate.documentTemplateToDocumentVariableLinks ?: mutableListOf()
     }
 
@@ -68,9 +67,6 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
         val providedLinks = providedDocumentTemplate.documentTemplateToDocumentVariableLinks!!
         val sourceLinks = sourceDocumentTemplate.documentTemplateToDocumentVariableLinks!!
 
-        val providedLinksIdToLinkMap = mutableMapOf<Long, DocumentTemplateToDocumentVariableLink>()
-        val sourceLinksIdToLinkMap = mutableMapOf<Long, DocumentTemplateToDocumentVariableLink>()
-
         providedLinks.forEach {
             providedLinksIdToLinkMap[it.id!!] = it
         }
@@ -78,39 +74,61 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
             sourceLinksIdToLinkMap[it.id!!] = it
         }
 
+        validateIfSourcedExceedsProvided()
+        validateIfProvidedExceedsSourced()
+        validateEqualityOfSourcedAndProvided()
+
+    }
+
+    private fun validateIfSourcedExceedsProvided() {
+        val sourceIds = sourceLinksIdToLinkMap.keys
+        val providedIds = providedLinksIdToLinkMap.keys
+        val difference = sourceIds.minus(providedIds)
+        if (difference.isNotEmpty()) {
+            difference.forEach {
+                providedLinksIdToLinkMap[it] = sourceLinksIdToLinkMap[it]!!.also {
+                    it.documentTemplateVariable!!.record.validationManager.addGeneralError("should be provided")
+                }
+            }
+        }
+    }
+
+    private fun validateIfProvidedExceedsSourced() {
+        val sourceIds = sourceLinksIdToLinkMap.keys
+        val providedIds = providedLinksIdToLinkMap.keys
+        val difference = providedIds.minus(sourceIds)
+        if (difference.isNotEmpty()) {
+            difference.forEach {
+                val providedLink = providedLinksIdToLinkMap[it]!!
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("no such variable in template")
+            }
+        }
+    }
+
+    private fun validateEqualityOfSourcedAndProvided() {
         for (entry in sourceLinksIdToLinkMap) {
             val id = entry.key
             val sourceLink = entry.value
-            val providedLink = providedLinksIdToLinkMap[id]
-            if (providedLink == null) {
-                providedDocumentTemplate.record.validationManager.addGeneralError("no ${sourceLink.documentTemplateVariable?.name} variable provided")
-                continue
-            }
-            if (providedLink.id != sourceLink.id) {
-                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid link")
-            }
-            if (providedLink.documentTemplateId != sourceLink.documentTemplateId) {
+            val providedLink = providedLinksIdToLinkMap[id]!!
+            if (sourceLink.id != providedLink.id) {
                 providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid")
             }
-        }
-
-        if (providedLinksIdToLinkMap.keys.size != sourceLinksIdToLinkMap.keys.size) {
-            val difference = providedLinksIdToLinkMap.keys.minus(sourceLinksIdToLinkMap.keys)
-            difference.forEach {
-                val providedLink = providedLinksIdToLinkMap[it]
-                if (providedLink != null) {
-                    providedLink.record.validationManager.addGeneralError("invalid")
-                } else {
-                    val sourceLink = sourceLinksIdToLinkMap[it]
-                    providedDocumentTemplate.record.validationManager.addGeneralError("no variable ${sourceLink!!.documentTemplateVariable!!.name} provided")
-                }
+            if (sourceLink.documentTemplateVariableId != providedLink.documentTemplateVariableId) {
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid")
+            }
+            if (sourceLink.documentTemplateVariable!!.id != providedLink.documentTemplateVariable!!.id) {
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid")
             }
         }
     }
 
     private fun buildNameWithIdentifierToLinkMap() {
         providedDocumentTemplate.documentTemplateToDocumentVariableLinks!!.forEach {
-            val nameWithIdentifier = "${it.documentTemplateVariable?.name}-${it.uniqueIdentifier}"
+            val nameWithIdentifier = if (it.uniqueIdentifier != null) {
+                "${it.documentTemplateVariable?.name}-${it.uniqueIdentifier}"
+            } else {
+                it.documentTemplateVariable?.name!!
+            }
             nameWithIdentifierToLinkMap[nameWithIdentifier] = it
         }
     }
@@ -121,19 +139,38 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
             failImmediately(UnprocessableEntryError())
             return
         }
+        println("template:")
+        println(file.exists())
+        println(file.absolutePath)
         templateHandler = DocxTemplateVariablesHandler(file)
     }
 
     private fun prevalidateAgainstTemplate() {
         val variablesOnTemplate = templateHandler.extractVariableNamesWithIdentifiersAsSet()
-        variablesOnTemplate.forEach {
-            val link = nameWithIdentifierToLinkMap[it]
-            if (link == null) {
-                providedDocumentTemplate.record.validationManager.addGeneralError("no variable ${it.split('-')[0]} provided")
-            } else {
-                if (it != "${link.documentTemplateVariable!!.name}-${link.uniqueIdentifier}") {
-                    link.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid variable")
-                }
+        validateIfTemplateVarsMoreThanProvided(variablesOnTemplate)
+        validateIfProvidedVarsMoreThanInTemplate(variablesOnTemplate)
+    }
+
+    private fun validateIfTemplateVarsMoreThanProvided(variableNamesOnTemplate: MutableSet<String>) {
+        val providedVariableNames = nameWithIdentifierToLinkMap.keys
+        println("providedVariableNames")
+        println(providedVariableNames)
+        println("variableNamesOnTemplate")
+        println(variableNamesOnTemplate)
+        val difference = variableNamesOnTemplate.minus(providedVariableNames)
+        if (difference.isNotEmpty()) {
+            difference.forEach {
+                providedDocumentTemplate.record.validationManager.addGeneralError("template invalid: erronous variable: ${it} - it is not on template bu was provided")
+            }
+        }
+    }
+
+    private fun validateIfProvidedVarsMoreThanInTemplate(variableNamesOnTemplate: MutableSet<String>) {
+        val providedVariableNames = nameWithIdentifierToLinkMap.keys
+        val difference = providedVariableNames.minus(variableNamesOnTemplate)
+        if (difference.isNotEmpty()) {
+            difference.forEach {
+                providedDocumentTemplate.record.validationManager.addGeneralError("template invalid: erronous variable: ${it} - it is in template but not provided")
             }
         }
     }
@@ -151,6 +188,13 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
 
     override fun fail(error: Throwable) {
         when(error) {
+            is ModelNotFoundError -> {
+                onError(
+                        providedDocumentTemplate.also {
+                            it.record.validationManager.addGeneralError("no such template")
+                        }
+                )
+            }
             is ModelInvalidException -> {
                 onError(
                         providedDocumentTemplate
@@ -164,13 +208,11 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
 
     override fun success() {
         var file: File? = null
-        try {
-            file = Files.createTempFile(FileNamingUtils.generateUniqueFileName(), "docx").toFile()
-            templateHandler.template.save(file)
-            onSuccess.invoke(file)
-        } finally {
-            file?.delete()
+        file = File("uploads/foo.docx").also {
+            it.createNewFile()
         }
+        templateHandler.template.save(file)
+        onSuccess(file)
     }
 
 }

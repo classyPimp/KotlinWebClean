@@ -73,4 +73,12 @@ class JsonParam(val jsonNode: JsonNode): IParam {
         return null
     }
 
+    override fun paramList(): List<IParam>? {
+        val listToReturn = mutableListOf<IParam>()
+        jsonNode.toMutableList().forEach {
+            listToReturn.add(JsonParam(it))
+        }
+        return listToReturn
+    }
+
 }

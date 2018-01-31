@@ -25,6 +25,8 @@ object DefaultCreate {
             it.description = params.description
 
             it.documentTemplateCategoryId = params.documentTemplateCategoryId
+
+            it.id = params.id
         }
     }
 

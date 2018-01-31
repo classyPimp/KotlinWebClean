@@ -18,6 +18,7 @@ object DefaultCreateFactory {
 
     fun create(params: DocumentTemplateToDocumentVariableLinkRequestParametersWrapper): DocumentTemplateToDocumentVariableLink {
         return DocumentTemplateToDocumentVariableLink().also {
+            it.id = params.id
             it.defaultValue = params.defaultValue
             it.uniqueIdentifier = params.uniqueIdentifier
             it.documentTemplateVariableId = params.documentTemplateVariableId

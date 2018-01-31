@@ -7,8 +7,10 @@ import models.uploadeddocument.factories.UploadedDocumentFactories
 object DefaultCreateFactory {
 
     fun create(params: PersonToCounterPartyLinkToUploadedDocumentLinkRequestParametersWrapper): PersonToCounterPartyLinkToUploadedDocumentLink {
-        return PersonToCounterPartyLinkToUploadedDocumentLink().also {
-            it.uploadedDocument = UploadedDocumentFactories.defaultCreate.create(params.uploadedDocument)
+        return PersonToCounterPartyLinkToUploadedDocumentLink().also { link ->
+            params.uploadedDocument?.let {
+                link.uploadedDocument = UploadedDocumentFactories.defaultCreate.create(it)
+            }
         }
     }
 

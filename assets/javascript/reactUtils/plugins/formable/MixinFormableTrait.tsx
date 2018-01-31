@@ -55,8 +55,9 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
                 namespace = options.namespace
               }
             } 
-            for (let key in Object.keys(this.inputs[namespace])) {
-                let childInput = this.inputs[namespace][key]
+            let keys = Object.keys(this.inputs[namespace])
+            for (let key of keys) {
+                let childInput = this.inputs[namespace][key as any]
                 if (childInput) {
                     childInput.collect()
                 }

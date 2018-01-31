@@ -107,6 +107,12 @@ class MultipartFormDataParam : IParam, ParamInParseModeTrait {
         }
     }
 
+    override fun long(): Long? {
+        this.value?.let {
+            return (it as String).toLongOrNull()
+        } ?: return null
+    }
+
     fun setBoxedValue(fileItem: FileItem) {
         if (fileItem.isFormField) {
             this.valueType = ParamTypesEnum.STRING
@@ -116,7 +122,6 @@ class MultipartFormDataParam : IParam, ParamInParseModeTrait {
             this.value = fileItem
         }
     }
-
     companion object {
         fun createNode(): MultipartFormDataParam {
             MultipartFormDataParam().let {
@@ -127,6 +132,7 @@ class MultipartFormDataParam : IParam, ParamInParseModeTrait {
         fun createUnset(): MultipartFormDataParam {
             return MultipartFormDataParam()
         }
+
     }
 
 

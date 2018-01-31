@@ -12,7 +12,6 @@ import orm.services.ModelInvalidException
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
 import utils.composer.composerexceptions.UnprocessableEntryError
-import utils.fileutils.FileNamingUtils
 import utils.requestparameters.IParam
 import java.io.File
 
@@ -28,7 +27,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
         buildDocumentTemplateToCreate()
         buildNameToVariableLinks()
         queryDocumentTemplateVariables()
-        createTempfileForValidation()
+        setTempfileForValidation()
         validateAgainstTemplate()
         validate()
     }
@@ -111,23 +110,13 @@ class CreateComposer(val params: IParam) : ComposerBase() {
         }
     }
 
-    private fun createTempfileForValidation() {
-        try {
-            val tempFile = createTempFile(FileNamingUtils.generateUniqueFileName())
-            state.tempFile = tempFile
-            state.wrappedParams.uploadedDocument?.file?.let {
-                it.write(tempFile)
-            } ?: throw(Throwable("no file in params"))
-        } catch(error: Exception) {
-            state.tempFile?.delete()
-            throw(error)
-            state.documentTemplate!!.record.validationManager.addGeneralError("file invalid")
-            failImmediately(ModelInvalidException())
-        }
+    private fun setTempfileForValidation() {
+        state.tempFile = state.documentTemplate!!.uploadedDocument!!.file.transactionOriginalFile!!
     }
 
     private fun validateAgainstTemplate() {
-        val extractedVariables = DocxTemplateVariablesHandler(state.tempFile!!).extractVariableNamesAsSet()
+        val templateHandler = DocxTemplateVariablesHandler(state.tempFile!!)
+        val extractedVariables = templateHandler.extractVariableNamesAsSet()
         var difference: Set<String>
         if (state.variableNamesExtractedFromRequest == null) {
             difference = extractedVariables
@@ -162,6 +151,9 @@ class CreateComposer(val params: IParam) : ComposerBase() {
 
     override fun compose(){
         TransactionRunner.run {
+            val uploadedDocument = state.documentTemplate!!.uploadedDocument!!
+            uploadedDocument.record.save(it.inTransactionDsl)
+            state.documentTemplate!!.uploadedDocumentId = uploadedDocument.id
             state.documentTemplate!!.record.saveCascade(
                     dslContext = it.inTransactionDsl,
                     before = {

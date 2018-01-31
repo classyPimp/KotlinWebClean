@@ -90,7 +90,7 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     resetDocumentTemplate() {
       let documentTemplate = new DocumentTemplate({uploadedDocument: new UploadedDocument()})
-      this.setState({documentTemplate})
+      this.setState({documentTemplate, validationReady: false})
     }
 
     @autobind
@@ -117,6 +117,8 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     submit() {
+      this.collectInputs()
+      console.log(this.inputs)
       this.state.documentTemplate.validate()
       this.state.documentTemplate.create().then((documentTemplate)=>{
         this.setState({documentTemplate})

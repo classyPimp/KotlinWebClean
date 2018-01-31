@@ -24,6 +24,9 @@ export class DocumentTemplateToDocumentVariableLink extends BaseModel {
     uniqueIdentifier: string
 
     @Property
+    defaultValue: string
+
+    @Property
     updatedAt: string
 
     @Property

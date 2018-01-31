@@ -11,6 +11,8 @@ class DocumentTemplateToDocumentVariableLinkRequestParametersWrapper(val request
         it.get("documentTemplateVariableId")?.string?.toLongOrNull()
     }
 
+    val id: Long? = requestParameters.get("id")?.long()
+
     val defaultValue: String? = requestParameters.get("defaultValue")?.string
 
     val uniqueIdentifier: String? = requestParameters.get("uniqueIdentifier")?.string

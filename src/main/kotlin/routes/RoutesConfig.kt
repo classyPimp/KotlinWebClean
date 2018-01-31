@@ -389,6 +389,15 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 }
 
+                namespace("/arbitrary") {
+                    get("/:id") {
+                        DocumentTemplatesController.arbitrary(it).show()
+                    }
+                    post("") {
+                        DocumentTemplatesController.arbitrary(it).create()
+                    }
+                }
+
                 post("") {
                     DocumentTemplatesController(it).create()
                 }
@@ -410,6 +419,7 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     get("") {
                         DocumentTemplateCategoriesController.inputFeeds(it).index()
                     }
+
                 }
 
                 get("") {

@@ -111,6 +111,7 @@ export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProp
         </div>
     }
 
+
     collect(){
       let value: any
       if (this.state.currentlySelected) {

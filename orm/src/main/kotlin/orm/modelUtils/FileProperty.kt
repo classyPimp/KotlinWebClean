@@ -37,11 +37,11 @@ abstract class FileProperty {
         DO_NOTHING
     }
 
-    fun getFileItself(): File? {
+    fun getFileItself(namespace: String = "original"): File? {
         if (fileNameOnModel == null) {
             return null
         }
-        val fileToReturn = File(prepareRepositoryPath() + "/" + fileNameOnModel)
+        val fileToReturn = File(prepareRepositoryPath() + "/${namespace}/" + fileNameOnModel)
         if (fileToReturn.exists()) {
             return fileToReturn
         } else {
@@ -129,10 +129,12 @@ abstract class FileProperty {
     }
 
     private fun finalizeAssignOperation() {
+        println("finalizing operation")
         if (modelId == null) {
             clearTransactionalFiles()
             return
         }
+        println("model id not null")
         preprocessFile(transactionOriginalFile!!)
         deletePereviousFilesIfExist()
         createTargetDirWhereFilesWillBeStored()
@@ -256,8 +258,10 @@ abstract class FileProperty {
             parent.mkdirs()
         }
         if (!targetFile.exists()) {
-            targetFile.createNewFile()
+            //targetFile.createNewFile()
         }
+        println("moving")
+        println(transactionOriginalFile!!.absolutePath)
         transactionOriginalFile!!.renameTo(targetFile)
     }
 

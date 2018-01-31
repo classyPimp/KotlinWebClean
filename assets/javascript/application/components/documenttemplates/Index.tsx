@@ -33,6 +33,9 @@ export class Index extends BaseReactComponent {
                     <p>
                       {documentTemplate.name}
                     </p>
+                    <Link to={"/dashboards/documentTemplates/arbitrary/new/" + documentTemplate.id}>
+                      create document usin it
+                    </Link>
                     {/*<Link to={"/dashboards/documentTemplates/" + documentTemplate.id}>
                         {documentTemplate.name} 
                         

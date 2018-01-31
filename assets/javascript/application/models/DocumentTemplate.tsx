@@ -53,8 +53,29 @@ export class DocumentTemplate extends BaseModel {
       this.afterCreateRequest(options)
     }
 
+    @Route("GET", {url: "/api/documentTemplates/arbitrary/:id"})
+    static arbitraryShow: (options?: RequestOptions) => Promise<DocumentTemplate>
+
+    static afterArbitraryShowRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }
+
+    @Route("GET", {url: "/api/documentTemplates/new"})
+    static new: (options?: RequestOptions) => Promise<DocumentTemplate>
+
     @Route("POST", {url: "/api/documentTemplates"})
     create: (options?: RequestOptions) => Promise<DocumentTemplate>
+
+    @Route("POST", {url: "/api/documentTemplates/arbitrary"})
+    arbitraryCreate: (options?: RequestOptions) => Promise<DocumentTemplate>
+
+    beforeArbitraryCreateRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterArbitraryCreateRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
 
     @Route("GET", {url: "/api/documentTemplates"})
     static index: (options?: RequestOptions) => Promise<ModelCollection<DocumentTemplate>>

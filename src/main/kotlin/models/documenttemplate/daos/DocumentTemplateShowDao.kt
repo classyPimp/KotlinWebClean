@@ -40,5 +40,21 @@ object DocumentTemplateShowDao {
                 .firstOrNull()
     }
 
+    fun forArbitraryShow(id: Long): DocumentTemplate? {
+        return DocumentTemplateRecord.GET()
+                .preload {
+                    it.uploadedDocument()
+                    it.documentTemplateToDocumentVariableLinks() {
+                        it.preload {
+                            it.documentTemplateVariable()
+                        }
+                    }
+                    it.documentTemplateCategory()
+                }
+                .where(table.ID.eq(id))
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
 
 }

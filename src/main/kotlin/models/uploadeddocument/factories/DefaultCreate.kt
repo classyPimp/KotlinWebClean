@@ -8,12 +8,13 @@ import models.uploadeddocument.UploadedDocumentRequestParametersWrapper
  */
 object DefaultCreate {
 
-    fun create(params: UploadedDocumentRequestParametersWrapper?): UploadedDocument {
+    fun create(params: UploadedDocumentRequestParametersWrapper): UploadedDocument {
         return UploadedDocument().also {
             uploadedDocument ->
-            params?.file?.let {
+            params.file?.let {
                 uploadedDocument.file.assign(it)
             }
+            uploadedDocument.id = params.id
         }
     }
 

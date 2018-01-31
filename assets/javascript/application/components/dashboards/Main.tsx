@@ -87,6 +87,8 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/documentTemplates/new`} component={DocumentTemplateComponents.New}/>
                     <Route exact path={`${this.props.match.url}/documentTemplates`} component={DocumentTemplateComponents.Index}/>
 
+                    <Route exact path={`${this.props.match.url}/documentTemplates/arbitrary/new/:id`} component={DocumentTemplateComponents.arbitrary.New}/>
+
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories/new`} component={DocumentTemplateCategoriesComponents.New}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories`} component={DocumentTemplateCategoriesComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories/:id/edit`} component={DocumentTemplateCategoriesComponents.Edit}/>

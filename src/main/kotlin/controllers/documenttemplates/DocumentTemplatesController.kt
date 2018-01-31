@@ -2,8 +2,8 @@ package controllers.documenttemplates
 
 import composers.documenttemplates.DocumentTemplateComposers
 import controllers.BaseController
+import controllers.documenttemplates.arbitrary.DocumentTemplateArbitraryController
 import controllers.documenttemplates.prevalidations.DocumentTemplatePrevalidationsController
-import models.documenttemplate.DocumentTemplate
 import models.documenttemplate.daos.DocumentTemplateDaos
 import models.documenttemplate.tojsonserializers.DocumentTemplateSerializers
 import router.src.ServletRequestContext
@@ -13,6 +13,10 @@ class DocumentTemplatesController(context: ServletRequestContext) : BaseControll
     companion object {
         fun prevalidations(context: ServletRequestContext): DocumentTemplatePrevalidationsController {
             return DocumentTemplatePrevalidationsController(context)
+        }
+
+        fun arbitrary(context: ServletRequestContext): DocumentTemplateArbitraryController {
+            return DocumentTemplateArbitraryController(context)
         }
     }
 

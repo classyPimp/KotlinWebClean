@@ -10,6 +10,7 @@ object DefaultCreate {
             it.defaultValue = params.defaultValue
             it.name = params.name
             it.humanizedName = params.humanizedName
+            it.id = params.id
         }
     }
 
