@@ -111,13 +111,13 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
             val sourceLink = entry.value
             val providedLink = providedLinksIdToLinkMap[id]!!
             if (sourceLink.id != providedLink.id) {
-                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid")
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: sourceLink.id != providedLink.id")
             }
             if (sourceLink.documentTemplateVariableId != providedLink.documentTemplateVariableId) {
-                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid")
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: sourceLink.documentTemplateVariableId != providedLink.documentTemplateVariableId")
             }
             if (sourceLink.documentTemplateVariable!!.id != providedLink.documentTemplateVariable!!.id) {
-                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid")
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: sourceLink.documentTemplateVariable!!.id != providedLink.documentTemplateVariable!!.id")
             }
         }
     }

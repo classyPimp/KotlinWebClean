@@ -29,6 +29,7 @@ object ArbitraryCreateSerializer {
             it.includeUploadedDocument() {
                 it.includeErrors()
             }
+            it.includeDocumentTemplateCategory()
             it.includeErrors()
             return it.serializeToString()
         }
