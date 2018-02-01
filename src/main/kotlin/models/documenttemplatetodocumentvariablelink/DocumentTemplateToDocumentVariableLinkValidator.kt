@@ -16,11 +16,11 @@ class DocumentTemplateToDocumentVariableLinkValidator(model: DocumentTemplateToD
     private fun validateDocumentTemplateVariable() {
         val templateVar = model.documentTemplateVariable
         if (templateVar == null) {
-            validationManager.addGeneralError("invalid")
+            validationManager.addGeneralError("invalid: validateDocumentTemplateVariable DocumentTemplateToDocumentVariableLink.documentTemplateVariable == null")
             return
         }
         if (!templateVar.record.validationManager.isValid()) {
-            validationManager.addGeneralError("has nested errors")
+            validationManager.addGeneralError("has nested errors: documentTemplateVariables invalid")
         }
     }
 

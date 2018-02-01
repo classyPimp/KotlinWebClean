@@ -38,7 +38,7 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
         buildNameWithIdentifierToLinkMap()
         initializeTemplateHandler()
         prevalidateAgainstTemplate()
-        validate()
+        runFinalValidation()
     }
 
     private fun wrapParams() {
@@ -111,13 +111,13 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
             val sourceLink = entry.value
             val providedLink = providedLinksIdToLinkMap[id]!!
             if (sourceLink.id != providedLink.id) {
-                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: sourceLink.id != providedLink.id")
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: ${sourceLink.id} != ${providedLink.id}")
             }
             if (sourceLink.documentTemplateVariableId != providedLink.documentTemplateVariableId) {
-                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: sourceLink.documentTemplateVariableId != providedLink.documentTemplateVariableId")
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: ${sourceLink.documentTemplateVariableId} != ${providedLink.documentTemplateVariableId}")
             }
             if (sourceLink.documentTemplateVariable!!.id != providedLink.documentTemplateVariable!!.id) {
-                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: sourceLink.documentTemplateVariable!!.id != providedLink.documentTemplateVariable!!.id")
+                providedLink.documentTemplateVariable!!.record.validationManager.addGeneralError("invalid: ${sourceLink.documentTemplateVariable!!.id} != ${providedLink.documentTemplateVariable!!.id}")
             }
         }
     }
@@ -139,9 +139,6 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
             failImmediately(UnprocessableEntryError())
             return
         }
-        println("template:")
-        println(file.exists())
-        println(file.absolutePath)
         templateHandler = DocxTemplateVariablesHandler(file)
     }
 
@@ -153,10 +150,6 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
 
     private fun validateIfTemplateVarsMoreThanProvided(variableNamesOnTemplate: MutableSet<String>) {
         val providedVariableNames = nameWithIdentifierToLinkMap.keys
-        println("providedVariableNames")
-        println(providedVariableNames)
-        println("variableNamesOnTemplate")
-        println(variableNamesOnTemplate)
         val difference = variableNamesOnTemplate.minus(providedVariableNames)
         if (difference.isNotEmpty()) {
             difference.forEach {
@@ -175,7 +168,7 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
         }
     }
 
-    fun validate() {
+    fun runFinalValidation() {
         DocumentTemplateValidator(providedDocumentTemplate).arbitraryCreateScenario()
         if (!providedDocumentTemplate.record.validationManager.isValid()) {
             failImmediately(ModelInvalidException())
@@ -207,12 +200,17 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
     }
 
     override fun success() {
-        var file: File? = null
-        file = File("uploads/foo.docx").also {
-            it.createNewFile()
+        val file = Files.createTempFile(FileNamingUtils.generateUniqueFileName(), ".docx").toFile()
+        try {
+            templateHandler.template.save(file)
+        } catch (error: Exception) {
+            file?.delete()
         }
-        templateHandler.template.save(file)
-        onSuccess(file)
+        try {
+            onSuccess(file)
+        } finally {
+            file?.delete()
+        }
     }
 
 }

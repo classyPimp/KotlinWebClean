@@ -85,7 +85,24 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
       this.collectInputs()
       this.state.documentTemplate.validate()
       this.state.documentTemplate.arbitraryCreate().then((documentTemplate)=>{
-        this.setState({documentTemplate})
+        try {
+          if (documentTemplate.properties["BLOB_IS_RETURNED"]) {
+            let blobResponse = documentTemplate.properties["BLOB_RESPONSE"]
+            let blob = new Blob([blobResponse], {type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"})
+            var downloadUrl = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            (a as any).style = "display: none";
+            document.body.appendChild(a);
+            a.href = downloadUrl;
+            a.download = "myfile.docx";
+            a.click();
+            a.remove()
+          } else {
+            this.setState({documentTemplate})
+          }
+        } catch(error) {
+          console.log(error)
+        }
       })
     }
 

@@ -70,6 +70,7 @@ export class DocumentTemplate extends BaseModel {
     arbitraryCreate: (options?: RequestOptions) => Promise<DocumentTemplate>
 
     beforeArbitraryCreateRequest(options: RequestOptions) {
+      options.responseType = "blob"
       this.beforeCreateRequest(options)
     }
 

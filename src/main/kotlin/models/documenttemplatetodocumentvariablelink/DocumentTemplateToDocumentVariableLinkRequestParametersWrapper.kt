@@ -7,9 +7,7 @@ import utils.requestparameters.IParam
 
 class DocumentTemplateToDocumentVariableLinkRequestParametersWrapper(val requestParameters: IParam) {
 
-    val documentTemplateVariableId: Long? = requestParameters.get("documentTemplateVariable")?.let {
-        it.get("documentTemplateVariableId")?.string?.toLongOrNull()
-    }
+    val documentTemplateVariableId: Long? = requestParameters.get("documentTemplateVariableId")?.long()
 
     val id: Long? = requestParameters.get("id")?.long()
 
@@ -20,4 +18,5 @@ class DocumentTemplateToDocumentVariableLinkRequestParametersWrapper(val request
     val documentTemplateVariable: DocumentTemplateVariableRequestParametersWrapper? = requestParameters.get("documentTemplateVariable")?.let {
         DocumentTemplateVariableRequestParametersWrapper(it)
     }
+
 }

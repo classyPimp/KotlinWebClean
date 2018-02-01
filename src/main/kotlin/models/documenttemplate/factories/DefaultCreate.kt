@@ -2,6 +2,8 @@ package models.documenttemplate.factories
 
 import models.documenttemplate.DocumentTemplate
 import models.documenttemplate.DocumentTemplateRequestParametersWrapper
+import models.documenttemplatecategory.DocumentTemplateCategoryRequestParametersWrapper
+import models.documenttemplatecategory.factories.DocumentTemplateCategoryFactories
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import models.documenttemplatetodocumentvariablelink.factories.DocumentTemplateToDocumentVariableLinkFactories
 import models.uploadeddocument.factories.UploadedDocumentFactories
@@ -25,6 +27,10 @@ object DefaultCreate {
             it.description = params.description
 
             it.documentTemplateCategoryId = params.documentTemplateCategoryId
+
+            it.documentTemplateCategory = params.documenTemplateCategory?.let {
+                DocumentTemplateCategoryFactories.defaultCreate.create(it)
+            }
 
             it.id = params.id
         }

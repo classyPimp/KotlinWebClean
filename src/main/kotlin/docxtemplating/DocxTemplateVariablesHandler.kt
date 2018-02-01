@@ -6,6 +6,7 @@ import org.docx4j.jaxb.Context
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage
 import java.io.File
 import org.docx4j.wml.*
+import javax.xml.bind.JAXBElement
 
 /**
  * Created by Муса on 23.01.2018.
@@ -40,8 +41,19 @@ class DocxTemplateVariablesHandler(
             throw IllegalStateException()
         }
 
-        val sdtRun = getSdtRunFromTag(tag)
-        replaceInSdtRun(sdtRun, correspondingLink)
+        val tagParent = (tag.parent as SdtPr).parent
+        when (tagParent) {
+            is SdtRun -> {
+                replaceInSdtRun(tagParent, correspondingLink)
+            }
+            is CTSdtCell -> {
+                replaceInCTSdtCell(tagParent, correspondingLink)
+            }
+            else -> {
+                throw IllegalStateException()
+            }
+        }
+
 
     }
 
@@ -54,6 +66,37 @@ class DocxTemplateVariablesHandler(
         val sdtContent = factory.createCTSdtContentRun()
         sdtContent.content.add(run)
         sdtRun.sdtContent = sdtContent
+    }
+
+    private fun replaceInCTSdtCell(sdtCell: CTSdtCell, link: DocumentTemplateToDocumentVariableLink) {
+        var contents = sdtCell.sdtContent.content
+
+        val valueToReplaceWith: String? = link.defaultValue
+        val text = factory.createText()
+        val run = factory.createR()
+        text.value = valueToReplaceWith
+        run.content.add(text)
+
+        contents = contents.mapTo(mutableListOf<Any>()) {
+            val jaxbElement = it as JAXBElement<out Any>
+            jaxbElement.value
+        }
+
+        contents.forEach {
+            when (it) {
+                is Tc -> {
+                    it.content.forEach {
+                        when (it) {
+                            is P -> {
+                                println("got p")
+                                it.content.clear()
+                                it.content.add(run)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun extractVariableNamesAsSet(sdtTags: MutableList<Tag> = getStdTags()): MutableSet<String> {
@@ -82,10 +125,6 @@ class DocxTemplateVariablesHandler(
         return template.mainDocumentPart.getJAXBNodesViaXPath("//w:tag", false) as MutableList<Tag>
     }
 
-    fun getSdtRunFromTag(tag: Tag): SdtRun {
-        val stdPr = tag.parent as SdtPr
-        return stdPr.parent as SdtRun
-    }
 
     fun extractStdRuns(stdTags: MutableList<Tag>): MutableList<SdtRun> {
         val listToReturn = mutableListOf<SdtRun>()

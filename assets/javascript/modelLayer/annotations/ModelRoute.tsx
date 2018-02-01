@@ -16,6 +16,7 @@ export interface RequestOptions {
     serializeAsForm?: boolean ,
     arbitrary?: any,
     params?: IModelProperties,
+    responseType?: string,
     //providedWilds?: {[id:string]:any},
     prefix?: string,
     requestHeaders?: Array<string>, 

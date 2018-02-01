@@ -43,7 +43,9 @@ class DocumentTemplateValidator(model: DocumentTemplate) : DocumentTemplateValid
                 hasNestedErrors = true
             }
         }
-        validationManager.addGeneralError("nested errors")
+        if (hasNestedErrors) {
+            validationManager.addGeneralError("nested errors")
+        }
     }
 
     private fun validateName() {

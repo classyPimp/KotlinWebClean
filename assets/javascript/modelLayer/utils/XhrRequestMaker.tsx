@@ -44,6 +44,9 @@ export class XhrRequestMaker {
         this.options = options
         this.xhr = new XMLHttpRequest()
         this.xhr.open(this.options.httpMethod, this.options.url)
+        if (options.responseType) {
+          (this.xhr as any).responseType = options.responseType
+        }
         this.xhr.onprogress = function (e) {
             if (e.lengthComputable) {
             }
@@ -82,6 +85,21 @@ export class XhrRequestMaker {
     setOnLoad(){
         this.xhr.onload = ()=>{
             if (this.xhr.status === 200) {
+                let contentType = this.xhr.getResponseHeader('Content-Type')
+                if (this.options.responseType === "blob") {
+                    if (contentType === "blob") {
+                        this.deferredPromise.resolve({BLOB_IS_RETURNED: true, BLOB_RESPONSE: this.xhr.response}) 
+                    } else {
+                        const blob = new Blob([this.xhr.response], {type: "text/plain"});
+                        const reader = new FileReader();
+                        reader.addEventListener('loadend', (e) => {
+                          const text = (e.srcElement as any).result;
+                          this.deferredPromise.resolve(JSON.parse(text)) 
+                        });
+                        reader.readAsText(blob);
+                    }  
+                    return
+                }
                 if (this.options.resolveWithJson) {
                     let response = this.xhr.responseText
                     if (response) {
