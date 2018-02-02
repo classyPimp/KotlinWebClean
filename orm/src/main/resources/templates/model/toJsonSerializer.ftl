@@ -207,7 +207,7 @@ class ${modelClass}ToJsonSerializer(val model: ${modelClass}) {
         whichPropertiesToSerialize.let {
             <#list fieldBeans as fieldBean>
             if (it.getValue(Properties.${fieldBean.property})) {
-                <#if fieldBean.property == "createdAt" || fieldBean.property == "updatedAt">
+                <#if fieldBean.property == "createdAt" || fieldBean.property == "updatedAt" || fieldBean.nonNullableType == "Timestamp">
                 root.set("${fieldBean.property}", model.${fieldBean.property}?.toString())
                 <#else>
                 root.set("${fieldBean.property}", model.${fieldBean.property})

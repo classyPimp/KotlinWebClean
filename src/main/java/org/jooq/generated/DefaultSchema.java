@@ -17,6 +17,11 @@ import org.jooq.generated.tables.ArInternalMetadata;
 import org.jooq.generated.tables.Avatars;
 import org.jooq.generated.tables.ContactTypes;
 import org.jooq.generated.tables.Contacts;
+import org.jooq.generated.tables.ContractCategories;
+import org.jooq.generated.tables.ContractNumbers;
+import org.jooq.generated.tables.ContractStatuses;
+import org.jooq.generated.tables.ContractToCounterPartyLinks;
+import org.jooq.generated.tables.ContractToUploadedDocumentLinkReasons;
 import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
 import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
@@ -51,7 +56,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = 1120533407;
+    private static final long serialVersionUID = -645836828;
 
     /**
      * The reference instance of <code></code>
@@ -82,6 +87,31 @@ public class DefaultSchema extends SchemaImpl {
      * The table <code>contacts</code>.
      */
     public final Contacts CONTACTS = org.jooq.generated.tables.Contacts.CONTACTS;
+
+    /**
+     * The table <code>contract_categories</code>.
+     */
+    public final ContractCategories CONTRACT_CATEGORIES = org.jooq.generated.tables.ContractCategories.CONTRACT_CATEGORIES;
+
+    /**
+     * The table <code>contract_numbers</code>.
+     */
+    public final ContractNumbers CONTRACT_NUMBERS = org.jooq.generated.tables.ContractNumbers.CONTRACT_NUMBERS;
+
+    /**
+     * The table <code>contract_statuses</code>.
+     */
+    public final ContractStatuses CONTRACT_STATUSES = org.jooq.generated.tables.ContractStatuses.CONTRACT_STATUSES;
+
+    /**
+     * The table <code>contract_to_counter_party_links</code>.
+     */
+    public final ContractToCounterPartyLinks CONTRACT_TO_COUNTER_PARTY_LINKS = org.jooq.generated.tables.ContractToCounterPartyLinks.CONTRACT_TO_COUNTER_PARTY_LINKS;
+
+    /**
+     * The table <code>contract_to_uploaded_document_link_reasons</code>.
+     */
+    public final ContractToUploadedDocumentLinkReasons CONTRACT_TO_UPLOADED_DOCUMENT_LINK_REASONS = org.jooq.generated.tables.ContractToUploadedDocumentLinkReasons.CONTRACT_TO_UPLOADED_DOCUMENT_LINK_REASONS;
 
     /**
      * The table <code>contract_to_uploaded_document_links</code>.
@@ -203,6 +233,11 @@ public class DefaultSchema extends SchemaImpl {
             Avatars.AVATARS,
             ContactTypes.CONTACT_TYPES,
             Contacts.CONTACTS,
+            ContractCategories.CONTRACT_CATEGORIES,
+            ContractNumbers.CONTRACT_NUMBERS,
+            ContractStatuses.CONTRACT_STATUSES,
+            ContractToCounterPartyLinks.CONTRACT_TO_COUNTER_PARTY_LINKS,
+            ContractToUploadedDocumentLinkReasons.CONTRACT_TO_UPLOADED_DOCUMENT_LINK_REASONS,
             ContractToUploadedDocumentLinks.CONTRACT_TO_UPLOADED_DOCUMENT_LINKS,
             Contracts.CONTRACTS,
             CounterParties.COUNTER_PARTIES,

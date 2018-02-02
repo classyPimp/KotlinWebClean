@@ -21,6 +21,11 @@ import { DocumentTemplate } from './models/DocumentTemplate'
 import { DocumentTemplateToDocumentVariableLink } from './models/DocumentTemplateToDocumentVariableLink'
 import { DocumentTemplateVariable } from './models/DocumentTemplateVariable'
 import  { DocumentTemplateCategory } from './models/DocumentTemplateCategory'
+import { ContractNumber } from './models/ContractNumber'
+import { ContractCategory } from './models/ContractCategory'
+import { ContractStatus } from './models/ContractStatus'
+import { ContractToCounterPartyLink } from './models/ContractToCounterPartyLink'
+import { ContractToUploadedDocumentLinkReason } from './models/ContractToUploadedDocumentLinkReason'
 
 export class ModelRegistrator {
   //THIS UGLY HACK SOLVES SOME NASTY CIRCULAR DEPENDENCIES BUGS!
@@ -46,7 +51,15 @@ export class ModelRegistrator {
       DocumentTemplate,
       DocumentTemplateToDocumentVariableLink,
       DocumentTemplateVariable,
-      DocumentTemplateCategory
+      DocumentTemplateCategory,
+      ContractNumber,
+      ContractCategory,
+      ContractStatus,
+      ContractToCounterPartyLink,
+      ContractToUploadedDocumentLinkReason,
+      
+      
+                  
     }
   }
 

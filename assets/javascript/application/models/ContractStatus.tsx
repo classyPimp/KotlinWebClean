@@ -5,24 +5,40 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { Contract } from './Contract'
-import { UploadedDocument } from './UploadedDocument'
-import { ContractToUploadedDocumentLinkReason } from './ContractToUploadedDocumentLinkReason'
 
-export class ContractToUploadedDocumentLink extends BaseModel {
+export class ContractStatus extends BaseModel {
 
-    static className = "contractToUploadedDocumentLink"
+    static className = "contractStatus"
 
     @Property
     id: number
 
     @Property
-    contractId: number
+    isCommited: boolean
 
     @Property
-    uploadedDocumentId: number
+    isSypplement: boolean
+
+    @Property   
+    parentContractId: number
 
     @Property
-    contractToUploadedDocumentLinkReasonId: number
+    rootContractId: number
+
+    @Property
+    isProject: boolean
+
+    @Property
+    isCancelled: boolean
+
+    @Property
+    validSince: string
+
+    @Property
+    validTo: string
+
+    @Property
+    isCompleted: boolean    
 
     @Property
     updatedAt: string
@@ -33,10 +49,10 @@ export class ContractToUploadedDocumentLink extends BaseModel {
     @HasOne("Contract")
     contract: Contract
 
-    @HasOne("UploadedDocument")
-    uploadedDocument: UploadedDocument
+    @HasOne("Contract")
+    parentContract: Contract
 
-    @HasOne("ContractToUploadedDocumentLinkReason")
-    contractToUploadedDocumentLinkReason: ContractToUploadedDocumentLinkReason
+    @HasOne("Contract")
+    rootContrac: Contract
 
 }

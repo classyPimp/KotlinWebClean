@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130035140) do
+ActiveRecord::Schema.define(version: 20180202062706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,12 +47,63 @@ ActiveRecord::Schema.define(version: 20180130035140) do
     t.index ["contact_type_id"], name: "index_contacts_on_contact_type_id"
   end
 
+  create_table "contract_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contract_numbers", force: :cascade do |t|
+    t.string "internal_number"
+    t.string "number_assigned_by_counter_party"
+    t.string "assigned_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contract_statuses", force: :cascade do |t|
+    t.boolean "is_committed"
+    t.boolean "is_supplement"
+    t.bigint "parent_contract_id"
+    t.bigint "root_contract_id"
+    t.boolean "is_supplemented"
+    t.boolean "is_project"
+    t.boolean "is_cancelled"
+    t.datetime "valid_since"
+    t.datetime "valid_to"
+    t.boolean "is_completed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_contract_id"], name: "index_contract_statuses_on_parent_contract_id"
+    t.index ["root_contract_id"], name: "index_contract_statuses_on_root_contract_id"
+  end
+
+  create_table "contract_to_counter_party_links", force: :cascade do |t|
+    t.bigint "counter_party_id"
+    t.bigint "contract_id"
+    t.string "role_according_to_contract"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contract_id"], name: "index_contract_to_counter_party_links_on_contract_id"
+    t.index ["counter_party_id"], name: "index_contract_to_counter_party_links_on_counter_party_id"
+  end
+
+  create_table "contract_to_uploaded_document_link_reasons", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "contract_to_uploaded_document_links", force: :cascade do |t|
     t.bigint "contract_id"
     t.bigint "uploaded_document_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "contract_to_uploaded_document_link_reason_id"
     t.index ["contract_id"], name: "index_contract_to_uploaded_document_links_on_contract_id"
+    t.index ["contract_to_uploaded_document_link_reason_id"], name: "contudl_contudlr"
     t.index ["uploaded_document_id"], name: "ctupdl_on_ud"
   end
 
@@ -60,6 +111,13 @@ ActiveRecord::Schema.define(version: 20180130035140) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "contract_status_id"
+    t.bigint "contract_number_id"
+    t.datetime "formal_date"
+    t.bigint "contract_category_id"
+    t.index ["contract_category_id"], name: "index_contracts_on_contract_category_id"
+    t.index ["contract_number_id"], name: "index_contracts_on_contract_number_id"
+    t.index ["contract_status_id"], name: "index_contracts_on_contract_status_id"
   end
 
   create_table "counter_parties", force: :cascade do |t|
@@ -199,8 +257,16 @@ ActiveRecord::Schema.define(version: 20180130035140) do
   add_foreign_key "accounts", "users"
   add_foreign_key "avatars", "users"
   add_foreign_key "contacts", "contact_types"
+  add_foreign_key "contract_statuses", "contracts", column: "parent_contract_id"
+  add_foreign_key "contract_statuses", "contracts", column: "root_contract_id"
+  add_foreign_key "contract_to_counter_party_links", "contracts"
+  add_foreign_key "contract_to_counter_party_links", "counter_parties"
+  add_foreign_key "contract_to_uploaded_document_links", "contract_to_uploaded_document_link_reasons"
   add_foreign_key "contract_to_uploaded_document_links", "contracts"
   add_foreign_key "contract_to_uploaded_document_links", "uploaded_documents"
+  add_foreign_key "contracts", "contract_categories"
+  add_foreign_key "contracts", "contract_numbers"
+  add_foreign_key "contracts", "contract_statuses"
   add_foreign_key "counter_parties", "incorporation_forms"
   add_foreign_key "counter_party_to_contact_links", "contacts"
   add_foreign_key "counter_party_to_contact_links", "counter_parties"

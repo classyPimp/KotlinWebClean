@@ -16,7 +16,8 @@ import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylink
 import { DocumentTemplateVariablesComponents } from '../documenttemplatevariables/DocumentTemplateVariablesComponents'
 import { DocumentTemplateComponents } from '../documenttemplates/DocumentTemplateComponents'
 import { DocumentTemplateCategoriesComponents } from '../documenttemplatecategories/DocumentTemplateCategoriesComponents'
-
+import { ContractCategoryComponents } from '../contractcategories/ContractCategoryComponents'
+ 
 export class Main extends BaseReactComponent {
 
     props: {
@@ -93,6 +94,11 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories`} component={DocumentTemplateCategoriesComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories/:id/edit`} component={DocumentTemplateCategoriesComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories/:id`} component={DocumentTemplateCategoriesComponents.Show}/>
+
+                    <Route exact path={`${this.props.match.url}/contractCategories/new`} component={ContractCategoryComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/contractCategories`} component={ContractCategoryComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/contractCategories/:id/edit`} component={ContractCategoryComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/contractCategories/:id`} component={ContractCategoryComponents.Show}/>
 
                 </Switch>
             </div>

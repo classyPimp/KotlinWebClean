@@ -4,25 +4,24 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
+import { CounterParty } from './CounterParty'
 import { Contract } from './Contract'
-import { UploadedDocument } from './UploadedDocument'
-import { ContractToUploadedDocumentLinkReason } from './ContractToUploadedDocumentLinkReason'
 
-export class ContractToUploadedDocumentLink extends BaseModel {
+export class ContractToCounterPartyLink extends BaseModel {
 
-    static className = "contractToUploadedDocumentLink"
+    static className = "contractToCounterPartyLink"
 
     @Property
     id: number
 
     @Property
-    contractId: number
+    counterPartyId: number
 
     @Property
-    uploadedDocumentId: number
+    contractId: number  
 
     @Property
-    contractToUploadedDocumentLinkReasonId: number
+    roleAccordingToContract: string  
 
     @Property
     updatedAt: string
@@ -30,13 +29,10 @@ export class ContractToUploadedDocumentLink extends BaseModel {
     @Property
     createdAt: string
 
+    @HasOne("CounterParty")
+    counterParty: CounterParty
+
     @HasOne("Contract")
     contract: Contract
-
-    @HasOne("UploadedDocument")
-    uploadedDocument: UploadedDocument
-
-    @HasOne("ContractToUploadedDocumentLinkReason")
-    contractToUploadedDocumentLinkReason: ContractToUploadedDocumentLinkReason
 
 }

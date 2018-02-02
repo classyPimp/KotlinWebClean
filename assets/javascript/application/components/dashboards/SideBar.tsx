@@ -91,6 +91,7 @@ export class SideBar extends BaseReactComponent {
                     </Link>
                 </li>
 
+
                  <li className="pure-menu-item">
                     <Link to="/dashboards/documentTemplateCategories" className="pure-menu-link">
                         index document template categories
@@ -100,6 +101,19 @@ export class SideBar extends BaseReactComponent {
                 <li className="pure-menu-item">
                     <Link to="/dashboards/documentTemplateCategories/new" className="pure-menu-link">
                         create new document template category
+                    </Link>
+                </li>
+
+
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/contractCategories" className="pure-menu-link">
+                        index document contract categories
+                    </Link>
+                </li>
+
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/contractCategories/new" className="pure-menu-link">
+                        create new contract category
                     </Link>
                 </li>
             </ul>

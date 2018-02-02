@@ -11,6 +11,11 @@ import org.jooq.generated.tables.ArInternalMetadata;
 import org.jooq.generated.tables.Avatars;
 import org.jooq.generated.tables.ContactTypes;
 import org.jooq.generated.tables.Contacts;
+import org.jooq.generated.tables.ContractCategories;
+import org.jooq.generated.tables.ContractNumbers;
+import org.jooq.generated.tables.ContractStatuses;
+import org.jooq.generated.tables.ContractToCounterPartyLinks;
+import org.jooq.generated.tables.ContractToUploadedDocumentLinkReasons;
 import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
 import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
@@ -68,6 +73,31 @@ public class Tables {
      * The table <code>contacts</code>.
      */
     public static final Contacts CONTACTS = org.jooq.generated.tables.Contacts.CONTACTS;
+
+    /**
+     * The table <code>contract_categories</code>.
+     */
+    public static final ContractCategories CONTRACT_CATEGORIES = org.jooq.generated.tables.ContractCategories.CONTRACT_CATEGORIES;
+
+    /**
+     * The table <code>contract_numbers</code>.
+     */
+    public static final ContractNumbers CONTRACT_NUMBERS = org.jooq.generated.tables.ContractNumbers.CONTRACT_NUMBERS;
+
+    /**
+     * The table <code>contract_statuses</code>.
+     */
+    public static final ContractStatuses CONTRACT_STATUSES = org.jooq.generated.tables.ContractStatuses.CONTRACT_STATUSES;
+
+    /**
+     * The table <code>contract_to_counter_party_links</code>.
+     */
+    public static final ContractToCounterPartyLinks CONTRACT_TO_COUNTER_PARTY_LINKS = org.jooq.generated.tables.ContractToCounterPartyLinks.CONTRACT_TO_COUNTER_PARTY_LINKS;
+
+    /**
+     * The table <code>contract_to_uploaded_document_link_reasons</code>.
+     */
+    public static final ContractToUploadedDocumentLinkReasons CONTRACT_TO_UPLOADED_DOCUMENT_LINK_REASONS = org.jooq.generated.tables.ContractToUploadedDocumentLinkReasons.CONTRACT_TO_UPLOADED_DOCUMENT_LINK_REASONS;
 
     /**
      * The table <code>contract_to_uploaded_document_links</code>.

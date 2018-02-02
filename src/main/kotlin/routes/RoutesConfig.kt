@@ -2,6 +2,7 @@ package routes
 
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
+import controllers.contractcategories.ContractCategoriesController
 import controllers.counterparties.CounterPartiesController
 import controllers.documenttemplatecategories.DocumentTemplateCategoriesController
 import controllers.documenttemplates.DocumentTemplatesController
@@ -446,6 +447,32 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     DocumentTemplateCategoriesController(it).destroy()
                 }
 
+            }
+
+            namespace("/contractCategories") {
+                get("") {
+                    ContractCategoriesController(it).index()
+                }
+
+                get("/:id") {
+                    ContractCategoriesController(it).show()
+                }
+
+                get("/:id/edit") {
+                    ContractCategoriesController(it).edit()
+                }
+
+                post("") {
+                    ContractCategoriesController(it).create()
+                }
+
+                put("/:id") {
+                    ContractCategoriesController(it).update()
+                }
+
+                delete("/:id") {
+                    ContractCategoriesController(it).destroy()
+                }
             }
 
         }

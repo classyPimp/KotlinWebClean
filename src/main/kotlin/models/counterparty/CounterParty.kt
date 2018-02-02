@@ -1,5 +1,6 @@
 package models.counterparty
 
+import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.counterpartytocontactlink.CounterPartyToContactLink
 import models.incorporationform.IncorporationForm
 import models.persontocounterpartylink.PersonToCounterPartyLink
@@ -44,4 +45,6 @@ class CounterParty {
     @HasMany(model = PersonToCounterPartyLink::class , fieldOnThis = "ID", fieldOnThat = "COUNTER_PARTY_ID")
     var personToCounterPartyLinks: MutableList<PersonToCounterPartyLink>? = null
 
+    @HasMany(model = ContractToCounterPartyLink::class, fieldOnThis = "ID", fieldOnThat = "COUNTER_PARTY_ID")
+    var contractToCounterPartyLinks: MutableList<ContractToCounterPartyLink>? = null
 }

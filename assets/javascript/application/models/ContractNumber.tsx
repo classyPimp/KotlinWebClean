@@ -5,24 +5,22 @@ import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { Contract } from './Contract'
-import { UploadedDocument } from './UploadedDocument'
-import { ContractToUploadedDocumentLinkReason } from './ContractToUploadedDocumentLinkReason'
 
-export class ContractToUploadedDocumentLink extends BaseModel {
+export class ContractNumber extends BaseModel {
 
-    static className = "contractToUploadedDocumentLink"
+    static className = "contractNumber"
 
     @Property
     id: number
 
     @Property
-    contractId: number
+    internalNumber: number
 
     @Property
-    uploadedDocumentId: number
+    numberAssignedByCounterParty: number
 
     @Property
-    contractToUploadedDocumentLinkReasonId: number
+    assignedNumber: number
 
     @Property
     updatedAt: string
@@ -32,11 +30,5 @@ export class ContractToUploadedDocumentLink extends BaseModel {
 
     @HasOne("Contract")
     contract: Contract
-
-    @HasOne("UploadedDocument")
-    uploadedDocument: UploadedDocument
-
-    @HasOne("ContractToUploadedDocumentLinkReason")
-    contractToUploadedDocumentLinkReason: ContractToUploadedDocumentLinkReason
 
 }
