@@ -116,6 +116,19 @@ export class SideBar extends BaseReactComponent {
                         create new contract category
                     </Link>
                 </li>
+
+
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/contractToUploadedDocumentLinkReasons" className="pure-menu-link">
+                        index contract tot uploaded document link reasons
+                    </Link>
+                </li>
+
+                <li className="pure-menu-item">
+                    <Link to="/dashboards/contractToUploadedDocumentLinkReasons/new" className="pure-menu-link">
+                        create new contract to uploaded document link reason
+                    </Link>
+                </li>
             </ul>
         </div>
     }

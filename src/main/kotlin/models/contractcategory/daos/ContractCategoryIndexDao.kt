@@ -10,5 +10,9 @@ object ContractCategoryIndexDao {
                 .execute()
     }
 
+    fun forFormFeedsIndex(): MutableList<ContractCategory> {
+        return forIndex()
+    }
+
 
 }

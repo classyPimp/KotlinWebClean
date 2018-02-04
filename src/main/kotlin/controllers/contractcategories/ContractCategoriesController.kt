@@ -2,6 +2,7 @@ package controllers.contractcategories
 
 import composers.contractcategories.ContractCategoryComposers
 import controllers.BaseController
+import controllers.contractcategories.formfeeds.ContractCategoriesFormFeedsController
 import models.contractcategory.ContractCategory
 import models.contractcategory.daos.ContractCategoryDaos
 import models.contractcategory.tojsonserializers.ContractCategorySerializers
@@ -10,6 +11,13 @@ import javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR
 import javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
 
 class ContractCategoriesController(context: ServletRequestContext) : BaseController(context) {
+
+    companion object {
+        fun formFeeds(context: ServletRequestContext): ContractCategoriesFormFeedsController {
+            return ContractCategoriesFormFeedsController(context)
+        }
+
+    }
 
     fun create() {
         val params = requestParams()

@@ -3,6 +3,7 @@ package routes
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
 import controllers.contractcategories.ContractCategoriesController
+import controllers.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReasonController
 import controllers.counterparties.CounterPartiesController
 import controllers.documenttemplatecategories.DocumentTemplateCategoriesController
 import controllers.documenttemplates.DocumentTemplatesController
@@ -14,6 +15,7 @@ import controllers.persontocounterpartylinks.PersonToCounterPartyLinksController
 import controllers.persontocounterpartylinktouploadeddoclinkreasons.PersonToCounterPartyLinkToUploadedDocLinkReasonController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
+import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReason
 import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReason
 import org.w3c.dom.css.Counter
 import router.RoutesDrawer
@@ -450,6 +452,13 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
             }
 
             namespace("/contractCategories") {
+
+                namespace("/formFeeds") {
+                    get("") {
+                        ContractCategoriesController.formFeeds(it).index()
+                    }
+                }
+
                 get("") {
                     ContractCategoriesController(it).index()
                 }
@@ -475,11 +484,46 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 }
             }
 
+            namespace("/contractToUploadedDocumentLinkReasons") {
+
+                namespace("/formFeeds") {
+                    get("") {
+                        ContractToUploadedDocumentLinkReasonController.formFeeds(it).index()
+                    }
+                }
+
+                get("") {
+                    ContractToUploadedDocumentLinkReasonController(it).index()
+                }
+
+                get("/:id") {
+                    ContractToUploadedDocumentLinkReasonController(it).show()
+                }
+
+                get("/:id/edit") {
+                    ContractToUploadedDocumentLinkReasonController(it).edit()
+                }
+
+                post("") {
+                    ContractToUploadedDocumentLinkReasonController(it).create()
+                }
+
+                put("/:id") {
+                    ContractToUploadedDocumentLinkReasonController(it).update()
+                }
+
+                delete("/:id") {
+                    ContractToUploadedDocumentLinkReasonController(it).destroy()
+                }
+            }
+
         }
 
 
 
     }
+
+
 
 }
 

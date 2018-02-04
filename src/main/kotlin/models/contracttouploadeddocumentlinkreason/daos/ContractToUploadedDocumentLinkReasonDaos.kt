@@ -1,0 +1,16 @@
+package models.contracttouploadeddocumentlinkreason.daos
+
+import org.jooq.generated.tables.ContractToUploadedDocumentLinkReasons
+import models.contracttouploadeddocumentlinkreason.daos.ContractToUploadedDocumentLinkReasonShowDao
+import models.contracttouploadeddocumentlinkreason.daos.ContractToUploadedDocumentLinkReasonIndexDao
+import models.contracttouploadeddocumentlinkreason.daos.ContractToUploadedDocumentLinkReasonUpdateDao
+import models.contracttouploadeddocumentlinkreason.daos.ContractToUploadedDocumentLinkReasonDestroyDao
+
+object ContractToUploadedDocumentLinkReasonDaos {
+
+    val show = ContractToUploadedDocumentLinkReasonShowDao
+    val index = ContractToUploadedDocumentLinkReasonIndexDao
+    val update = ContractToUploadedDocumentLinkReasonUpdateDao
+    val destroy = ContractToUploadedDocumentLinkReasonDestroyDao
+
+}

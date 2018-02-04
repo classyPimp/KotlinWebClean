@@ -1,0 +1,11 @@
+package models.contracttouploadeddocumentlinkreason.daos
+
+import org.jooq.generated.tables.ContractToUploadedDocumentLinkReasons
+import orm.contracttouploadeddocumentlinkreasongeneratedrepository.ContractToUploadedDocumentLinkReasonRecord
+import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReason
+
+object ContractToUploadedDocumentLinkReasonUpdateDao {
+
+
+
+}

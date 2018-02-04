@@ -17,7 +17,9 @@ import { DocumentTemplateVariablesComponents } from '../documenttemplatevariable
 import { DocumentTemplateComponents } from '../documenttemplates/DocumentTemplateComponents'
 import { DocumentTemplateCategoriesComponents } from '../documenttemplatecategories/DocumentTemplateCategoriesComponents'
 import { ContractCategoryComponents } from '../contractcategories/ContractCategoryComponents'
- 
+import { ContractToUploadedDocumentLinkReasonComponents } from '../contracttouploadeddocumentlinkreason/ContractToUploadedDocumentLinkReasonComponents';
+
+
 export class Main extends BaseReactComponent {
 
     props: {
@@ -99,6 +101,11 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/contractCategories`} component={ContractCategoryComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/contractCategories/:id/edit`} component={ContractCategoryComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/contractCategories/:id`} component={ContractCategoryComponents.Show}/>
+
+                    <Route exact path={`${this.props.match.url}/contractToUploadedDocumentLinkReasons/new`} component={ContractToUploadedDocumentLinkReasonComponents.New}/>
+                    <Route exact path={`${this.props.match.url}/contractToUploadedDocumentLinkReasons`} component={ContractToUploadedDocumentLinkReasonComponents.Index}/>
+                    <Route exact path={`${this.props.match.url}/contractToUploadedDocumentLinkReasons/:id/edit`} component={ContractToUploadedDocumentLinkReasonComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/contractToUploadedDocumentLinkReasons/:id`} component={ContractToUploadedDocumentLinkReasonComponents.Show}/>
 
                 </Switch>
             </div>

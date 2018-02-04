@@ -28,4 +28,29 @@ export class ContractToUploadedDocumentLinkReason extends BaseModel {
     @HasMany("ContractToUploadedDocumentLink")
     contractToUploadedDocumentLinks: ModelCollection<ContractToUploadedDocumentLink>
 
+    @Route("POST", {url: "/api/contractToUploadedDocumentLinkReasons"})
+    create: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLinkReason>
+
+    @Route("GET", {url: "/api/contractToUploadedDocumentLinkReasons"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<ContractToUploadedDocumentLinkReason>>
+
+    @Route("GET", {url: "/api/contractToUploadedDocumentLinkReasons/:id"})
+    static show: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLinkReason>
+
+    @Route("GET", {url: "/api/contractToUploadedDocumentLinkReasons/:id/edit"})
+    static edit: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLinkReason>
+
+    @Route("PUT", {url: "/api/contractToUploadedDocumentLinkReasons/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLinkReason>
+
+    @Route("DELETE", {url: "/api/contractToUploadedDocumentLinkReasons/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLinkReason>
+
+    @Route("GET", {url: "/api/contractToUploadedDocumentLinkReasons/formFeeds"})
+    static formFeedsIndex: (options?: RequestOptions)=>Promise<ModelCollection<ContractToUploadedDocumentLinkReason>>
+
+    static afterFormFeedsIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
 }

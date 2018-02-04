@@ -18,11 +18,6 @@ class RunOnApplicationBootstrap: Runnable {
         drawRoutes()
     }
 
-    fun drawRoutes() {
-        routes.RoutesConfig(Router).run()
-        HilfHundRoutesAdder.run()
-    }
-
     private fun initializeApplicationComponent() {
         App.component = daggerComponents.DaggerApplicationComponent.builder().build()
     }
@@ -30,6 +25,11 @@ class RunOnApplicationBootstrap: Runnable {
     private fun injectRequired() {
         OrmDependenciesManager.provider = OrmDependenciesProvider
         MicroFrameworkDependencyManager.provider = MicroframeworkDependenciesProvider
+    }
+
+    fun drawRoutes() {
+        routes.RoutesConfig(Router).run()
+        HilfHundRoutesAdder.run()
     }
 
 

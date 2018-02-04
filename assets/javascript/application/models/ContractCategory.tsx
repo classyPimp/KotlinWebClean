@@ -46,7 +46,7 @@ export class ContractCategory extends BaseModel {
     @Route("DELETE", {url: "/api/contractCategories/:id", defaultWilds: ["id"]})
     destroy: (options?: RequestOptions) => Promise<ContractCategory>
 
-    @Route("GET", {url: "/api/contractCategories/inputFeeds"})
+    @Route("GET", {url: "/api/contractCategories/formFeeds"})
     static inputFeedsIndex: (options?: RequestOptions)=>Promise<ModelCollection<ContractCategory>>
 
     static afterInputFeedsIndexRequest(options: RequestOptions) {
