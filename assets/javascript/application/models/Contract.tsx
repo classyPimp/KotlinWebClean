@@ -49,4 +49,23 @@ export class Contract extends BaseModel {
 
     @HasMany("ContractToCounterPartyLink")
     contractToCounterPartyLinks: ModelCollection<ContractToCounterPartyLink>
+
+    @Route("POST", {url: "/api/contracts"})
+    create: (options?: RequestOptions) => Promise<Contract>
+
+    @Route("GET", {url: "/api/contracts"})
+    static index: (options?: RequestOptions) => Promise<ModelCollection<Contract>>
+
+    @Route("GET", {url: "/api/contracts/:id"})
+    static show: (options?: RequestOptions) => Promise<Contract>
+
+    @Route("GET", {url: "/api/contracts/:id/edit"})
+    static edit: (options?: RequestOptions) => Promise<Contract>
+
+    @Route("PUT", {url: "/api/contracts/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<Contract>
+
+    @Route("DELETE", {url: "/api/contracts/:id", defaultWilds: ["id"]})
+    destroy: (options?: RequestOptions) => Promise<Contract>
+
 }

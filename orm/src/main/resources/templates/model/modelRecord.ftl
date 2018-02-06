@@ -35,9 +35,14 @@ class ${modelClass}Record(val model: ${modelClass}) {
         }
     </#list>
 
+
     <#list associationBeans as ab>
     fun load${ab.capitalizedPropertyName}() {
         ${modelClass}DefaultAssociationsManager.load${ab.capitalizedPropertyName}(model)
+    }
+
+    fun load${ab.capitalizedPropertyName}(blockYieldingQueryBuilder: (${ab.associatedModelDataModel.modelClass}SelectQueryBuilder)->Unit) {
+        ${modelClass}DefaultAssociationsManager.load${ab.capitalizedPropertyName}(model, blockYieldingQueryBuilder)
     }
 
     var ${ab.propertyName}: ${ab.completeReturnType}

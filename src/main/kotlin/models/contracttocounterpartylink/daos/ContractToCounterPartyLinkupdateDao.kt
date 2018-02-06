@@ -1,0 +1,11 @@
+package models.contracttocounterpartylink.daos
+
+import org.jooq.generated.tables.ContractToCounterPartyLinks
+import orm.contracttocounterpartylinkgeneratedrepository.ContractToCounterPartyLinkRecord
+import models.contracttocounterpartylink.ContractToCounterPartyLink
+
+object ContractToCounterPartyLinkUpdateDao {
+
+
+
+}

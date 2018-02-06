@@ -1,0 +1,10 @@
+package models.contracttouploadeddocumentlink
+
+import models.contracttouploadeddocumentlink.ContractToUploadedDocumentLink
+import utils.requestparameters.IParam
+
+class ContractToUploadedDocumentLinkRequestParametersWrapper(val requestParameters: IParam) {
+
+
+
+}

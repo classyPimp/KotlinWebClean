@@ -2,6 +2,7 @@ package routes
 
 import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
+import controllers.contract.ContractController
 import controllers.contractcategories.ContractCategoriesController
 import controllers.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReasonController
 import controllers.counterparties.CounterPartiesController
@@ -514,6 +515,12 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 delete("/:id") {
                     ContractToUploadedDocumentLinkReasonController(it).destroy()
+                }
+            }
+
+            namespace("/contracts") {
+                post("") {
+                    ContractController(it).create()
                 }
             }
 
