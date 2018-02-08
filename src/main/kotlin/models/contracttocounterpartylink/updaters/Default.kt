@@ -9,4 +9,10 @@ object Default {
 
     }
 
+    fun updateWhenContractReplace(model: ContractToCounterPartyLink, counterPartyId: Long) {
+        model.record.let {
+            it.counterPartyId = counterPartyId
+        }
+    }
+
 }

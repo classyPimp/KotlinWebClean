@@ -68,4 +68,11 @@ export class Contract extends BaseModel {
     @Route("DELETE", {url: "/api/contracts/:id", defaultWilds: ["id"]})
     destroy: (options?: RequestOptions) => Promise<Contract>
 
+    @Route("GET", {url: "/api/contracts/manage/:id/edit"})
+    static manageEdit: (options?: RequestOptions) => Promise<Contract>
+
+    static afterManageEditRequest(options: RequestOptions) {
+      this.afterEditRequest(options)
+    }
+
 }

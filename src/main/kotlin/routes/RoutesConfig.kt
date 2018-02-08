@@ -519,8 +519,27 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
             }
 
             namespace("/contracts") {
+
+                namespace("/:contractId/contractToCounterPartyLinks") {
+                    delete("/:id") {
+                        ContractController.contractToCounterPartyLink(it).destroy()
+                    }
+                    get("/:id/replaceWith/:counterPartyIdToReplaceWith") {
+                        ContractController.contractToCounterPartyLink(it).replace()
+                    }
+                    post("") {
+                        ContractController.contractToCounterPartyLink(it).create()
+                    }
+                }
+
                 post("") {
                     ContractController(it).create()
+                }
+                get("") {
+                    ContractController(it).index()
+                }
+                get("/:id") {
+                    ContractController(it).show()
                 }
             }
 

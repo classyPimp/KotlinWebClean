@@ -44,4 +44,29 @@ object ContractShowDao {
                 .firstOrNull()
     }
 
+    fun forManageEdit(id: Long): Contract? {
+        val contract = ContractRecord.GET()
+                .where(
+                        table.ID.eq(id)
+                )
+                .preload {
+                    it.contractCategory()
+                    it.contractToCounterPartyLinks() {
+                        it.preload {
+                            it.counterParty() {
+                                it.preload {
+                                    it.incorporationForm()
+                                }
+                            }
+                        }
+                    }
+                    it.contractStatus()
+                }
+                .limit(1)
+                .execute()
+                .firstOrNull()
+
+        return contract
+    }
+
 }

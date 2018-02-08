@@ -1,21 +1,24 @@
-package models.contract.tojsonserializers
+package models.contract.tojsonserializers.manage
 
 import models.contract.Contract
 import orm.contractgeneratedrepository.ContractToJsonSerializer
 
-object IndexSerializer {
+/**
+ * Created by Муса on 07.02.2018.
+ */
+object ManageEditSerializer {
 
-    fun onSuccess(contracts: MutableList<Contract>): String {
-        return ContractToJsonSerializer.serialize(contracts) {
+    fun onSuccess(contract: Contract): String {
+        ContractToJsonSerializer(contract).let {
             it.includeContractCategory()
-            it.includeContractStatus()
             it.includeContractToCounterPartyLinks() {
                 it.includeCounterParty() {
                     it.includeIncorporationForm()
                 }
             }
-        }.toString()
+            it.includeContractStatus()
+            return it.serializeToString()
+        }
     }
-
 
 }

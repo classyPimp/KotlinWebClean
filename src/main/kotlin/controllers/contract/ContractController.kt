@@ -2,6 +2,7 @@ package controllers.contract
 
 import composers.contract.ContractComposers
 import controllers.BaseController
+import controllers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkController
 import models.contract.daos.ContractDaos
 import models.contract.tojsonserializers.ContractSerializers
 import router.src.ServletRequestContext
@@ -9,6 +10,12 @@ import javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR
 import javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
 
 class ContractController(context: ServletRequestContext) : BaseController(context) {
+
+    companion object {
+        fun contractToCounterPartyLink(context: ServletRequestContext): ContractContractToCounterPartyLinkController {
+            return ContractContractToCounterPartyLinkController(context)
+        }
+    }
 
     fun create() {
         val params = requestParams()
@@ -44,7 +51,14 @@ class ContractController(context: ServletRequestContext) : BaseController(contex
         renderJson(
                 ContractSerializers.show.onSuccess(contract)
         )
+    }
 
+    fun index() {
+        val contracts = ContractDaos.index.forIndex()
+
+        renderJson(
+                ContractSerializers.index.onSuccess(contracts)
+        )
     }
 
 }
