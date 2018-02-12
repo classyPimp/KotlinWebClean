@@ -15,7 +15,7 @@ abstract class FileProperty {
     private var fileItemBeingProcessed: FileItem? = null
 
     abstract val modelId: Long?
-    abstract val maxAllowedSize: Long
+    abstract var maxAllowedSize: Long
 
     abstract val baseUploadPath: String
     abstract val modelName: String

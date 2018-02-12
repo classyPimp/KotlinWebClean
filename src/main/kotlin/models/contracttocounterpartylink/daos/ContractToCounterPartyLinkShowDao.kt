@@ -21,7 +21,11 @@ object ContractToCounterPartyLinkShowDao {
                 .where(table.ID.eq(id).and(CONTRACTS.ID.eq(contractId)))
                 .limit(1)
                 .preload {
-                    it.contract()
+                    it.contract() {
+                        it.preload {
+                            it.contractToCounterPartyLinks()
+                        }
+                    }
                 }
                 .execute()
                 .firstOrNull()
@@ -40,6 +44,19 @@ object ContractToCounterPartyLinkShowDao {
                             it.contractToCounterPartyLinks()
                         }
                     }
+                }
+                .limit(1)
+                .execute()
+                .firstOrNull()
+
+        return contractToCounterPartyLink
+    }
+
+    fun forUpdate(contractId: Long, id: Long): ContractToCounterPartyLink? {
+        val contractToCounterPartyLink = ContractToCounterPartyLinkRecord.GET()
+                .where(table.ID.eq(id).and(CONTRACTS.ID.eq(contractId)))
+                .join {
+                    it.contract()
                 }
                 .limit(1)
                 .execute()

@@ -11,6 +11,7 @@ import { ContractComponents } from '../ContractComponents'
 import { Contract } from '../../../models/Contract'
 import { ContractCategory } from '../../../models/ContractCategory'
 import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServerFed'
+import { ContractToCounterPartyLinkComponents } from '../../contractToCounterPartyLink/ContractToCounterPartyLinkComponents'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 
@@ -28,6 +29,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
 
     componentDidMount(){
       let id = this.props.match.params.id
+      console.log("should fetch")
       Contract.manageEdit({wilds: {id: `${id}`}}).then((contract)=>{
         this.setState({contract})
       })
@@ -56,6 +58,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
               propertyToSelect = "id"
               registerInput = {(it)=>{this.registerInput(it)}}
               queryingFunction = {ContractCategory.inputFeedsIndex.bind(ContractCategory)}
+              preselected = {this.state.contract.contractCategoryId}
               optional = {{
                 placeholder: "select category"
               }}
@@ -64,11 +67,10 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
               update
             </button>
           </div>
-          <div>
-            {this.state.contract.contractToCounterPartyLinks.map((contractToCounterPartyLink)=>{
-              return <div/>
-            })}
-          </div>
+          <ContractToCounterPartyLinkComponents.Index
+            contractId={this.state.contract.id}
+            contractToCounterPartyLinks={this.state.contract.contractToCounterPartyLinks}
+          />
           <div>
             
           </div>
@@ -77,13 +79,19 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     submit(){
-      this.state.contract.update().then((contract)=>{
+      let contractAtState = this.state.contract
+      contractAtState.manageUpdate().then((contract)=>{
         if (contract.isValid()) {
           ApplicationComponent.instance.flashMessageQueue.addMessage(
-            "contract category successfully updated"
+            "contract successfully updated"
           )
-        } 
-        this.setState({contract})
+          contractAtState.contractCategoryId = contract.contractCategoryId
+          contractAtState.contractCategory = contract.contractCategory 
+          contractAtState.description = contract.description
+        } else {
+          contractAtState.errors = contract.errors
+        }
+        this.setState({contract: contractAtState})
       })
     }
 

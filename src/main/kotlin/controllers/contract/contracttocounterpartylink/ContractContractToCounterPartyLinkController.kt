@@ -39,11 +39,15 @@ class ContractContractToCounterPartyLinkController(context: ServletRequestContex
         )
 
         composer.onError = {
-            ContractToCounterPartyLinkSerializers.ForContract.replace.onError(it)
+            renderJson(
+                ContractToCounterPartyLinkSerializers.ForContract.replace.onError(it)
+            )
         }
 
         composer.onSuccess = {
-            ContractToCounterPartyLinkSerializers.ForContract.replace.onSuccess(it)
+            renderJson(
+                ContractToCounterPartyLinkSerializers.ForContract.replace.onSuccess(it)
+            )
         }
 
         composer.run()
@@ -51,9 +55,46 @@ class ContractContractToCounterPartyLinkController(context: ServletRequestContex
 
     fun create() {
         val contractId = context.routeParameters.get("contractId")?.toLongOrNull()
-        val id = context.routeParameters.get("id")?.toLongOrNull()
+        val params = requestParams()
 
+        val composer = ContractComposers.ContractToCounterPartyLink.create(contractId, params)
 
+        composer.onError = {
+            renderJson(
+                ContractToCounterPartyLinkSerializers.ForContract.create.onError(it)
+            )
+        }
+
+        composer.onSuccess = {
+            renderJson(
+                ContractToCounterPartyLinkSerializers.ForContract.create.onSuccess(it)
+            )
+        }
+
+        composer.run()
+
+    }
+
+    fun update() {
+        val contractId = routeParams().get("contractId")?.toLongOrNull()
+        val id = routeParams().get("id")?.toLongOrNull()
+        val params = requestParams()
+
+        val composer = ContractComposers.ContractToCounterPartyLink.update(contractId, id, params)
+
+        composer.onError = {
+            renderJson(
+                    ContractToCounterPartyLinkSerializers.ForContract.update.onError(it)
+            )
+        }
+
+        composer.onSuccess = {
+            renderJson(
+                    ContractToCounterPartyLinkSerializers.ForContract.update.onSuccess(it)
+            )
+        }
+
+        composer.run()
     }
 
 }

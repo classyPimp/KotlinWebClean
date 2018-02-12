@@ -7,7 +7,6 @@ object DefaultFactory {
 
     fun create(params: ContractToCounterPartyLinkRequestParametersWrapper): ContractToCounterPartyLink {
         return ContractToCounterPartyLink().also {
-            it.contractId = params.contractId
             it.counterPartyId = params.counterPartyId
             it.roleAccordingToContract = params.roleAccordingToContract
         }

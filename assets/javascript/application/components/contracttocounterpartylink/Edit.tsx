@@ -35,10 +35,21 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
         return <div className="persontocounterpartylinkreasons-Edit">
           <Modal ref={(it)=>{this.modal = it}}/>
           <p>
-            <Link to={"/dashboards/counterParties/${contractToCounterPartyLink.id}"}>
-            {"${contractToCounterPartyLink.counterParty.incorporationForm.name} ${contractToCounterPartyLink.counterParty.name}"}
+            <Link to={`/dashboards/counterParties/${contractToCounterPartyLink.id}`}>
+            {`${contractToCounterPartyLink.counterParty.incorporationForm.name} ${contractToCounterPartyLink.counterParty.name}`}
             </Link>
           </p>
+          <PlainInputElement
+            model = {this.props.contractToCounterPartyLink}
+            propertyName = "roleAccordingToContract"
+            registerInput = {(it)=>{this.registerInput(it)}}
+            optional = {{
+              placeholder: "role according to contract"
+            }}
+          />
+          <button onClick={this.update}>
+            update
+          </button>
           {this.props.removable &&
             <button onClick={()=>{this.delete(contractToCounterPartyLink)}}>
               remove
@@ -52,10 +63,25 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
     
 
     @autobind
+    update() {
+      this.collectInputs()
+      let currentContractToCounterPartyLink = this.props.contractToCounterPartyLink
+      this.props.contractToCounterPartyLink.forContractManageUpdate().then((contractToCounterPartyLink)=>{
+        if (contractToCounterPartyLink.isValid()) {
+          currentContractToCounterPartyLink.roleAccordingToContract = contractToCounterPartyLink.roleAccordingToContract
+        } else {
+          currentContractToCounterPartyLink.errors = contractToCounterPartyLink.errors
+        }
+        this.forceUpdate()
+      })
+
+    }
+
+    @autobind
     delete(contractToCounterPartyLink: ContractToCounterPartyLink) {
       contractToCounterPartyLink.destroy().then((it)=>{
         if (it.isValid()) {
-          this.props.onDelete(it) 
+          this.props.onDelete(contractToCounterPartyLink) 
         } else {
           let errors = ""
           Object.keys(it.errors).forEach((key)=>{
@@ -78,6 +104,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
             propertyToSelect = "id"
             registerInput = {(it)=>{this.registerInput(it, "forReplacement")}}
             queryingFunction = {CounterParty.formFeedsIndex.bind(CounterParty)}
+            preselected = {this.props.contractToCounterPartyLink.counterPartyId}
             optional = {{
               placeholder: "select counter party to replace"
             }}
@@ -95,6 +122,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
       let counterPartyIdToReplaceWith = this.state.formDummy.id.toString()
       this.props.contractToCounterPartyLink.replace({wilds: {counterPartyIdToReplaceWith}}).then((oneThatReplaces)=>{
         if (oneThatReplaces.isValid()) {
+          this.modal.close()
           this.props.contractToCounterPartyLink.properties = oneThatReplaces.properties
           this.setState({})
         } else {

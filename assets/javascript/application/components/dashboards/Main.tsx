@@ -110,7 +110,7 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/contracts/new`} component={ContractComponents.New}/>
                     <Route exact path={`${this.props.match.url}/contracts`} component={ContractComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/contracts/:id/edit`} component={ContractComponents.Edit}/>
-                    <Route exact path={`${this.props.match.url}/contracts/:id`} component={ContractComponents.Show}/>
+                    <Route exact path={`${this.props.match.url}/contracts/manage/:id`} component={ContractComponents.manage.Show}/>
                     
                 </Switch>
             </div>

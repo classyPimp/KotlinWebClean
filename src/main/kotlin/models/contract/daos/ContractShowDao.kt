@@ -1,6 +1,7 @@
 package models.contract.daos
 
 import models.contract.Contract
+import models.contracttocounterpartylink.ContractToCounterPartyLink
 import org.jooq.generated.tables.Contracts.CONTRACTS
 import orm.contractgeneratedrepository.ContractRecord
 import orm.contracttocounterpartylinkgeneratedrepository.ContractToCounterPartyLinkAssociationsPreloader
@@ -67,6 +68,25 @@ object ContractShowDao {
                 .firstOrNull()
 
         return contract
+    }
+
+    fun forContractToCounterPartyLinkCreate(id: Long): Contract? {
+        return ContractRecord.GET()
+                .preload {
+                    it.contractToCounterPartyLinks()
+                }
+                .where(table.ID.eq(id))
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
+    fun forContractToUploadedDocumentLinkCreate(contractId: Long): Contract? {
+        return ContractRecord.GET()
+                .where(table.ID.eq(contractId))
+                .limit(1)
+                .execute()
+                .firstOrNull()
     }
 
 }

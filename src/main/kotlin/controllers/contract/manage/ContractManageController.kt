@@ -1,5 +1,6 @@
 package controllers.contract.manage
 
+import composers.contract.ContractComposers
 import controllers.BaseController
 import models.contract.daos.ContractDaos
 import models.contract.tojsonserializers.ContractSerializers
@@ -27,6 +28,27 @@ class ContractManageController(context: ServletRequestContext) : BaseController(
         renderJson(
                 ContractSerializers.Manage.edit.onSuccess(contract)
         )
+    }
+
+    fun update() {
+        val params = requestParams()
+        val id = context.routeParameters.get("id")?.toLongOrNull()
+
+        val composer = ContractComposers.update(params, id)
+
+        composer.onError = {
+            renderJson(
+                    ContractSerializers.update.onError(it)
+            )
+        }
+
+        composer.onSuccess = {
+            renderJson(
+                    ContractSerializers.update.onSuccess(it)
+            )
+        }
+
+        composer.run()
     }
 
 }

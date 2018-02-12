@@ -10,10 +10,7 @@ class UploadedDocumentFileHandler(val model: UploadedDocument) : FileProperty() 
     override val fileNameOnModel: String?
         get() = model.fileName
 
-    override val maxAllowedSize: Long
-        get() {
-            return 1024 * 1024 * 10
-        }
+    override var maxAllowedSize: Long = 1024 * 1024 * 10
 
     override val baseUploadPath: String
         get(){

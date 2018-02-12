@@ -46,7 +46,7 @@ export class Index extends BaseReactComponent {
                     show
                   </button>
                 </Link>
-                <Link to={`/dashboards/contracts/${contract.id}/edit`}>
+                <Link to={`/dashboards/contracts/manage/${contract.id}`}>
                   <button>
                     edit
                   </button>

@@ -1,7 +1,9 @@
 package composers.contract
 
+import composers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkCreateComposer
 import composers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkDestroyComposer
 import composers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkReplaceComposer
+import composers.contract.contracttocounterpartylink.ContractContractToCounterPartylinkUpdateComposer
 import utils.requestparameters.IParam
 
 /**
@@ -20,6 +22,14 @@ object ContractComposers {
 
         fun destroy(contractId: Long?, id: Long?): ContractContractToCounterPartyLinkDestroyComposer {
             return ContractContractToCounterPartyLinkDestroyComposer(contractId, id)
+        }
+
+        fun create(contractId: Long?, params: IParam): ContractContractToCounterPartyLinkCreateComposer {
+            return ContractContractToCounterPartyLinkCreateComposer(contractId, params)
+        }
+
+        fun update(contractId: Long?, id: Long?, params: IParam): ContractContractToCounterPartylinkUpdateComposer {
+            return ContractContractToCounterPartylinkUpdateComposer(contractId, id, params)
         }
     }
 

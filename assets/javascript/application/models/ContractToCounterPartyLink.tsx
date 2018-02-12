@@ -34,8 +34,8 @@ export class ContractToCounterPartyLink extends BaseModel {
 
     @HasOne("Contract")
     contract: Contract
-
-    @Route("GET", {url: "/api/contracts/:contractId/contractToCounterPartyLinks/:id", defaultWilds: ["contractId", "id"]})
+    
+    @Route("DELETE", {url: "/api/contracts/:contractId/contractToCounterPartyLinks/:id", defaultWilds: ["contractId", "id"]})
     destroy: (options?: RequestOptions) => Promise<ContractToCounterPartyLink>
 
     @Route("PUT", {url: "/api/contracts/:contractId/contractToCounterPartyLinks/:id/replaceWith/:counterPartyIdToReplaceWith", defaultWilds: ["contractId", "id"]})
@@ -45,4 +45,17 @@ export class ContractToCounterPartyLink extends BaseModel {
       this.afterCreateRequest(options)
     }
 
+    @Route("POST", {url: "/api/contracts/:contractId/contractToCounterPartyLinks", defaultWilds: ["contractId"]})
+    create: (options?: RequestOptions) => Promise<ContractToCounterPartyLink>
+
+    @Route("PUT", {url: "/api/contracts/:contractId/contractToCounterPartyLinks/:id", defaultWilds: ["contractId", "id"]})
+    forContractManageUpdate: (options?: RequestOptions) => Promise<ContractToCounterPartyLink>
+
+    beforeForContractManageUpdateRequest(options: RequestOptions) {
+      this.beforeUpdateRequest(options)
+    }
+
+    afterForContractManageUpdateRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
+    }
 }

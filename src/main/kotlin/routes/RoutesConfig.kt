@@ -524,13 +524,28 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     delete("/:id") {
                         ContractController.contractToCounterPartyLink(it).destroy()
                     }
-                    get("/:id/replaceWith/:counterPartyIdToReplaceWith") {
+                    put("/:id/replaceWith/:counterPartyIdToReplaceWith") {
                         ContractController.contractToCounterPartyLink(it).replace()
                     }
                     post("") {
                         ContractController.contractToCounterPartyLink(it).create()
                     }
+
+                    put("/:id") {
+                        ContractController.contractToCounterPartyLink(it).update()
+                    }
+
                 }
+
+                get("/manage/:id/edit") {
+                    ContractController.manage(it).edit()
+                }
+
+
+                put("/manage/:id") {
+                    ContractController.manage(it).update()
+                }
+
 
                 post("") {
                     ContractController(it).create()

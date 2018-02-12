@@ -75,4 +75,15 @@ export class Contract extends BaseModel {
       this.afterEditRequest(options)
     }
 
+    @Route("PUT", {url: "/api/contracts/manage/:id", defaultWilds: ["id"]})
+    manageUpdate: (options?: RequestOptions) => Promise<Contract>
+
+    beforeManageUpdateRequest(options: RequestOptions) {
+      this.beforeUpdateRequest(options)
+    }
+
+    afterManageUpdateRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
+    }
+
 }

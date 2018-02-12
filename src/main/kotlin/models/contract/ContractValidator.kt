@@ -15,6 +15,15 @@ class ContractValidator(model: Contract) : ContractValidatorTrait(model, model.r
         validateCategory()
     }
 
+    fun manageUpdateScenario() {
+        if (model.record.propertiesChangeTracker.contractCategoryIdIsChanged) {
+            validateCategory()
+        }
+        if (model.record.propertiesChangeTracker.descriptionIsChanged) {
+            validateDescription()
+        }
+    }
+
     private fun validateDescription() {
         val description = model.description
         if (description == null || description.isBlank()) {
