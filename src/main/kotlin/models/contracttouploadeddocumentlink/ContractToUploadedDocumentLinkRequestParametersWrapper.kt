@@ -4,6 +4,7 @@ import models.contracttouploadeddocumentlink.ContractToUploadedDocumentLink
 import models.uploadeddocument.UploadedDocument
 import models.uploadeddocument.UploadedDocumentRequestParametersWrapper
 import utils.requestparameters.IParam
+import utils.stdlibextensions.string.trimAndSquishWhiteSpace
 
 class ContractToUploadedDocumentLinkRequestParametersWrapper(val requestParameters: IParam) {
 
@@ -13,5 +14,5 @@ class ContractToUploadedDocumentLinkRequestParametersWrapper(val requestParamete
         UploadedDocumentRequestParametersWrapper(it)
     }}
     val uploadedDocumentId: Long? by lazy { requestParameters.get("uploadedDocumentId")?.long() }
-
+    val description: String? by lazy { requestParameters.get("description")?.string?.trimAndSquishWhiteSpace() }
 }

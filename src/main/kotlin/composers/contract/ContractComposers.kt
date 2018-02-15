@@ -4,6 +4,9 @@ import composers.contract.contracttocounterpartylink.ContractContractToCounterPa
 import composers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkDestroyComposer
 import composers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkReplaceComposer
 import composers.contract.contracttocounterpartylink.ContractContractToCounterPartylinkUpdateComposer
+import composers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkCreateComposer
+import composers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkDestroyComposer
+import composers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkUpdateComposer
 import utils.requestparameters.IParam
 
 /**
@@ -31,6 +34,22 @@ object ContractComposers {
         fun update(contractId: Long?, id: Long?, params: IParam): ContractContractToCounterPartylinkUpdateComposer {
             return ContractContractToCounterPartylinkUpdateComposer(contractId, id, params)
         }
+    }
+
+    object ContractToUploadedDocumentLinkComposers {
+
+        fun create(contractId: Long?, params: IParam): ContractContractToUploadedDocumentLinkCreateComposer {
+            return ContractContractToUploadedDocumentLinkCreateComposer(contractId, params)
+        }
+
+        fun destroy(contractId: Long?, id: Long?): ContractContractToUploadedDocumentLinkDestroyComposer {
+            return ContractContractToUploadedDocumentLinkDestroyComposer(contractId, id)
+        }
+
+        fun update(contractId: Long?, id: Long?, params: IParam): ContractContractToUploadedDocumentLinkUpdateComposer {
+            return ContractContractToUploadedDocumentLinkUpdateComposer(contractId, id, params)
+        }
+
     }
 
     fun create(params: IParam): CreateComposer {

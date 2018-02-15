@@ -22,6 +22,9 @@ export class ContractToUploadedDocumentLink extends BaseModel {
     uploadedDocumentId: number
 
     @Property
+    description: string
+
+    @Property
     contractToUploadedDocumentLinkReasonId: number
 
     @Property
@@ -39,4 +42,32 @@ export class ContractToUploadedDocumentLink extends BaseModel {
     @HasOne("ContractToUploadedDocumentLinkReason")
     contractToUploadedDocumentLinkReason: ContractToUploadedDocumentLinkReason
 
+    @Route("POST", {url: "/api/contracts/:contractId/contractToUploadedDocumentLinks", defaultWilds: ["contractId"]})
+    forContractManageCreate: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLink>
+
+    beforeForContractManageCreateRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterForContractManageCreateRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
+
+    @Route("PUT", {url: "/api/contracts/:contractId/contractToUploadedDocumentLinks/:id", defaultWilds: ["contractId", "id"]})
+    forContractManageUpdate: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLink>
+
+    beforeForContractManageUpdateRequest(options: RequestOptions) {
+      this.beforeUpdateRequest(options)
+    }
+
+    afterForContractManageUpdateRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
+    }
+
+    @Route("DELETE", {url: "/api/contracts/:contractId/contractToUploadedDocumentLinks/:id", defaultWilds: ["contractId", "id"]})
+    forContractManageDestroy: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLink>
+
+    afterForContractManageDestroyRequest(options: RequestOptions) {
+      this.afterCreateRequest
+    }
 }

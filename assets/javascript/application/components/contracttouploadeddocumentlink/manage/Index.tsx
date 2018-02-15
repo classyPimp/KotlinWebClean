@@ -5,18 +5,23 @@ import { ContractToUploadedDocumentLink } from '../../../models/ContractToUpload
 import { ContractToUploadedDocumentLinkReason } from '../../../models/ContractToUploadedDocumentLinkReason'
 import { Link } from 'react-router-dom';
 import autobind from 'autobind-decorator';
+import { Modal } from '../../shared/Modal'
+import { ContractToUploadedDocumentLinkComponents } from '../ContractToUploadedDocumentLinkComponents'
 
 export class Index extends BaseReactComponent {
 
     props: {
       contractToUploadedDocumentLinks: ModelCollection<ContractToUploadedDocumentLink>
+      contractId: number
     }
 
     state: {
       contractToUploadedDocumentLinkReasons: ModelCollection<ContractToUploadedDocumentLinkReason>
     }
 
-    componentDidMount() {
+    modal: Modal
+
+    componentWillMount() {
       let reasonsById: {[id: number]: ContractToUploadedDocumentLinkReason} = {}
       this.props.contractToUploadedDocumentLinks.forEach((link)=>{
         let reasonId = link.contractToUploadedDocumentLinkReason.id
@@ -36,6 +41,7 @@ export class Index extends BaseReactComponent {
         let contractToUploadedDocumentLinkReasons = this.state.contractToUploadedDocumentLinkReasons
 
         return <div className="contractToUploadedDocumentLinks-Index">
+          <Modal ref={(it)=>{this.modal = it}}/>
           {contractToUploadedDocumentLinkReasons.map((contractToUploadedDocumentLinkReason)=>{
             return <div key={contractToUploadedDocumentLinkReason.id}>
               <h3>
@@ -50,7 +56,37 @@ export class Index extends BaseReactComponent {
               })}
             </div>
           })}
+          <button onClick={this.initContractToUploadedDocumentLink}>
+            add file
+          </button>
         </div>
+    }
+
+    @autobind
+    onNewContractToUploadedDocumentLinkCreated(contractToUploadedDocumentLink: ContractToUploadedDocumentLink) {
+      this.props.contractToUploadedDocumentLinks.push(contractToUploadedDocumentLink)
+      this.modal.close()
+      this.componentWillMount()
+    }
+
+    @autobind
+    onContractToUploadedDocumentLinkDeleted(contractToUploadedDocumentLink: ContractToUploadedDocumentLink) {
+      this.props.contractToUploadedDocumentLinks.filter((it)=>{
+        return it !== contractToUploadedDocumentLink
+      })
+      this.componentWillMount()
+    }
+
+    @autobind
+    initContractToUploadedDocumentLink() {
+       this.modal.open(
+         <ContractToUploadedDocumentLinkComponents.manage.New
+           contractId = {this.props.contractId}
+           onCreateSuccess = {(contractToUploadedDocumentLink: ContractToUploadedDocumentLink)=>{
+             this.onNewContractToUploadedDocumentLinkCreated(contractToUploadedDocumentLink)
+           }}
+         />
+       )
     }
 
 }

@@ -13,6 +13,7 @@ object DefaultFactory {
             it.uploadedDocument = params.uploadedDocument?.let {
                 UploadedDocumentFactories.defaultCreate.create(it)
             }
+            it.description = params.description
         }
     }
 

@@ -6,5 +6,6 @@ object ContractToUploadedDocumentLinkSerializers {
     val update = UpdateSerializer
     val destroy = DestroySerializer
     val index = IndexSerializer
+    val show = ShowSerializer
 
 }

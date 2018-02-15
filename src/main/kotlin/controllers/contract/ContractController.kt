@@ -3,6 +3,7 @@ package controllers.contract
 import composers.contract.ContractComposers
 import controllers.BaseController
 import controllers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkController
+import controllers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkController
 import controllers.contract.manage.ContractManageController
 import models.contract.daos.ContractDaos
 import models.contract.tojsonserializers.ContractSerializers
@@ -15,6 +16,10 @@ class ContractController(context: ServletRequestContext) : BaseController(contex
     companion object {
         fun contractToCounterPartyLink(context: ServletRequestContext): ContractContractToCounterPartyLinkController {
             return ContractContractToCounterPartyLinkController(context)
+        }
+
+        fun contractToUploadedDocumentLink(context: ServletRequestContext): ContractContractToUploadedDocumentLinkController {
+            return ContractContractToUploadedDocumentLinkController(context)
         }
 
         fun manage(context: ServletRequestContext): ContractManageController {

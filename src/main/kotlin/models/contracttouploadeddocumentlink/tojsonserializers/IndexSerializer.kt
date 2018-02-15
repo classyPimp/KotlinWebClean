@@ -5,20 +5,9 @@ import orm.contracttouploadeddocumentlinkgeneratedrepository.ContractToUploadedD
 
 object IndexSerializer {
 
-    fun onSuccess(contractToUploadedDocumentLink: ContractToUploadedDocumentLink): String {
-        ContractToUploadedDocumentLinkToJsonSerializer(contractToUploadedDocumentLink).let {
-
-            return it.serializeToString()
-        }
-    }
-
-    fun onError(contractToUploadedDocumentLink: ContractToUploadedDocumentLink): String {
-        ContractToUploadedDocumentLinkToJsonSerializer(contractToUploadedDocumentLink). let {
-
-
-            it.includeErrors()
-            return it.serializeToString()
-        }
+    fun onSuccess(contractToUploadedDocumentLinks: MutableList<ContractToUploadedDocumentLink>): String {
+        return ContractToUploadedDocumentLinkToJsonSerializer.serialize(contractToUploadedDocumentLinks)
+                .toString()
     }
 
 }

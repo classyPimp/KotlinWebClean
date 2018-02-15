@@ -61,6 +61,11 @@ object ContractShowDao {
                             }
                         }
                     }
+                    it.contractToUploadedDocumentLinks() {
+                        it.preload {
+                            it.uploadedDocument()
+                        }
+                    }
                     it.contractStatus()
                 }
                 .limit(1)

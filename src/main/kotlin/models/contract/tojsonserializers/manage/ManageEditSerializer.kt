@@ -16,6 +16,9 @@ object ManageEditSerializer {
                     it.includeIncorporationForm()
                 }
             }
+            it.includeContractToUploadedDocumentLinks() {
+                it.includeUploadedDocument()
+            }
             it.includeContractStatus()
             return it.serializeToString()
         }

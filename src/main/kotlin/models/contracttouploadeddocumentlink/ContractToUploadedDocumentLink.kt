@@ -26,6 +26,9 @@ class ContractToUploadedDocumentLink {
     @TableField(name = "CONTRACT_TO_UPLOADED_DOCUMENT_LINK_REASON_ID")
     var contractToUploadedDocumentLinkReasonId: Long? = null
 
+    @TableField(name = "DESCRIPTION")
+    var description: String? = null
+
     @TableField(name = "CREATED_AT")
     var createdAt: Timestamp? = null
 

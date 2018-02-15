@@ -10,6 +10,10 @@ class ContractToUploadedDocumentLinkValidator(model: ContractToUploadedDocumentL
         validateUploadedDocument()
     }
 
+    fun updateScenario() {
+        validateDescription()
+    }
+
     private fun validateContract() {
         if (model.contractId == null) {
             throw IllegalStateException()
@@ -36,6 +40,14 @@ class ContractToUploadedDocumentLinkValidator(model: ContractToUploadedDocumentL
         val contractToUploadedDocumentlinkReason = model.contractToUploadedDocumentLinkReason
         if (contractToUploadedDocumentlinkReason == null) {
             validationManager.addContractToUploadedDocumentLinkReasonIdError("no such reason in database")
+        }
+    }
+
+    private fun validateDescription() {
+        val description = model.description
+        if (description == null || description.isBlank()) {
+            validationManager.addDescriptionError("should be provided")
+            return
         }
     }
 }
