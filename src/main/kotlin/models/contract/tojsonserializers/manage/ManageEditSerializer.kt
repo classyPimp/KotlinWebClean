@@ -18,6 +18,7 @@ object ManageEditSerializer {
             }
             it.includeContractToUploadedDocumentLinks() {
                 it.includeUploadedDocument()
+                it.includeContractToUploadedDocumentLinkReason()
             }
             it.includeContractStatus()
             return it.serializeToString()

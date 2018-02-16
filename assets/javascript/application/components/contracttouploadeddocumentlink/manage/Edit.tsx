@@ -17,11 +17,8 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
       contractToUploadedDocumentLink: ContractToUploadedDocumentLink
-      onDelete: (contractToUploadedDocumentLink: ContractToUploadedDocumentLink) => any
-    }
-
-    state = {
-      formDummy: new ContractToUploadedDocumentLink()
+      // onDelete: (contractToUploadedDocumentLink: ContractToUploadedDocumentLink) => any
+      onEditDone: ()=>any
     }
 
     modal: Modal
@@ -49,9 +46,6 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
           <button onClick={this.update}>
             update
           </button>
-          <button onClick={this.delete}>
-            destroy
-          </button>
         </div>
     }
     
@@ -63,30 +57,32 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
       this.props.contractToUploadedDocumentLink.forContractManageUpdate().then((contractToUploadedDocumentLink)=>{
         if (contractToUploadedDocumentLink.isValid()) {
           currentContractToUploadedDocumentLink.description = contractToUploadedDocumentLink.description
-        } else {
-          currentContractToUploadedDocumentLink.errors = contractToUploadedDocumentLink.errors
-        }
+          this.props.onEditDone()
+          return
+        } 
+
+        currentContractToUploadedDocumentLink.errors = contractToUploadedDocumentLink.errors
         this.forceUpdate()
       })
 
     }
 
-    @autobind
-    delete() {
-      let contractToUploadedDocumentLink = this.props.contractToUploadedDocumentLink
-      contractToUploadedDocumentLink.forContractManageDestroy().then((it)=>{
-        if (it.isValid()) {
-          this.props.onDelete(contractToUploadedDocumentLink) 
-        } else {
-          let errors = ""
-          Object.keys(it.errors).forEach((key)=>{
-            let error = it.errors[key]
-            errors += (error + "; ") 
-          })
-          alert("could not be deleted: " + errors)
-        }
-      })
-    }
+    // @autobind
+    // delete() {
+    //   let contractToUploadedDocumentLink = this.props.contractToUploadedDocumentLink
+    //   contractToUploadedDocumentLink.forContractManageDestroy().then((it)=>{
+    //     if (it.isValid()) {
+    //       this.props.onDelete(contractToUploadedDocumentLink) 
+    //     } else {
+    //       let errors = ""
+    //       Object.keys(it.errors).forEach((key)=>{
+    //         let error = it.errors[key]
+    //         errors += (error + "; ") 
+    //       })
+    //       alert("could not be deleted: " + errors)
+    //     }
+    //   })
+    // }
 
 
 }

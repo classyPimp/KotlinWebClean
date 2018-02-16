@@ -12,6 +12,7 @@ import { Contract } from '../../../models/Contract'
 import { ContractCategory } from '../../../models/ContractCategory'
 import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServerFed'
 import { ContractToCounterPartyLinkComponents } from '../../contractToCounterPartyLink/ContractToCounterPartyLinkComponents'
+import { ContractToUploadedDocumentLinkComponents } from '../../contracttouploadeddocumentlink/ContractToUploadedDocumentLinkComponents'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 
@@ -71,9 +72,10 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
             contractId={this.state.contract.id}
             contractToCounterPartyLinks={this.state.contract.contractToCounterPartyLinks}
           />
-          <div>
-            
-          </div>
+          <ContractToUploadedDocumentLinkComponents.manage.Index
+              contractToUploadedDocumentLinks = {this.state.contract.contractToUploadedDocumentLinks}
+              contractId = {this.state.contract.id}
+          /> 
         </div>
     }
 

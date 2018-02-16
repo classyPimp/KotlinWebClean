@@ -11,6 +11,12 @@ object ContractToUploadedDocumentLinkShowDao {
 
     fun forDestroy(contractId: Long, id: Long): ContractToUploadedDocumentLink? {
         val contractToUploadedDocumentLink = ContractToUploadedDocumentLinkRecord.GET()
+                .preload {
+                    it.uploadedDocument()
+                }
+                .join {
+                    it.contract()
+                }
                 .where(
                         table.ID.eq(id).and(CONTRACTS.ID.eq(contractId))
                 )
@@ -38,6 +44,9 @@ object ContractToUploadedDocumentLinkShowDao {
 
     fun forEdit(contractId: Long, id: Long): ContractToUploadedDocumentLink? {
         val contractToUploadedDocumentLink = ContractToUploadedDocumentLinkRecord.GET()
+                .join {
+                    it.contract()
+                }
                 .where(
                         table.ID.eq(id).and(CONTRACTS.ID.eq(contractId))
                 )

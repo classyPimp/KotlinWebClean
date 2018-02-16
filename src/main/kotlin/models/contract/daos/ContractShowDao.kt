@@ -64,6 +64,7 @@ object ContractShowDao {
                     it.contractToUploadedDocumentLinks() {
                         it.preload {
                             it.uploadedDocument()
+                            it.contractToUploadedDocumentLinkReason()
                         }
                     }
                     it.contractStatus()

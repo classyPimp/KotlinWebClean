@@ -23,16 +23,21 @@ export class Index extends BaseReactComponent {
 
     componentWillMount() {
       let reasonsById: {[id: number]: ContractToUploadedDocumentLinkReason} = {}
-      this.props.contractToUploadedDocumentLinks.forEach((link)=>{
+
+      this.props.contractToUploadedDocumentLinks.forEach((link)=>{  
         let reasonId = link.contractToUploadedDocumentLinkReason.id
-        let match = reasonsById[reasonId]
-        if (!match) {
-           reasonsById[reasonId] = link.contractToUploadedDocumentLinkReason 
+        let reason = reasonsById[reasonId]
+        if (!reason) {
+          reason = new ContractToUploadedDocumentLinkReason(link.contractToUploadedDocumentLinkReason.properties)
+          reasonsById[reasonId] = reason
         }
+        reason.contractToUploadedDocumentLinks.push(link)
       })
+
       let contractToUploadedDocumentLinkReasons = Object.keys(reasonsById).map((key)=>{
         return reasonsById[key as any]
       })
+
       this.setState({contractToUploadedDocumentLinkReasons})
     }
 
@@ -48,10 +53,19 @@ export class Index extends BaseReactComponent {
                 {contractToUploadedDocumentLinkReason.name}
               </h3>
               {contractToUploadedDocumentLinkReason.contractToUploadedDocumentLinks.map((contractToUploadedDocumentLink)=>{
-                <div>
-                  <Link to={contractToUploadedDocumentLink.uploadedDocument.fileUrl()}>  
+                return <div key={contractToUploadedDocumentLink.id}>
+                  <p>
+                    {contractToUploadedDocumentLink.description}
+                  </p>
+                  <a href={contractToUploadedDocumentLink.uploadedDocument.fileUrl()}>  
                     {contractToUploadedDocumentLink.uploadedDocument.fileName}
-                  </Link>
+                  </a>
+                  <button onClick={()=>{this.delete(contractToUploadedDocumentLink)}}>
+                    delete
+                  </button>
+                  <button onClick={()=>{this.initEditing(contractToUploadedDocumentLink)}}>
+                    edit
+                  </button>
                 </div>
               })}
             </div>
@@ -64,9 +78,22 @@ export class Index extends BaseReactComponent {
 
     @autobind
     onNewContractToUploadedDocumentLinkCreated(contractToUploadedDocumentLink: ContractToUploadedDocumentLink) {
-      this.props.contractToUploadedDocumentLinks.push(contractToUploadedDocumentLink)
+      let foundFlag = false
+      this.state.contractToUploadedDocumentLinkReasons.forEach((reason) => {
+        if (reason.id === contractToUploadedDocumentLink.contractToUploadedDocumentLinkReason.id) {
+          foundFlag = true
+          reason.contractToUploadedDocumentLinks.push(contractToUploadedDocumentLink)
+        } 
+      })
+
+      if (!foundFlag) {
+          let reason = contractToUploadedDocumentLink.contractToUploadedDocumentLinkReason
+          reason.contractToUploadedDocumentLinks.push(contractToUploadedDocumentLink)
+          this.state.contractToUploadedDocumentLinkReasons.push(reason)
+      }
+
       this.modal.close()
-      this.componentWillMount()
+      this.setState({})
     }
 
     @autobind
@@ -87,6 +114,63 @@ export class Index extends BaseReactComponent {
            }}
          />
        )
+    }
+
+    @autobind
+    delete(contractToUploadedDocumentLink: ContractToUploadedDocumentLink) {
+      contractToUploadedDocumentLink.forContractManageDestroy().then((returnedContractToUploadedDocumentLink)=>{
+        if (!returnedContractToUploadedDocumentLink.isValid()) {
+          let errorsString = "could not delete: "
+          let errors = returnedContractToUploadedDocumentLink.errors
+          for (let key of Object.keys(errors)) {
+            let specificErrors = errors[key]
+            specificErrors.forEach((error)=>{
+              errorsString += error
+            })
+          }
+          alert(errorsString)
+          return
+        }
+
+        let reasonId = contractToUploadedDocumentLink.contractToUploadedDocumentLinkReason.id
+        let wasTheOnlyOneFlag = false
+        this.state.contractToUploadedDocumentLinkReasons.forEach((reason)=>{
+          if (reasonId === reason.id) {
+            reason.contractToUploadedDocumentLinks.filter((it)=>{
+              return it.id !== contractToUploadedDocumentLink.id
+            })
+            if (reason.contractToUploadedDocumentLinks.array.length < 1) {
+              wasTheOnlyOneFlag = true
+            }
+          }
+        })      
+
+        if (wasTheOnlyOneFlag) {
+          console.log("flagged should filter")
+          let filtered = this.state.contractToUploadedDocumentLinkReasons.filter((it)=>{
+            console.log(it.contractToUploadedDocumentLinks.array.length > 0)
+            return it.contractToUploadedDocumentLinks.array.length > 0
+          })
+          this.setState({contractToUploadedDocumentLinkReasons: filtered})
+          return
+        }  
+
+        this.setState({})
+        
+      })
+    }
+
+    @autobind
+    initEditing(contractToUploadedDocumentLink: ContractToUploadedDocumentLink) {
+      this.modal.open(
+        <ContractToUploadedDocumentLinkComponents.manage.Edit
+          contractToUploadedDocumentLink = {contractToUploadedDocumentLink}
+          onEditDone = {()=>{
+            this.modal.close()
+            this.forceUpdate()
+          }}
+        />
+      )
     }
 
 }

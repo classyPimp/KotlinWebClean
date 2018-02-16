@@ -68,6 +68,6 @@ export class ContractToUploadedDocumentLink extends BaseModel {
     forContractManageDestroy: (options?: RequestOptions) => Promise<ContractToUploadedDocumentLink>
 
     afterForContractManageDestroyRequest(options: RequestOptions) {
-      this.afterCreateRequest
+      this.afterCreateRequest(options)
     }
 }

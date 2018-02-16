@@ -547,6 +547,9 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     get("") {
                         ContractController.contractToUploadedDocumentLink(it).index()
                     }
+                    put("/:id") {
+                        ContractController.contractToUploadedDocumentLink(it).update()
+                    }
                 }
 
                 get("/manage/:id/edit") {
