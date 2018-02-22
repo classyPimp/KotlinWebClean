@@ -95,4 +95,17 @@ object ContractShowDao {
                 .firstOrNull()
     }
 
+    fun exists(contractId: Long): Boolean {
+        val contract = ContractRecord.GET()
+                .where(table.ID.eq(contractId))
+                .limit(1)
+                .execute()
+                .firstOrNull()
+
+        if (contract == null) {
+            return false
+        } else {
+            return true
+        }
+    }
 }

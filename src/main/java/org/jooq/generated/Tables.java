@@ -25,6 +25,8 @@ import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
 import org.jooq.generated.tables.IncorporationForms;
+import org.jooq.generated.tables.MonetaryObligationParts;
+import org.jooq.generated.tables.MonetaryObligations;
 import org.jooq.generated.tables.People;
 import org.jooq.generated.tables.PersonToContactLinks;
 import org.jooq.generated.tables.PersonToCounterPartyLinkReasons;
@@ -143,6 +145,16 @@ public class Tables {
      * The table <code>incorporation_forms</code>.
      */
     public static final IncorporationForms INCORPORATION_FORMS = org.jooq.generated.tables.IncorporationForms.INCORPORATION_FORMS;
+
+    /**
+     * The table <code>monetary_obligation_parts</code>.
+     */
+    public static final MonetaryObligationParts MONETARY_OBLIGATION_PARTS = org.jooq.generated.tables.MonetaryObligationParts.MONETARY_OBLIGATION_PARTS;
+
+    /**
+     * The table <code>monetary_obligations</code>.
+     */
+    public static final MonetaryObligations MONETARY_OBLIGATIONS = org.jooq.generated.tables.MonetaryObligations.MONETARY_OBLIGATIONS;
 
     /**
      * The table <code>people</code>.

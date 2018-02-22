@@ -26,6 +26,8 @@ import { ContractCategory } from './models/ContractCategory'
 import { ContractStatus } from './models/ContractStatus'
 import { ContractToCounterPartyLink } from './models/ContractToCounterPartyLink'
 import { ContractToUploadedDocumentLinkReason } from './models/ContractToUploadedDocumentLinkReason'
+import { MonetaryObligation } from './models/MonetaryObligation'
+import { MonetaryObligationPart } from './models/MonetaryObligationPart'
 
 export class ModelRegistrator {
   //THIS UGLY HACK SOLVES SOME NASTY CIRCULAR DEPENDENCIES BUGS!
@@ -57,7 +59,8 @@ export class ModelRegistrator {
       ContractStatus,
       ContractToCounterPartyLink,
       ContractToUploadedDocumentLinkReason,
-      
+      MonetaryObligation,
+      MonetaryObligationPart,
       
                   
     }

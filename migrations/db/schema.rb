@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180214095425) do
+ActiveRecord::Schema.define(version: 20180219092639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,6 +185,25 @@ ActiveRecord::Schema.define(version: 20180214095425) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "monetary_obligation_parts", force: :cascade do |t|
+    t.bigint "amount"
+    t.datetime "due_date"
+    t.bigint "monetary_obligation_id"
+    t.bigint "fulfilled_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["monetary_obligation_id"], name: "index_monetary_obligation_parts_on_monetary_obligation_id"
+  end
+
+  create_table "monetary_obligations", force: :cascade do |t|
+    t.bigint "total_amount"
+    t.boolean "is_credit"
+    t.bigint "contract_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contract_id"], name: "index_monetary_obligations_on_contract_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -275,6 +294,8 @@ ActiveRecord::Schema.define(version: 20180214095425) do
   add_foreign_key "document_template_to_document_variable_links", "document_templates"
   add_foreign_key "document_templates", "document_template_categories"
   add_foreign_key "document_templates", "uploaded_documents"
+  add_foreign_key "monetary_obligation_parts", "monetary_obligations"
+  add_foreign_key "monetary_obligations", "contracts"
   add_foreign_key "person_to_contact_links", "contacts"
   add_foreign_key "person_to_contact_links", "people"
   add_foreign_key "person_to_counter_party_link_to_uploaded_document_links", "person_to_counter_party_link_to_uploaded_doc_link_reasons"

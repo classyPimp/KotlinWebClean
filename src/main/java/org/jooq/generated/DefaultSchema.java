@@ -31,6 +31,8 @@ import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
 import org.jooq.generated.tables.IncorporationForms;
+import org.jooq.generated.tables.MonetaryObligationParts;
+import org.jooq.generated.tables.MonetaryObligations;
 import org.jooq.generated.tables.People;
 import org.jooq.generated.tables.PersonToContactLinks;
 import org.jooq.generated.tables.PersonToCounterPartyLinkReasons;
@@ -56,7 +58,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = -645836828;
+    private static final long serialVersionUID = -81474352;
 
     /**
      * The reference instance of <code></code>
@@ -159,6 +161,16 @@ public class DefaultSchema extends SchemaImpl {
     public final IncorporationForms INCORPORATION_FORMS = org.jooq.generated.tables.IncorporationForms.INCORPORATION_FORMS;
 
     /**
+     * The table <code>monetary_obligation_parts</code>.
+     */
+    public final MonetaryObligationParts MONETARY_OBLIGATION_PARTS = org.jooq.generated.tables.MonetaryObligationParts.MONETARY_OBLIGATION_PARTS;
+
+    /**
+     * The table <code>monetary_obligations</code>.
+     */
+    public final MonetaryObligations MONETARY_OBLIGATIONS = org.jooq.generated.tables.MonetaryObligations.MONETARY_OBLIGATIONS;
+
+    /**
      * The table <code>people</code>.
      */
     public final People PEOPLE = org.jooq.generated.tables.People.PEOPLE;
@@ -247,6 +259,8 @@ public class DefaultSchema extends SchemaImpl {
             DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES,
             DocumentTemplates.DOCUMENT_TEMPLATES,
             IncorporationForms.INCORPORATION_FORMS,
+            MonetaryObligationParts.MONETARY_OBLIGATION_PARTS,
+            MonetaryObligations.MONETARY_OBLIGATIONS,
             People.PEOPLE,
             PersonToContactLinks.PERSON_TO_CONTACT_LINKS,
             PersonToCounterPartyLinkReasons.PERSON_TO_COUNTER_PARTY_LINK_REASONS,

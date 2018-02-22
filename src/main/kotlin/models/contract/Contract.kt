@@ -5,6 +5,7 @@ import models.contractnumber.ContractNumber
 import models.contractstatus.ContractStatus
 import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.contracttouploadeddocumentlink.ContractToUploadedDocumentLink
+import models.monetaryobligation.MonetaryObligation
 import org.jooq.generated.tables.ContractToCounterPartyLinks
 import org.jooq.generated.tables.Contracts
 import orm.annotations.*
@@ -56,6 +57,10 @@ class Contract {
 
     @HasMany(model = ContractToCounterPartyLink::class, fieldOnThat = "CONTRACT_ID", fieldOnThis = "ID")
     var contractToCounterPartyLinks: MutableList<ContractToCounterPartyLink>? = null
+
+    @HasMany(model = MonetaryObligation::class, fieldOnThat = "CONTRACT_ID", fieldOnThis = "ID")
+    var monetaryObligations: MutableList<MonetaryObligation>? = null
+
 
 }
 

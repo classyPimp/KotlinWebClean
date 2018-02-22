@@ -7,12 +7,15 @@ import composers.contract.contracttocounterpartylink.ContractContractToCounterPa
 import composers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkCreateComposer
 import composers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkDestroyComposer
 import composers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkUpdateComposer
+import composers.contract.monetaryobligation.ContractMonetaryObligationComposers
 import utils.requestparameters.IParam
 
 /**
  * Created by Муса on 06.02.2018.
  */
 object ContractComposers {
+
+    val monetaryObligation = ContractMonetaryObligationComposers
 
     object ContractToCounterPartyLink {
         fun replace(contractId: Long?, id: Long?, counterPartyIdToReplaceWith: Long?): ContractContractToCounterPartyLinkReplaceComposer {
