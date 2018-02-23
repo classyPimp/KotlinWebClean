@@ -10,6 +10,9 @@ object ManageEditSerializer {
 
     fun onSuccess(contract: Contract): String {
         ContractToJsonSerializer(contract).let {
+            it.includeMonetaryObligations() {
+                it.includeMonetaryObligationParts()
+            }
             it.includeContractCategory()
             it.includeContractToCounterPartyLinks() {
                 it.includeCounterParty() {

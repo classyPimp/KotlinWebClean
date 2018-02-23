@@ -520,6 +520,12 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
             namespace("/contracts") {
 
+                namespace("/:contractId/monetaryObligations") {
+                    post("") {
+                        ContractController.monetaryObligation(it).create()
+                    }
+                }
+
                 namespace("/:contractId/contractToCounterPartyLinks") {
                     delete("/:id") {
                         ContractController.contractToCounterPartyLink(it).destroy()

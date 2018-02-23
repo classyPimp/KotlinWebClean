@@ -13,6 +13,8 @@ import { ContractCategory } from '../../../models/ContractCategory'
 import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServerFed'
 import { ContractToCounterPartyLinkComponents } from '../../contractToCounterPartyLink/ContractToCounterPartyLinkComponents'
 import { ContractToUploadedDocumentLinkComponents } from '../../contracttouploadeddocumentlink/ContractToUploadedDocumentLinkComponents'
+import { MonetaryObligation } from '../../../models/MonetaryObligation'
+import { MonetaryObligationComponents } from '../monetaryobligation/MonetaryObligationComponents'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 
@@ -43,6 +45,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
         }
 
         return <div className="persontocounterpartylinkreasons-Edit">
+          <Modal ref={(it)=>{this.modal = it}}/>
           <div>
             <PlainInputElement 
                 model={this.state.contract}
@@ -75,7 +78,10 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
           <ContractToUploadedDocumentLinkComponents.manage.Index
               contractToUploadedDocumentLinks = {this.state.contract.contractToUploadedDocumentLinks}
               contractId = {this.state.contract.id}
-          /> 
+          />
+          <button onClick={this.initMonetaryObligationAddition}>
+            add credit payments
+          </button>
         </div>
     }
 
@@ -95,6 +101,23 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
         }
         this.setState({contract: contractAtState})
       })
+    }
+
+    @autobind
+    initMonetaryObligationAddition() {
+      this.modal.open(
+        <MonetaryObligationComponents.New
+          contractId = {this.state.contract.id}
+          onCreateSuccess = {(monetaryObligation: MonetaryObligation)=>this.onMonetaryObligationCreateSuccess(monetaryObligation)}
+        />
+      )
+    }
+
+    @autobind
+    onMonetaryObligationCreateSuccess(monetaryObligation: MonetaryObligation) {
+      this.state.contract.monetaryObligations.push(monetaryObligation)
+      this.modal.close()
+      this.setState({})
     }
 
 }

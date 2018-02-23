@@ -75,10 +75,16 @@ export class PlainInputElement extends BaseReactComponent<
     @autobind
     onChange(){
         this.collect()
+        if (this.props.onInputChange) {
+          this.props.onInputChange()
+        }
     }
 
     collect(){
         let newValue = this.mainInput.value
+        if (this.props.parseAsInt) {
+          newValue = parseInt(newValue)
+        }
         this.props.model.properties[this.props.propertyName] = newValue
     }
 

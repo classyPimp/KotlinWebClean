@@ -52,6 +52,11 @@ object ContractShowDao {
                 )
                 .preload {
                     it.contractCategory()
+                    it.monetaryObligations() {
+                        it.preload {
+                            it.monetaryObligationParts()
+                        }
+                    }
                     it.contractToCounterPartyLinks() {
                         it.preload {
                             it.counterParty() {

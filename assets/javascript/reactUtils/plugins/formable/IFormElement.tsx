@@ -17,6 +17,8 @@ export interface IFormElementProps {
     propertyName: string,
     registerInput: (element: IFormElement)=>void
     ref?: (arg: any)=> void,
+    onInputChange?: ()=>any,
+    parseAsInt?: boolean,
     optional?: {
         placeholder?: string
         [id:string]:any

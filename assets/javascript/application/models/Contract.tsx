@@ -52,7 +52,7 @@ export class Contract extends BaseModel {
     contractToCounterPartyLinks: ModelCollection<ContractToCounterPartyLink>
 
     @HasMany("MonetaryObligation")
-    MonetaryObligations: ModelCollection<MonetaryObligation>
+    monetaryObligations: ModelCollection<MonetaryObligation>
 
     @Route("POST", {url: "/api/contracts"})
     create: (options?: RequestOptions) => Promise<Contract>

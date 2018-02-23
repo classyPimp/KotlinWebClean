@@ -35,4 +35,6 @@ export class MonetaryObligation extends BaseModel {
     @HasMany("MonetaryObligationPart")
     monetaryObligationParts: ModelCollection<MonetaryObligationPart>
 
+    @Route("POST", {url: "/api/contracts/:contractId/monetaryObligations", defaultWilds: ["contractId"]})
+    create: (options?: RequestOptions) => Promise<MonetaryObligation>
 }
