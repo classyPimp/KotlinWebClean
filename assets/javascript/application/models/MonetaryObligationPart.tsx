@@ -11,6 +11,8 @@ export class MonetaryObligationPart extends BaseModel {
 
     static className = "monetaryObligationPart"
 
+    arbitrary: {[id: string]: any}
+
     @Property
     id: number
 
