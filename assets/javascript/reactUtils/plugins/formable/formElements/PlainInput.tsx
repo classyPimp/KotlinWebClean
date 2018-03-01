@@ -60,16 +60,24 @@ export class PlainInputElement extends BaseReactComponent<
 
     render(){
         return <div className="formElements-plainInput">
-            {this.showPlaceholderIfNecessary()}
+            {/*{this.showPlaceholderIfNecessary()}*/}
             {this.showErrorIfNecessary()}
             <input type={`text ${this.showInvalidCssClassIfInvalid()}`} 
                 defaultValue={
                     this.props.model.properties[this.props.propertyName]
                 }
                 onChange={this.onChange}
-                ref={(input)=>{this.mainInput = input}} 
+                ref={(input)=>{this.mainInput = input}}
+                placeholder={this.getPlaceHolder()}
             />
         </div>
+    }
+
+    @autobind
+    getPlaceHolder(): string {
+      if (this.props.optional) {
+        return this.props.optional.placeholder
+      }
     }
 
     @autobind

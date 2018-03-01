@@ -1,13 +1,13 @@
-import { BaseReactComponent } from "../../../../../reactUtils/BaseReactComponent"
+import { BaseReactComponent } from "../../../../../../reactUtils/BaseReactComponent"
 import * as React from 'react'
-import { MonetaryObligationPart } from '../../../../models/MonetaryObligationPart'
-import { CounterParty } from '../../../../models/CounterParty'
-import { MixinFormableTrait } from '../../../../../reactUtils/plugins/formable/MixinFormableTrait';
-import { PlainInputElement } from '../../../../../reactUtils/plugins/formable/formElements/PlainInput'
-import { DropDownSelectServerFed } from '../../../formelements/DropDownSelectServerFed'
+import { MonetaryObligationPart } from '../../../../../models/MonetaryObligationPart'
+import { CounterParty } from '../../../../../models/CounterParty'
+import { MixinFormableTrait } from '../../../../../../reactUtils/plugins/formable/MixinFormableTrait';
+import { PlainInputElement } from '../../../../../../reactUtils/plugins/formable/formElements/PlainInput'
+import { DropDownSelectServerFed } from '../../../../formelements/DropDownSelectServerFed'
 import autobind from 'autobind-decorator'
-import { ErrorsShow } from '../../../shared/ErrorsShow'
-import { ApplicationComponent } from '../../../ApplicationComponent';
+import { ErrorsShow } from '../../../../shared/ErrorsShow'
+import { ApplicationComponent } from '../../../../ApplicationComponent';
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
 

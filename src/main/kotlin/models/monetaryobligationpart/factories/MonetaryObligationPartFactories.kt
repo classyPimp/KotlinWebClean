@@ -5,6 +5,6 @@ package models.monetaryobligationpart.factories
  */
 object MonetaryObligationPartFactories {
 
-    val default = DefaultFactory
-
+    val default = MonetaryObligationDefaultFactory
+    val whenMonetaryObligationUpdated = WhenMonetaryObligationUpdatedFactory
 }

@@ -1,14 +1,14 @@
-import { BaseReactComponent } from "../../../../reactUtils/BaseReactComponent"
+import { BaseReactComponent } from "../../../../../reactUtils/BaseReactComponent"
 import * as React from 'react'
-import { MonetaryObligation } from '../../../models/MonetaryObligation'
-import { MonetaryObligationPart } from '../../../models/MonetaryObligationPart'
-import { CounterParty } from '../../../models/CounterParty'
-import { MixinFormableTrait } from '../../../../reactUtils/plugins/formable/MixinFormableTrait';
-import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput'
-import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServerFed'
+import { MonetaryObligation } from '../../../../models/MonetaryObligation'
+import { MonetaryObligationPart } from '../../../../models/MonetaryObligationPart'
+import { CounterParty } from '../../../../models/CounterParty'
+import { MixinFormableTrait } from '../../../../../reactUtils/plugins/formable/MixinFormableTrait';
+import { PlainInputElement } from '../../../../../reactUtils/plugins/formable/formElements/PlainInput'
+import { DropDownSelectServerFed } from '../../../formelements/DropDownSelectServerFed'
 import autobind from 'autobind-decorator'
-import { ErrorsShow } from '../../shared/ErrorsShow'
-import { ApplicationComponent } from '../../ApplicationComponent';
+import { ErrorsShow } from '../../../shared/ErrorsShow'
+import { ApplicationComponent } from '../../../ApplicationComponent';
 import { MonetaryObligationComponents } from './MonetaryObligationComponents'
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
@@ -28,6 +28,7 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     sequentialIdToUseAsKey = 0
 
     render(){
+        console.log(this.state.monetaryObligation.totalAmount)
         return <div className="persontocounterpartylinkreasons-New">
           <h2>
             initialize new monetaryObligation
@@ -35,6 +36,13 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
           {this.state.monetaryObligation.getErrorsFor('general') &&
               <ErrorsShow errors={this.state.monetaryObligation.getErrorsFor('general')}/>
           }
+          <PlainInputElement
+            model={this.state.monetaryObligation}
+            propertyName="description"
+            registerInput={(it)=>{this.registerInput(it)}}
+            optional={{placeholder: "payment description"}}
+            onInputChange = {this.onTotalAmountChange}
+          />
           <PlainInputElement
             model={this.state.monetaryObligation}
             propertyName="totalAmount"

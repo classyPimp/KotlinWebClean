@@ -117,4 +117,18 @@ export class Contact extends BaseModel {
       this.afterShowRequest(options)
     }
 
+    @Route("GET", {url: "/api/persons/:personId/contacts/edit"})
+    static forPersonIndexEdit: (options?: RequestOptions) => Promise<ModelCollection<Contact>>
+
+    static afterForPersonIndexEditRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
+    @Route("GET", {url: "/api/persons/:personId/contacts"})
+    static forPersonIndex: (options?: RequestOptions) => Promise<ModelCollection<Contact>>
+
+    static afterForPersonIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
 }

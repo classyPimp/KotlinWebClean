@@ -22,5 +22,27 @@ object PersonToCounterPartyLinkIndexDao {
                 .execute()
     }
 
+    fun forPerson(personId: Long): MutableList<PersonToCounterPartyLink> {
+        return PersonToCounterPartyLinkRecord.GET()
+                .where(
+                        PERSON_TO_COUNTER_PARTY_LINKS.PERSON_ID.eq(personId)
+                )
+                .preload {
+                    it.counterParty() {
+                        it.preload {
+                            it.incorporationForm()
+                        }
+                    }
+                    it.personToCounterPartyLinkReason()
+                    it.personToCounterPartyLinkToUploadedDocumentLinks() {
+                        it.preload {
+                            it.personToCounterPartyLinkToUploadedDocLinkReason()
+                            it.uploadedDocument()
+                        }
+                    }
+                }
+                .execute()
+    }
+
 
 }

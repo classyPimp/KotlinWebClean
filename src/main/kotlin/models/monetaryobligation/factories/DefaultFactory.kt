@@ -13,6 +13,7 @@ object DefaultFactory {
             it.contractId = contractId
             it.totalAmount = params.totalAmount
             it.isCredit = true
+            it.description = params.description
             it.monetaryObligationParts = params.monetaryObligationParts?.mapTo(mutableListOf<MonetaryObligationPart>()) {
                 partParams: MonetaryObligationPartRequestParametersWrapper ->
                 MonetaryObligationPartFactories.default.create(partParams)

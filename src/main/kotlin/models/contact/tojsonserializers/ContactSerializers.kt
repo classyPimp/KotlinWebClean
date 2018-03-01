@@ -7,6 +7,8 @@ object ContactSerializers {
     val personDestroy = PersonDestroy
     val personUpdate = PersonCreate
 
+    val forPersonsIndexEdit = ForPersonsIndexEdit
+
     object ForCounterParties {
         val create = ForCounterPartyCreate
         val show = ForCounterPartyShow

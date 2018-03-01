@@ -16,6 +16,10 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
         user: new User({account: {}})
     }
 
+    props: {
+      history: any
+    }
+
     render(){
         return <div className="sessions-new">
             {(this.state.user.errors && this.state.user.errors["general"]) &&
@@ -44,12 +48,14 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
             user.login().then((returnedUser: User)=>{
                 if (returnedUser.isValid()) {
                     CurrentUser.instance.logIn(returnedUser)
+                    this.props.history.goBack()
                 } else {
                     user.mergeWith(returnedUser)
                 }
                 this.setState({user})
             })
         }  
+        
     }
 
 }

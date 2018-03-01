@@ -11,9 +11,59 @@ class MonetaryObligationValidator(model: MonetaryObligation) : MonetaryObligatio
         validateMonetaryObligationParts()
         validateTotalAmount()
         validateContractId()
+        validateDescription()
     }
 
-    fun validateMonetaryObligationParts() {
+    fun updateScenario() {
+        model.record.propertiesChangeTracker.let {
+            if (it.descriptionIsChanged) {
+                validateDescription()
+            }
+        }
+        validateTotalAmountIntegrityOnUpdate()
+        validateMonetaryObligationPartsOnUpdate()
+    }
+
+    private fun validateTotalAmountIntegrityOnUpdate() {
+        var sum: Long = 0
+        model.monetaryObligationParts?.forEach {
+            println("part id ${it.id} markedForDestruction: ${it.markedForDestruction}")
+        }
+        model.monetaryObligationParts?.forEach {
+            if (it.markedForDestruction == null || it.markedForDestruction == false) {
+                it.amount?.let {
+                    sum += it
+                }
+            }
+        }
+        val totalAmount = model.totalAmount
+        if (totalAmount != null) {
+            if (totalAmount != sum) {
+                validationManager.addGeneralError("undistributed amount: ${totalAmount - sum}")
+            }
+        } else {
+            validationManager.addTotalAmountError("should be provided")
+        }
+    }
+
+    private fun validateMonetaryObligationPartsOnUpdate() {
+        val monetaryObligationParts = model.monetaryObligationParts
+        if (monetaryObligationParts == null) {
+            throw IllegalStateException("no monetaryObligationParts on update")
+        }
+        var nestedErrors = false
+        monetaryObligationParts.forEach {
+            MonetaryObligationPartValidator(it).forMonetaryObligationUpdateScenario()
+            if (!it.record.validationManager.isValid()) {
+                nestedErrors = true
+            }
+        }
+        if (nestedErrors) {
+            validationManager.markAsHasNestedErrors()
+        }
+    }
+
+    private fun validateMonetaryObligationParts() {
         val monetaryObligationParts = model.monetaryObligationParts
         if (monetaryObligationParts == null) {
             validationManager.addMonetaryObligationPartsError("at least one payment should be specified")
@@ -27,11 +77,11 @@ class MonetaryObligationValidator(model: MonetaryObligation) : MonetaryObligatio
             }
         }
         if (hasNestedErrors) {
-            validationManager.addError("nestedErrors", "nested errors")
+            validationManager.markAsHasNestedErrors()
         }
     }
 
-    fun validateTotalAmount() {
+    private fun validateTotalAmount() {
         val totalAmount = model.totalAmount
         if (totalAmount == null) {
             validationManager.addTotalAmountError("total amount should be specified or it is invalid")
@@ -67,6 +117,13 @@ class MonetaryObligationValidator(model: MonetaryObligation) : MonetaryObligatio
         val contractExists = ContractDaos.show.exists(contractId)
         if (!contractExists) {
             validationManager.addGeneralError("no such contract")
+        }
+    }
+
+    private fun validateDescription() {
+        val description = model.description
+        if (description == null || description.isBlank()) {
+            validationManager.addDescriptionError("should be provided")
         }
     }
 

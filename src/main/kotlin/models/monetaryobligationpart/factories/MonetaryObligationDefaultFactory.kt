@@ -6,7 +6,7 @@ import models.monetaryobligationpart.MonetaryObligationPartRequestParametersWrap
 /**
  * Created by Муса on 22.02.2018.
  */
-object DefaultFactory {
+object MonetaryObligationDefaultFactory {
 
     fun create(params: MonetaryObligationPartRequestParametersWrapper): MonetaryObligationPart {
         return MonetaryObligationPart().also {

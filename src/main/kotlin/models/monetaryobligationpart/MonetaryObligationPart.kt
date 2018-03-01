@@ -11,6 +11,8 @@ class MonetaryObligationPart {
 
     val record: MonetaryObligationPartRecord by lazy { MonetaryObligationPartRecord(this) }
 
+    var markedForDestruction: Boolean? = null
+
     @TableField(name = "ID")
     @IsPrimaryKey
     var id: Long? = null

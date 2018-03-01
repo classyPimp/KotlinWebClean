@@ -134,12 +134,25 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     PersonsController.contacts(it).create()
                 }
 
+                get("/:personId/contacts") {
+                    PersonsController.contacts(it).index()
+                }
+
+                get("/:personId/contacts/edit") {
+                    PersonsController.contacts(it).indexForEdit()
+                }
+
+
                 delete("/:personId/contacts/:id") {
                     PersonsController.contacts(it).delete()
                 }
 
                 put("/:personId/contacts/:id") {
                     PersonsController.contacts(it).update()
+                }
+
+                get("/:personId/personToCounterPartyLinks") {
+                    PersonToCounterPartyLinksController(it).indexForPerson()
                 }
             }
 
@@ -520,9 +533,14 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
             namespace("/contracts") {
 
-                namespace("/:contractId/monetaryObligations") {
-                    post("") {
-                        ContractController.monetaryObligation(it).create()
+                namespace("/:contractId/manage") {
+                    namespace("/monetaryObligations") {
+                        post("") {
+                            ContractController.manage.monetaryObligation(it).create()
+                        }
+                        get("") {
+                            ContractController.manage.monetaryObligation(it).index()
+                        }
                     }
                 }
 
@@ -581,7 +599,11 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
         }
 
-
+        namespace("/monetaryObligations") {
+            put("/:id") {
+                ContractController.manage.monetaryObligation(it).update()
+            }
+        }
 
     }
 

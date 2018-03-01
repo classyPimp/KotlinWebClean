@@ -239,4 +239,8 @@ class ${modelClass}ToJsonSerializer(val model: ${modelClass}) {
         root.set(key, value)
     }
 
+    fun set(key: String, value: Boolean) {
+        root.set(key, value)
+    }
+
 }

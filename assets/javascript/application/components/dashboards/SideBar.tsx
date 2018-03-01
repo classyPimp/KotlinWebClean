@@ -17,14 +17,14 @@ export class SideBar extends BaseReactComponent {
                         index contact  types
                     </Link>
                 </li>
-                <li className="pure-menu-item">
+                {/*<li className="pure-menu-item">
                     <Link to="/dashboards/persons/new" className="pure-menu-link">
                         new person
                     </Link>
-                </li>                
+                </li>*/}                
                 <li className="pure-menu-item">
                     <Link to="/dashboards/persons" className="pure-menu-link">
-                        index persons
+                        persons
                     </Link>
                 </li>
                 <li className="pure-menu-item">

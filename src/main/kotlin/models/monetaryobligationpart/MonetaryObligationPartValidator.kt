@@ -9,6 +9,11 @@ class MonetaryObligationPartValidator(model: MonetaryObligationPart) : MonetaryO
         validateAmount()
     }
 
+    fun forMonetaryObligationUpdateScenario() {
+        validateDueDate()
+        validateAmount()
+    }
+
     private fun validateDueDate() {
         val dueDate = model.dueDate
         if (dueDate == null) {

@@ -1,7 +1,9 @@
 package controllers.contract.manage
 
 import composers.contract.ContractComposers
+import composers.contract.monetaryobligation.ContractMonetaryObligationComposers
 import controllers.BaseController
+import controllers.contract.manage.monetaryobligation.ContractMonetaryObligationController
 import models.contract.daos.ContractDaos
 import models.contract.tojsonserializers.ContractSerializers
 import router.src.ServletRequestContext
@@ -9,6 +11,12 @@ import javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR
 import javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
 
 class ContractManageController(context: ServletRequestContext) : BaseController(context) {
+
+    companion object {
+        fun monetaryObligation(context: ServletRequestContext): ContractMonetaryObligationController {
+            return ContractMonetaryObligationController(context)
+        }
+    }
 
     fun edit() {
         val id = context.routeParameters.get("id")?.toLongOrNull()

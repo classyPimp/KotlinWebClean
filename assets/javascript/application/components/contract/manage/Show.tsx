@@ -14,7 +14,7 @@ import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServer
 import { ContractToCounterPartyLinkComponents } from '../../contractToCounterPartyLink/ContractToCounterPartyLinkComponents'
 import { ContractToUploadedDocumentLinkComponents } from '../../contracttouploadeddocumentlink/ContractToUploadedDocumentLinkComponents'
 import { MonetaryObligation } from '../../../models/MonetaryObligation'
-import { MonetaryObligationComponents } from '../monetaryobligation/MonetaryObligationComponents'
+import { MonetaryObligationComponents } from './monetaryobligation/MonetaryObligationComponents'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 
@@ -78,6 +78,9 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
           <ContractToUploadedDocumentLinkComponents.manage.Index
               contractToUploadedDocumentLinks = {this.state.contract.contractToUploadedDocumentLinks}
               contractId = {this.state.contract.id}
+          />
+          <MonetaryObligationComponents.Index
+            contractId = {this.state.contract.id}
           />
           <button onClick={this.initMonetaryObligationAddition}>
             add credit payments

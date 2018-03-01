@@ -43,6 +43,7 @@ export class XhrRequestMaker {
         this.deferredPromise = options.deferredPromise
         this.options = options
         this.xhr = new XMLHttpRequest()
+        this.setParameters()
         this.xhr.open(this.options.httpMethod, this.options.url)
         if (options.responseType) {
           (this.xhr as any).responseType = options.responseType
@@ -56,7 +57,7 @@ export class XhrRequestMaker {
         this.xhr.onloadend = function (e) {
         }
         this.setHeaders()
-        this.setParameters()
+        
         this.setOnLoad()
         this.send()
     }

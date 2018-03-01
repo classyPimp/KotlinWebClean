@@ -11,8 +11,8 @@ object ContractMonetaryObligationComposers {
         return ContractMonetaryObligationCreateComposer(contractId, params)
     }
 
-    fun update(contractId: Long?, id: Long?, params: IParam): ContractMonetaryObligationUpdateComposer {
-        return ContractMonetaryObligationUpdateComposer(contractId, id, params)
+    fun update(id: Long?, params: IParam): ContractMonetaryObligationUpdateComposer {
+        return ContractMonetaryObligationUpdateComposer(id, params)
     }
 
     fun destroy(contractId: Long?, id: Long?): ContractMonetaryObligationDestroyComposer {

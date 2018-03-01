@@ -4,7 +4,11 @@ import composers.persons.PersonsComposers
 import controllers.BaseController
 import models.contact.Contact
 import models.contact.tojsonserializers.ContactSerializers
+import org.jooq.generated.Tables.CONTACTS
+import org.jooq.generated.Tables.PERSON_TO_CONTACT_LINKS
+import orm.contactgeneratedrepository.ContactRecord
 import router.src.ServletRequestContext
+import javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR
 
 /**
  * Created by Муса on 21.12.2017.
@@ -32,6 +36,48 @@ class PersonContactsController(context: ServletRequestContext) : BaseController(
         }
 
         cmpsr.run()
+    }
+
+    fun index() {
+        val personId = routeParams().get("personId")?.toLongOrNull()
+        if (personId == null) {
+            sendError(SC_INTERNAL_SERVER_ERROR)
+            return
+        }
+        val contacts = ContactRecord.GET()
+                .join {
+                    it.personToContactLink()
+                }
+                .preload {
+                    it.contactType()
+                }
+                .where(PERSON_TO_CONTACT_LINKS.PERSON_ID.eq(personId))
+                .execute()
+
+        renderJson(
+                ContactSerializers.forPersonsIndexEdit.onSuccess(contacts)
+        )
+    }
+
+    fun indexForEdit() {
+        val personId = routeParams().get("personId")?.toLongOrNull()
+        if (personId == null) {
+            sendError(SC_INTERNAL_SERVER_ERROR)
+            return
+        }
+        val contacts = ContactRecord.GET()
+                .join {
+                    it.personToContactLink()
+                }
+                .preload {
+                    it.contactType()
+                }
+                .where(PERSON_TO_CONTACT_LINKS.PERSON_ID.eq(personId))
+                .execute()
+
+        renderJson(
+                ContactSerializers.forPersonsIndexEdit.onSuccess(contacts)
+        )
     }
 
     fun delete(){

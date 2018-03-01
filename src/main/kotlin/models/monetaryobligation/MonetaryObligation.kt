@@ -19,6 +19,9 @@ class MonetaryObligation {
     @TableField(name = "TOTAL_AMOUNT")
     var totalAmount: Long? = null
 
+    @TableField(name = "DESCRIPTION")
+    var description: String? = null
+
     @TableField(name = "IS_CREDIT")
     var isCredit: Boolean? = null
 

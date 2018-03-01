@@ -71,4 +71,11 @@ export class PersonToCounterPartyLink extends BaseModel {
     static afterIndexForCounterPartyRequest(options: RequestOptions){
       this.afterIndexRequest(options)
     }
+
+    @Route("GET", {url: "/api/persons/:personId/personToCounterPartyLinks"})
+    static indexForPerson: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLink>>
+
+    static afterIndexForPersonRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
 }

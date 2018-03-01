@@ -18,6 +18,9 @@ export class MonetaryObligation extends BaseModel {
     totalAmount: number
 
     @Property
+    description: string
+
+    @Property
     isCredit: Boolean
 
     @Property
@@ -35,6 +38,17 @@ export class MonetaryObligation extends BaseModel {
     @HasMany("MonetaryObligationPart")
     monetaryObligationParts: ModelCollection<MonetaryObligationPart>
 
-    @Route("POST", {url: "/api/contracts/:contractId/monetaryObligations", defaultWilds: ["contractId"]})
+    @Route("POST", {url: "/api/contracts/:contractId/manage/monetaryObligations", defaultWilds: ["contractId"]})
     create: (options?: RequestOptions) => Promise<MonetaryObligation>
+
+    @Route("GET", {url: "/api/contracts/:contractId/manage/monetaryObligations"}) 
+    static forContractManageIndex: (options?: RequestOptions) => Promise<MonetaryObligation>
+
+    static afterForContractManageIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+    
+    @Route("PUT", {url: "/monetaryObligations/:id", defaultWilds: ["id"]})
+    update: (options?: RequestOptions) => Promise<MonetaryObligation>
+    
 }

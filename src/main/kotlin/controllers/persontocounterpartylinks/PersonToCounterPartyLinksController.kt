@@ -66,6 +66,19 @@ class PersonToCounterPartyLinksController(context: ServletRequestContext) : Base
         )
     }
 
+    fun indexForPerson() {
+        val personId = routeParams().get("personId")?.toLongOrNull()
+        if (personId == null) {
+            sendError(SC_INTERNAL_SERVER_ERROR)
+            return
+        }
+        val personToCounterPartyLinks = PersonToCounterPartyLinkDaos.index.forPerson(personId)
+
+        renderJson(
+                PersonToCounterPartyLinkSerializers.indexForPerson.onSuccess(personToCounterPartyLinks)
+        )
+    }
+
     fun edit() {
         val id = context.routeParameters.get("id")?.toLongOrNull()
 

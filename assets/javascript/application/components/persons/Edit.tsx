@@ -46,77 +46,10 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                     <button onClick={this.submit}>
                         update
                     </button>
-                    <div className="contacts">
-                      {
-                        this.state.person.personToContactLinks.map((it, index)=>{
-                          return <div className="contact" key={index}>
-                            {it.contact.contactType.name}: {it.contact.value}
-                            <button onClick={()=>{this.deleteContact(it)}}>delete</button>
-                            <button onClick={()=>{this.initContactUpdate(it)}}>update</button>
-                          </div>
-                        })
-                      }
-                    </div>
-                    <button onClick={this.initContactAddition}>
-                      + contact
-                    </button>
                 </div>
             }
         </div>
     }
-
-    @autobind
-    initContactAddition(){
-      this.modal.open(
-        <PersonsComponents.contacts.New 
-          onCreateSuccess={(contact: Contact)=>{this.assignContact(contact)}}
-          onCancel={this.modal.close}
-          personId={this.state.person.id}
-        />
-      )
-    }
-
-    @autobind
-    assignContact(contact: Contact) {
-      let link = contact.personToContactLink
-      delete contact.properties["personToContactLink"]
-      let person = this.state.person
-      link.contact = contact
-      person.personToContactLinks.push(link)
-      this.modal.close()
-      this.setState({person})
-    }
-
-    @autobind
-    initContactUpdate(link: PersonToContactLink){
-      let contact = link.contact
-      this.modal.open(
-        <PersonsComponents.contacts.Edit
-          onUpdateSuccess={(contact: Contact)=>this.finalizeContactUpdate(contact)}
-          onCancel={()=>{this.modal.close()}}
-          personId={this.state.person.id}
-          contact={contact}
-        />
-      )
-    }
-
-    @autobind
-    finalizeContactUpdate(contact: Contact){
-      this.modal.close()
-      this.setState({person: this.state.person})
-    }
-
-    @autobind
-    deleteContact(link: PersonToContactLink) {
-      link.contact.deleteForPerson({wilds: {personId: `${this.state.person.id}`}}).then((contact)=>{
-        let person = this.state.person
-        person.personToContactLinks.filter((it)=>{
-          return !(it === link)
-        })
-        this.setState({person})
-      })
-    }
-
 
     @autobind
     submit(){

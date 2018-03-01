@@ -13,6 +13,10 @@ export class MonetaryObligationPart extends BaseModel {
 
     arbitrary: {[id: string]: any}
 
+    isMarkedForDestruction(): Boolean {
+      return !!this.properties.markedForDestruction
+    }
+
     @Property
     id: number
 

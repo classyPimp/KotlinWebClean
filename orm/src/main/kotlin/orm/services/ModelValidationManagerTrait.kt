@@ -33,6 +33,13 @@ interface ModelValidationManagerTrait {
         }
     }
 
+    fun markAsHasNestedErrors() {
+        val errorList = nonNullableErrors()["nestedErrors"]
+        if (errorList == null) {
+            nonNullableErrors()["nestedErrors"] = mutableListOf("has nested errors")
+        }
+    }
+
     fun addUniqueError(propertyName: String, message: String) {
         val errorList = nonNullableErrors()[propertyName]
         if (errorList  == null) {

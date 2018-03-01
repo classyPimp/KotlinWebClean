@@ -20,4 +20,6 @@ object PersonToCounterPartyLinkSerializers {
 
     val destroy = Destroy
 
+    val indexForPerson = IndexForPerson
+
 }

@@ -7,6 +7,7 @@ import controllers.persons.formfeeds.PersonFormFeedsController
 import models.contact.Contact
 import models.contact.tojsonserializers.ContactSerializers
 import models.person.Person
+import models.person.daos.PersonDaos
 import models.person.tojsonserializers.PersonSerializers
 import org.jooq.generated.Tables.PEOPLE
 import orm.contactgeneratedrepository.ContactRecord
@@ -66,7 +67,8 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
     }
 
     fun index() {
-        val persons = PersonRecord.GET().execute()
+        val query = requestQueryStringParams().get("query")
+        val persons = PersonDaos.index.searchByName(query)
         renderJson(
                 PersonSerializers.index.onSuccess(persons)
         )

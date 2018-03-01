@@ -5,7 +5,7 @@ import controllers.BaseController
 import controllers.contract.contracttocounterpartylink.ContractContractToCounterPartyLinkController
 import controllers.contract.contracttouploadeddocumentlink.ContractContractToUploadedDocumentLinkController
 import controllers.contract.manage.ContractManageController
-import controllers.contract.monetaryobligation.ContractMonetaryObligationController
+import controllers.contract.manage.monetaryobligation.ContractMonetaryObligationController
 import models.contract.daos.ContractDaos
 import models.contract.tojsonserializers.ContractSerializers
 import router.src.ServletRequestContext
@@ -27,9 +27,8 @@ class ContractController(context: ServletRequestContext) : BaseController(contex
             return ContractManageController(context)
         }
 
-        fun monetaryObligation(context: ServletRequestContext): ContractMonetaryObligationController {
-            return ContractMonetaryObligationController(context)
-        }
+        val manage = ContractManageController
+
     }
 
     fun create() {

@@ -52,10 +52,10 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/contactTypes/:id/edit`} component={ContactTypesComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/contactTypes/:id`} component={ContactTypesComponents.Show}/>
                     
-                    <Route exact path={`${this.props.match.url}/persons/new`} component={PersonsComponents.New}/>
-                    <Route exact path={`${this.props.match.url}/persons`} component={PersonsComponents.Index}/>
-                    <Route exact path={`${this.props.match.url}/persons/:id/edit`} component={PersonsComponents.Edit}/>
-                    <Route exact path={`${this.props.match.url}/persons/:id`} component={PersonsComponents.Show}/>
+                    {/*<Route exact path={`${this.props.match.url}/persons/new`} component={PersonsComponents.New}/>*/}
+                    <Route path={`${this.props.match.url}/persons`} component={PersonsComponents.Main}/>
+                    {/*<Route exact path={`${this.props.match.url}/persons/:id/edit`} component={PersonsComponents.Edit}/>*/}
+                    {/*<Route exact path={`${this.props.match.url}/persons/:id`} component={PersonsComponents.Show}/>*/}
                     
                     <Route exact path={`${this.props.match.url}/persontocounterpartylinkreasons/new`} component={PersonToCounterPartyLinkReasonsComponents.New}/>
                     <Route exact path={`${this.props.match.url}/persontocounterpartylinkreasons`} component={PersonToCounterPartyLinkReasonsComponents.Index}/>
@@ -67,10 +67,10 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/incorporationforms/:id/edit`} component={IncorporationFormsComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/incorporationforms/:id`} component={IncorporationFormsComponents.Show}/>    
 
-                    <Route exact path={`${this.props.match.url}/counterParties/new`} component={CounterPartiesComponents.New}/>
-                    <Route exact path={`${this.props.match.url}/counterParties`} component={CounterPartiesComponents.Index}/>
-                    <Route exact path={`${this.props.match.url}/counterParties/:id/edit`} component={CounterPartiesComponents.Edit}/>
-                    <Route exact path={`${this.props.match.url}/counterParties/:id`} component={CounterPartiesComponents.Show}/>                  
+                    {/*<Route exact path={`${this.props.match.url}/counterParties/new`} component={CounterPartiesComponents.New}/>*/}
+                    <Route path={`${this.props.match.url}/counterParties`} component={CounterPartiesComponents.Main}/>
+                    {/*<Route exact path={`${this.props.match.url}/counterParties/:id/edit`} component={CounterPartiesComponents.Edit}/>
+                    <Route exact path={`${this.props.match.url}/counterParties/:id`} component={CounterPartiesComponents.Show}/>                  */}
                     
                     <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons/new`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.New}/>
                     <Route exact path={`${this.props.match.url}/PersonToCounterPartyLinkToUploadedDocLinkReasons`} component={PersonToCounterPartyLinkToUploadedDocLinkReasonsComponents.Index}/>

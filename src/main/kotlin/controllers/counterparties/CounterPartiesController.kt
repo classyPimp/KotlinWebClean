@@ -67,7 +67,8 @@ class CounterPartiesController(context: ServletRequestContext) : BaseController(
     }
 
     fun index() {
-        val counterParties = CounterPartyDaos.index.getDefault()
+        val query = requestQueryStringParams().get("query")
+        val counterParties = CounterPartyDaos.index.byQuery(query)
         renderJson(
                 CounterPartySerializers.index.onSuccess(counterParties)
         )
