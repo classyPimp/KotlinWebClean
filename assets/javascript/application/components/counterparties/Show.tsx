@@ -35,6 +35,8 @@ export class Show extends BaseReactComponent {
         }
 
         let id = this.props.match.params.id
+
+        console.log(this.props.match)
         
         CounterParty.show({wilds: {id}}).then((counterParty)=>{
             this.setState({counterParty})

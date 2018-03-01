@@ -20,6 +20,7 @@ export class Index extends BaseReactComponent {
     props: {
       counterPartyId: number
       editableMode: boolean
+      match?: match<any>
     }
 
     state: {
@@ -31,7 +32,14 @@ export class Index extends BaseReactComponent {
     modal: Modal
 
     componentDidMount() {
-      Contact.indexForCounterParty({wilds: {counterPartyId: `${this.props.counterPartyId}`}}).then((contacts)=>{
+      let counterPartyId: number
+      if (this.props.counterPartyId) {
+        counterPartyId = this.props.counterPartyId
+      } else {
+        counterPartyId = this.props.match.params.id
+      }
+
+      Contact.indexForCounterParty({wilds: {counterPartyId: counterPartyId.toString()}}).then((contacts)=>{
         this.setState({contacts})
       })
     }

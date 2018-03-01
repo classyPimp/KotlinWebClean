@@ -4,23 +4,35 @@ import { BaseReactComponent } from "../../../reactUtils/BaseReactComponent"
 import * as React from 'react';
 import { CounterParty } from '../../models/CounterParty';
 import { Link } from 'react-router-dom';
+import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElements/PlainInput';
+import { MixinFormableTrait } from '../../../reactUtils/plugins/formable/MixinFormableTrait';
 
-export class Index extends BaseReactComponent {
+
+export class Index extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
       counterParties: ModelCollection<CounterParty>
+      dummyCounterPartyForForm: CounterParty
     } = {
-      counterParties: new ModelCollection<CounterParty>()
-    }
-
-    componentDidMount(){
-      CounterParty.index().then((counterParties: ModelCollection<CounterParty>)=>{
-        this.setState({counterParties})
-      })
+      counterParties: new ModelCollection<CounterParty>(),
+      dummyCounterPartyForForm: new CounterParty()
     }
 
     render(){
         return <div>
+          <div className="pure-form">
+            <PlainInputElement
+              model={this.state.dummyCounterPartyForForm}
+              propertyName="name"
+              registerInput = {(it)=>{this.registerInput(it)}}
+              optional ={{
+                placeholder: "name to search"
+              }}
+            />
+            <button onClick={this.search} className="pure-button pure-button-primary">
+              search
+            </button>
+          </div>
           {this.state.counterParties.map((counterParty, index)=>{
             return <div key={counterParty.id}>
 
@@ -46,6 +58,15 @@ export class Index extends BaseReactComponent {
 
           }
         </div>
+    }
+    
+    @autobind
+    search() {
+      this.collectInputs()
+      let query = this.state.dummyCounterPartyForForm.name
+      CounterParty.index({params: {query}}).then((counterParties)=>{
+        this.setState({counterParties})
+      })
     }
 
     @autobind

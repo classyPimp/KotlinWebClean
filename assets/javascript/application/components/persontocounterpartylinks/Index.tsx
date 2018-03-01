@@ -22,8 +22,11 @@ export class Index extends BaseReactComponent {
     }
 
     componentDidMount(){
+      let counterPartyId: number
+      
+      
+
       if (this.props.counterParty) {
-        console.log("comp did mount")
         PersonToCounterPartyLink.indexForCounterParty({wilds: {counterPartyId: `${this.props.counterParty.id}`}}).then((personToCounterPartyLinks)=>{
           this.setState({personToCounterPartyLinks})
         })

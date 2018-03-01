@@ -10,13 +10,16 @@ import { Index as ContactsIndex } from './contacts/Index'
 import { New as ContactsNew } from './contacts/New'
 import { Show as ContactsShow } from './contacts/Show'
 
+import { ShowMain } from './ShowMain'
+
 export let CounterPartiesComponents =  {
     
-    main: Main,
+    Main,
     New,
     Edit,
     Show,
     Index,
+    ShowMain,
     contacts: {
       Edit: ContactsEdit,
       Index: ContactsIndex,
