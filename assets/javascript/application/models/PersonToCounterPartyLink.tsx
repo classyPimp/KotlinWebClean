@@ -78,4 +78,25 @@ export class PersonToCounterPartyLink extends BaseModel {
     static afterIndexForPersonRequest(options: RequestOptions) {
       this.afterIndexRequest(options)
     }
+
+    @Route("GET", {url: "/api/counterParties/:counterPartyId/personToCounterPartyLinks/:id"})
+    static showForCounterParty: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    static afterShowForCounterPartyRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }    
+
+    @Route("GET", {url: "/api/counterParties/:counterPartyId/personToCounterPartyLinks/edit"})
+    static forCounterPartyIndexEdit: (options?: RequestOptions) => Promise<ModelCollection<PersonToCounterPartyLink>>
+
+    static afterForCounterPartyIndexEditRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
+    @Route("GET", {url: "/api/counterParties/:counterPartyId/personToCounterPartyLinks/:id/edit"})
+    static forCounterPartyEdit: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    static afterForCounterPartyEditRequest(options: RequestOptions) {
+      this.afterEditRequest(options)
+    }
 }

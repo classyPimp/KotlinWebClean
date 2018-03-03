@@ -74,6 +74,8 @@ class CounterPartiesController(context: ServletRequestContext) : BaseController(
         )
     }
 
+
+
     fun show() {
         val id = context.routeParameters.get("id")?.toLongOrNull()
         if (id == null) {

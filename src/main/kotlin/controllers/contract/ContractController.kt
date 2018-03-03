@@ -67,6 +67,26 @@ class ContractController(context: ServletRequestContext) : BaseController(contex
         )
     }
 
+    fun showGeneralInfo() {
+        val contractId = context.routeParameters.get("contractId")?.toLongOrNull()
+
+        if (contractId == null) {
+            sendError(SC_INTERNAL_SERVER_ERROR)
+            return
+        }
+
+        val contract = ContractDaos.show.generalInfo(contractId)
+
+        if (contract == null) {
+            sendError(SC_NOT_FOUND)
+            return
+        }
+
+        renderJson(
+                ContractSerializers.show.onSuccess(contract)
+        )
+    }
+
     fun index() {
         val contracts = ContractDaos.index.forIndex()
 

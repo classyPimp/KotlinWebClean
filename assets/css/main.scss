@@ -14,3 +14,12 @@
     white-space:normal;
   }
 }
+
+.pure-menu-horizontal {
+  max-width: 100%;
+  ul {
+    li {
+      float: left;
+    }
+  }
+}

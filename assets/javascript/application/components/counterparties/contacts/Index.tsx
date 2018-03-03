@@ -18,35 +18,34 @@ import { DropDownSelectServerFed } from '../../formelements/DropdownSelectServer
 export class Index extends BaseReactComponent {
 
     props: {
-      counterPartyId: number
-      editableMode: boolean
       match?: match<any>
     }
 
     state: {
       contacts: ModelCollection<Contact>
+      editableMode: boolean
+      counterPartyId: number
     } = {
-      contacts: new ModelCollection<Contact>()
+      contacts: new ModelCollection<Contact>(),
+      editableMode: false,
+      counterPartyId: this.props.match.params.id
     }
 
     modal: Modal
 
-    componentDidMount() {
-      let counterPartyId: number
-      if (this.props.counterPartyId) {
-        counterPartyId = this.props.counterPartyId
-      } else {
-        counterPartyId = this.props.match.params.id
+    componentDidMount() {     
+      if (this.props.match.url === `/dashboards/counterParties/${this.state.counterPartyId}/edit/contacts`) {
+        this.state.editableMode = true
       }
 
-      Contact.indexForCounterParty({wilds: {counterPartyId: counterPartyId.toString()}}).then((contacts)=>{
+      Contact.indexForCounterParty({wilds: {counterPartyId: this.state.counterPartyId.toString()}}).then((contacts)=>{
         this.setState({contacts})
       })
     }
 
     render(){
         return <div>
-          {this.props.editableMode &&
+          {this.state.editableMode &&
             <Modal ref={(it)=>{this.modal = it}}/>
           }
           {
@@ -55,7 +54,7 @@ export class Index extends BaseReactComponent {
                   <p>
                     {contact.contactType.name}: {contact.value}
                   </p>
-                  {this.props.editableMode &&
+                  {this.state.editableMode &&
                     <div>
                       <button onClick={()=>{this.initEdit(contact)}}>
                         edit
@@ -69,7 +68,7 @@ export class Index extends BaseReactComponent {
             }) 
           }
           {
-            this.props.editableMode &&
+            this.state.editableMode &&
             <div>
               <button onClick={this.initContactAddition}>
                 + contact
@@ -83,7 +82,7 @@ export class Index extends BaseReactComponent {
     initEdit(contact: Contact){
       this.modal.open(
         <CounterPartiesComponents.contacts.Edit
-          counterPartyId={this.props.counterPartyId}
+          counterPartyId={this.state.counterPartyId}
           contactId={contact.id}
           onUpdateSuccess={this.onUpdateSuccess}
           onCancel={this.onUpdateCanel}
@@ -113,7 +112,7 @@ export class Index extends BaseReactComponent {
     initContactAddition(){
       this.modal.open(
         <CounterPartiesComponents.contacts.New
-          counterPartyId={this.props.counterPartyId}
+          counterPartyId={this.state.counterPartyId}
           onCancel={this.cancelContactNew}
           onCreateSuccess={this.onContactNewSuccess}
         />
@@ -141,7 +140,7 @@ export class Index extends BaseReactComponent {
     @autobind
     delete(contact: Contact) {
       if (contact.isValid()){
-        contact.deleteForCounterParty({wilds: {counterPartyId: this.props.counterPartyId.toString()}}).then(()=>{
+        contact.deleteForCounterParty({wilds: {counterPartyId: this.state.counterPartyId.toString()}}).then(()=>{
           this.state.contacts.filter((it)=>{
             return (it !== contact)
           })

@@ -35,6 +35,7 @@ export class Main extends BaseReactComponent {
           <Switch>
               <Route exact path={`/dashboards/counterParties`} component={ CounterPartiesComponents.Index }/>
               <Route exact path={`/dashboards/counterParties/new`} component={ CounterPartiesComponents.New } />
+              <Route path="/dashboards/counterParties/settings" component = { CounterPartiesComponents.SettingsMain } />
               <Route path="/dashboards/counterParties/:id" component={ CounterPartiesComponents.ShowMain } />
           </Switch>
         </div>

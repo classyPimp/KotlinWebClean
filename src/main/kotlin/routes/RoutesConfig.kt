@@ -264,6 +264,15 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     get("") {
                         CounterPartiesController.personToCounterPartyLinks(it).index()
                     }
+                    get("/:id/edit") {
+                        CounterPartiesController.personToCounterPartyLinks(it).edit()
+                    }
+                    get("/edit") {
+                        CounterPartiesController.personToCounterPartyLinks(it).indexEdit()
+                    }
+                    get("/:id") {
+                        CounterPartiesController.personToCounterPartyLinks(it).show()
+                    }
                 }
 
                 post("") {
@@ -594,6 +603,9 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 }
                 get("/:id") {
                     ContractController(it).show()
+                }
+                get("/:contractId/generalInfo") {
+                    ContractController(it).showGeneralInfo()
                 }
             }
 

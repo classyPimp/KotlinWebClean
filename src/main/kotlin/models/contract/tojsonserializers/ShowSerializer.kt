@@ -7,7 +7,13 @@ object ShowSerializer {
 
     fun onSuccess(contract: Contract): String {
         ContractToJsonSerializer(contract).let {
-
+                it.includeContractCategory()
+                it.includeContractToCounterPartyLinks() {
+                    it.includeCounterParty() {
+                        it.includeIncorporationForm()
+                    }
+                }
+                it.includeContractStatus()
             return it.serializeToString()
         }
     }

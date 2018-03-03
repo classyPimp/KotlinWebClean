@@ -45,6 +45,27 @@ object ContractShowDao {
                 .firstOrNull()
     }
 
+    fun generalInfo(contractId: Long): Contract? {
+        return ContractRecord.GET()
+                .where(table.ID.eq(contractId))
+                .limit(1)
+                .preload {
+                    it.contractCategory()
+                    it.contractToCounterPartyLinks() {
+                        it.preload {
+                            it.counterParty() {
+                                it.preload {
+                                    it.incorporationForm()
+                                }
+                            }
+                        }
+                    }
+                    it.contractStatus()
+                }
+                .execute()
+                .firstOrNull()
+    }
+
     fun forManageEdit(id: Long): Contract? {
         val contract = ContractRecord.GET()
                 .where(

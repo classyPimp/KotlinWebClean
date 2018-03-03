@@ -1,13 +1,13 @@
-import { BaseReactComponent } from "../../../reactUtils/BaseReactComponent"
+import { BaseReactComponent } from "../../../../reactUtils/BaseReactComponent"
 import * as React from 'react'
-import { CounterParty } from '../../models/CounterParty';
-import { PersonToCounterPartyLink } from '../../models/PersonToCounterPartyLink'
-import { ModelCollection } from '../../../modelLayer/ModelCollection';
+import { CounterParty } from '../../../models/CounterParty';
+import { PersonToCounterPartyLink } from '../../../models/PersonToCounterPartyLink'
+import { ModelCollection } from '../../../../modelLayer/ModelCollection';
 import autobind from 'autobind-decorator';
-import { Person } from '../../models/Person'
+import { Person } from '../../../models/Person'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
-import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElements/PlainInput';
-import { MixinFormableTrait } from '../../../reactUtils/plugins/formable/MixinFormableTrait';
+import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput';
+import { MixinFormableTrait } from '../../../../reactUtils/plugins/formable/MixinFormableTrait';
 
 export class Index extends MixinFormableTrait(BaseReactComponent) {
 
@@ -23,16 +23,8 @@ export class Index extends MixinFormableTrait(BaseReactComponent) {
       formDummyPersonToCounterPartyLink: new PersonToCounterPartyLink()
     }
 
-    componentDidMount(){
-      let counterPartyId: number
-      counterPartyId = this.props.match.params.id
-      PersonToCounterPartyLink.indexForCounterParty({wilds: {counterPartyId: counterPartyId.toString()}}).then((personToCounterPartyLinks)=>{
-        this.setState({personToCounterPartyLinks})
-      })
-    }
-
-    refresh(){
-      this.componentDidMount()
+    componentWillMount() {
+      console.log(this.props.match.params)
     }
 
     render(){
@@ -61,7 +53,7 @@ export class Index extends MixinFormableTrait(BaseReactComponent) {
               link reason: {it.personToCounterPartyLinkReason.reasonName}
             </p>
             <p>
-              <Link to = {`/dashboards/counterParties/${this.props.match.params.id}/personToCounterPartyLinks/${it.id}`}>
+              <Link to = {`/dashboards/counterParties/${this.props.match.params.counterPartyId}/personToCounterPartyLinks/${it.id}`}>
                 details
               </Link>
             </p>
@@ -88,9 +80,12 @@ export class Index extends MixinFormableTrait(BaseReactComponent) {
     @autobind
     search() {
       this.collectInputs()
+      let query = this.state.formDummyPersonToCounterPartyLink.properties["name"]
       PersonToCounterPartyLink.indexForCounterParty({
-        wilds: {counterPartyId: this.props.match.params.id.toString()},
-        params: {query: this.state.formDummyPersonToCounterPartyLink.properties["name"]}
+        wilds: {counterPartyId: this.props.match.params.counterPartyId.toString()},
+        params: {query}
+      }).then((personToCounterPartyLinks)=>{
+        this.setState({personToCounterPartyLinks})
       })
     }
 

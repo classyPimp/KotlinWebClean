@@ -19,9 +19,7 @@ import { PlainFileInput } from '../../formelements/PlainFileInput'
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
-      personToCounterPartyLinkId: number,
-      onCreateSuccess: (link: PersonToCounterPartyLinkToUploadedDocumentLink)=>any
-      onCancel: ()=>any
+      match: match<any>
     }
 
     state: {
@@ -51,11 +49,11 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     @autobind
     submit() {
       this.collectInputs()
-      let personToCounterPartyLinkId = this.props.personToCounterPartyLinkId.toString()
+      let personToCounterPartyLinkId = this.props.match.params.personToCounterPartyLinkId.toString()
       this.state.personToCounterPartyLinkToUploadedDocumentLink.validate()
       this.state.personToCounterPartyLinkToUploadedDocumentLink.create({wilds: {personToCounterPartyLinkId}}).then((personToCounterPartyLinkToUploadedDocumentLink)=>{
         if (personToCounterPartyLinkToUploadedDocumentLink.isValid()) {
-          this.props.onCreateSuccess(personToCounterPartyLinkToUploadedDocumentLink)
+          alert("success")
         } else {
           this.setState({personToCounterPartyLinkToUploadedDocumentLink})
         }

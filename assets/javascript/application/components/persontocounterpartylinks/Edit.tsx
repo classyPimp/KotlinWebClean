@@ -18,40 +18,36 @@ import { PersonToCounterPartyLinkToUploadedDocumentLink } from '../../models/Per
 export class Edit extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
-      match: match<any>
+      personToCounterPartyLink: PersonToCounterPartyLink
+      onDeleteSuccsess: (personToCounterPartyLink: PersonToCounterPartyLink) => void
     } 
 
     state: {
-      personToCounterPartyLink: PersonToCounterPartyLink
       documentsExpanded: boolean
     } = {
-      personToCounterPartyLink: null,
       documentsExpanded: false
     }
 
     modal: Modal
 
     componentDidMount() {
-      let id = this.props.match.params.id
-      PersonToCounterPartyLink.edit({wilds: {id}}).then((personToCounterPartyLink)=>{
-        this.setState({personToCounterPartyLink})
-      })
+      
     }
 
     render(){
-        let personToCounterPartyLink = this.state.personToCounterPartyLink
+        let personToCounterPartyLink = this.props.personToCounterPartyLink
 
         return personToCounterPartyLink
          ? <div className="persontocounterpartylinks-Edit">
           <Modal ref={(it)=>{this.modal = it}}/>
           <p>
-            {personToCounterPartyLink.person.name} link to {personToCounterPartyLink.counterParty.incorporationForm.nameShort} {personToCounterPartyLink.counterParty.name}
+            {personToCounterPartyLink.person.name} 
           </p>
           {personToCounterPartyLink.getErrorsFor('general') &&
               <ErrorsShow errors={personToCounterPartyLink.getErrorsFor('general')}/>
           }
           <DropDownSelectServerFed 
-              model={this.state.personToCounterPartyLink}
+              model={this.props.personToCounterPartyLink}
               propertyName="personToCounterPartyLinkReasonId"
               queryingFunction = { PersonToCounterPartyLinkReason.formFeedsIndex.bind(PersonToCounterPartyLinkReason) }
               propertyToSelect="id" 
@@ -61,7 +57,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
               optional={{placeholder: "link reason"}}
           />
           <PlainInputElement
-            model={this.state.personToCounterPartyLink}
+            model={this.props.personToCounterPartyLink}
             propertyName="specificDetails"
             registerInput={(it)=>{this.registerInput(it)}}
             optional={{placeholder: "additional info"}}
@@ -90,10 +86,23 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
              </button>
             }
           </div>
+          <button onClick={this.destroy}>
+            delete
+          </button>
+
         </div>
         : <div className="persontocounterpartylinks-Edit">
           loading...
         </div>
+    }
+
+    @autobind
+    destroy() {
+      this.props.personToCounterPartyLink.destroy().then((returnedLink)=>{
+        if (returnedLink.isValid()) {
+          this.props.onDeleteSuccsess(this.props.personToCounterPartyLink)
+        }
+      })
     }
 
     @autobind
@@ -107,22 +116,24 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
     submit(){
       this.collectInputs()
       
-      this.state.personToCounterPartyLink.validate()
-      if (!this.state.personToCounterPartyLink.isValid()) {
-        this.setState({})
+      this.props.personToCounterPartyLink.validate()
+      if (!this.props.personToCounterPartyLink.isValid()) {
+        this.forceUpdate()
         return
       }
 
-      this.state.personToCounterPartyLink.create().then((personToCounterPartyLink)=>{
+      this.props.personToCounterPartyLink.create().then((personToCounterPartyLink)=>{
         if (!personToCounterPartyLink.isValid()) {
-              this.setState({personToCounterPartyLink})
+              this.props.personToCounterPartyLink.properties = personToCounterPartyLink.properties
+              this.props.personToCounterPartyLink.errors = personToCounterPartyLink.errors 
+              this.forceUpdate()
               return
         } 
         ApplicationComponent.instance.flashMessageQueue.addMessage(
-          "link successfully created"
+          "link successfully updated"
         )
-        this.setState({personToCounterPartyLink})
-        //this.props.onCreateSuccess(personToCounterPartyLink)
+        this.props.personToCounterPartyLink.properties = personToCounterPartyLink.properties
+        this.forceUpdate()
       })
       
     }

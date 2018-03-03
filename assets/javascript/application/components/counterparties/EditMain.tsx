@@ -7,7 +7,7 @@ import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { CounterPartiesComponents } from './CounterPartiesComponents'
 import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
 
-export class ShowMain extends BaseReactComponent {
+export class EditMain extends BaseReactComponent {
 
     props: {
       match: match<any>
@@ -21,32 +21,26 @@ export class ShowMain extends BaseReactComponent {
           <div className="pure-menu pure-menu-horizontal">
             <ul className="pure-menu-list">
                 <li className="pure-menu-item">
-                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}`} className="pure-menu-link">
+                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}/edit`} className="pure-menu-link">
                     general info
                   </Link>
                 </li>
                 <li className="pure-menu-item">
-                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}/contacts`} className="pure-menu-link">
+                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}/edit/contacts`} className="pure-menu-link">
                     contacts
                   </Link>
                 </li>
                 <li className="pure-menu-item">
-                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}/personToCounterPartyLinks`} className="pure-menu-link">
+                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}/edit/personToCounterPartyLinks`} className="pure-menu-link">
                     links to persons
-                  </Link>
-                </li>
-                <li className="pure-menu-item">
-                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}/edit`} className="pure-menu-link">
-                    edit
                   </Link>
                 </li>
             </ul>
           </div>
           <Switch>
-              <Route exact path={`/dashboards/counterParties/:id`} component={ CounterPartiesComponents.Show }/>
-              <Route exact path={`/dashboards/counterParties/:id/contacts`} component={ CounterPartiesComponents.contacts.Index }/>
-              <Route path={`/dashboards/counterParties/:id/personToCounterPartyLinks`} component={ PersonToCounterPartyLinksComponents.forCounterParty.Main }/>
-              <Route path={`/dashboards/counterParties/:id/edit`} component={ CounterPartiesComponents.EditMain }/>
+              <Route exact path={`/dashboards/counterParties/:id/edit`} component={ CounterPartiesComponents.Edit }/>
+              <Route exact path={`/dashboards/counterParties/:id/edit/contacts`} component={ CounterPartiesComponents.contacts.Index }/>
+              <Route exact path={`/dashboards/counterParties/:id/edit/personToCounterPartyLinks`} component={ PersonToCounterPartyLinksComponents.forCounterParty.IndexEdit }/>
           </Switch>
         </div>
     }

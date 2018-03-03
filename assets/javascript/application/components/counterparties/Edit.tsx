@@ -74,7 +74,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                     <button onClick={this.submit}>
                         update
                     </button>
-                    <div>
+                    {/*<div>
                       {this.state.contactsExpanded
                         ? <div>
                           <CounterPartiesComponents.contacts.Index
@@ -91,8 +91,8 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                           </button>
                         </div>
                       }
-                    </div>
-                    <div>
+                    </div>*/}
+                    {/*<div>
                       {!this.state.linkedPersonsExpanded
                         ? <div>
                            <button onClick={this.toggleExpandedLinkedPersons}> 
@@ -115,7 +115,7 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
                           </button>
                         </div>
                       }
-                    </div>
+                    </div>*/}
                 </div>
 
             }

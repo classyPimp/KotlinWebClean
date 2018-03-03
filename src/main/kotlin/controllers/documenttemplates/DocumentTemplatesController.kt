@@ -41,7 +41,8 @@ class DocumentTemplatesController(context: ServletRequestContext) : BaseControll
     }
 
     fun index() {
-        val documentTemplates = DocumentTemplateDaos.index.forIndexAction()
+        val query = requestQueryStringParams().get("query")
+        val documentTemplates = DocumentTemplateDaos.index.search(query)
 
         renderJson(
                 DocumentTemplateSerializers.index.onSuccess(documentTemplates)

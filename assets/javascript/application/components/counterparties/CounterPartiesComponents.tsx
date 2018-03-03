@@ -11,6 +11,9 @@ import { New as ContactsNew } from './contacts/New'
 import { Show as ContactsShow } from './contacts/Show'
 
 import { ShowMain } from './ShowMain'
+import { EditMain } from './EditMain'
+
+import { SettingsMain } from './SettingsMain'
 
 export let CounterPartiesComponents =  {
     
@@ -20,6 +23,8 @@ export let CounterPartiesComponents =  {
     Show,
     Index,
     ShowMain,
+    EditMain,
+    SettingsMain,
     contacts: {
       Edit: ContactsEdit,
       Index: ContactsIndex,
