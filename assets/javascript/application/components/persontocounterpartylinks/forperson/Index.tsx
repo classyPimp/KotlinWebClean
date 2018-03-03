@@ -38,6 +38,7 @@ export class Index extends BaseReactComponent {
           {this.state.personToCounterPartyLinks.map((it, index)=>{
             return <PersonToCounterPartyLinksComponents.forPerson.Show
               personToCounterPartyLink = {it}
+              key = {it.id}
             />            
           })}
         </div>

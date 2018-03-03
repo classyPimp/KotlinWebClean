@@ -63,6 +63,13 @@ export class Contract extends BaseModel {
     @Route("GET", {url: "/api/contracts/:id"})
     static show: (options?: RequestOptions) => Promise<Contract>
 
+    @Route("GET", {url: "/api/contracts/:contractId"})
+    static showGeneralInfo: (options?: RequestOptions) => Promise<Contract>
+
+    static afterShowGeneralInfoRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }
+
     @Route("GET", {url: "/api/contracts/:id/edit"})
     static edit: (options?: RequestOptions) => Promise<Contract>
 

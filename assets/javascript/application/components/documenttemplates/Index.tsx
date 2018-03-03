@@ -4,37 +4,41 @@ import { BaseReactComponent } from "../../../reactUtils/BaseReactComponent"
 import * as React from 'react';
 import { DocumentTemplate } from '../../models/DocumentTemplate';
 import { Link } from 'react-router-dom';
+import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElements/PlainInput';
+import { MixinFormableTrait } from '../../../reactUtils/plugins/formable/MixinFormableTrait';
 
-export class Index extends BaseReactComponent {
+export class Index extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
         documentTemplates: ModelCollection<DocumentTemplate>
+        formDummyDocumentTemplate: DocumentTemplate
     } = {
-        documentTemplates: new ModelCollection<DocumentTemplate>()
-    }
-
-    componentDidMount(){
-        DocumentTemplate.index().then((documentTemplates: ModelCollection<DocumentTemplate>)=>{
-            try {
-            this.setState({
-                documentTemplates
-
-            })
-            } catch(error) {
-              console.log(error)
-            }
-        })
+        documentTemplates: new ModelCollection<DocumentTemplate>(),
+        formDummyDocumentTemplate: new DocumentTemplate()
     }
 
     render(){
         return <div className="documentTemplates-Index">
+            <div className="pure-form">
+              <PlainInputElement
+                model={this.state.formDummyDocumentTemplate}
+                propertyName="name"
+                registerInput = {(it)=>{this.registerInput(it)}}
+                optional ={{
+                  placeholder: "name to search"
+                }}
+              />
+              <button onClick={this.search} className="pure-button pure-button-primary">
+                search
+              </button>
+            </div>
             {this.state.documentTemplates.map((documentTemplate, index)=>{
                 return <div key={documentTemplate.id}>
                     <p>
                       {documentTemplate.name}
                     </p>
                     <Link to={"/dashboards/documentTemplates/arbitrary/new/" + documentTemplate.id}>
-                      create document usin it
+                      create document using it
                     </Link>
                     {/*<Link to={"/dashboards/documentTemplates/" + documentTemplate.id}>
                         {documentTemplate.name} 
@@ -52,6 +56,15 @@ export class Index extends BaseReactComponent {
                 </div>
             })}
         </div>
+    }
+
+    @autobind
+    search() {
+      this.collectInputs()
+      let query = this.state.formDummyDocumentTemplate.name
+      DocumentTemplate.index({params: {query}}).then((documentTemplates)=>{
+          this.setState({documentTemplates})
+      })
     }
 
     @autobind

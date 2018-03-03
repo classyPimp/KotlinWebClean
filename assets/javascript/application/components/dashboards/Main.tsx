@@ -82,15 +82,15 @@ export class Main extends BaseReactComponent {
                       component={PersonToCounterPartyLinksComponents.Edit}
                     />
 
+                    <Route exact path={`${this.props.match.url}/documentTemplates/arbitrary/new/:id`} component={DocumentTemplateComponents.arbitrary.New}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateVariables/new`} component={DocumentTemplateVariablesComponents.New}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateVariables`} component={DocumentTemplateVariablesComponents.Index}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateVariables/:id/edit`} component={DocumentTemplateVariablesComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateVariables/:id`} component={DocumentTemplateVariablesComponents.Show}/>
                     
-                    <Route exact path={`${this.props.match.url}/documentTemplates/new`} component={DocumentTemplateComponents.New}/>
-                    <Route exact path={`${this.props.match.url}/documentTemplates`} component={DocumentTemplateComponents.Index}/>
+                    {/*<Route exact path={`${this.props.match.url}/documentTemplates/new`} component={DocumentTemplateComponents.New}/>*/}
+                    <Route path={`${this.props.match.url}/documentTemplates`} component={DocumentTemplateComponents.Main}/>
 
-                    <Route exact path={`${this.props.match.url}/documentTemplates/arbitrary/new/:id`} component={DocumentTemplateComponents.arbitrary.New}/>
 
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories/new`} component={DocumentTemplateCategoriesComponents.New}/>
                     <Route exact path={`${this.props.match.url}/documentTemplateCategories`} component={DocumentTemplateCategoriesComponents.Index}/>
@@ -107,10 +107,10 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/contractToUploadedDocumentLinkReasons/:id/edit`} component={ContractToUploadedDocumentLinkReasonComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/contractToUploadedDocumentLinkReasons/:id`} component={ContractToUploadedDocumentLinkReasonComponents.Show}/>
 
-                    <Route exact path={`${this.props.match.url}/contracts/new`} component={ContractComponents.New}/>
-                    <Route exact path={`${this.props.match.url}/contracts`} component={ContractComponents.Index}/>
+                    {/*<Route exact path={`${this.props.match.url}/contracts/new`} component={ContractComponents.New}/>*/}
                     <Route exact path={`${this.props.match.url}/contracts/:id/edit`} component={ContractComponents.Edit}/>
                     <Route exact path={`${this.props.match.url}/contracts/manage/:id`} component={ContractComponents.manage.Show}/>
+                    <Route path={`${this.props.match.url}/contracts`} component={ContractComponents.Main}/>
                     
                 </Switch>
             </div>
