@@ -3,7 +3,7 @@ import * as React from 'react'
 import { ModelCollection } from '../../../../modelLayer/ModelCollection';
 import { ContractToUploadedDocumentLink } from '../../../models/ContractToUploadedDocumentLink'
 import { ContractToUploadedDocumentLinkReason } from '../../../models/ContractToUploadedDocumentLinkReason'
-import { Link } from 'react-router-dom';
+import { Link, match } from 'react-router-dom';
 import autobind from 'autobind-decorator';
 import { Modal } from '../../shared/Modal'
 import { ContractToUploadedDocumentLinkComponents } from '../ContractToUploadedDocumentLinkComponents'
@@ -11,20 +11,30 @@ import { ContractToUploadedDocumentLinkComponents } from '../ContractToUploadedD
 export class Index extends BaseReactComponent {
 
     props: {
-      contractToUploadedDocumentLinks: ModelCollection<ContractToUploadedDocumentLink>
-      contractId: number
+      match: match<any>
     }
 
     state: {
+      contractToUploadedDocumentLinks: ModelCollection<ContractToUploadedDocumentLink>,
       contractToUploadedDocumentLinkReasons: ModelCollection<ContractToUploadedDocumentLinkReason>
+    } = {
+      contractToUploadedDocumentLinks: new ModelCollection(),
+      contractToUploadedDocumentLinkReasons: new ModelCollection()
     }
 
     modal: Modal
 
     componentWillMount() {
+      let contractId = this.props.match.params.contractId
+      ContractToUploadedDocumentLink.ofContractIndexEdit({wilds: {contractId}}).then((contractToUploadedDocumentLinks)=>{
+        this.prepareState(contractToUploadedDocumentLinks)
+      })
+    }
+
+    prepareState(contractToUploadedDocumentLinks: ModelCollection<ContractToUploadedDocumentLink>) {
       let reasonsById: {[id: number]: ContractToUploadedDocumentLinkReason} = {}
 
-      this.props.contractToUploadedDocumentLinks.forEach((link)=>{  
+      contractToUploadedDocumentLinks.forEach((link)=>{  
         let reasonId = link.contractToUploadedDocumentLinkReason.id
         let reason = reasonsById[reasonId]
         if (!reason) {
@@ -38,7 +48,10 @@ export class Index extends BaseReactComponent {
         return reasonsById[key as any]
       })
 
-      this.setState({contractToUploadedDocumentLinkReasons})
+      this.setState({
+        contractToUploadedDocumentLinkReasons,
+        contractToUploadedDocumentLinks
+      })
     }
 
     render(){
@@ -98,19 +111,21 @@ export class Index extends BaseReactComponent {
 
     @autobind
     onContractToUploadedDocumentLinkDeleted(contractToUploadedDocumentLink: ContractToUploadedDocumentLink) {
-      this.props.contractToUploadedDocumentLinks.filter((it)=>{
+      this.state.contractToUploadedDocumentLinks.filter((it)=>{
         return it !== contractToUploadedDocumentLink
       })
-      this.componentWillMount()
+      this.prepareState(this.state.contractToUploadedDocumentLinks)
     }
 
     @autobind
     initContractToUploadedDocumentLink() {
        this.modal.open(
          <ContractToUploadedDocumentLinkComponents.manage.New
-           contractId = {this.props.contractId}
+           contractId = {this.props.match.params.contractId}
            onCreateSuccess = {(contractToUploadedDocumentLink: ContractToUploadedDocumentLink)=>{
-             this.onNewContractToUploadedDocumentLinkCreated(contractToUploadedDocumentLink)
+             this.state.contractToUploadedDocumentLinks.push(contractToUploadedDocumentLink)
+             this.modal.close()
+             this.prepareState(this.state.contractToUploadedDocumentLinks)
            }}
          />
        )
@@ -132,31 +147,12 @@ export class Index extends BaseReactComponent {
           return
         }
 
-        let reasonId = contractToUploadedDocumentLink.contractToUploadedDocumentLinkReason.id
-        let wasTheOnlyOneFlag = false
-        this.state.contractToUploadedDocumentLinkReasons.forEach((reason)=>{
-          if (reasonId === reason.id) {
-            reason.contractToUploadedDocumentLinks.filter((it)=>{
-              return it.id !== contractToUploadedDocumentLink.id
-            })
-            if (reason.contractToUploadedDocumentLinks.array.length < 1) {
-              wasTheOnlyOneFlag = true
-            }
-          }
-        })      
-
-        if (wasTheOnlyOneFlag) {
-          console.log("flagged should filter")
-          let filtered = this.state.contractToUploadedDocumentLinkReasons.filter((it)=>{
-            console.log(it.contractToUploadedDocumentLinks.array.length > 0)
-            return it.contractToUploadedDocumentLinks.array.length > 0
-          })
-          this.setState({contractToUploadedDocumentLinkReasons: filtered})
-          return
-        }  
-
-        this.setState({})
+        this.state.contractToUploadedDocumentLinks.filter((it)=>{
+          return it !== contractToUploadedDocumentLink
+        })
         
+        this.prepareState(this.state.contractToUploadedDocumentLinks)
+
       })
     }
 
