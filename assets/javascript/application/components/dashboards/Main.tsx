@@ -108,7 +108,7 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/contractToUploadedDocumentLinkReasons/:id`} component={ContractToUploadedDocumentLinkReasonComponents.Show}/>
 
                     {/*<Route exact path={`${this.props.match.url}/contracts/new`} component={ContractComponents.New}/>*/}
-                    <Route exact path={`${this.props.match.url}/contracts/:id/edit`} component={ContractComponents.Edit}/>
+                    {/*<Route exact path={`${this.props.match.url}/contracts/:id/edit`} component={ContractComponents.Edit}/>*/}
                     <Route exact path={`${this.props.match.url}/contracts/manage/:id`} component={ContractComponents.manage.Show}/>
                     <Route path={`${this.props.match.url}/contracts`} component={ContractComponents.Main}/>
                     

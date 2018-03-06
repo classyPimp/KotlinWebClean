@@ -1,5 +1,7 @@
 package models.contracttouploadeddocumentlink.tojsonserializers
 
+import models.contracttouploadeddocumentlink.tojsonserializers.ofcontract.ContractToUploadedDocumentlinkOfContractIndexEditJsonSerializer
+
 object ContractToUploadedDocumentLinkSerializers {
 
     val create = CreateSerializer
@@ -7,5 +9,9 @@ object ContractToUploadedDocumentLinkSerializers {
     val destroy = DestroySerializer
     val index = IndexSerializer
     val show = ShowSerializer
+
+    object OfContract {
+        val indexEdit = ContractToUploadedDocumentlinkOfContractIndexEditJsonSerializer
+    }
 
 }

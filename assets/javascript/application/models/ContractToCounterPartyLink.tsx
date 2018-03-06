@@ -58,4 +58,12 @@ export class ContractToCounterPartyLink extends BaseModel {
     afterForContractManageUpdateRequest(options: RequestOptions) {
       this.afterUpdateRequest(options)
     }
-}
+
+    @Route("GET", {url: "/api/contracts/:contractId/contractToCounterPartyLinks"})
+    static forContractIndex: (options?: RequestOptions) => Promise<ContractToCounterPartyLink>
+
+    static afterForContractIndex(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
+}   

@@ -67,4 +67,8 @@ object ContractComposers {
         return DestroyComposer(id)
     }
 
+    fun updateGeneralInfo(contractId: Long?, params: IParam): ContractUpdateGeneralInfoComposer {
+        return ContractUpdateGeneralInfoComposer(contractId, params)
+    }
+
 }

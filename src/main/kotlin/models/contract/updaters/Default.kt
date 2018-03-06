@@ -13,4 +13,11 @@ object Default {
         }
     }
 
+    fun updateGeneralInfo(model: Contract, params: ContractRequestParametersWrapper) {
+        model.record.let {
+            it.description = params.description
+            it.contractCategoryId = params.contractCategoryId
+        }
+    }
+
 }

@@ -17,7 +17,7 @@ export class ContractStatus extends BaseModel {
     isCommited: boolean
 
     @Property
-    isSypplement: boolean
+    isSupplement: boolean
 
     @Property   
     parentContractId: number
@@ -54,5 +54,31 @@ export class ContractStatus extends BaseModel {
 
     @HasOne("Contract")
     rootContrac: Contract
+
+
+    @Route("GET", {url: "/api/contracts/:contractId/contractStatuses")
+    static forContractShow: (options?: RequestOptions) => Promise<ContractStatus>
+
+    static afterForContractShowRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }    
+
+    @Route("GET", {url: "/api/contracts/:contractId/contractStatuses/edit"})
+    static editForContract: (options?: RequestOptions) => Promise<ContractStatus>
+
+    static afterEditForContractRequest(options: RequestOptions) {
+      this.afterEditRequest(options)
+    }
+
+    @Route("PUT", {url: "/api/contracts/:contractId/contractStatuses/:id", defaultWilds: ["id", "contractId"]})
+    forContractUpdate: (options?: RequestOptions) => Promise<ContractStatus>
+
+    beforeForContractUpdateRequest(options: RequestOptions) {
+      this.beforeUpdateRequest(options)
+    }
+
+    afterForContractUpdateRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
+    }
 
 }

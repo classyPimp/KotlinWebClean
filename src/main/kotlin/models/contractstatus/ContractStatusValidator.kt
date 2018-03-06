@@ -8,6 +8,10 @@ class ContractStatusValidator(model: ContractStatus) : ContractStatusValidatorTr
         //
     }
 
+    fun forContractUpdateScenario() {
+
+    }
+
     fun forContractCreateScenario() {
         validateIsProjectShouldBeTrue()
     }

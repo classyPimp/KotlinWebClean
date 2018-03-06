@@ -13,4 +13,6 @@ object ContractDaos {
     val update = ContractUpdateDao
     val destroy = ContractDestroyDao
 
+
+
 }

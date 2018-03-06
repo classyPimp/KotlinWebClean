@@ -1,9 +1,6 @@
 package models.contracttocounterpartylink.tojsonserializers
 
-import models.contracttocounterpartylink.tojsonserializers.forcontract.ForContractCreateSerializer
-import models.contracttocounterpartylink.tojsonserializers.forcontract.ForContractDestroySerializer
-import models.contracttocounterpartylink.tojsonserializers.forcontract.ForContractReplaceSerializer
-import models.contracttocounterpartylink.tojsonserializers.forcontract.ForContractUpdateSerializer
+import models.contracttocounterpartylink.tojsonserializers.forcontract.*
 
 object ContractToCounterPartyLinkSerializers {
 
@@ -12,6 +9,7 @@ object ContractToCounterPartyLinkSerializers {
         val destroy = ForContractDestroySerializer
         val create = ForContractCreateSerializer
         val update = ForContractUpdateSerializer
+        val index = ContractToCounterPartyLinkForContractToJsonSerializer
     }
 
 }

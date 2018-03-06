@@ -6,6 +6,8 @@ import { Show as ManageShow } from './manage/Show'
 import { Main } from './Main'
 import { SettingsMain } from './SettingsMain'
 import { ShowMain } from './ShowMain'
+import { EditGeneralInfo } from './EditGeneralInfo'
+import { EditMain } from './EditMain'
 
 export let ContractComponents = {
   New,
@@ -15,6 +17,8 @@ export let ContractComponents = {
   Edit,
   Main,
   SettingsMain,
+  EditGeneralInfo,
+  EditMain,
   manage: {
     Show: ManageShow
   }

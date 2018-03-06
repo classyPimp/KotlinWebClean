@@ -70,4 +70,19 @@ export class ContractToUploadedDocumentLink extends BaseModel {
     afterForContractManageDestroyRequest(options: RequestOptions) {
       this.afterCreateRequest(options)
     }
+
+    @Route("GET", {url: "/api/contracts/:contractId/contractToUploadedDocumentLinks"})
+    static forContractIndex: (options?: RequestOptions) => Promise<ModelCollection<ContractToUploadedDocumentLink>>
+
+    static afterForContractIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
+    @Route("GET", {url: "/api/contracts/:contractId/contractToUploadedDocumentLinks/indexEdit"})
+    static ofContractIndexEdit: (options?: RequestOptions) => Promise<ModelCollection<ContractToUploadedDocumentLink>>
+
+    static afterOfContractIndexEditRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
 }

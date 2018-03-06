@@ -24,6 +24,17 @@ object ContractShowDao {
         }
     }
 
+    fun forUpdateGeneralInfo(contractId: Long): Contract? {
+        return ContractRecord.GET()
+                .where(table.ID.eq(contractId))
+                .preload {
+                    it.contractCategory()
+                }
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
     fun forShow(id: Long): Contract? {
         return ContractRecord.GET()
                 .where(table.ID.eq(id))
@@ -41,6 +52,19 @@ object ContractShowDao {
                     }
                     it.contractStatus()
                 }
+                .execute()
+                .firstOrNull()
+    }
+
+    fun forEditGeneralInfo(contractId: Long): Contract? {
+        return ContractRecord.GET()
+                .where(
+                        table.ID.eq(contractId)
+                )
+                .preload {
+                    it.contractCategory()
+                }
+                .limit(1)
                 .execute()
                 .firstOrNull()
     }

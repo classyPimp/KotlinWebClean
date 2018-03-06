@@ -63,7 +63,7 @@ export class Contract extends BaseModel {
     @Route("GET", {url: "/api/contracts/:id"})
     static show: (options?: RequestOptions) => Promise<Contract>
 
-    @Route("GET", {url: "/api/contracts/:contractId"})
+    @Route("GET", {url: "/api/contracts/:contractId/generalInfo"})
     static showGeneralInfo: (options?: RequestOptions) => Promise<Contract>
 
     static afterShowGeneralInfoRequest(options: RequestOptions) {
@@ -94,6 +94,24 @@ export class Contract extends BaseModel {
     }
 
     afterManageUpdateRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
+    }
+
+    @Route("GET", {url: "/api/contracts/:contractId/editGeneralInfo"})
+    static editGeneralInfo: (options?: RequestOptions) => Promise<Contract>
+
+    static afterEditGeneralInfoRequest(options: RequestOptions) {
+      this.afterEditRequest(options)
+    }
+
+    @Route("PUT", {url: "/api/contracts/:id/generalInfo", defaultWilds: ["id"]})
+    updateGeneralInfo: (options?: RequestOptions) => Promise<Contract>
+
+    beforeUpdateGeneralInfoRequest(options: RequestOptions) {
+      this.beforeUpdateRequest(options)
+    }
+
+    afterUpdateGeneralInfoRequest(options: RequestOptions) {
       this.afterUpdateRequest(options)
     }
 

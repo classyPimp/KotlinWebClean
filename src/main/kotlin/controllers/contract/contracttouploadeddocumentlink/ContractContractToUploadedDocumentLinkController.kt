@@ -84,6 +84,20 @@ class ContractContractToUploadedDocumentLinkController(context: ServletRequestCo
         )
     }
 
+    fun indexEdit() {
+        val contractId = routeParams().get("contractId")?.toLongOrNull()
+
+        if (contractId == null) {
+            throw IllegalStateException()
+        }
+
+        val contractToUploadedDocumentLinks = ContractToUploadedDocumentLinkDaos.index.ofContractIndexEdit(contractId)
+
+        renderJson(
+                ContractToUploadedDocumentLinkSerializers.OfContract.indexEdit.onSuccess(contractToUploadedDocumentLinks)
+        )
+    }
+
     fun destroy() {
         val contractId = routeParams().get("contractId")?.toLongOrNull()
         val id = routeParams().get("id")?.toLongOrNull()

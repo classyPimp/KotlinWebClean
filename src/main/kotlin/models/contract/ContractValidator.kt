@@ -24,6 +24,17 @@ class ContractValidator(model: Contract) : ContractValidatorTrait(model, model.r
         }
     }
 
+    fun updateGeneralInfoScenario() {
+        model.record.let {record ->
+            if (record.propertiesChangeTracker.descriptionIsChanged) {
+                validateDescription()
+            }
+            if (record.propertiesChangeTracker.contractCategoryIdIsChanged) {
+                validateCategory()
+            }
+        }
+    }
+
     private fun validateDescription() {
         val description = model.description
         if (description == null || description.isBlank()) {

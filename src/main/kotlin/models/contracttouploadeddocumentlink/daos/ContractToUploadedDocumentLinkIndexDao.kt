@@ -12,6 +12,19 @@ object ContractToUploadedDocumentLinkIndexDao {
         val contractToUploadedDocumentLinks = ContractToUploadedDocumentLinkRecord.GET()
                 .preload {
                     it.contractToUploadedDocumentLinkReason()
+                    it.uploadedDocument()
+                }
+                .where(table.CONTRACT_ID.eq(contractId))
+                .execute()
+
+        return contractToUploadedDocumentLinks
+    }
+
+    fun ofContractIndexEdit(contractId: Long): MutableList<ContractToUploadedDocumentLink> {
+        val contractToUploadedDocumentLinks = ContractToUploadedDocumentLinkRecord.GET()
+                .preload {
+                    it.contractToUploadedDocumentLinkReason()
+                    it.uploadedDocument()
                 }
                 .where(table.CONTRACT_ID.eq(contractId))
                 .execute()

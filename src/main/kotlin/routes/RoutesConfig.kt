@@ -4,6 +4,8 @@ import controllers.HomeController
 import controllers.contacttypes.ContactTypesController
 import controllers.contract.ContractController
 import controllers.contractcategories.ContractCategoriesController
+import controllers.contractstatus.ContractStatusForContractController
+import controllers.contracttocounterpartylink.ContractToCounterPartyLinkForContractController
 import controllers.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReasonController
 import controllers.counterparties.CounterPartiesController
 import controllers.documenttemplatecategories.DocumentTemplateCategoriesController
@@ -527,6 +529,7 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     ContractToUploadedDocumentLinkReasonController(it).edit()
                 }
 
+
                 post("") {
                     ContractToUploadedDocumentLinkReasonController(it).create()
                 }
@@ -554,6 +557,9 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 }
 
                 namespace("/:contractId/contractToCounterPartyLinks") {
+                    get("") {
+                        ContractToCounterPartyLinkForContractController(it).index()
+                    }
                     delete("/:id") {
                         ContractController.contractToCounterPartyLink(it).destroy()
                     }
@@ -571,22 +577,45 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 }
 
                 namespace("/:contractId/contractToUploadedDocumentLinks") {
+                    get("") {
+                        ContractController.contractToUploadedDocumentLink(it).index()
+                    }
                     post("") {
                         ContractController.contractToUploadedDocumentLink(it).create()
                     }
+                    get("/indexEdit") {
+                        ContractController.contractToUploadedDocumentLink(it).indexEdit()
+                    }
                     delete("/:id") {
                         ContractController.contractToUploadedDocumentLink(it).destroy()
-                    }
-                    get("") {
-                        ContractController.contractToUploadedDocumentLink(it).index()
                     }
                     put("/:id") {
                         ContractController.contractToUploadedDocumentLink(it).update()
                     }
                 }
 
+                namespace("/:contractId/contractStatuses") {
+                    get("") {
+                        ContractStatusForContractController(it).show()
+                    }
+                    get("/edit") {
+                        ContractStatusForContractController(it).edit()
+                    }
+                    put("/:id") {
+                        ContractStatusForContractController(it).update()
+                    }
+                }
+
                 get("/manage/:id/edit") {
                     ContractController.manage(it).edit()
+                }
+
+                get("/:contractId/editGeneralInfo") {
+                    ContractController(it).editGeneralInfo()
+                }
+
+                put("/:contractId/generalInfo") {
+                    ContractController(it).updateGeneralInfo()
                 }
 
 
