@@ -1,7 +1,7 @@
 import {New} from './New'
 import {Edit} from './Edit'
 import {Index} from './Index'
-import { Show } from './Show';
+import { ShowGeneralInfo } from './ShowGeneralInfo';
 import { New as ContactsNew } from './contacts/New'
 import { Edit as ContactsEdit } from './contacts/Edit'
 import { Main } from './Main'
@@ -16,7 +16,7 @@ export let PersonsComponents = {
   New,
   Edit,
   Index,
-  Show,
+  ShowGeneralInfo,
   Main,
   EditMain,
   ShowMain,

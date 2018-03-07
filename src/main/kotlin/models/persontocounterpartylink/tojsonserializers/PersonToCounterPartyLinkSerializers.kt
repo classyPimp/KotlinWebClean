@@ -26,4 +26,6 @@ object PersonToCounterPartyLinkSerializers {
 
     val indexForPerson = IndexForPerson
 
+    val forPersonEditGeneralInfo = PersonToCounterPartyLinkForPersonEditGeneralInfoJsonSerializer
+
 }

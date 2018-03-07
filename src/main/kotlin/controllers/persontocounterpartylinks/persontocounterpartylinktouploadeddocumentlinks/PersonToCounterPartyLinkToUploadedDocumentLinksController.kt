@@ -11,7 +11,11 @@ import router.src.ServletRequestContext
 class PersonToCounterPartyLinkToUploadedDocumentLinksController(context: ServletRequestContext) : BaseController(context) {
 
     fun index(){
-        val links = PersonToCounterPartyLinkToUploadedDocumentLinkDaos.index.default()
+        val personToCounterPartyLinkId = routeParams().get("personToCounterPartyLinkId")?.toLongOrNull()
+
+        personToCounterPartyLinkId ?: throw IllegalStateException()
+
+        val links = PersonToCounterPartyLinkToUploadedDocumentLinkDaos.index.byPersonToCounterPartyLinkId(personToCounterPartyLinkId)
 
         renderJson(
                 PersonToCounterPartyLinkToUploadedDocumentLinkSerializers.index.onSuccess(links)

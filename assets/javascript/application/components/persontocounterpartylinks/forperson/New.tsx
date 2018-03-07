@@ -12,7 +12,7 @@ import { ApplicationComponent } from '../../ApplicationComponent';
 import { DropDownSelectServerFed } from '../../formelements/DropdownSelectServerFed'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { SelectThroughModalInput } from '../../formelements/SelectThroughModalInput'
-import { FormSelectIndex } from '../../persons/FormSelectIndex'
+import { FormSelectIndex } from '../../counterParties/FormSelectIndex'
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
@@ -28,8 +28,8 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     constructor(...args: Array<any>) {
       super(...args)
-      let counterPartyId = this.props.match.params.id
-      this.state.personToCounterPartyLink.counterPartyId = counterPartyId
+      let personId = parseInt(this.props.match.params.personId)
+      this.state.personToCounterPartyLink.personId = personId
     }
 
     render(){
@@ -37,24 +37,15 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
           {this.state.personToCounterPartyLink.getErrorsFor('general') &&
               <ErrorsShow errors={this.state.personToCounterPartyLink.getErrorsFor('general')}/>
           }
-         {/*<DropDownSelectServerFed 
-              model={this.state.personToCounterPartyLink}
-              propertyName="personId"
-              queryingFunction = { Person.formFeedsIndex.bind(Person) }
-              propertyToSelect="id" 
-              propertyToShow="name"
-              registerInput={(it)=>{this.registerInput(it)}}
-              optional={{placeholder: "person to link"}}
-          />*/}
           <SelectThroughModalInput 
             model = {this.state.personToCounterPartyLink}
-            propertyName = "personId"
+            propertyName = "counterPartyId"
             registerInput = {(it)=>{this.registerInput(it)}}
             modalContent = {FormSelectIndex}
             propertyToShow = "name"
             propertyToSelect = "id"
             optional = {{
-              placeholder: "select person to link"
+              placeholder: "select counter party to link"
             }}
           />
           <DropDownSelectServerFed 

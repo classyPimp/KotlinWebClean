@@ -11,7 +11,7 @@ import { ContractToUploadedDocumentLinkComponents } from '../ContractToUploadedD
 export class Index extends BaseReactComponent {
 
     props: {
-      match: match<any>
+      match?: match<any>
     }
 
     state: {

@@ -11,7 +11,8 @@ import { match } from 'react-router-dom';
 export class Show extends BaseReactComponent {
 
     props: {
-      personToCounterPartyLink: PersonToCounterPartyLink
+      personToCounterPartyLink: PersonToCounterPartyLink,
+      match?: match<any>
     }
 
     render(){
@@ -31,7 +32,7 @@ export class Show extends BaseReactComponent {
                 link related documents:
             </p>
             {this.props.personToCounterPartyLink.personToCounterPartyLinkToUploadedDocumentLinks.map((personToCounterPartyLinkToUploadedDocumentLink)=>{
-              return <div>
+              return <div key = {personToCounterPartyLinkToUploadedDocumentLink.id}>
                 {personToCounterPartyLinkToUploadedDocumentLink.personToCounterPartyLinkToUploadedDocLinkReason &&
                   <p>
                   reason name: {personToCounterPartyLinkToUploadedDocumentLink.personToCounterPartyLinkToUploadedDocLinkReason.reasonName}
@@ -47,6 +48,9 @@ export class Show extends BaseReactComponent {
             })}
           </div>
         }
+        <Link to = {`/dashboards/counterParties/${this.props.personToCounterPartyLink.counterPartyId}/personToCounterPartyLinks/${this.props.personToCounterPartyLink.id}`}>
+          details
+        </Link>
       </div>
     }
 

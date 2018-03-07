@@ -8,8 +8,10 @@ import { Person } from '../../../models/Person'
 import { Link } from 'react-router-dom';
 import { match } from 'react-router-dom';
 import { PersonToCounterPartyLinksComponents } from '../PersonToCounterPartyLinksComponents'
+import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput';
+import { MixinFormableTrait } from '../../../../reactUtils/plugins/formable/MixinFormableTrait';
 
-export class Index extends BaseReactComponent {
+export class Index extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
       match: match<any>
@@ -17,12 +19,14 @@ export class Index extends BaseReactComponent {
 
     state: {
       personToCounterPartyLinks: ModelCollection<PersonToCounterPartyLink>
+      formDummy: CounterParty
     } = {
-      personToCounterPartyLinks: new ModelCollection<PersonToCounterPartyLink>()
+      personToCounterPartyLinks: new ModelCollection<PersonToCounterPartyLink>(),
+      formDummy: new CounterParty()
     }
 
     componentDidMount(){  
-      let personId = this.props.match.params.id
+      let personId = this.props.match.params.personId
       PersonToCounterPartyLink.indexForPerson({wilds: {personId}}).then((personToCounterPartyLinks)=>{
         this.setState({personToCounterPartyLinks})
       })
@@ -35,6 +39,17 @@ export class Index extends BaseReactComponent {
 
     render(){
         return <div>
+          <PlainInputElement
+            model = {this.state.formDummy}
+            propertyName = "name"
+            registerInput = {(it)=>{this.registerInput(it)}}
+            optional = {{
+              placeholder: "company name"
+            }}
+          />
+          <button>
+            search
+          </button>
           {this.state.personToCounterPartyLinks.map((it, index)=>{
             return <PersonToCounterPartyLinksComponents.forPerson.Show
               personToCounterPartyLink = {it}

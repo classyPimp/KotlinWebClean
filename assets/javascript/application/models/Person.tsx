@@ -49,6 +49,13 @@ export class Person extends BaseModel {
       this.afterIndexRequest(options)
     }
 
+    @Route("GET", {url: "/api/persons/:id/showMinimal"})
+    static showMinimal: (options?: RequestOptions) => Promise<Person>
+
+    static afterShowMinimalRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }
+
     addContact(){
       let contact = new Contact()
       let personToContactLink = new PersonToContactLink()

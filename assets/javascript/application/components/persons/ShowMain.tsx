@@ -13,10 +13,26 @@ export class ShowMain extends BaseReactComponent {
       match: match<any>
     }
 
+    state: {
+      person: Person
+    } = {
+      person: null
+    }
+
+    componentDidMount() {
+      let id = this.props.match.params.id
+      Person.showMinimal({wilds: {id}}).then((person) => {
+        this.setState({person})
+      })
+    }
+
     render(){
         return <div>
           <h3>
-            person
+            {this.state.person 
+              ? this.state.person.name
+              : "loading"
+            }
           </h3>
           <div className="pure-menu pure-menu-horizontal">
             <ul className="pure-menu-list">
@@ -44,9 +60,9 @@ export class ShowMain extends BaseReactComponent {
           </div>
           <Switch>
               <Route path="/dashboards/persons/:id/edit" component={PersonsComponents.EditMain}/>
-              <Route exact path={`/dashboards/persons/:id`} component={ PersonsComponents.Show }/>
+              <Route exact path={`/dashboards/persons/:id`} component={ PersonsComponents.ShowGeneralInfo }/>
               <Route exact path={`/dashboards/persons/:id/contacts`} component={ PersonsComponents.contacts.Index }/>
-              <Route exact path={`/dashboards/persons/:id/personToCounterPartyLinks`} component={ PersonToCounterPartyLinksComponents.forPerson.Index }/>
+              <Route path={`/dashboards/persons/:id/personToCounterPartyLinks`} component={ PersonToCounterPartyLinksComponents.forPerson.Main }/>
               {/*<Route exact path={`/dashboards/persons/new`} component={ PersonsComponents.New } />
               <Route exact path="/dashboards/persons/:id" component={ PersonsComponents.Show } />
               <Route exact path="/dashboards/persons/:id/edit" component={ PersonsComponents.Edit } />*/}

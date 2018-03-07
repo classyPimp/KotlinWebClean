@@ -4,7 +4,7 @@ import { Person } from '../../models/Person';
 import { match } from 'react-router-dom';
 
 
-export class Show extends BaseReactComponent {
+export class ShowGeneralInfo extends BaseReactComponent {
 
     props: {
       match: match<any>,

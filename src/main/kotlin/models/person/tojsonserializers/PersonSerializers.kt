@@ -17,4 +17,6 @@ object PersonSerializers {
     val udpate: Update = Update
 
     val destroy: Create = Create
+
+    val showMinimal = PersonShowMinimalJsonSerializer
 }

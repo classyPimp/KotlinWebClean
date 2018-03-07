@@ -35,6 +35,7 @@ class CounterPartiesPersonToCounterPartyLinksController(context: ServletRequestC
 
     fun edit() {
         val id = routeParams().get("id")?.toLongOrNull()
+
         val counterPartyId = routeParams().get("counterPartyId")?.toLongOrNull()
 
         if (id == null || counterPartyId == null) {
@@ -84,6 +85,7 @@ class CounterPartiesPersonToCounterPartyLinksController(context: ServletRequestC
 
     fun indexEdit() {
         val counterPartyId = context.routeParameters.get("counterPartyId")?.toLongOrNull()
+        val query = requestQueryStringParams().get("query")
 
         if (counterPartyId == null) {
             context.response.sendError(SC_INTERNAL_SERVER_ERROR)
@@ -92,7 +94,10 @@ class CounterPartiesPersonToCounterPartyLinksController(context: ServletRequestC
 
         val links: MutableList<PersonToCounterPartyLink> = PersonToCounterPartyLinkDaos
                 .index
-                .byCounterPartyId(counterPartyId)
+                .forIndexEdit(
+                        counterPartyId = counterPartyId,
+                        query = query
+                )
 
         renderJson(
                 PersonToCounterPartyLinkSerializers.ForCounterParties

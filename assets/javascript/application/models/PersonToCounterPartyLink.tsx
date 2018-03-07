@@ -99,4 +99,12 @@ export class PersonToCounterPartyLink extends BaseModel {
     static afterForCounterPartyEditRequest(options: RequestOptions) {
       this.afterEditRequest(options)
     }
+
+    @Route("GET", {url: "/api/persons/:personId/personToCounterPartyLinks/:id/editGeneralInfo"})
+    static forPersonEditGeneralInfo: (options?: RequestOptions) => Promise<PersonToCounterPartyLink>
+
+    static afterForPersonEditGeneralInfoRequest(options: RequestOptions) {
+      this.afterEditRequest(options)
+    }
+
 }

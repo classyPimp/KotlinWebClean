@@ -18,12 +18,30 @@ object PersonToCounterPartyLinkEditDao {
     }
 
     fun getByIdForEdit(id: Long): PersonToCounterPartyLink? {
-        return return PersonToCounterPartyLinkRecord.GET()
+        return PersonToCounterPartyLinkRecord.GET()
                 .where(
                         PERSON_TO_COUNTER_PARTY_LINKS.ID.eq(id)
                 )
                 .preload {
                     it.person()
+                    it.counterParty() {
+                        it.preload {
+                            it.incorporationForm()
+                        }
+                    }
+                    it.personToCounterPartyLinkReason()
+                }
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
+    fun forPersonEditGeneralInfo(id: Long): PersonToCounterPartyLink? {
+        return PersonToCounterPartyLinkRecord.GET()
+                .where(
+                        PERSON_TO_COUNTER_PARTY_LINKS.ID.eq(id)
+                )
+                .preload {
                     it.counterParty() {
                         it.preload {
                             it.incorporationForm()

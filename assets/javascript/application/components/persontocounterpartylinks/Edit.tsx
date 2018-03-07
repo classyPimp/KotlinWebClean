@@ -73,7 +73,6 @@ export class Edit extends MixinFormableTrait(BaseReactComponent) {
               ? <div>
                 <PersonToCounterPartyLinksComponents.uploadedDocuments.Index 
                   personToCounterPartyLinkId={personToCounterPartyLink.id} 
-                  editMode={true}
                 />
                 <p>
                   <button onClick={this.toggleDocumentsExpanded}>

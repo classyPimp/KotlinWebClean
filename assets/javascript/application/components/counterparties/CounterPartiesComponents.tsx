@@ -15,6 +15,8 @@ import { EditMain } from './EditMain'
 
 import { SettingsMain } from './SettingsMain'
 
+import { FormSelectIndex } from './FormSelectIndex'
+
 export let CounterPartiesComponents =  {
     
     Main,
@@ -25,6 +27,7 @@ export let CounterPartiesComponents =  {
     ShowMain,
     EditMain,
     SettingsMain,
+    FormSelectIndex,
     contacts: {
       Edit: ContactsEdit,
       Index: ContactsIndex,

@@ -124,6 +124,10 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     PersonsController(it).get()
                 }
 
+                get("/:id/showMinimal") {
+                    PersonsController(it).showMinimal()
+                }
+
                 put("/:id") {
                     PersonsController(it).update()
                 }
@@ -155,6 +159,10 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
 
                 get("/:personId/personToCounterPartyLinks") {
                     PersonToCounterPartyLinksController(it).indexForPerson()
+                }
+
+                get("/:personId/personToCounterPartyLinks/:id/editGeneralInfo") {
+                    PersonToCounterPartyLinksController(it).forPersonEditGeneralInfo()
                 }
             }
 

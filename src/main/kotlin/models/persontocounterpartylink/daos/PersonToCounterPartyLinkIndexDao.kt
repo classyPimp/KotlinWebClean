@@ -77,5 +77,29 @@ object PersonToCounterPartyLinkIndexDao {
                 .execute()
     }
 
+    fun forIndexEdit(counterPartyId: Long, query: String?): MutableList<PersonToCounterPartyLink> {
+        if (query == null) {
+            return PersonToCounterPartyLinkRecord.GET()
+                    .preload {
+                        it.person()
+                        it.personToCounterPartyLinkReason()
+                    }
+                    .where(PERSON_TO_COUNTER_PARTY_LINKS.COUNTER_PARTY_ID.eq(counterPartyId))
+                    .execute()
+        }
+        return PersonToCounterPartyLinkRecord.GET()
+                .preload {
+                    it.person()
+                    it.personToCounterPartyLinkReason()
+                }
+                .join {
+                    it.person()
+                }
+                .where(
+                        PERSON_TO_COUNTER_PARTY_LINKS.COUNTER_PARTY_ID.eq(counterPartyId)
+                                .and("{0} ~* {1}", PEOPLE.NAME, DSL.`val`(query)))
+                .execute()
+    }
+
 
 }

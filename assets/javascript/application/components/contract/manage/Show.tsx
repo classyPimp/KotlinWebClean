@@ -75,10 +75,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
             contractId={this.state.contract.id}
             contractToCounterPartyLinks={this.state.contract.contractToCounterPartyLinks}
           />
-          <ContractToUploadedDocumentLinkComponents.manage.Index
-              contractToUploadedDocumentLinks = {this.state.contract.contractToUploadedDocumentLinks}
-              contractId = {this.state.contract.id}
-          />
+          <ContractToUploadedDocumentLinkComponents.manage.Index />
           <MonetaryObligationComponents.Index
             contractId = {this.state.contract.id}
           />

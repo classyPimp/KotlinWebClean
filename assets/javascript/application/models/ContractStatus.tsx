@@ -56,7 +56,7 @@ export class ContractStatus extends BaseModel {
     rootContrac: Contract
 
 
-    @Route("GET", {url: "/api/contracts/:contractId/contractStatuses")
+    @Route("GET", {url: "/api/contracts/:contractId/contractStatuses"})
     static forContractShow: (options?: RequestOptions) => Promise<ContractStatus>
 
     static afterForContractShowRequest(options: RequestOptions) {

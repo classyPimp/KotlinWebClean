@@ -16,13 +16,13 @@ export class Main extends BaseReactComponent {
           <div className="pure-menu pure-menu-horizontal">
             <ul className="pure-menu-list">
                 <li className="pure-menu-item">
-                  <Link to="/dashboards/persons/new" className="pure-menu-link">
-                    create new
+                  <Link to="/dashboards/persons" className="pure-menu-link">
+                    search
                   </Link>
                 </li>
                 <li className="pure-menu-item">
-                  <Link to="/dashboards/persons" className="pure-menu-link">
-                    search
+                  <Link to="/dashboards/persons/new" className="pure-menu-link">
+                    create new
                   </Link>
                 </li>
                 <li className="pure-menu-item">

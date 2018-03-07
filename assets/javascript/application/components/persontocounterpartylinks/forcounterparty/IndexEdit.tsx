@@ -8,8 +8,10 @@ import { Person } from '../../../models/Person'
 import {Modal} from '../../shared/Modal'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { PersonToCounterPartyLinksComponents } from '../PersonToCounterPartyLinksComponents'
+import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput'
+import { MixinFormableTrait } from '../../../../reactUtils/plugins/formable/MixinFormableTrait';
 
-export class IndexEdit extends BaseReactComponent {
+export class IndexEdit extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
       match: match<any>
@@ -17,17 +19,16 @@ export class IndexEdit extends BaseReactComponent {
 
     state: {
       personToCounterPartyLinks: ModelCollection<PersonToCounterPartyLink>
+      formDummy: Person
     } = {
-      personToCounterPartyLinks: new ModelCollection<PersonToCounterPartyLink>()
+      personToCounterPartyLinks: new ModelCollection<PersonToCounterPartyLink>(),
+      formDummy: new Person()
     }
 
     modal: Modal
 
     componentDidMount(){
-      let counterPartyId = this.props.match.params.id 
-      PersonToCounterPartyLink.forCounterPartyIndexEdit({wilds: {counterPartyId: counterPartyId.toString()}}).then((personToCounterPartyLinks)=>{
-        this.setState({personToCounterPartyLinks})
-      })
+      
     }
 
     refresh(){
@@ -37,6 +38,17 @@ export class IndexEdit extends BaseReactComponent {
     render(){
       return <div>
         <Modal ref={(it)=>{this.modal = it}} />
+        <PlainInputElement
+          model = {this.state.formDummy}
+          propertyName = "name"
+          registerInput = {(it)=>{this.registerInput(it)}}
+          optional = {{
+            placeholder: "enter name"
+          }}
+        />
+        <button onClick={this.search}>
+          search
+        </button>
         {this.state.personToCounterPartyLinks.map((it, index)=>{
           return <PersonToCounterPartyLinksComponents.Edit
             personToCounterPartyLink = {it}
@@ -51,6 +63,21 @@ export class IndexEdit extends BaseReactComponent {
     }
 
     @autobind
+    search() {
+      this.collectInputs()
+      let name = this.state.formDummy.name
+      let counterPartyId = this.props.match.params.id 
+      PersonToCounterPartyLink.forCounterPartyIndexEdit(
+        {
+          wilds: {counterPartyId: counterPartyId.toString()},
+          params: {query: name}
+        }
+      ).then((personToCounterPartyLinks)=>{
+        this.setState({personToCounterPartyLinks})
+      })
+    }
+
+    @autobind
     onDeleteSuccsess(personToCounterPartyLink: PersonToCounterPartyLink) {
       this.state.personToCounterPartyLinks.filter((it)=>{
         return it != personToCounterPartyLink
@@ -60,13 +87,13 @@ export class IndexEdit extends BaseReactComponent {
 
     @autobind
     initializeNew() {
-      this.modal.open(
-        <PersonToCounterPartyLinksComponents.forCounterParty.New 
-          counterPartyId = {this.props.match.params.id}
-          onCreateSuccess = {this.onCreateSuccess} 
-          onCancel = {this.modal.close}
-        />
-      )
+      // this.modal.open(
+      //   <PersonToCounterPartyLinksComponents.forCounterParty.New 
+      //     counterPartyId = {this.props.match.params.id}
+      //     onCreateSuccess = {this.onCreateSuccess} 
+      //     onCancel = {this.modal.close}
+      //   />
+      // )
     }
 
     @autobind

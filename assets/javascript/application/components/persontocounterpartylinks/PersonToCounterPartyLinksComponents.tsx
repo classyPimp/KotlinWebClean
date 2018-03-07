@@ -16,6 +16,9 @@ import { Show as ShowForCounterParty } from './forCounterParty/Show'
 import { EditMain as ForCounterPartyEditMain } from './forCounterParty/EditMain'
 import { Edit  as ForCounterPartyEdit } from './forCounterParty/Edit'
 import { IndexEdit as UploadedDocumentsIndexEdit } from './uploadeddocuments/IndexEdit'
+import { Main as ForPersonMain } from './forPerson/Main'
+import { New as ForPersonNew } from './forPerson/New'
+
 
 export let PersonToCounterPartyLinksComponents = {
   New,
@@ -31,6 +34,8 @@ export let PersonToCounterPartyLinksComponents = {
   forPerson: {
     Index: ForPersonIndex,
     Show: ForPersonShow,
+    New: ForPersonNew,
+    Main: ForPersonMain,
   },
   forCounterParty: {
     IndexEdit: ForCounterPartyIndexEdit,

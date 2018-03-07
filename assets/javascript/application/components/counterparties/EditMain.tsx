@@ -30,17 +30,11 @@ export class EditMain extends BaseReactComponent {
                     contacts
                   </Link>
                 </li>
-                <li className="pure-menu-item">
-                  <Link to={`/dashboards/counterParties/${this.props.match.params.id}/edit/personToCounterPartyLinks`} className="pure-menu-link">
-                    links to persons
-                  </Link>
-                </li>
             </ul>
           </div>
           <Switch>
               <Route exact path={`/dashboards/counterParties/:id/edit`} component={ CounterPartiesComponents.Edit }/>
               <Route exact path={`/dashboards/counterParties/:id/edit/contacts`} component={ CounterPartiesComponents.contacts.Index }/>
-              <Route exact path={`/dashboards/counterParties/:id/edit/personToCounterPartyLinks`} component={ PersonToCounterPartyLinksComponents.forCounterParty.IndexEdit }/>
           </Switch>
         </div>
     }

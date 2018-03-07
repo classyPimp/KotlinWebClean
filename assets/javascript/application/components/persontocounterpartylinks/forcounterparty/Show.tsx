@@ -25,7 +25,6 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
     }
 
     componentDidMount() {
-      console.log(this.props.match.params)
       PersonToCounterPartyLink.showForCounterParty({
         wilds: {
           counterPartyId: this.props.match.params.counterPartyId,

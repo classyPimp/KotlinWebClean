@@ -15,6 +15,7 @@ import orm.persongeneratedrepository.PersonRecord
 import orm.persongeneratedrepository.PersonToJsonSerializer
 import router.src.ServletRequestContext
 import javax.servlet.http.HttpServletResponse
+import javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
 
 /**
  * Created by Муса on 20.12.2017.
@@ -64,6 +65,19 @@ class PersonsController(context: ServletRequestContext) : BaseController(context
                     PersonSerializers.get.onSuccess(it)
             )
         } ?: context.response.sendError(HttpServletResponse.SC_NOT_FOUND)
+    }
+
+    fun showMinimal() {
+        val id = routeParams().get("id")?.toLongOrNull()
+        id ?: throw IllegalStateException()
+        val person = PersonDaos.show.minimalInfo(id = id)
+        if (person == null) {
+            sendError(SC_NOT_FOUND)
+            return
+        }
+        renderJson(
+                PersonSerializers.showMinimal.onSuccess(person)
+        )
     }
 
     fun index() {

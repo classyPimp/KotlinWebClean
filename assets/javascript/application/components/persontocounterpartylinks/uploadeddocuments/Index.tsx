@@ -11,7 +11,8 @@ import { Router, Route, Link, match, Switch } from 'react-router-dom';
 export class Index extends BaseReactComponent {
 
     props: {
-      match: match<any>
+      match?: match<any>
+      personToCounterPartyLinkId?: number
     }  
 
     state: {
@@ -23,9 +24,16 @@ export class Index extends BaseReactComponent {
     modal: Modal
 
     componentDidMount(){
+      console.log("INDEX")
+      let personToCounterPartyLinkId: any
+      if (this.props.personToCounterPartyLinkId) {
+        personToCounterPartyLinkId = this.props.personToCounterPartyLinkId
+      } else {
+        personToCounterPartyLinkId = this.props.match.params.personToCounterPartyLinkId
+      }
       PersonToCounterPartyLinkToUploadedDocumentLink.index(
         {
-          wilds: {personToCounterPartyLinkId: this.props.match.params.personToCounterPartyLinkId}
+          wilds: {personToCounterPartyLinkId}
         }
       ).then((personToCounterPartyLinkToUploadedDocumentLinks)=>{
         this.setState({personToCounterPartyLinkToUploadedDocumentLinks})
