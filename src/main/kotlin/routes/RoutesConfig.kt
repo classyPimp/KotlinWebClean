@@ -568,6 +568,9 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     get("") {
                         ContractToCounterPartyLinkForContractController(it).index()
                     }
+                    get("/edit") {
+                        ContractToCounterPartyLinkForContractController(it).indexEdit()
+                    }
                     delete("/:id") {
                         ContractController.contractToCounterPartyLink(it).destroy()
                     }

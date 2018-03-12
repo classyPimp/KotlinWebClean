@@ -1,8 +1,8 @@
 import {Edit} from './Edit'
 import { New as ContractManageNew } from './contractmanage/New'
 import { Index as ContractManageIndex } from './contractmanage/Index'
-import { Index as ForContractIndex } from './forcontract/Show'
-
+import { Index as ForContractIndex } from './forcontract/Index'
+import { IndexEdit as ForContractIndexEdit } from './forcontract/IndexEdit'
  
 export let ContractToCounterPartyLinkComponents = {
   Edit,
@@ -10,5 +10,6 @@ export let ContractToCounterPartyLinkComponents = {
   Index: ContractManageIndex,
   forContract: {
     Index: ForContractIndex,
+    IndexEdit: ForContractIndexEdit
   }
 }

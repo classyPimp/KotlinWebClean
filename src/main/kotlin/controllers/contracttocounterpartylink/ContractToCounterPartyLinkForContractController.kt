@@ -26,4 +26,21 @@ class ContractToCounterPartyLinkForContractController(context: ServletRequestCon
         )
     }
 
+    fun indexEdit() {
+        val contractId = routeParams().get("contractId")?.toLongOrNull()
+
+        if (contractId == null) {
+            sendError(SC_INTERNAL_SERVER_ERROR)
+            return
+        }
+
+        val contractToCounterPartyLinks = ContractToCounterPartyLinkDaos.index.forContract(
+                contractId = contractId
+        )
+
+        renderJson(
+                ContractToCounterPartyLinkSerializers.ForContract.index.onSuccess(contractToCounterPartyLinks)
+        )
+    }
+
 }

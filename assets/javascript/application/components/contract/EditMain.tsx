@@ -33,6 +33,11 @@ export class EditMain extends BaseReactComponent {
                 </Link>
               </li>
               <li className="pure-menu-item">
+                <Link to={`/dashboards/contracts/${this.props.match.params.contractId}/edit/contractToCounterPartyLinks`} className="pure-menu-link">
+                  edit parties
+                </Link>
+              </li>
+              <li className="pure-menu-item">
                 <Link to={`/dashboards/contracts/${this.props.match.params.contractId}/edit/contractToUploadedDocumentLinks`} className="pure-menu-link">
                   manage related documents
                 </Link>
@@ -43,6 +48,7 @@ export class EditMain extends BaseReactComponent {
               <Route exact path={`/dashboards/contracts/:contractId/edit`} component={ ContractComponents.EditGeneralInfo }/>
               <Route exact path={`/dashboards/contracts/:contractId/edit/contractStatuses`} component={ ContractStatusComponents.forContract.Edit }/>
               <Route exact path={`/dashboards/contracts/:contractId/edit/contractToUploadedDocumentLinks`} component={ ContractToUploadedDocumentLinkComponents.manage.Index }/>
+              <Route exact path={`/dashboards/contracts/:contractId/edit/contractToCounterPartyLinks`} component={ ContractToCounterPartyLinkComponents.forContract.IndexEdit }/>
           </Switch>
         </div>
     }
