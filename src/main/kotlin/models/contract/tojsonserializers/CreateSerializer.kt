@@ -13,6 +13,7 @@ object CreateSerializer {
                     it.includeIncorporationForm()
                 }
             }
+            it.includeContractNumber()
             it.includeContractStatus()
             return it.serializeToString()
         }
@@ -31,6 +32,9 @@ object CreateSerializer {
                 }
             }
             it.includeContractStatus() {
+                it.includeErrors()
+            }
+            it.includeContractNumber() {
                 it.includeErrors()
             }
             it.includeErrors()

@@ -5,9 +5,26 @@ import org.jooq.generated.tables.ContractNumbers
 import orm.annotations.*
 import orm.contractnumbergeneratedrepository.ContractNumberRecord
 import java.sql.Timestamp
+import java.util.Random
+
+
 
 @IsModel(jooqTable = ContractNumbers::class)
 class ContractNumber {
+
+    companion object {
+        fun generateNumber(): String {
+            val SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            val salt = StringBuilder()
+            val rnd = Random()
+            while (salt.length < 6) { // length of the random string.
+                val index = (rnd.nextFloat() * SALTCHARS.length).toInt()
+                salt.append(SALTCHARS[index])
+            }
+            val generated =  salt.toString()
+            return generated
+        }
+    }
 
     val record: ContractNumberRecord by lazy { ContractNumberRecord(this) }
 
@@ -32,6 +49,8 @@ class ContractNumber {
 
     @HasOne(model = Contract::class, fieldOnThis = "ID", fieldOnThat = "CONTRACT_NUMBER_ID")
     var contract: Contract? = null
+
+
 
 }
 
