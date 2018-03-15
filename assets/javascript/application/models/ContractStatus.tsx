@@ -14,6 +14,15 @@ export class ContractStatus extends BaseModel {
     id: number
 
     @Property
+    internalNumber: number
+
+    @Property
+    assignedNumber: number
+
+    @Property
+    formalDate: string
+
+    @Property
     isCommited: boolean
 
     @Property

@@ -4,6 +4,8 @@ import org.apache.commons.fileupload.FileItem
 import utils.requestparameters.IParam
 import utils.requestparameters.ParamInParseModeTrait
 import utils.requestparameters.ParamTypesEnum
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 class MultipartFormDataParam : IParam, ParamInParseModeTrait {
 
@@ -22,6 +24,20 @@ class MultipartFormDataParam : IParam, ParamInParseModeTrait {
             if (stringValue != null) {
                 return (stringValue == "true")
             } else {
+                return null
+            }
+        }
+
+    override val timestamp: Timestamp?
+        get() {
+            val textValue = this.value as String?
+            textValue ?: return null
+            try {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
+                val parsedDate = dateFormat.parse(textValue)
+                val timestamp = java.sql.Timestamp(parsedDate.time)
+                return timestamp
+            } catch (error: Exception) {
                 return null
             }
         }

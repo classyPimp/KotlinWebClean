@@ -2,7 +2,6 @@ package models.contract.factories
 
 import models.contract.Contract
 import models.contract.ContractRequestParametersWrapper
-import models.contractnumber.factories.ContractNumberFactories
 import models.contractstatus.factories.ContractStatusFactories
 import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.contracttocounterpartylink.factories.ContractToCounterPartyLinkFactories
@@ -22,7 +21,6 @@ object DefaultFactory {
 
             it.contractStatus = ContractStatusFactories.default.createForContractCreate()
 
-            it.contractNumber = ContractNumberFactories.default.ofContractCreate()
         }
     }
 

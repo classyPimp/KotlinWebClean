@@ -53,10 +53,6 @@ class CreateComposer(val params: IParam) : ComposerBase() {
             contractStatus.record.save(it.inTransactionDsl)
             contractToCreate.contractStatusId = contractStatus.id
 
-            val contractNumber = contractToCreate.contractNumber!!
-            contractNumber.record.save(it.inTransactionDsl)
-            contractToCreate.contractNumberId = contractNumber.id
-
             contractToCreate.record.saveCascade(it.inTransactionDsl)
         }
     }

@@ -56,7 +56,6 @@ class MonetaryObligationPartRequestParametersWrapper(val requestParameters: IPar
         } else {
             null
         }
-
     }
 
 }

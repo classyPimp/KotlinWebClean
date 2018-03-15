@@ -3,6 +3,7 @@ package utils.requestparameters
 import org.apache.commons.fileupload.FileItem
 import java.io.File
 import java.io.InputStream
+import java.sql.Timestamp
 
 interface IParam {
 
@@ -14,6 +15,8 @@ interface IParam {
     }
 
     val string: String?
+
+    val timestamp: Timestamp?
 
     val boolean: Boolean?
 

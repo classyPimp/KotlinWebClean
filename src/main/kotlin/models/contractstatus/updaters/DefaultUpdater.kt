@@ -10,6 +10,13 @@ object DefaultUpdater {
 
     }
 
+    fun ofContractGeneralInfoUpdate(contractStatus: ContractStatus, params: ContractStatusRequestParametersWrapper) {
+        contractStatus.record.also {
+            it.assignedNumber = params.assignedNumber
+            it.formalDate = params.formalDate
+        }
+    }
+
     fun forContractUpdate(model: ContractStatus, params: ContractStatusRequestParametersWrapper) {
         model.record.also {
             it.isCancelled = params.isCancelled

@@ -14,6 +14,7 @@ class ContractStatusValidator(model: ContractStatus) : ContractStatusValidatorTr
 
     fun forContractCreateScenario() {
         validateIsProjectShouldBeTrue()
+        validateInternalNumber()
     }
 
     private fun validateIsProjectShouldBeTrue() {
@@ -23,4 +24,13 @@ class ContractStatusValidator(model: ContractStatus) : ContractStatusValidatorTr
             throw IllegalStateException("contract status should be true got ${isProject} instead")
         }
     }
+
+    private fun validateInternalNumber() {
+        val internalNumber = model.internalNumber
+
+        if (internalNumber == null) {
+            throw IllegalStateException("no internal number assigned")
+        }
+    }
+
 }

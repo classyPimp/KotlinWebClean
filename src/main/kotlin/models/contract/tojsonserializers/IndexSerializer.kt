@@ -9,7 +9,6 @@ object IndexSerializer {
         return ContractToJsonSerializer.serialize(contracts) {
             it.includeContractCategory()
             it.includeContractStatus()
-            it.includeContractNumber()
             it.includeContractToCounterPartyLinks() {
                 it.includeCounterParty() {
                     it.includeIncorporationForm()

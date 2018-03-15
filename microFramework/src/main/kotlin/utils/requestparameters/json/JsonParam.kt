@@ -3,6 +3,14 @@ package utils.requestparameters.json
 import com.fasterxml.jackson.databind.JsonNode
 import utils.requestparameters.IParam
 import utils.requestparameters.ParamTypesEnum
+import java.sql.Timestamp
+import jdk.nashorn.internal.objects.NativeDate.getTime
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.DateTimeParseException
+import java.time.format.ResolverStyle
+
 
 /**
  * Created by Муса on 14.11.2017.
@@ -29,6 +37,21 @@ class JsonParam(val jsonNode: JsonNode): IParam {
                     intList.add(it.intValue())
                 }
                 return intList
+            }
+        }
+
+    override val timestamp: Timestamp?
+        get() {
+            val textValue = jsonNode.textValue()
+            textValue ?: return null
+            try {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
+                val parsedDate = dateFormat.parse(textValue)
+                val timestamp = java.sql.Timestamp(parsedDate.time)
+                return timestamp
+            } catch (error: Exception) {
+                println("catched when getting timestamp: ${error.message}")
+                return null
             }
         }
 

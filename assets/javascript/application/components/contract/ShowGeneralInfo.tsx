@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { ContractComponents } from './ContractComponents'
 import { Contract } from '../../models/Contract'
+import { TimeUtils } from '../../services/TimeUtils'
 
 export class ShowGeneralInfo extends BaseReactComponent {
 
@@ -29,6 +30,18 @@ export class ShowGeneralInfo extends BaseReactComponent {
         }
 
         return <div>
+          <div>  
+            <p>
+              internal number: {this.state.contract.contractStatus.internalNumber}
+            </p>
+            <p>
+              assigned number: {this.state.contract.contractStatus.assignedNumber}
+            </p>
+            <p>
+              from date: {TimeUtils.timestampStringToReadableDateString(this.state.contract.contractStatus.formalDate)}
+            </p>
+          </div>
+
           <div>
             <p>
               status: 

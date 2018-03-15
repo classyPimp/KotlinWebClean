@@ -1,7 +1,6 @@
 package models.contract
 
 import models.contractcategory.ContractCategory
-import models.contractnumber.ContractNumber
 import models.contractstatus.ContractStatus
 import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.contracttouploadeddocumentlink.ContractToUploadedDocumentLink
@@ -14,7 +13,6 @@ import java.sql.Timestamp
 
 @IsModel(jooqTable = Contracts::class)
 class Contract {
-
     val record: ContractRecord by lazy { ContractRecord(this) }
 
     @TableField(name = "ID")
@@ -48,12 +46,8 @@ class Contract {
     @BelongsTo(model = ContractStatus::class, fieldOnThat = "ID", fieldOnThis = "CONTRACT_STATUS_ID")
     var contractStatus: ContractStatus? = null
 
-    @BelongsTo(model = ContractNumber::class, fieldOnThis = "CONTRACT_NUMBER_ID", fieldOnThat = "ID")
-    var contractNumber: ContractNumber? = null
-
     @BelongsTo(model = ContractCategory::class, fieldOnThat = "ID", fieldOnThis = "CONTRACT_CATEGORY_ID")
     var contractCategory: ContractCategory? = null
-
 
     @HasMany(model = ContractToCounterPartyLink::class, fieldOnThat = "CONTRACT_ID", fieldOnThis = "ID")
     var contractToCounterPartyLinks: MutableList<ContractToCounterPartyLink>? = null

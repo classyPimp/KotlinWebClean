@@ -7,6 +7,7 @@ import models.contract.daos.ContractDaos
 import models.contract.updaters.ContractUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.services.ModelInvalidException
+import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
 import utils.composer.composerexceptions.UnprocessableEntryError
 import utils.requestparameters.IParam
@@ -54,7 +55,15 @@ class ContractUpdateGeneralInfoComposer(
     }
 
     override fun compose(){
-        contractToUpdate.record.save()
+        TransactionRunner.run {
+            val tx = it.inTransactionDsl
+            contractToUpdate.contractStatus!!.let {
+                if (it.record.propertiesChangeTracker.hasChanges) {
+                    it.record.save(tx)
+                }
+            }
+            contractToUpdate.record.save(tx)
+        }
     }
 
     override fun fail(error: Throwable) {

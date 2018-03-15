@@ -1,6 +1,7 @@
 package models.contract
 
 import models.contract.Contract
+import models.contractstatus.ContractStatusRequestParametersWrapper
 import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.contracttocounterpartylink.ContractToCounterPartyLinkRequestParametersWrapper
 import utils.requestparameters.IParam
@@ -17,6 +18,11 @@ class ContractRequestParametersWrapper(val requestParameters: IParam) {
             it.mapTo(mutableListOf<ContractToCounterPartyLinkRequestParametersWrapper>()) {
                 ContractToCounterPartyLinkRequestParametersWrapper(it)
             }
+        }
+    }
+    val contractStatus: ContractStatusRequestParametersWrapper? by lazy {
+        requestParameters.get("contractStatus")?.let {
+            ContractStatusRequestParametersWrapper(it)
         }
     }
 

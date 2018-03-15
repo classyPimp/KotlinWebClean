@@ -29,6 +29,7 @@ object ContractShowDao {
                 .where(table.ID.eq(contractId))
                 .preload {
                     it.contractCategory()
+                    it.contractStatus()
                 }
                 .limit(1)
                 .execute()
@@ -63,6 +64,7 @@ object ContractShowDao {
                 )
                 .preload {
                     it.contractCategory()
+                    it.contractStatus()
                 }
                 .limit(1)
                 .execute()

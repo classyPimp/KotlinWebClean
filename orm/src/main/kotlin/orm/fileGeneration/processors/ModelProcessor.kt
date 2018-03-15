@@ -1,5 +1,6 @@
 package orm.fileGeneration.processors
 
+import orm.annotations.HasOne
 import orm.annotations.IsModel
 import orm.configs.templatingEngine.TemplatingEngineConfig
 import orm.fileGeneration.AggregateModelsBank

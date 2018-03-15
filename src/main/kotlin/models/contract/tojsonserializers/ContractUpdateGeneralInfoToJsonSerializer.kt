@@ -8,6 +8,7 @@ object ContractUpdateGeneralInfoToJsonSerializer {
     fun onSuccess(contract: Contract): String {
         ContractToJsonSerializer(contract).let {
             it.includeContractCategory()
+            it.includeContractStatus()
             return it.serializeToString()
         }
     }
@@ -15,6 +16,9 @@ object ContractUpdateGeneralInfoToJsonSerializer {
     fun onError(contract: Contract): String {
         ContractToJsonSerializer(contract). let {
             it.includeContractCategory() {
+                it.includeErrors()
+            }
+            it.includeContractStatus() {
                 it.includeErrors()
             }
             it.includeErrors()

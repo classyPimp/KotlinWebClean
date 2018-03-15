@@ -1,6 +1,5 @@
 package models.contractstatus.daos
 
-import org.jooq.generated.tables.ContractStatuses
 import orm.contractstatusgeneratedrepository.ContractStatusRecord
 import models.contractstatus.ContractStatus
 import org.jooq.generated.Tables.CONTRACTS
@@ -35,6 +34,14 @@ object ContractStatusShowDao {
     fun forContractUpdate(id: Long): ContractStatus? {
         return ContractStatusRecord.GET()
                 .where(table.ID.eq(id))
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
+    fun byInternalNumber(internalNumber: String): ContractStatus? {
+        return ContractStatusRecord.GET()
+                .where(table.INTERNAL_NUMBER.eq(internalNumber))
                 .limit(1)
                 .execute()
                 .firstOrNull()

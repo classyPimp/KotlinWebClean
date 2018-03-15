@@ -5,15 +5,39 @@ import org.jooq.generated.tables.ContractStatuses
 import orm.annotations.*
 import orm.contractstatusgeneratedrepository.ContractStatusRecord
 import java.sql.Timestamp
+import java.util.*
 
 @IsModel(jooqTable = ContractStatuses::class)
 class ContractStatus {
+
+    companion object {
+        fun generateNumber(): String {
+            val SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            val salt = StringBuilder()
+            val rnd = Random()
+            while (salt.length < 6) { // length of the random string.
+                val index = (rnd.nextFloat() * SALTCHARS.length).toInt()
+                salt.append(SALTCHARS[index])
+            }
+            val generated =  salt.toString()
+            return generated
+        }
+    }
 
     val record: ContractStatusRecord by lazy { ContractStatusRecord(this) }
 
     @TableField(name = "ID")
     @IsPrimaryKey
     var id: Long? = null
+
+    @TableField(name = "INTERNAL_NUMBER")
+    var internalNumber: String? = null
+
+    @TableField(name = "ASSIGNED_NUMBER")
+    var assignedNumber: String? = null
+
+    @TableField(name = "FORMAL_DATE")
+    var formalDate: Timestamp? = null
 
     @TableField(name = "IS_COMMITTED")
     var isCommitted: Boolean? = null

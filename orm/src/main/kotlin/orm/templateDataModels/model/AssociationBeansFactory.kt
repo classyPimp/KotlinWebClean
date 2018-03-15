@@ -27,10 +27,10 @@ object AssociationBeansFactory {
     }
 
     fun buildAssociationBeans(associationsBeansToReturn: MutableList<AssociationBean>, modelDataModel: ModelDataModel) {
-        modelDataModel.typeElement.enclosedElements.forEach {
-            element: Element ->
+
+        for (element: Element in modelDataModel.typeElement.enclosedElements) {
             if (element.kind != ElementKind.FIELD) {
-                return //continue
+                continue
             }
             element.getAnnotation(BelongsToPolymorphic::class.java)?.let {
                 annotation ->

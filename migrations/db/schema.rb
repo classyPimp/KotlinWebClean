@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227054538) do
+ActiveRecord::Schema.define(version: 20180314053224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,9 @@ ActiveRecord::Schema.define(version: 20180227054538) do
     t.boolean "is_completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "internal_number"
+    t.string "assigned_number"
+    t.datetime "formal_date"
     t.index ["parent_contract_id"], name: "index_contract_statuses_on_parent_contract_id"
     t.index ["root_contract_id"], name: "index_contract_statuses_on_root_contract_id"
   end

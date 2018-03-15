@@ -2,6 +2,7 @@ package models.contractstatus
 
 import models.contractstatus.ContractStatus
 import utils.requestparameters.IParam
+import java.sql.Timestamp
 
 class ContractStatusRequestParametersWrapper(val requestParameters: IParam) {
 
@@ -14,5 +15,8 @@ class ContractStatusRequestParametersWrapper(val requestParameters: IParam) {
     val isProject: Boolean? by lazy { requestParameters.get("isProject")?.boolean }
     val isCancelled: Boolean? by lazy { requestParameters.get("isCancelled")?.boolean }
     val isCompleted: Boolean? by lazy { requestParameters.get("isCompleted")?.boolean }
+    val internalNumber: String? by lazy { requestParameters.get("internalNumber")?.string }
+    val assignedNumber: String? by lazy { requestParameters.get("assignedNumber")?.string }
+    val formalDate: Timestamp? by lazy { requestParameters.get("formalDate")?.timestamp }
 
 }

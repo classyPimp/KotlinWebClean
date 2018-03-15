@@ -17,7 +17,6 @@ object ContractIndexDao {
                             }
                         }
                     }
-                    it.contractNumber()
                     it.contractStatus()
                     it.contractCategory()
                 }

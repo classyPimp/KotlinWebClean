@@ -7,9 +7,11 @@ import { ContractToCounterPartyLink } from '../../models/ContractToCounterPartyL
 import { MixinFormableTrait } from '../../../reactUtils/plugins/formable/MixinFormableTrait';
 import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElements/PlainInput'
 import { DropDownSelectServerFed } from '../formelements/DropDownSelectServerFed'
+import { PlainDateAsTextInput } from '../formelements/PlainDateAsTextInput'
 import autobind from 'autobind-decorator'
 import { ErrorsShow } from '../shared/ErrorsShow'
 import { ApplicationComponent } from '../ApplicationComponent';
+
 
 export class EditGeneralInfo extends MixinFormableTrait(BaseReactComponent) {
 
@@ -35,6 +37,22 @@ export class EditGeneralInfo extends MixinFormableTrait(BaseReactComponent) {
           {this.state.contract.getErrorsFor('general') &&
               <ErrorsShow errors={this.state.contract.getErrorsFor('general')}/>
           }
+          <p>
+            internal number: {this.state.contract.contractStatus.internalNumber}
+          </p>
+          <PlainInputElement
+            model={this.state.contract.contractStatus}
+            propertyName="assignedNumber"
+            registerInput={(it)=>{this.registerInput(it)}}
+            optional={{placeholder: "assigned number"}}
+          />
+          <PlainDateAsTextInput
+            model={this.state.contract.contractStatus}
+            propertyName="formalDate"
+            displayFormat="DD.MM.YYYY"
+            registerInput={(it)=>{this.registerInput(it)}}
+            optional={{placeholder: "from date"}}
+          />
           <PlainInputElement
             model={this.state.contract}
             propertyName="description"
