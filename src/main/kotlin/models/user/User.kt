@@ -2,6 +2,7 @@ package models.user
 
 import models.account.Account
 import models.avatar.Avatar
+import models.discussion.Discussion
 import org.jooq.generated.tables.Users
 import orm.annotations.*
 import orm.modelUtils.FileItemFileProperty
@@ -35,6 +36,9 @@ class User {
 
     @HasOne(model = Account::class, fieldOnThis = "ID", fieldOnThat = "USER_ID")
     var account: Account? = null
+
+    @HasMany(model = Discussion::class, fieldOnThat = "USER_ID", fieldOnThis = "ID")
+    var discussions: MutableList<Discussion>? = null
 
 }
 

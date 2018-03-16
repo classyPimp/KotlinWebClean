@@ -20,6 +20,8 @@ import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
 import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
 import org.jooq.generated.tables.CounterPartyToContactLinks;
+import org.jooq.generated.tables.DiscussionMessages;
+import org.jooq.generated.tables.Discussions;
 import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
@@ -120,6 +122,16 @@ public class Tables {
      * The table <code>counter_party_to_contact_links</code>.
      */
     public static final CounterPartyToContactLinks COUNTER_PARTY_TO_CONTACT_LINKS = org.jooq.generated.tables.CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS;
+
+    /**
+     * The table <code>discussion_messages</code>.
+     */
+    public static final DiscussionMessages DISCUSSION_MESSAGES = org.jooq.generated.tables.DiscussionMessages.DISCUSSION_MESSAGES;
+
+    /**
+     * The table <code>discussions</code>.
+     */
+    public static final Discussions DISCUSSIONS = org.jooq.generated.tables.Discussions.DISCUSSIONS;
 
     /**
      * The table <code>document_template_categories</code>.

@@ -23,6 +23,9 @@ constructor(
             "HAS_MANY" -> {
                 completeReturnType = "MutableList<${associatedModelDataModel.modelClass}>?"
             }
+            "HAS_MANY_AS_POLYMORPHIC" -> {
+                completeReturnType = "MutableList<${associatedModelDataModel.modelClass}>?"
+            }
             "BELONGS_TO_POLYMORPHIC" -> {
                 completeReturnType = "Any?"
             }

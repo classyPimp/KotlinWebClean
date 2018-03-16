@@ -26,6 +26,8 @@ import org.jooq.generated.tables.ContractToUploadedDocumentLinks;
 import org.jooq.generated.tables.Contracts;
 import org.jooq.generated.tables.CounterParties;
 import org.jooq.generated.tables.CounterPartyToContactLinks;
+import org.jooq.generated.tables.DiscussionMessages;
+import org.jooq.generated.tables.Discussions;
 import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
@@ -58,7 +60,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = -81474352;
+    private static final long serialVersionUID = 1281639358;
 
     /**
      * The reference instance of <code></code>
@@ -134,6 +136,16 @@ public class DefaultSchema extends SchemaImpl {
      * The table <code>counter_party_to_contact_links</code>.
      */
     public final CounterPartyToContactLinks COUNTER_PARTY_TO_CONTACT_LINKS = org.jooq.generated.tables.CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS;
+
+    /**
+     * The table <code>discussion_messages</code>.
+     */
+    public final DiscussionMessages DISCUSSION_MESSAGES = org.jooq.generated.tables.DiscussionMessages.DISCUSSION_MESSAGES;
+
+    /**
+     * The table <code>discussions</code>.
+     */
+    public final Discussions DISCUSSIONS = org.jooq.generated.tables.Discussions.DISCUSSIONS;
 
     /**
      * The table <code>document_template_categories</code>.
@@ -254,6 +266,8 @@ public class DefaultSchema extends SchemaImpl {
             Contracts.CONTRACTS,
             CounterParties.COUNTER_PARTIES,
             CounterPartyToContactLinks.COUNTER_PARTY_TO_CONTACT_LINKS,
+            DiscussionMessages.DISCUSSION_MESSAGES,
+            Discussions.DISCUSSIONS,
             DocumentTemplateCategories.DOCUMENT_TEMPLATE_CATEGORIES,
             DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS,
             DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES,

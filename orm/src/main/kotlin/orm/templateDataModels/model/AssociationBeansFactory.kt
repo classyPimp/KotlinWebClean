@@ -57,26 +57,38 @@ object AssociationBeansFactory {
                 val associationBean = buildHasOneAsPolymorphicAssociationBean(modelDataModel, element, annotation)
                 associationsBeansToReturn.add(associationBean)
             }
-//            ?: element.getAnnotation(HasManyAsPolymorphic::class.java)?.let {
-//                annotation ->
-//                buildHasManyAsPolymorphicAssociationBean(modelDataModel, element, annotation).let {
-//                    associationsBeansToReturn.add(it)
-//                }
-//            }
+            ?: element.getAnnotation(HasManyAsPolymorphic::class.java)?.let {
+                annotation ->
+                buildHasManyAsPolymorphicAssociationBean(modelDataModel, element, annotation).let {
+                    associationsBeansToReturn.add(it)
+                }
+            }
         }
     }
 
-//    private fun buildHasManyAsPolymorphicAssociationBean(
-//            modelDataModel: ModelDataModel,
-//            element: Element,
-//            annotation: HasManyAsPolymorphic
-//    ): AssociationBean {
-//        val associationBean = buildHasManyAssociationBean(modelDataModel, element, annotation as HasMany)
-//        associationBean.associationType = "HAS_MANY_AS_POLYMORPHIC"
-//        associationBean.polymorphicTypeField = FieldBeansUtils.getFieldBeanByName(modelDataModel.fieldBeans, annotation.polymorphicTypeField)
-//        return associationBean
-//    }
-//
+    private fun buildHasManyAsPolymorphicAssociationBean(
+            modelDataModel: ModelDataModel,
+            element: Element,
+            annotation: HasManyAsPolymorphic
+    ): AssociationBean {
+        val associatedPropertyName: String = element.simpleName.toString()
+        val fieldOnThisName: String = annotation.fieldOnThis
+        val fieldOnThatName: String = annotation.fieldOnThat
+        val associatedModelDataModel: ModelDataModel = getAssociatedModelDataModel {
+            annotation.model
+        }
+        val associationBean = AssociationBean(
+                associationType = "HAS_MANY_AS_POLYMORPHIC",
+                propertyName = associatedPropertyName,
+                associatedModelDataModel = associatedModelDataModel,
+                fieldOnThis = FieldBeansUtils.getFieldBeanByName(modelDataModel.fieldBeans, fieldOnThisName),
+                fieldOnThat = FieldBeansUtils.getFieldBeanByName(associatedModelDataModel.fieldBeans, fieldOnThatName)
+        )
+        associationBean.associationType = "HAS_MANY_AS_POLYMORPHIC"
+        associationBean.polymorphicTypeField = FieldBeansUtils.getFieldBeanByName(associationBean.associatedModelDataModel.fieldBeans, annotation.polymorphicTypeField)
+        return associationBean
+    }
+
     private fun buildHasOneAsPolymorphicAssociationBean(
             modelDataModel: ModelDataModel,
             element: Element,

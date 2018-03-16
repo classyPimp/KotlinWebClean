@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180314053224) do
+ActiveRecord::Schema.define(version: 20180316072337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,30 @@ ActiveRecord::Schema.define(version: 20180314053224) do
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_counter_party_to_contact_links_on_contact_id"
     t.index ["counter_party_id"], name: "index_counter_party_to_contact_links_on_counter_party_id"
+  end
+
+  create_table "discussion_messages", force: :cascade do |t|
+    t.bigint "discussion_id"
+    t.bigint "discussion_message_id"
+    t.bigint "user_id"
+    t.integer "nest_level"
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussion_id"], name: "index_discussion_messages_on_discussion_id"
+    t.index ["discussion_message_id"], name: "index_discussion_messages_on_discussion_message_id"
+    t.index ["user_id"], name: "index_discussion_messages_on_user_id"
+  end
+
+  create_table "discussions", force: :cascade do |t|
+    t.string "topic"
+    t.string "discussable_type"
+    t.bigint "discussable_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussable_type", "discussable_id"], name: "index_discussions_on_discussable_type_and_discussable_id"
+    t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
   create_table "document_template_categories", force: :cascade do |t|
@@ -294,6 +318,8 @@ ActiveRecord::Schema.define(version: 20180314053224) do
   add_foreign_key "counter_parties", "incorporation_forms"
   add_foreign_key "counter_party_to_contact_links", "contacts"
   add_foreign_key "counter_party_to_contact_links", "counter_parties"
+  add_foreign_key "discussion_messages", "discussion_messages"
+  add_foreign_key "discussion_messages", "discussions"
   add_foreign_key "document_template_to_document_variable_links", "document_template_variables"
   add_foreign_key "document_template_to_document_variable_links", "document_templates"
   add_foreign_key "document_templates", "document_template_categories"

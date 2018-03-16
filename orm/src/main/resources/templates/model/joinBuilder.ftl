@@ -57,14 +57,47 @@ class ${modelClass}AssociationsJoinBuilder(
     fun ${ab.propertyName}(): ${ab.capitalizedPropertyName}Joiner{
         return ${ab.capitalizedPropertyName}Joiner(selectQuery, tableOrAlias)
     }
+    <#elseif ab.associationType == "HAS_MANY_AS_POLYMORPHIC" || ab.associationType == "HAS_ONE_AS_POLYMORPHIC">
+    fun ${ab.propertyName}() {
+        selectQuery.addJoin(
+            ${ab.associatedModelDataModel.jooqTableInstance},
+            ${ab.associatedModelDataModel.jooqTableInstance}.${ab.fieldOnThat.tableFieldName}.eq(tableOrAlias.${ab.fieldOnThis.tableFieldName})
+            .and(
+                ${ab.associatedModelDataModel.jooqTableInstance}
+                .${ab.polymorphicTypeField.tableFieldName}
+                .eq("${modelClass}")
+            )
+        )
+    }
 
+    fun ${ab.propertyName}(joinedTableAlias: ${ab.associatedModelDataModel.jooqTableSimpleName}) {
+        selectQuery.addJoin(
+            joinedTableAlias,
+            joinedTableAlias.${ab.fieldOnThat.tableFieldName}.eq(tableOrAlias.${ab.fieldOnThis.tableFieldName})
+            .and(
+                joinedTableAlias
+                .${ab.polymorphicTypeField.tableFieldName}
+                .eq("${modelClass}")
+            )
+        )
+    }
+
+    fun ${ab.propertyName}(block: (${ab.associatedModelDataModel.modelClass}AssociationsJoinBuilder)->Unit) {
+        ${ab.propertyName}()
+        block.invoke(${ab.associatedModelDataModel.modelClass}AssociationsJoinBuilder(selectQuery))
+    }
+
+    fun ${ab.propertyName}(joinedTableAlias: ${ab.associatedModelDataModel.jooqTableSimpleName}, block: (${ab.associatedModelDataModel.modelClass}AssociationsJoinBuilder)->Unit) {
+        ${ab.propertyName}(joinedTableAlias)
+        block.invoke(${ab.associatedModelDataModel.modelClass}AssociationsJoinBuilder(selectQuery))
+    }
     <#else>
     fun ${ab.propertyName}() {
         selectQuery.addJoin(${ab.associatedModelDataModel.jooqTableInstance}, ${ab.associatedModelDataModel.jooqTableInstance}.${ab.fieldOnThat.tableFieldName}.eq(tableOrAlias.${ab.fieldOnThis.tableFieldName}))
     }
 
     fun ${ab.propertyName}(joinedTableAlias: ${ab.associatedModelDataModel.jooqTableSimpleName}) {
-        selectQuery.addJoin(${ab.associatedModelDataModel.jooqTableInstance}, joinedTableAlias.${ab.fieldOnThat.tableFieldName}.eq(tableOrAlias.${ab.fieldOnThis.tableFieldName}))
+        selectQuery.addJoin(joinedTableAlias, joinedTableAlias.${ab.fieldOnThat.tableFieldName}.eq(tableOrAlias.${ab.fieldOnThis.tableFieldName}))
     }
 
     fun ${ab.propertyName}(block: (${ab.associatedModelDataModel.modelClass}AssociationsJoinBuilder)->Unit) {

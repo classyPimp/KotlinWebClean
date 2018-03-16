@@ -31,5 +31,9 @@ object ${modelClass}DefaultAssociationsManager {
     <#include "/model/associationPartials/hasOneAsPolymorphic.ftl">
     </#if>
 
+    <#if ab.associationType == "HAS_MANY_AS_POLYMORPHIC">
+    <#include "/model/associationPartials/hasManyAsPolymorphic.ftl">
+    </#if>
+
     </#list>
 }

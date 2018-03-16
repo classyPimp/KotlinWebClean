@@ -172,7 +172,7 @@ class ${modelClass}ToJsonSerializer(val model: ${modelClass}) {
         return this
     }
     </#if>
-    <#if ab.associationType == "HAS_MANY">
+    <#if ab.associationType == "HAS_MANY" || ab.associationType == "HAS_MANY_AS_POLYMORPHIC">
     fun include${ab.capitalizedPropertyName}(): ${modelClass}ToJsonSerializer {
         model.${ab.propertyName}?.let {
             val arrayNode = objectMapper.createArrayNode()

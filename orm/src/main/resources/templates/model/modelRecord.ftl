@@ -37,13 +37,20 @@ class ${modelClass}Record(val model: ${modelClass}) {
 
 
     <#list associationBeans as ab>
+
     fun load${ab.capitalizedPropertyName}() {
         ${modelClass}DefaultAssociationsManager.load${ab.capitalizedPropertyName}(model)
     }
 
+    <#if ab.associationType == "BELONGS_TO_POLYMORPHIC">
+    fun load${ab.capitalizedPropertyName}(blockYieldingQueryBuilder: (${modelClass}DefaultAssociationsManager.${ab.capitalizedPropertyName}SelectQueryBuilders)->Unit) {
+        ${modelClass}DefaultAssociationsManager.load${ab.capitalizedPropertyName}(model, blockYieldingQueryBuilder)
+    }
+    <#else>
     fun load${ab.capitalizedPropertyName}(blockYieldingQueryBuilder: (${ab.associatedModelDataModel.modelClass}SelectQueryBuilder)->Unit) {
         ${modelClass}DefaultAssociationsManager.load${ab.capitalizedPropertyName}(model, blockYieldingQueryBuilder)
     }
+    </#if>
 
     var ${ab.propertyName}: ${ab.completeReturnType}
         get() {
@@ -63,6 +70,11 @@ class ${modelClass}Record(val model: ${modelClass}) {
             }
             <#elseif ab.associationType == "HAS_ONE_AS_POLYMORPHIC">
             value?.let {
+              it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
+              it.record.${ab.polymorphicTypeField.property} = "${modelClass}"
+            }
+            <#elseif ab.associationType == "HAS_ONE_AS_POLYMORPHIC">
+            value?.forEach {
               it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
               it.record.${ab.polymorphicTypeField.property} = "${modelClass}"
             }
@@ -137,6 +149,10 @@ class ${modelClass}Record(val model: ${modelClass}) {
         model.${ab.propertyName}?.forEach {
             it.record.saveCascade(dslContext)
         }
+        <#elseif ab.associationType == "HAS_MANY_AS_POLYMORPHIC">
+        model.${ab.propertyName}?.forEach {
+            it.record.saveCascade(dslContext)
+        }
         <#elseif ab.associationType == "BELONGS_TO">
         model.${ab.propertyName}?.let {
             it.record.saveCascade(dslContext)
@@ -169,6 +185,11 @@ class ${modelClass}Record(val model: ${modelClass}) {
             it.record.save(dslContext)
         }
         <#elseif ab.associationType == "HAS_MANY">
+        model.${ab.propertyName}?.forEach {
+            it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
+            it.record.save(dslContext)
+        }
+        <#elseif ab.associationType == "HAS_MANY_AS_POLYMORPHIC">
         model.${ab.propertyName}?.forEach {
             it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
             it.record.save(dslContext)
@@ -208,6 +229,10 @@ class ${modelClass}Record(val model: ${modelClass}) {
             it.record.delete(dslContext)
         }
         <#elseif ab.associationType == "HAS_MANY">
+        model.${ab.propertyName}?.forEach {
+            it.record.delete(dslContext)
+        }
+        <#elseif ab.associationType == "HAS_MANY_AS_POLYMORPHIC">
         model.${ab.propertyName}?.forEach {
             it.record.delete(dslContext)
         }
