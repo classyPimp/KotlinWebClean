@@ -1,0 +1,10 @@
+package models.approvalrejectiontouploadeddocumentlink
+
+import models.approvalrejectiontouploadeddocumentlink.ApprovalRejectionToUploadedDocumentLink
+import utils.requestparameters.IParam
+
+class ApprovalRejectionToUploadedDocumentLinkRequestParametersWrapper(val requestParameters: IParam) {
+
+
+
+}

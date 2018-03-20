@@ -1,0 +1,11 @@
+package models.approvalrejectiontouploadeddocumentlink.daos
+
+import org.jooq.generated.tables.ApprovalRejectionToUploadedDocumentLinks
+import orm.approvalrejectiontouploadeddocumentlinkgeneratedrepository.ApprovalRejectionToUploadedDocumentLinkRecord
+import models.approvalrejectiontouploadeddocumentlink.ApprovalRejectionToUploadedDocumentLink
+
+object ApprovalRejectionToUploadedDocumentLinkDestroyDao {
+
+
+
+}

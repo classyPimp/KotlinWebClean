@@ -1,5 +1,6 @@
 package models.contract
 
+import models.approval.Approval
 import models.contractcategory.ContractCategory
 import models.contractstatus.ContractStatus
 import models.contracttocounterpartylink.ContractToCounterPartyLink
@@ -55,6 +56,7 @@ class Contract {
     @HasMany(model = MonetaryObligation::class, fieldOnThat = "CONTRACT_ID", fieldOnThis = "ID")
     var monetaryObligations: MutableList<MonetaryObligation>? = null
 
-
+    @HasOneAsPolymorphic(model = Approval::class, fieldOnThis = "ID", fieldOnThat = "APPROVABLE_ID", polymorphicTypeField = "APPROVABLE_TYPE")
+    var approval: Approval? = null
 }
 

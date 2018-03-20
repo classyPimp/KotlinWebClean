@@ -1,0 +1,22 @@
+package models.approvalrejectiontouploadeddocumentlink.daos
+
+import org.jooq.generated.tables.ApprovalRejectionToUploadedDocumentLinks
+import models.approvalrejectiontouploadeddocumentlink.daos.ApprovalRejectionToUploadedDocumentLinkShowDao
+import models.approvalrejectiontouploadeddocumentlink.daos.ApprovalRejectionToUploadedDocumentLinkIndexDao
+import models.approvalrejectiontouploadeddocumentlink.daos.ApprovalRejectionToUploadedDocumentLinkEditDao
+import models.approvalrejectiontouploadeddocumentlink.daos.ApprovalRejectionToUploadedDocumentLinkUpdateDao
+import models.approvalrejectiontouploadeddocumentlink.daos.ApprovalRejectionToUploadedDocumentLinkDestroyDao
+
+object ApprovalRejectionToUploadedDocumentLinkDaos {
+
+    val show = ApprovalRejectionToUploadedDocumentLinkShowDao
+
+    val index = ApprovalRejectionToUploadedDocumentLinkIndexDao
+
+    val edit = ApprovalRejectionToUploadedDocumentLinkEditDao
+
+    val update = ApprovalRejectionToUploadedDocumentLinkUpdateDao
+
+    val destroy = ApprovalRejectionToUploadedDocumentLinkDestroyDao
+
+}

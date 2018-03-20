@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316072337) do
+ActiveRecord::Schema.define(version: 20180319091113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,68 @@ ActiveRecord::Schema.define(version: 20180316072337) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "approval_rejection_to_uploaded_document_links", force: :cascade do |t|
+    t.bigint "approval_rejection_id"
+    t.bigint "uploaded_document_id"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approval_rejection_id"], name: "aprej_updo"
+    t.index ["uploaded_document_id"], name: "apretoupdo_updo"
+  end
+
+  create_table "approval_rejections", force: :cascade do |t|
+    t.bigint "approval_step_to_approver_link_id"
+    t.string "reason_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approval_step_to_approver_link_id"], name: "index_approval_rejections_on_approval_step_to_approver_link_id"
+  end
+
+  create_table "approval_step_to_approver_links", force: :cascade do |t|
+    t.bigint "approval_step_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approval_step_id"], name: "index_approval_step_to_approver_links_on_approval_step_id"
+    t.index ["user_id"], name: "index_approval_step_to_approver_links_on_user_id"
+  end
+
+  create_table "approval_step_to_uploaded_document_links", force: :cascade do |t|
+    t.bigint "approval_step_id"
+    t.bigint "uploaded_document_id"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approval_step_id"], name: "apst_to_updoli"
+    t.index ["uploaded_document_id"], name: "apsttoupdo_updo"
+  end
+
+  create_table "approval_steps", force: :cascade do |t|
+    t.bigint "approval_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approval_id"], name: "index_approval_steps_on_approval_id"
+  end
+
+  create_table "approval_to_approver_links", force: :cascade do |t|
+    t.bigint "approval_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approval_id"], name: "index_approval_to_approver_links_on_approval_id"
+    t.index ["user_id"], name: "index_approval_to_approver_links_on_user_id"
+  end
+
+  create_table "approvals", force: :cascade do |t|
+    t.string "approvable_type"
+    t.bigint "approvable_id"
+    t.bigint "last_stage_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approvable_type", "approvable_id"], name: "index_approvals_on_approvable_type_and_approvable_id"
   end
 
   create_table "avatars", force: :cascade do |t|
@@ -303,6 +365,16 @@ ActiveRecord::Schema.define(version: 20180316072337) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "approval_rejection_to_uploaded_document_links", "approval_rejections"
+  add_foreign_key "approval_rejection_to_uploaded_document_links", "uploaded_documents"
+  add_foreign_key "approval_rejections", "approval_step_to_approver_links"
+  add_foreign_key "approval_step_to_approver_links", "approval_steps"
+  add_foreign_key "approval_step_to_approver_links", "users"
+  add_foreign_key "approval_step_to_uploaded_document_links", "approval_steps"
+  add_foreign_key "approval_step_to_uploaded_document_links", "uploaded_documents"
+  add_foreign_key "approval_steps", "approvals"
+  add_foreign_key "approval_to_approver_links", "approvals"
+  add_foreign_key "approval_to_approver_links", "users"
   add_foreign_key "avatars", "users"
   add_foreign_key "contacts", "contact_types"
   add_foreign_key "contract_statuses", "contracts", column: "parent_contract_id"

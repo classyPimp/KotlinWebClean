@@ -1,0 +1,11 @@
+package models.approvalsteptouploadeddocumentlink.daos
+
+import org.jooq.generated.tables.ApprovalStepToUploadedDocumentLinks
+import orm.approvalsteptouploadeddocumentlinkgeneratedrepository.ApprovalStepToUploadedDocumentLinkRecord
+import models.approvalsteptouploadeddocumentlink.ApprovalStepToUploadedDocumentLink
+
+object ApprovalStepToUploadedDocumentLinkIndexDao {
+
+
+
+}

@@ -7,6 +7,13 @@ package org.jooq.generated;
 import javax.annotation.Generated;
 
 import org.jooq.generated.tables.Accounts;
+import org.jooq.generated.tables.ApprovalRejectionToUploadedDocumentLinks;
+import org.jooq.generated.tables.ApprovalRejections;
+import org.jooq.generated.tables.ApprovalStepToApproverLinks;
+import org.jooq.generated.tables.ApprovalStepToUploadedDocumentLinks;
+import org.jooq.generated.tables.ApprovalSteps;
+import org.jooq.generated.tables.ApprovalToApproverLinks;
+import org.jooq.generated.tables.Approvals;
 import org.jooq.generated.tables.ArInternalMetadata;
 import org.jooq.generated.tables.Avatars;
 import org.jooq.generated.tables.ContactTypes;
@@ -57,6 +64,41 @@ public class Tables {
      * The table <code>accounts</code>.
      */
     public static final Accounts ACCOUNTS = org.jooq.generated.tables.Accounts.ACCOUNTS;
+
+    /**
+     * The table <code>approval_rejection_to_uploaded_document_links</code>.
+     */
+    public static final ApprovalRejectionToUploadedDocumentLinks APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS = org.jooq.generated.tables.ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS;
+
+    /**
+     * The table <code>approval_rejections</code>.
+     */
+    public static final ApprovalRejections APPROVAL_REJECTIONS = org.jooq.generated.tables.ApprovalRejections.APPROVAL_REJECTIONS;
+
+    /**
+     * The table <code>approval_step_to_approver_links</code>.
+     */
+    public static final ApprovalStepToApproverLinks APPROVAL_STEP_TO_APPROVER_LINKS = org.jooq.generated.tables.ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS;
+
+    /**
+     * The table <code>approval_step_to_uploaded_document_links</code>.
+     */
+    public static final ApprovalStepToUploadedDocumentLinks APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS = org.jooq.generated.tables.ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS;
+
+    /**
+     * The table <code>approval_steps</code>.
+     */
+    public static final ApprovalSteps APPROVAL_STEPS = org.jooq.generated.tables.ApprovalSteps.APPROVAL_STEPS;
+
+    /**
+     * The table <code>approval_to_approver_links</code>.
+     */
+    public static final ApprovalToApproverLinks APPROVAL_TO_APPROVER_LINKS = org.jooq.generated.tables.ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS;
+
+    /**
+     * The table <code>approvals</code>.
+     */
+    public static final Approvals APPROVALS = org.jooq.generated.tables.Approvals.APPROVALS;
 
     /**
      * The table <code>ar_internal_metadata</code>.

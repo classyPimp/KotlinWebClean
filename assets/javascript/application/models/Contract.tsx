@@ -10,6 +10,7 @@ import { ContractNumber } from './ContractNumber'
 import { ContractCategory } from './ContractCategory'
 import { ContractToCounterPartyLink } from './ContractToCounterPartyLink' 
 import { MonetaryObligation } from './MonetaryObligation'
+import { Approval } from './Approval'
 
 export class Contract extends BaseModel {
 
@@ -53,6 +54,9 @@ export class Contract extends BaseModel {
 
     @HasMany("MonetaryObligation")
     monetaryObligations: ModelCollection<MonetaryObligation>
+
+    @HasOne("Approval")
+    approval: Approval
 
     @Route("POST", {url: "/api/contracts"})
     create: (options?: RequestOptions) => Promise<Contract>

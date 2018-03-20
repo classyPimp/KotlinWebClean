@@ -28,6 +28,16 @@ import { ContractToCounterPartyLink } from './models/ContractToCounterPartyLink'
 import { ContractToUploadedDocumentLinkReason } from './models/ContractToUploadedDocumentLinkReason'
 import { MonetaryObligation } from './models/MonetaryObligation'
 import { MonetaryObligationPart } from './models/MonetaryObligationPart'
+import { Discussion } from './models/Discussion'
+import { DiscussionMessage } from './models/DiscussionMessage'
+import { Approval } from './models/Approval'
+import { ApprovalToApproverLink } from './models/ApprovalToApproverLink'
+import { ApprovalStep } from './models/ApprovalStep'
+import { ApprovalStepToApproverLink } from './models/ApprovalStepToApproverLink'
+import { ApprovalRejection } from './models/ApprovalRejection'
+import { ApprovalStepToUploadedDocumentLink } from './models/ApprovalStepToUploadedDocumentLink'  
+import { ApprovalRejectionToUploadedDocumentLink } from './models/ApprovalRejectionToUploadedDocumentLink'
+
 
 export class ModelRegistrator {
   //THIS UGLY HACK SOLVES SOME NASTY CIRCULAR DEPENDENCIES BUGS!
@@ -61,7 +71,15 @@ export class ModelRegistrator {
       ContractToUploadedDocumentLinkReason,
       MonetaryObligation,
       MonetaryObligationPart,
-      
+      Discussion,
+      DiscussionMessage,
+      Approval,
+      ApprovalToApproverLink,
+      ApprovalStep,
+      ApprovalStepToApproverLink,
+      ApprovalRejection,
+      ApprovalStepToUploadedDocumentLink,
+      ApprovalRejectionToUploadedDocumentLink,     
                   
     }
   }

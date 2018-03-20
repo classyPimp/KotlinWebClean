@@ -1,5 +1,8 @@
 package models.discussion
 
+import models.approvalrejection.ApprovalRejection
+import models.contract.Contract
+import models.discussionmessage.DiscussionMessage
 import models.user.User
 import org.jooq.generated.tables.Discussions
 import orm.annotations.*
@@ -33,16 +36,16 @@ class Discussion {
     @TableField(name = "UPDATED_AT")
     var updatedAt: Timestamp? = null
 
-    @BelongsToPolymorphic(
-            arrayOf(User::class),
-            fieldOnThat =  "ID",
-            fieldOnThis = "DISCUSSABLE_ID",
-            polymorphicTypeField = "DISCUSSABLE_TYPE"
-    )
     var discussable: Any? = null
 
     @BelongsTo(model = User::class, fieldOnThis = "USER_ID", fieldOnThat = "ID")
     var user: User? = null
+
+    @HasMany(model = DiscussionMessage::class, fieldOnThat = "DISCUSSION_ID", fieldOnThis = "ID")
+    var discussionMessages: MutableList<DiscussionMessage>? = null
+
+    @BelongsTo(model = ApprovalRejection::class, fieldOnThis = "DISCUSSABLE_ID", fieldOnThat = "ID")
+    var approvalRejection: ApprovalRejection? = null
 
 }
 

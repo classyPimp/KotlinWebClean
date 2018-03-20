@@ -13,6 +13,13 @@ import javax.annotation.Generated;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.generated.tables.Accounts;
+import org.jooq.generated.tables.ApprovalRejectionToUploadedDocumentLinks;
+import org.jooq.generated.tables.ApprovalRejections;
+import org.jooq.generated.tables.ApprovalStepToApproverLinks;
+import org.jooq.generated.tables.ApprovalStepToUploadedDocumentLinks;
+import org.jooq.generated.tables.ApprovalSteps;
+import org.jooq.generated.tables.ApprovalToApproverLinks;
+import org.jooq.generated.tables.Approvals;
 import org.jooq.generated.tables.ArInternalMetadata;
 import org.jooq.generated.tables.Avatars;
 import org.jooq.generated.tables.ContactTypes;
@@ -60,7 +67,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = 1281639358;
+    private static final long serialVersionUID = 1129005667;
 
     /**
      * The reference instance of <code></code>
@@ -71,6 +78,41 @@ public class DefaultSchema extends SchemaImpl {
      * The table <code>accounts</code>.
      */
     public final Accounts ACCOUNTS = org.jooq.generated.tables.Accounts.ACCOUNTS;
+
+    /**
+     * The table <code>approval_rejection_to_uploaded_document_links</code>.
+     */
+    public final ApprovalRejectionToUploadedDocumentLinks APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS = org.jooq.generated.tables.ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS;
+
+    /**
+     * The table <code>approval_rejections</code>.
+     */
+    public final ApprovalRejections APPROVAL_REJECTIONS = org.jooq.generated.tables.ApprovalRejections.APPROVAL_REJECTIONS;
+
+    /**
+     * The table <code>approval_step_to_approver_links</code>.
+     */
+    public final ApprovalStepToApproverLinks APPROVAL_STEP_TO_APPROVER_LINKS = org.jooq.generated.tables.ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS;
+
+    /**
+     * The table <code>approval_step_to_uploaded_document_links</code>.
+     */
+    public final ApprovalStepToUploadedDocumentLinks APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS = org.jooq.generated.tables.ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS;
+
+    /**
+     * The table <code>approval_steps</code>.
+     */
+    public final ApprovalSteps APPROVAL_STEPS = org.jooq.generated.tables.ApprovalSteps.APPROVAL_STEPS;
+
+    /**
+     * The table <code>approval_to_approver_links</code>.
+     */
+    public final ApprovalToApproverLinks APPROVAL_TO_APPROVER_LINKS = org.jooq.generated.tables.ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS;
+
+    /**
+     * The table <code>approvals</code>.
+     */
+    public final Approvals APPROVALS = org.jooq.generated.tables.Approvals.APPROVALS;
 
     /**
      * The table <code>ar_internal_metadata</code>.
@@ -253,6 +295,13 @@ public class DefaultSchema extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             Accounts.ACCOUNTS,
+            ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS,
+            ApprovalRejections.APPROVAL_REJECTIONS,
+            ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS,
+            ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS,
+            ApprovalSteps.APPROVAL_STEPS,
+            ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS,
+            Approvals.APPROVALS,
             ArInternalMetadata.AR_INTERNAL_METADATA,
             Avatars.AVATARS,
             ContactTypes.CONTACT_TYPES,

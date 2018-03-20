@@ -10,6 +10,13 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.generated.tables.Accounts;
+import org.jooq.generated.tables.ApprovalRejectionToUploadedDocumentLinks;
+import org.jooq.generated.tables.ApprovalRejections;
+import org.jooq.generated.tables.ApprovalStepToApproverLinks;
+import org.jooq.generated.tables.ApprovalStepToUploadedDocumentLinks;
+import org.jooq.generated.tables.ApprovalSteps;
+import org.jooq.generated.tables.ApprovalToApproverLinks;
+import org.jooq.generated.tables.Approvals;
 import org.jooq.generated.tables.ArInternalMetadata;
 import org.jooq.generated.tables.Avatars;
 import org.jooq.generated.tables.ContactTypes;
@@ -42,6 +49,13 @@ import org.jooq.generated.tables.SchemaMigrations;
 import org.jooq.generated.tables.UploadedDocuments;
 import org.jooq.generated.tables.Users;
 import org.jooq.generated.tables.records.AccountsRecord;
+import org.jooq.generated.tables.records.ApprovalRejectionToUploadedDocumentLinksRecord;
+import org.jooq.generated.tables.records.ApprovalRejectionsRecord;
+import org.jooq.generated.tables.records.ApprovalStepToApproverLinksRecord;
+import org.jooq.generated.tables.records.ApprovalStepToUploadedDocumentLinksRecord;
+import org.jooq.generated.tables.records.ApprovalStepsRecord;
+import org.jooq.generated.tables.records.ApprovalToApproverLinksRecord;
+import org.jooq.generated.tables.records.ApprovalsRecord;
 import org.jooq.generated.tables.records.ArInternalMetadataRecord;
 import org.jooq.generated.tables.records.AvatarsRecord;
 import org.jooq.generated.tables.records.ContactTypesRecord;
@@ -95,6 +109,13 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<AccountsRecord, Long> IDENTITY_ACCOUNTS = Identities0.IDENTITY_ACCOUNTS;
+    public static final Identity<ApprovalRejectionToUploadedDocumentLinksRecord, Long> IDENTITY_APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS = Identities0.IDENTITY_APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS;
+    public static final Identity<ApprovalRejectionsRecord, Long> IDENTITY_APPROVAL_REJECTIONS = Identities0.IDENTITY_APPROVAL_REJECTIONS;
+    public static final Identity<ApprovalStepToApproverLinksRecord, Long> IDENTITY_APPROVAL_STEP_TO_APPROVER_LINKS = Identities0.IDENTITY_APPROVAL_STEP_TO_APPROVER_LINKS;
+    public static final Identity<ApprovalStepToUploadedDocumentLinksRecord, Long> IDENTITY_APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS = Identities0.IDENTITY_APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS;
+    public static final Identity<ApprovalStepsRecord, Long> IDENTITY_APPROVAL_STEPS = Identities0.IDENTITY_APPROVAL_STEPS;
+    public static final Identity<ApprovalToApproverLinksRecord, Long> IDENTITY_APPROVAL_TO_APPROVER_LINKS = Identities0.IDENTITY_APPROVAL_TO_APPROVER_LINKS;
+    public static final Identity<ApprovalsRecord, Long> IDENTITY_APPROVALS = Identities0.IDENTITY_APPROVALS;
     public static final Identity<AvatarsRecord, Long> IDENTITY_AVATARS = Identities0.IDENTITY_AVATARS;
     public static final Identity<ContactTypesRecord, Long> IDENTITY_CONTACT_TYPES = Identities0.IDENTITY_CONTACT_TYPES;
     public static final Identity<ContactsRecord, Long> IDENTITY_CONTACTS = Identities0.IDENTITY_CONTACTS;
@@ -130,6 +151,13 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<AccountsRecord> ACCOUNTS_PKEY = UniqueKeys0.ACCOUNTS_PKEY;
+    public static final UniqueKey<ApprovalRejectionToUploadedDocumentLinksRecord> APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS_PKEY = UniqueKeys0.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS_PKEY;
+    public static final UniqueKey<ApprovalRejectionsRecord> APPROVAL_REJECTIONS_PKEY = UniqueKeys0.APPROVAL_REJECTIONS_PKEY;
+    public static final UniqueKey<ApprovalStepToApproverLinksRecord> APPROVAL_STEP_TO_APPROVER_LINKS_PKEY = UniqueKeys0.APPROVAL_STEP_TO_APPROVER_LINKS_PKEY;
+    public static final UniqueKey<ApprovalStepToUploadedDocumentLinksRecord> APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS_PKEY = UniqueKeys0.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS_PKEY;
+    public static final UniqueKey<ApprovalStepsRecord> APPROVAL_STEPS_PKEY = UniqueKeys0.APPROVAL_STEPS_PKEY;
+    public static final UniqueKey<ApprovalToApproverLinksRecord> APPROVAL_TO_APPROVER_LINKS_PKEY = UniqueKeys0.APPROVAL_TO_APPROVER_LINKS_PKEY;
+    public static final UniqueKey<ApprovalsRecord> APPROVALS_PKEY = UniqueKeys0.APPROVALS_PKEY;
     public static final UniqueKey<ArInternalMetadataRecord> AR_INTERNAL_METADATA_PKEY = UniqueKeys0.AR_INTERNAL_METADATA_PKEY;
     public static final UniqueKey<AvatarsRecord> AVATARS_PKEY = UniqueKeys0.AVATARS_PKEY;
     public static final UniqueKey<ContactTypesRecord> CONTACT_TYPES_PKEY = UniqueKeys0.CONTACT_TYPES_PKEY;
@@ -167,6 +195,16 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<AccountsRecord, UsersRecord> ACCOUNTS__FK_RAILS_B1E30BEBC8 = ForeignKeys0.ACCOUNTS__FK_RAILS_B1E30BEBC8;
+    public static final ForeignKey<ApprovalRejectionToUploadedDocumentLinksRecord, ApprovalRejectionsRecord> APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_983A6E86EE = ForeignKeys0.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_983A6E86EE;
+    public static final ForeignKey<ApprovalRejectionToUploadedDocumentLinksRecord, UploadedDocumentsRecord> APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_C979624FFD = ForeignKeys0.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_C979624FFD;
+    public static final ForeignKey<ApprovalRejectionsRecord, ApprovalStepToApproverLinksRecord> APPROVAL_REJECTIONS__FK_RAILS_DD358345E9 = ForeignKeys0.APPROVAL_REJECTIONS__FK_RAILS_DD358345E9;
+    public static final ForeignKey<ApprovalStepToApproverLinksRecord, ApprovalStepsRecord> APPROVAL_STEP_TO_APPROVER_LINKS__FK_RAILS_1CB503DFA3 = ForeignKeys0.APPROVAL_STEP_TO_APPROVER_LINKS__FK_RAILS_1CB503DFA3;
+    public static final ForeignKey<ApprovalStepToApproverLinksRecord, UsersRecord> APPROVAL_STEP_TO_APPROVER_LINKS__FK_RAILS_D25DADEC12 = ForeignKeys0.APPROVAL_STEP_TO_APPROVER_LINKS__FK_RAILS_D25DADEC12;
+    public static final ForeignKey<ApprovalStepToUploadedDocumentLinksRecord, ApprovalStepsRecord> APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_63E2600673 = ForeignKeys0.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_63E2600673;
+    public static final ForeignKey<ApprovalStepToUploadedDocumentLinksRecord, UploadedDocumentsRecord> APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_1FF4F37E3F = ForeignKeys0.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_1FF4F37E3F;
+    public static final ForeignKey<ApprovalStepsRecord, ApprovalsRecord> APPROVAL_STEPS__FK_RAILS_B46877B9F0 = ForeignKeys0.APPROVAL_STEPS__FK_RAILS_B46877B9F0;
+    public static final ForeignKey<ApprovalToApproverLinksRecord, ApprovalsRecord> APPROVAL_TO_APPROVER_LINKS__FK_RAILS_FD00172C5C = ForeignKeys0.APPROVAL_TO_APPROVER_LINKS__FK_RAILS_FD00172C5C;
+    public static final ForeignKey<ApprovalToApproverLinksRecord, UsersRecord> APPROVAL_TO_APPROVER_LINKS__FK_RAILS_430386944C = ForeignKeys0.APPROVAL_TO_APPROVER_LINKS__FK_RAILS_430386944C;
     public static final ForeignKey<AvatarsRecord, UsersRecord> AVATARS__FK_RAILS_457088D9D9 = ForeignKeys0.AVATARS__FK_RAILS_457088D9D9;
     public static final ForeignKey<ContactsRecord, ContactTypesRecord> CONTACTS__FK_RAILS_B8815787EE = ForeignKeys0.CONTACTS__FK_RAILS_B8815787EE;
     public static final ForeignKey<ContractStatusesRecord, ContractsRecord> CONTRACT_STATUSES__FK_RAILS_7BDD142D93 = ForeignKeys0.CONTRACT_STATUSES__FK_RAILS_7BDD142D93;
@@ -206,6 +244,13 @@ public class Keys {
 
     private static class Identities0 extends AbstractKeys {
         public static Identity<AccountsRecord, Long> IDENTITY_ACCOUNTS = createIdentity(Accounts.ACCOUNTS, Accounts.ACCOUNTS.ID);
+        public static Identity<ApprovalRejectionToUploadedDocumentLinksRecord, Long> IDENTITY_APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS = createIdentity(ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS, ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS.ID);
+        public static Identity<ApprovalRejectionsRecord, Long> IDENTITY_APPROVAL_REJECTIONS = createIdentity(ApprovalRejections.APPROVAL_REJECTIONS, ApprovalRejections.APPROVAL_REJECTIONS.ID);
+        public static Identity<ApprovalStepToApproverLinksRecord, Long> IDENTITY_APPROVAL_STEP_TO_APPROVER_LINKS = createIdentity(ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS, ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS.ID);
+        public static Identity<ApprovalStepToUploadedDocumentLinksRecord, Long> IDENTITY_APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS = createIdentity(ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS, ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS.ID);
+        public static Identity<ApprovalStepsRecord, Long> IDENTITY_APPROVAL_STEPS = createIdentity(ApprovalSteps.APPROVAL_STEPS, ApprovalSteps.APPROVAL_STEPS.ID);
+        public static Identity<ApprovalToApproverLinksRecord, Long> IDENTITY_APPROVAL_TO_APPROVER_LINKS = createIdentity(ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS, ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS.ID);
+        public static Identity<ApprovalsRecord, Long> IDENTITY_APPROVALS = createIdentity(Approvals.APPROVALS, Approvals.APPROVALS.ID);
         public static Identity<AvatarsRecord, Long> IDENTITY_AVATARS = createIdentity(Avatars.AVATARS, Avatars.AVATARS.ID);
         public static Identity<ContactTypesRecord, Long> IDENTITY_CONTACT_TYPES = createIdentity(ContactTypes.CONTACT_TYPES, ContactTypes.CONTACT_TYPES.ID);
         public static Identity<ContactsRecord, Long> IDENTITY_CONTACTS = createIdentity(Contacts.CONTACTS, Contacts.CONTACTS.ID);
@@ -239,6 +284,13 @@ public class Keys {
 
     private static class UniqueKeys0 extends AbstractKeys {
         public static final UniqueKey<AccountsRecord> ACCOUNTS_PKEY = createUniqueKey(Accounts.ACCOUNTS, "accounts_pkey", Accounts.ACCOUNTS.ID);
+        public static final UniqueKey<ApprovalRejectionToUploadedDocumentLinksRecord> APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS_PKEY = createUniqueKey(ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS, "approval_rejection_to_uploaded_document_links_pkey", ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS.ID);
+        public static final UniqueKey<ApprovalRejectionsRecord> APPROVAL_REJECTIONS_PKEY = createUniqueKey(ApprovalRejections.APPROVAL_REJECTIONS, "approval_rejections_pkey", ApprovalRejections.APPROVAL_REJECTIONS.ID);
+        public static final UniqueKey<ApprovalStepToApproverLinksRecord> APPROVAL_STEP_TO_APPROVER_LINKS_PKEY = createUniqueKey(ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS, "approval_step_to_approver_links_pkey", ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS.ID);
+        public static final UniqueKey<ApprovalStepToUploadedDocumentLinksRecord> APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS_PKEY = createUniqueKey(ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS, "approval_step_to_uploaded_document_links_pkey", ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS.ID);
+        public static final UniqueKey<ApprovalStepsRecord> APPROVAL_STEPS_PKEY = createUniqueKey(ApprovalSteps.APPROVAL_STEPS, "approval_steps_pkey", ApprovalSteps.APPROVAL_STEPS.ID);
+        public static final UniqueKey<ApprovalToApproverLinksRecord> APPROVAL_TO_APPROVER_LINKS_PKEY = createUniqueKey(ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS, "approval_to_approver_links_pkey", ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS.ID);
+        public static final UniqueKey<ApprovalsRecord> APPROVALS_PKEY = createUniqueKey(Approvals.APPROVALS, "approvals_pkey", Approvals.APPROVALS.ID);
         public static final UniqueKey<ArInternalMetadataRecord> AR_INTERNAL_METADATA_PKEY = createUniqueKey(ArInternalMetadata.AR_INTERNAL_METADATA, "ar_internal_metadata_pkey", ArInternalMetadata.AR_INTERNAL_METADATA.KEY);
         public static final UniqueKey<AvatarsRecord> AVATARS_PKEY = createUniqueKey(Avatars.AVATARS, "avatars_pkey", Avatars.AVATARS.ID);
         public static final UniqueKey<ContactTypesRecord> CONTACT_TYPES_PKEY = createUniqueKey(ContactTypes.CONTACT_TYPES, "contact_types_pkey", ContactTypes.CONTACT_TYPES.ID);
@@ -274,6 +326,16 @@ public class Keys {
 
     private static class ForeignKeys0 extends AbstractKeys {
         public static final ForeignKey<AccountsRecord, UsersRecord> ACCOUNTS__FK_RAILS_B1E30BEBC8 = createForeignKey(org.jooq.generated.Keys.USERS_PKEY, Accounts.ACCOUNTS, "accounts__fk_rails_b1e30bebc8", Accounts.ACCOUNTS.USER_ID);
+        public static final ForeignKey<ApprovalRejectionToUploadedDocumentLinksRecord, ApprovalRejectionsRecord> APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_983A6E86EE = createForeignKey(org.jooq.generated.Keys.APPROVAL_REJECTIONS_PKEY, ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS, "approval_rejection_to_uploaded_document_links__fk_rails_983a6e86ee", ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS.APPROVAL_REJECTION_ID);
+        public static final ForeignKey<ApprovalRejectionToUploadedDocumentLinksRecord, UploadedDocumentsRecord> APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_C979624FFD = createForeignKey(org.jooq.generated.Keys.UPLOADED_DOCUMENTS_PKEY, ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS, "approval_rejection_to_uploaded_document_links__fk_rails_c979624ffd", ApprovalRejectionToUploadedDocumentLinks.APPROVAL_REJECTION_TO_UPLOADED_DOCUMENT_LINKS.UPLOADED_DOCUMENT_ID);
+        public static final ForeignKey<ApprovalRejectionsRecord, ApprovalStepToApproverLinksRecord> APPROVAL_REJECTIONS__FK_RAILS_DD358345E9 = createForeignKey(org.jooq.generated.Keys.APPROVAL_STEP_TO_APPROVER_LINKS_PKEY, ApprovalRejections.APPROVAL_REJECTIONS, "approval_rejections__fk_rails_dd358345e9", ApprovalRejections.APPROVAL_REJECTIONS.APPROVAL_STEP_TO_APPROVER_LINK_ID);
+        public static final ForeignKey<ApprovalStepToApproverLinksRecord, ApprovalStepsRecord> APPROVAL_STEP_TO_APPROVER_LINKS__FK_RAILS_1CB503DFA3 = createForeignKey(org.jooq.generated.Keys.APPROVAL_STEPS_PKEY, ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS, "approval_step_to_approver_links__fk_rails_1cb503dfa3", ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS.APPROVAL_STEP_ID);
+        public static final ForeignKey<ApprovalStepToApproverLinksRecord, UsersRecord> APPROVAL_STEP_TO_APPROVER_LINKS__FK_RAILS_D25DADEC12 = createForeignKey(org.jooq.generated.Keys.USERS_PKEY, ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS, "approval_step_to_approver_links__fk_rails_d25dadec12", ApprovalStepToApproverLinks.APPROVAL_STEP_TO_APPROVER_LINKS.USER_ID);
+        public static final ForeignKey<ApprovalStepToUploadedDocumentLinksRecord, ApprovalStepsRecord> APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_63E2600673 = createForeignKey(org.jooq.generated.Keys.APPROVAL_STEPS_PKEY, ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS, "approval_step_to_uploaded_document_links__fk_rails_63e2600673", ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS.APPROVAL_STEP_ID);
+        public static final ForeignKey<ApprovalStepToUploadedDocumentLinksRecord, UploadedDocumentsRecord> APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS__FK_RAILS_1FF4F37E3F = createForeignKey(org.jooq.generated.Keys.UPLOADED_DOCUMENTS_PKEY, ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS, "approval_step_to_uploaded_document_links__fk_rails_1ff4f37e3f", ApprovalStepToUploadedDocumentLinks.APPROVAL_STEP_TO_UPLOADED_DOCUMENT_LINKS.UPLOADED_DOCUMENT_ID);
+        public static final ForeignKey<ApprovalStepsRecord, ApprovalsRecord> APPROVAL_STEPS__FK_RAILS_B46877B9F0 = createForeignKey(org.jooq.generated.Keys.APPROVALS_PKEY, ApprovalSteps.APPROVAL_STEPS, "approval_steps__fk_rails_b46877b9f0", ApprovalSteps.APPROVAL_STEPS.APPROVAL_ID);
+        public static final ForeignKey<ApprovalToApproverLinksRecord, ApprovalsRecord> APPROVAL_TO_APPROVER_LINKS__FK_RAILS_FD00172C5C = createForeignKey(org.jooq.generated.Keys.APPROVALS_PKEY, ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS, "approval_to_approver_links__fk_rails_fd00172c5c", ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS.APPROVAL_ID);
+        public static final ForeignKey<ApprovalToApproverLinksRecord, UsersRecord> APPROVAL_TO_APPROVER_LINKS__FK_RAILS_430386944C = createForeignKey(org.jooq.generated.Keys.USERS_PKEY, ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS, "approval_to_approver_links__fk_rails_430386944c", ApprovalToApproverLinks.APPROVAL_TO_APPROVER_LINKS.USER_ID);
         public static final ForeignKey<AvatarsRecord, UsersRecord> AVATARS__FK_RAILS_457088D9D9 = createForeignKey(org.jooq.generated.Keys.USERS_PKEY, Avatars.AVATARS, "avatars__fk_rails_457088d9d9", Avatars.AVATARS.USER_ID);
         public static final ForeignKey<ContactsRecord, ContactTypesRecord> CONTACTS__FK_RAILS_B8815787EE = createForeignKey(org.jooq.generated.Keys.CONTACT_TYPES_PKEY, Contacts.CONTACTS, "contacts__fk_rails_b8815787ee", Contacts.CONTACTS.CONTACT_TYPE_ID);
         public static final ForeignKey<ContractStatusesRecord, ContractsRecord> CONTRACT_STATUSES__FK_RAILS_7BDD142D93 = createForeignKey(org.jooq.generated.Keys.CONTRACTS_PKEY, ContractStatuses.CONTRACT_STATUSES, "contract_statuses__fk_rails_7bdd142d93", ContractStatuses.CONTRACT_STATUSES.PARENT_CONTRACT_ID);
