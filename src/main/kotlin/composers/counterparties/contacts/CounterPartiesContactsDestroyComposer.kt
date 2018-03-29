@@ -5,7 +5,7 @@ import models.contact.daos.ContactDaos
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class CounterPartiesContactsDestroyComposer(val counterPartyId: Long?, val id: Long?) : ComposerBase() {
 
@@ -15,8 +15,8 @@ class CounterPartiesContactsDestroyComposer(val counterPartyId: Long?, val id: L
     lateinit var contactBeingDestroyed: Contact
 
     override fun beforeCompose(){
-        counterPartyId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        counterPartyId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
         findAndSetContactBeingDestroyed()
     }
 

@@ -4,9 +4,9 @@ import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.contracttocounterpartylink.ContractToCounterPartyLinkValidator
 import models.contracttocounterpartylink.daos.ContractToCounterPartyLinkDaos
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class ContractContractToCounterPartyLinkDestroyComposer(
         val contractId: Long?,
@@ -19,8 +19,8 @@ class ContractContractToCounterPartyLinkDestroyComposer(
     lateinit var contractToCounterPartyLinkToDestroy: ContractToCounterPartyLink
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
         findAndSetContractToCounterPartyLinkToDestroy()
         validate()
     }
@@ -36,7 +36,7 @@ class ContractContractToCounterPartyLinkDestroyComposer(
     private fun validate() {
         ContractToCounterPartyLinkValidator(contractToCounterPartyLinkToDestroy).forContractDestroyScenario()
         if (!contractToCounterPartyLinkToDestroy.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -53,7 +53,7 @@ class ContractContractToCounterPartyLinkDestroyComposer(
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToCounterPartyLinkToDestroy
                 )

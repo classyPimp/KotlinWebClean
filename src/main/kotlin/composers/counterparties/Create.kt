@@ -4,9 +4,9 @@ import models.counterparty.CounterParty
 import models.counterparty.CounterPartyRequestParametersWrapper
 import models.counterparty.CounterPartyValidator
 import models.counterparty.factories.CounterPartyFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Create(val params: IParam) : ComposerBase() {
@@ -26,7 +26,7 @@ class Create(val params: IParam) : ComposerBase() {
     fun wrapParams(){
         params.get("counterParty")?.let {
             wrappedParams = CounterPartyRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     fun build(){
@@ -36,7 +36,7 @@ class Create(val params: IParam) : ComposerBase() {
     fun validate(){
         CounterPartyValidator(counterPartyBeingCreated).createScenario()
         if (!counterPartyBeingCreated.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -56,7 +56,7 @@ class Create(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         counterPartyBeingCreated
                 )

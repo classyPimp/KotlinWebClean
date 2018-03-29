@@ -1,6 +1,7 @@
 import {Create} from "./registration/Create"
 import {Main} from "./Main"
 import {New} from "./sessions/New"
+import { Index as ForSearchFormIndex } from './forSearchForm/Index'
 
 export let UsersComponents = {
 
@@ -15,5 +16,9 @@ export let UsersComponents = {
     sessions: {
         new: New
     },
+
+    forsearchform: {
+      Index: ForSearchFormIndex
+    }
 
 }

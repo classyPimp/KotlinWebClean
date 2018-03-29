@@ -36,6 +36,9 @@ class Model(json: JsonNode? = null) {
     var controllerName: String? = null
     var controllerPackage: String? = null
 
+    var tableFieldTypesToImport: MutableSet<String> = mutableSetOf()
+    var associatedTypesToImport: MutableSet<Associated> = mutableSetOf()
+
     init {
         json?.let {
             className = it.get("className")?.asText()
@@ -55,12 +58,12 @@ class Model(json: JsonNode? = null) {
             }
 
             it.get("tableFields")?.toList()?.forEach {
-                tableFields.add(TableField(it))
+                tableFields.add(TableField(it, this))
             }
 
             it.get("associatedModels")?.let {
                 it.toList().forEach {
-                    associatedModels.add(Associated(it))
+                    associatedModels.add(Associated(it, this))
                 }
             }
 
@@ -168,20 +171,38 @@ class Model(json: JsonNode? = null) {
 
 }
 
-class TableField(json: JsonNode? = null) {
+class TableField(json: JsonNode? = null, model: Model) {
     var name: String? = null
     var isPrimaryKey: Boolean? = false
     var type: String? = null
     var errors: MutableMap<String, MutableList<String>>? = null
-
+    var lowerCaseFieldName: String? = null
+    var decapitalizedFieldType: String? = null
+    var jsType: String? = null
+    var jooqTableFieldName: String? = null
     init {
         json?.let {
             name = it.get("name")?.asText()
-            println("isPrimaryKey: ")
-            println(it.get("isPrimaryKey")?.asBoolean())
             isPrimaryKey = it.get("isPrimaryKey")?.asBoolean()
             type = it.get("type")?.asText()
         }
+        lowerCaseFieldName = name?.toLowerCase()
+        decapitalizedFieldType = type?.let {
+            if (it.length > 1) {
+                it[0].toLowerCase() + it.substring(1)
+            } else {
+                it[0].toLowerCase().toString()
+            }
+        }
+        when(type) {
+            "Long", "Int" -> {
+                jsType = "number"
+            }
+            else -> {
+                jsType = "string"
+            }
+        }
+        jooqTableFieldName = transformTableFieldNameToJooqName(name!!)
     }
 
     fun validate(){
@@ -192,9 +213,26 @@ class TableField(json: JsonNode? = null) {
             this.errors = mutableMapOf("general" to errors)
         }
     }
+
+    fun transformTableFieldNameToJooqName(name: String): String {
+        val stringBuilder= StringBuilder()
+        var index = 1
+        stringBuilder.append(name[0])
+        while(index < name.length) {
+            val char = name[index]
+            if (Character.isUpperCase(char)) {
+                stringBuilder.append('_')
+                stringBuilder.append(char.toUpperCase())
+            } else {
+                stringBuilder.append(char)
+            }
+            index++
+        }
+        return stringBuilder.toString()
+    }
 }
 
-class Associated(json: JsonNode? = null) {
+class Associated(json: JsonNode? = null, model: Model) {
 
     companion object {
         val allowedAssociationNames = mutableListOf("HasOne", "BelongsTo", "HasMany")
@@ -220,12 +258,20 @@ class Associated(json: JsonNode? = null) {
             associationType = it.get("associationType")?.asText()
             fieldOnThis = it.get("fieldOnThis")?.asText()
             fieldOnThat = it.get("fieldOnThat")?.asText()
-            if (it.get("pluralClassName") != null) {
+            println("-------")
+            println(it.get("pluralClassName")?.asText() != null)
+            println(it.get("pluralClassName")?.asText() != "")
+            println(it.get("pluralClassName")?.asText())
+            if (it.get("pluralClassName")?.asText() != null && it.get("pluralClassName")?.asText() != "") {
                 pluralClassName = it.get("pluralClassName")?.asText()
             } else {
                 pluralClassName = className + "s"
             }
             property = it.get("property")?.asText()
+
+            model.associatedTypesToImport.find {
+                it.className == this.className
+            } ?: model.associatedTypesToImport.add(this)
         }
     }
 

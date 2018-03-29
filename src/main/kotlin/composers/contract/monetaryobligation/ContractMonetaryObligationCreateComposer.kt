@@ -4,10 +4,10 @@ import models.monetaryobligation.MonetaryObligation
 import models.monetaryobligation.MonetaryObligationRequestParametersWrapper
 import models.monetaryobligation.MonetaryObligationValidator
 import models.monetaryobligation.factories.MonetaryObligationFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractMonetaryObligationCreateComposer(val contractId: Long?, val params: IParam) : ComposerBase() {
@@ -19,7 +19,7 @@ class ContractMonetaryObligationCreateComposer(val contractId: Long?, val params
     lateinit var wrappedParams: MonetaryObligationRequestParametersWrapper
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
         wrapParams()
         build()
         validate()
@@ -28,7 +28,7 @@ class ContractMonetaryObligationCreateComposer(val contractId: Long?, val params
     private fun wrapParams() {
         params.get("monetaryObligation")?.let {
             wrappedParams = MonetaryObligationRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun build() {
@@ -41,7 +41,7 @@ class ContractMonetaryObligationCreateComposer(val contractId: Long?, val params
     private fun validate() {
         MonetaryObligationValidator(monetaryObligationToCreate).createScenario()
         if (!monetaryObligationToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -53,7 +53,7 @@ class ContractMonetaryObligationCreateComposer(val contractId: Long?, val params
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(monetaryObligationToCreate)
             }
             else -> {

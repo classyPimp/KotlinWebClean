@@ -4,9 +4,9 @@ import models.contractcategory.ContractCategory
 import models.contractcategory.ContractCategoryRequestParametersWrapper
 import models.contractcategory.ContractCategoryValidator
 import models.contractcategory.factories.ContractCategoryFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class CreateComposer(val params: IParam) : ComposerBase() {
@@ -26,7 +26,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     private fun wrapParams() {
         params.get("contractCategory")?.let {
             wrappedParams = ContractCategoryRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun build() {
@@ -36,7 +36,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     private fun validate() {
         ContractCategoryValidator(contractCategoryToCreate).createScenario()
         if (!contractCategoryToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -46,7 +46,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(contractCategoryToCreate)
             }
             else -> {

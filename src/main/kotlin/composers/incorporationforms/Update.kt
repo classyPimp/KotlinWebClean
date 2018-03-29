@@ -6,9 +6,9 @@ import models.incorporationform.IncorporationFormValidator
 import models.incorporationform.daos.IncorporationFormDaos
 import models.incorporationform.updaters.IncorporationFormUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Update(val params: IParam, val id: Long?) : ComposerBase() {
@@ -20,7 +20,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var wrappedParams: IncorporationFormRequestParametersWrapper
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError("invalid id"))
+        id ?: failImmediately(BadRequestError("invalid id"))
         findAndSetincorporationFormBeingUpdate()
         wrapParams()
         update()
@@ -36,7 +36,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun wrapParams() {
         params.get("incorporationForm")?.let {
             wrappedParams = IncorporationFormRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError("no params given"))
+        } ?: failImmediately(BadRequestError("no params given"))
     }
 
     private fun update() {
@@ -46,7 +46,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun validate() {
         IncorporationFormValidator(incorporationFormBeingUpdate).updateScenario()
         if (!incorporationFormBeingUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException(""))
+            failImmediately(ModelInvalidError(""))
         }
     }
 
@@ -63,7 +63,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         incorporationFormBeingUpdate
                 )

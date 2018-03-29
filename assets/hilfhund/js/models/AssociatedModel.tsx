@@ -22,4 +22,6 @@ export class AssociatedModel extends BaseModel {
     @Property
     property: string
 
+    componentKey: number
+
 }

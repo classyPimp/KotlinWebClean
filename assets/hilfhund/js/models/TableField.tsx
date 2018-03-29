@@ -12,5 +12,7 @@ export class TableField extends BaseModel {
     @Property
     type: string
 
+
+    componentKey: number
     
 }

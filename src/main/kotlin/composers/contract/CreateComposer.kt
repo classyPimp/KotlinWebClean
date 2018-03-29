@@ -5,10 +5,10 @@ import models.contract.ContractRequestParametersWrapper
 import models.contract.ContractValidator
 import models.contract.daos.ContractDaos
 import models.contract.factories.ContractFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class CreateComposer(val params: IParam) : ComposerBase() {
@@ -29,7 +29,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     fun wrapParams() {
         params.get("contract")?.let {
             wrappedParams = ContractRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     fun buildContractToCreate() {
@@ -43,7 +43,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     fun validate() {
         ContractValidator(contractToCreate).createScenario()
         if (!contractToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -59,7 +59,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToCreate
                 )

@@ -8,6 +8,7 @@ import { ContractComponents } from './ContractComponents'
 import { ContractStatusComponents } from '../contractstatus/ContractStatusComponents'
 import { ContractToCounterPartyLinkComponents } from '../contracttocounterpartylink/ContractToCounterPartyLinkComponents'
 import { ContractToUploadedDocumentLinkComponents } from '../contracttouploadeddocumentlink/ContractToUploadedDocumentLinkComponents'
+import { ApprovalComponents } from '../approval/ApprovalComponents'
 
 export class ShowMain extends BaseReactComponent {
 
@@ -25,6 +26,11 @@ export class ShowMain extends BaseReactComponent {
               <li className="pure-menu-item">
                 <Link to={`/dashboards/contracts/${this.props.match.params.contractId}`} className="pure-menu-link">
                   general info
+                </Link>
+              </li>
+              <li className="pure-menu-item">
+                <Link to={`/dashboards/contracts/${this.props.match.params.contractId}/approval`} className="pure-menu-link">
+                  approval
                 </Link>
               </li>
               <li className="pure-menu-item">
@@ -55,6 +61,7 @@ export class ShowMain extends BaseReactComponent {
               <Route exact path={`/dashboards/contracts/:contractId/contractToCounterPartyLinks`} component = { ContractToCounterPartyLinkComponents.forContract.Index } />
               <Route exact path={`/dashboards/contracts/:contractId/contractToUploadedDocumentLinks`} component = { ContractToUploadedDocumentLinkComponents.forContract.Index } />
               <Route path = {`/dashboards/contracts/:contractId/edit`} component = { ContractComponents.EditMain } />
+              <Route path = "/dashboards/contracts/:contractId/approval" component = { ApprovalComponents.ofContract.Main } />
           </Switch>
         </div>
     }

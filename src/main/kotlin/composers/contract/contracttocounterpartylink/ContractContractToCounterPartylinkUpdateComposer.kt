@@ -6,9 +6,9 @@ import models.contracttocounterpartylink.ContractToCounterPartyLinkValidator
 import models.contracttocounterpartylink.daos.ContractToCounterPartyLinkDaos
 import models.contracttocounterpartylink.updaters.ContractToCounterPartyLinkUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractContractToCounterPartylinkUpdateComposer(
@@ -24,8 +24,8 @@ class ContractContractToCounterPartylinkUpdateComposer(
     lateinit var wrappedParams: ContractToCounterPartyLinkRequestParametersWrapper
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetContractToCounterPartyLinkToUpdate()
         runUpdater()
@@ -35,7 +35,7 @@ class ContractContractToCounterPartylinkUpdateComposer(
     private fun wrapParams() {
         params.get("contractToCounterPartyLink")?.let {
             wrappedParams = ContractToCounterPartyLinkRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetContractToCounterPartyLinkToUpdate() {
@@ -51,7 +51,7 @@ class ContractContractToCounterPartylinkUpdateComposer(
     private fun validate() {
         ContractToCounterPartyLinkValidator(contractToCounterPartyLinkToUpdate).updateScenario()
         if (!contractToCounterPartyLinkToUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -68,7 +68,7 @@ class ContractContractToCounterPartylinkUpdateComposer(
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToCounterPartyLinkToUpdate
                 )

@@ -8,10 +8,10 @@ import models.documenttemplate.factories.DocumentTemplateFactories
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import models.documenttemplatevariable.DocumentTemplateVariable
 import models.documenttemplatevariable.daos.DocumentTemplateVariableDaos
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 import java.io.File
 
@@ -35,7 +35,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     private fun wrapParams() {
         params.get("documentTemplate")?.let {
             state.wrappedParams = DocumentTemplateRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun buildDocumentTemplateToCreate() {
@@ -145,7 +145,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     fun validate(){
         DocumentTemplateValidator(state.documentTemplate!!).createScenario()
         if (!state.documentTemplate!!.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -170,7 +170,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     override fun fail(error: Throwable) {
         clearResources()
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         state.documentTemplate!!
                 )

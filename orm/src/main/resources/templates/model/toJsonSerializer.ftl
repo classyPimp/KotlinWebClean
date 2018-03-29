@@ -1,6 +1,6 @@
 package ${packagesBean.baseGenerated}
 
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import org.jooq.SelectQuery
 import org.jooq.Condition
 import org.jooq.DSLContext

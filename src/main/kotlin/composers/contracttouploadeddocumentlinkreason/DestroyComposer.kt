@@ -4,7 +4,7 @@ import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLin
 import models.contracttouploadeddocumentlinkreason.daos.ContractToUploadedDocumentLinkReasonDaos
 import orm.modelUtils.exceptions.ModelNotFoundError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class DestroyComposer(val id: Long?) : ComposerBase() {
 
@@ -14,7 +14,7 @@ class DestroyComposer(val id: Long?) : ComposerBase() {
     lateinit var contractToUploadedDocumentLinkReasonToDestroy: ContractToUploadedDocumentLinkReason
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         findAndSetContractToUploadedDocumentLinkReasonToDestroy()
     }
 

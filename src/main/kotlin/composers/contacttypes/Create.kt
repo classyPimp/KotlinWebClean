@@ -3,7 +3,7 @@ package composers.contacttypes
 import models.contacttype.ContactType
 import models.contacttype.ContactTypeValidator
 import models.contacttype.factories.ContactTypeFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
 import utils.requestparameters.IParam
 
@@ -50,7 +50,7 @@ class Create(val requestParams: IParam) : ComposerBase() {
                 erronousContactType.record.validationManager.addError("general", "unprocessable entry")
                 this.onError(erronousContactType)
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 this.onError(contactType)
             }
             else -> {

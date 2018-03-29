@@ -6,9 +6,9 @@ import models.contractcategory.ContractCategoryValidator
 import models.contractcategory.daos.ContractCategoryDaos
 import models.contractcategory.updaters.ContractCategoryUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
@@ -20,7 +20,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var wrappedParams: ContractCategoryRequestParametersWrapper
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetContractCategoryToUpdate()
         update()
@@ -30,7 +30,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     private fun wrapParams() {
         params.get("contractCategory")?.let {
             wrappedParams = ContractCategoryRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetContractCategoryToUpdate() {
@@ -61,7 +61,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractCategoryToUpdate
                 )

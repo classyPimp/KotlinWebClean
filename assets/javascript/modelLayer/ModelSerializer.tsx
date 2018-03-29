@@ -63,7 +63,11 @@ export class ModelSerializer {
           }
 
           if (associationType === AssociationTypesEnum.hasMany) {
-              parsedProperties[key] = this.parseCollectionOfBaseModel(configEntry.getThatModelConstructor(), value as Array<IModelProperties>)
+              if (value instanceof ModelCollection ) {
+                parsedProperties[key] = value
+              } else {
+                parsedProperties[key] = this.parseCollectionOfBaseModel(configEntry.getThatModelConstructor(), value as Array<IModelProperties>)
+              }
           }
           if (associationType === AssociationTypesEnum.hasOne) {
               parsedProperties[key] = this.parseSingleBaseModel(configEntry.getThatModelConstructor(), value)

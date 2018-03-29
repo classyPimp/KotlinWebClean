@@ -5,7 +5,7 @@ import org.jooq.generated.Tables.PEOPLE
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.persongeneratedrepository.PersonRecord
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class Destroy(val id: Long?) : ComposerBase() {
 
@@ -15,7 +15,7 @@ class Destroy(val id: Long?) : ComposerBase() {
     var personToDestroy: Person? = null
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError("no id given as route parameter"))
+        id ?: failImmediately(BadRequestError("no id given as route parameter"))
 
         id!!.let {
             personToDestroy = PersonRecord.GET().where(PEOPLE.ID.eq(it)).limit(1).execute().firstOrNull()
@@ -35,7 +35,7 @@ class Destroy(val id: Long?) : ComposerBase() {
                     onError(it)
                 }
             }
-            is UnprocessableEntryError -> {
+            is BadRequestError -> {
                 Person().let {
                     it.record.validationManager.addGeneralError("unprocessable entry")
                     onError(it)

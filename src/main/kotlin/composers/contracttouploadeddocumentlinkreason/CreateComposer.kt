@@ -5,7 +5,7 @@ import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLin
 import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReasonRequestParametersWrapper
 import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReasonValidator
 import models.contracttouploadeddocumentlinkreason.factories.ContractToUploadedDocumentLinkReasonFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
 import utils.requestparameters.IParam
 
@@ -36,7 +36,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     private fun validate() {
         ContractToUploadedDocumentLinkReasonValidator(contractToUploadedDocumentLinkReasonToCreate).createScenario()
         if (!contractToUploadedDocumentLinkReasonToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -46,7 +46,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToUploadedDocumentLinkReasonToCreate
                 )

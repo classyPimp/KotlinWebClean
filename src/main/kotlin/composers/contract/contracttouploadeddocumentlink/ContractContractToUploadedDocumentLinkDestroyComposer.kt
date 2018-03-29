@@ -5,7 +5,7 @@ import models.contracttouploadeddocumentlink.daos.ContractToUploadedDocumentLink
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class ContractContractToUploadedDocumentLinkDestroyComposer(
         val contractId: Long?,
@@ -18,8 +18,8 @@ class ContractContractToUploadedDocumentLinkDestroyComposer(
     lateinit var contractToUploadedDocumentLinkToDestroy: ContractToUploadedDocumentLink
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
         findAndSetContractToUploadedDocumentLinkToDestroy()
     }
 

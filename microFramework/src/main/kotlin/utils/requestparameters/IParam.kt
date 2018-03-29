@@ -24,6 +24,10 @@ interface IParam {
 
     val stringList: MutableList<String>?
 
+    val long: Long?
+
+    val int: Int?
+
     fun long(): Long? {
         return this.value as Long?
     }

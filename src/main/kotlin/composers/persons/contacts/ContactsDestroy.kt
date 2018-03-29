@@ -7,8 +7,7 @@ import orm.contactgeneratedrepository.ContactRecord
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
-import utils.requestparameters.IParam
+import utils.composer.composerexceptions.BadRequestError
 
 class ContactsDestroy(val personId: Long?, val id: Long?) : ComposerBase() {
 
@@ -23,8 +22,8 @@ class ContactsDestroy(val personId: Long?, val id: Long?) : ComposerBase() {
     }
 
     private fun checkRouteParams(){
-        personId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        personId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetContactBeingdeleted(){
@@ -46,7 +45,7 @@ class ContactsDestroy(val personId: Long?, val id: Long?) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is UnprocessableEntryError -> {
+            is BadRequestError -> {
                 onError(
                         Contact().also {
                             it.record.validationManager.addGeneralError("unprocessable entry")

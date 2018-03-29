@@ -4,14 +4,13 @@ import models.contact.Contact
 import models.contact.ContactRequestParametersWrapper
 import models.contact.ContactValidator
 import models.contact.updaters.ContactUpdaters
-import models.person.PersonRequestParametersWrapper
 import org.jooq.generated.Tables.CONTACTS
 import org.jooq.generated.Tables.PERSON_TO_CONTACT_LINKS
 import orm.contactgeneratedrepository.ContactRecord
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContactsUpdate(val params: IParam, val personId: Long?, val id: Long?) : ComposerBase() {
@@ -30,8 +29,8 @@ class ContactsUpdate(val params: IParam, val personId: Long?, val id: Long?) : C
     }
 
     private fun validateRouteParams() {
-        personId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        personId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetContactBeingUpdated() {
@@ -52,14 +51,14 @@ class ContactsUpdate(val params: IParam, val personId: Long?, val id: Long?) : C
         params.get("contact")?.let {
             val wrappedRequestParams = ContactRequestParametersWrapper(it)
             ContactUpdaters.personDefault(contactBeingUpdated, wrappedRequestParams)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun validate(){
         ContactValidator(contactBeingUpdated).personUpdateScenario()
         if (!contactBeingUpdated.record.validationManager.isValid()) {
             println("invalid")
-            failImmediately(ModelInvalidException(""))
+            failImmediately(ModelInvalidError(""))
         } else {
             println("valid")
         }
@@ -78,7 +77,7 @@ class ContactsUpdate(val params: IParam, val personId: Long?, val id: Long?) : C
         println("error")
         println(error)
         when(error) {
-            is UnprocessableEntryError -> {
+            is BadRequestError -> {
                 Contact().also {
                     it.record.validationManager.addGeneralError("unprocessable entry")
                 }
@@ -88,7 +87,7 @@ class ContactsUpdate(val params: IParam, val personId: Long?, val id: Long?) : C
                     it.record.validationManager.addGeneralError("such contact was not found")
                 }
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(contactBeingUpdated)
             }
             else -> {

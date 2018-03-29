@@ -28,6 +28,6 @@ export class ApprovalStep extends BaseModel {
     approvalStepToApproverLink: ApprovalStepToApproverLink
 
     @HasMany("ApprovalStepToUploadedDocumentLink")
-    approvalStepToUploadedDocumentLink: ApprovalStepToUploadedDocumentLink
+    approvalStepToUploadedDocumentLinks: ModelCollection<ApprovalStepToUploadedDocumentLink>
 
 }

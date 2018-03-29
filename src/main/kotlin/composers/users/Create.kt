@@ -3,7 +3,7 @@ package composers.users
 import models.user.User
 import models.user.UserValidator
 import models.user.factories.UserFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.requestparameters.IParam
 import utils.composer.ComposerBase
@@ -69,7 +69,7 @@ class Create(
 
     override fun fail(error: Throwable) {
         when (error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onFail.invoke(user)
             }
             is NoParamsSupplied -> {

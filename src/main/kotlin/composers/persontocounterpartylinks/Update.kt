@@ -6,10 +6,9 @@ import models.persontocounterpartylink.PersonToCounterPartyLinkValidator
 import models.persontocounterpartylink.daos.PersonToCounterPartyLinkDaos
 import models.persontocounterpartylink.updaters.PersonToCounterPartyLinkUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.persontocounterpartylinkgeneratedrepository.PersonToCounterPartyLinkRecord
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Update(val params: IParam, val id: Long?) : ComposerBase() {
@@ -21,7 +20,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var linkBeingUpdated: PersonToCounterPartyLink
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetLinkBeingUpdate()
         runUpdater()
@@ -32,7 +31,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun wrapParams() {
         params.get("personToCounterPartyLink")?.let {
             wrappedParams = PersonToCounterPartyLinkRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetLinkBeingUpdate(){
@@ -54,7 +53,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun validate() {
         PersonToCounterPartyLinkValidator(linkBeingUpdated).updateScenario()
         if (!linkBeingUpdated.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -71,7 +70,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         linkBeingUpdated
                 )

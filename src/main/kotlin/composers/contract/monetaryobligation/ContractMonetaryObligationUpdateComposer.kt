@@ -10,10 +10,10 @@ import models.monetaryobligationpart.MonetaryObligationPartRequestParametersWrap
 import models.monetaryobligationpart.factories.MonetaryObligationPartFactories
 import models.monetaryobligationpart.updaters.MonetaryObligationPartUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractMonetaryObligationUpdateComposer(
@@ -34,7 +34,7 @@ class ContractMonetaryObligationUpdateComposer(
     val monetaryObligationPartIdToModelAndParamsMap = mutableMapOf<Long, MonetaryObligationAndParamsPair>()
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         findAndSetMonetaryObligationToUpdate()
         wrapParams()
         mapMonetaryObligationPartsAndCorrespondingParamsById()
@@ -114,7 +114,7 @@ class ContractMonetaryObligationUpdateComposer(
     private fun validate() {
         MonetaryObligationValidator(monetaryObligationToUpdate).updateScenario()
         if (!monetaryObligationToUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -143,7 +143,7 @@ class ContractMonetaryObligationUpdateComposer(
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         monetaryObligationToUpdate
                 )

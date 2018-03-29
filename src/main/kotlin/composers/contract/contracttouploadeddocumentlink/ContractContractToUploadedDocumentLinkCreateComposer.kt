@@ -8,10 +8,10 @@ import models.contracttouploadeddocumentlink.ContractToUploadedDocumentLinkValid
 import models.contracttouploadeddocumentlink.factories.ContractToUploadedDocumentLinkFactories
 import models.uploadeddocument.UploadedDocument
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractContractToUploadedDocumentLinkCreateComposer(
@@ -28,7 +28,7 @@ class ContractContractToUploadedDocumentLinkCreateComposer(
     var uploadedDocument: UploadedDocument? = null
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetContract()
         build()
@@ -40,7 +40,7 @@ class ContractContractToUploadedDocumentLinkCreateComposer(
     private fun wrapParams() {
         params.get("contractToUploadedDocumentLink")?.let {
             wrappedParams = ContractToUploadedDocumentLinkRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetContract() {
@@ -66,7 +66,7 @@ class ContractContractToUploadedDocumentLinkCreateComposer(
     private fun validate() {
         ContractToUploadedDocumentLinkValidator(contractToUploadedDocumentLinkToCreate).createScenario()
         if (!contractToUploadedDocumentLinkToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -88,7 +88,7 @@ class ContractContractToUploadedDocumentLinkCreateComposer(
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToUploadedDocumentLinkToCreate
                 )

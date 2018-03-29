@@ -4,9 +4,9 @@ import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReason
 import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReasonRequestParametersWrapper
 import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReasonValidator
 import models.persontocounterpartylinkreason.factories.PersonToCounterPartyLinkReasonFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Create(val params: IParam) : ComposerBase() {
@@ -26,7 +26,7 @@ class Create(val params: IParam) : ComposerBase() {
     private fun prepareWrappedParams() {
         params.get("personToCounterPartyLinkReason")?.let {
             wrappedParams = PersonToCounterPartyLinkReasonRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun buildLinkReason() {
@@ -36,7 +36,7 @@ class Create(val params: IParam) : ComposerBase() {
     private fun validate() {
         PersonToCounterPartyLinkReasonValidator(linkReasonBeingCreated).createScenario()
         if (!linkReasonBeingCreated.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException(""))
+            failImmediately(ModelInvalidError(""))
         }
     }
 
@@ -46,7 +46,7 @@ class Create(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(linkReasonBeingCreated)
             }
             else -> {

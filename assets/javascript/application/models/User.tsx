@@ -7,6 +7,7 @@ import { BaseModel } from '../../modelLayer/BaseModel';
 import {Account} from './Account'
 import { Avatar } from './Avatar'
 import  { ModelRegistry } from '../../modelLayer/ModelRegistry' 
+import { ModelCollection } from '../../modelLayer/ModelCollection'
 
 export class User extends BaseModel {
    
@@ -57,6 +58,13 @@ export class User extends BaseModel {
             newUser.validate()
             return newUser
         })
+    }
+
+    @Route("GET", {url: "/api/users/forSearchForm"})
+    static forSearchFormIndex: (options?: RequestOptions) => Promise<ModelCollection<User>>
+
+    static afterForSearchFormIndexRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
     }
 
     @HasOne("Account")

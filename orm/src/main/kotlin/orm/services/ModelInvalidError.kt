@@ -5,7 +5,7 @@ import java.lang.Exception
 /**
  * Created by classypimp on 10/28/17.
  */
-class ModelInvalidException(
+class ModelInvalidError(
         override val message: String? = "invalid"
 ) : Exception(message) {
 

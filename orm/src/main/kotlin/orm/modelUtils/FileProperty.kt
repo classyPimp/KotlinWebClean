@@ -129,12 +129,10 @@ abstract class FileProperty {
     }
 
     private fun finalizeAssignOperation() {
-        println("finalizing operation")
         if (modelId == null) {
             clearTransactionalFiles()
             return
         }
-        println("model id not null")
         preprocessFile(transactionOriginalFile!!)
         deletePereviousFilesIfExist()
         createTargetDirWhereFilesWillBeStored()

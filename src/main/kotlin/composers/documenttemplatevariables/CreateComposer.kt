@@ -4,9 +4,9 @@ import models.documenttemplatevariable.DocumentTemplateVariable
 import models.documenttemplatevariable.DocumentTemplateVariableRequestParametersWrapper
 import models.documenttemplatevariable.DocumentTemplateVariableValidator
 import models.documenttemplatevariable.factories.DocumentTemplateVariableFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class CreateComposer(val params: IParam) : ComposerBase() {
@@ -26,7 +26,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     private fun wrapParams() {
         params.get("documentTemplateVariable")?.let {
             wrappedParams = DocumentTemplateVariableRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     fun build(){
@@ -36,7 +36,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
     private fun validate() {
         DocumentTemplateVariableValidator(documentTemplateVariableToCreate).createScenario()
         if (!documentTemplateVariableToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -46,7 +46,7 @@ class CreateComposer(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                onError(
                        documentTemplateVariableToCreate
                )

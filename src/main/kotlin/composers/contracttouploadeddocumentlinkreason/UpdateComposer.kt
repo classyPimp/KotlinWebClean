@@ -6,9 +6,9 @@ import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLin
 import models.contracttouploadeddocumentlinkreason.daos.ContractToUploadedDocumentLinkReasonDaos
 import models.contracttouploadeddocumentlinkreason.updaters.ContractToUploadedDocumentLinkReasonUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
@@ -20,7 +20,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var wrappedParams: ContractToUploadedDocumentLinkReasonRequestParametersWrapper
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         findAndSetContractToUploadedDocumentLinkReasonToUpdate()
         wrapParams()
         runUpdater()
@@ -36,7 +36,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     private fun wrapParams() {
         params.get("contractToUploadedDocumentLinkReason")?.let {
             wrappedParams = ContractToUploadedDocumentLinkReasonRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun runUpdater() {
@@ -46,7 +46,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     private fun validate() {
         ContractToUploadedDocumentLinkReasonValidator(contractToUploadedDocumentLinkReasonToUpdate).updateScenario()
         if (!contractToUploadedDocumentLinkReasonToUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -63,7 +63,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToUploadedDocumentLinkReasonToUpdate
                 )

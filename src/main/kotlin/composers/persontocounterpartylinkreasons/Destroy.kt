@@ -4,7 +4,7 @@ import models.persontocounterpartylinkreason.PersonToCounterPartyLinkReason
 import models.persontocounterpartylinkreason.daos.PersonToCounterPartyLinkReasonDaos
 import orm.modelUtils.exceptions.ModelNotFoundError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class Destroy(val id: Long?) : ComposerBase() {
 
@@ -15,7 +15,7 @@ class Destroy(val id: Long?) : ComposerBase() {
 
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         findAndSetLinkReasonBeignDestroyed()
     }
 

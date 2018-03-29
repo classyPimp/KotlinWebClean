@@ -5,9 +5,9 @@ import models.contracttocounterpartylink.ContractToCounterPartyLinkValidator
 import models.contracttocounterpartylink.daos.ContractToCounterPartyLinkDaos
 import models.contracttocounterpartylink.updaters.ContractToCounterPartyLinkUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class ContractContractToCounterPartyLinkReplaceComposer(
         val contractId: Long?,
@@ -21,9 +21,9 @@ class ContractContractToCounterPartyLinkReplaceComposer(
     lateinit var contractToCounterPartyLink: ContractToCounterPartyLink
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
-        counterPartyIdToReplaceWith ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
+        counterPartyIdToReplaceWith ?: failImmediately(BadRequestError())
 
         findAndSetContractToCounterPartyLink()
         update()
@@ -58,7 +58,7 @@ class ContractContractToCounterPartyLinkReplaceComposer(
     private fun validate() {
         ContractToCounterPartyLinkValidator(contractToCounterPartyLink).counterPartyReplaceScenario()
         if (!contractToCounterPartyLink.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -75,7 +75,7 @@ class ContractContractToCounterPartyLinkReplaceComposer(
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToCounterPartyLink
                 )

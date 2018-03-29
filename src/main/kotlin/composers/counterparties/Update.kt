@@ -6,9 +6,9 @@ import models.counterparty.CounterPartyValidator
 import models.counterparty.daos.CounterPartyDaos
 import models.counterparty.updaters.CounterPartyUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Update(val params: IParam, val id: Long?) : ComposerBase() {
@@ -20,7 +20,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var wrappedParams: CounterPartyRequestParametersWrapper
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetCounterPartyBeingUpdated()
         runUpdater()
@@ -30,7 +30,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun wrapParams(){
         params.get("counterParty")?.let {
             wrappedParams = CounterPartyRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetCounterPartyBeingUpdated() {
@@ -46,7 +46,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun validate() {
         CounterPartyValidator(counterPartyBeingUpdated).updateScenario()
         if (!counterPartyBeingUpdated.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -63,7 +63,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         counterPartyBeingUpdated
                 )

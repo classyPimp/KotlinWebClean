@@ -20,7 +20,7 @@ class ApprovalToApproverLink {
     var approvalId: Long? = null
 
     @TableField(name = "USER_ID")
-    var user_id: Long? = null
+    var userId: Long? = null
 
     @TableField(name = "CREATED_AT")
     var createdAt: Timestamp? = null

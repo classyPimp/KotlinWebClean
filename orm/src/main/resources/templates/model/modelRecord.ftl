@@ -1,6 +1,6 @@
 package ${packagesBean.baseGenerated}
 
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import org.jooq.SelectQuery
 import org.jooq.Condition
 import org.jooq.DSLContext
@@ -101,7 +101,7 @@ class ${modelClass}Record(val model: ${modelClass}) {
 
     fun save(dslContext: DSLContext = OrmDependenciesManager.provider.defaultDslContext){
         if (!validationManager.isValid()) {
-            throw ModelInvalidException("failed saving ${r"${model}"} of ${modelClass}: validation failed")
+            throw ModelInvalidError("failed saving ${r"${model}"} of ${modelClass}: validation failed")
         }
         if (isPersited()) {
             updateChanged(dslContext)
@@ -112,7 +112,7 @@ class ${modelClass}Record(val model: ${modelClass}) {
 
     fun saveCascade(dslContext: DSLContext = OrmDependenciesManager.provider.defaultDslContext){
         if (!validationManager.isValid()) {
-            throw ModelInvalidException("failed saving ${r"${model}"} of ${modelClass}: validation failed")
+            throw ModelInvalidError("failed saving ${r"${model}"} of ${modelClass}: validation failed")
         }
         if (isPersited()) {
             updateChanged(dslContext)
@@ -214,7 +214,7 @@ class ${modelClass}Record(val model: ${modelClass}) {
 
     fun delete(dslContext: DSLContext = OrmDependenciesManager.provider.defaultDslContext){
         if (!validationManager.isValid()) {
-            throw ModelInvalidException("failed deleting ${r"${model}"} of ${modelClass}: validation failed")
+            throw ModelInvalidError("failed deleting ${r"${model}"} of ${modelClass}: validation failed")
         }
         if (!isPersited()) {
             throw Exception("delete failed not persisted TODO: more informative error")

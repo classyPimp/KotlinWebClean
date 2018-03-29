@@ -8,9 +8,9 @@ import models.documenttemplate.daos.DocumentTemplateDaos
 import models.documenttemplate.factories.DocumentTemplateFactories
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.fileutils.FileNamingUtils
 import utils.requestparameters.IParam
 import java.io.File
@@ -44,13 +44,13 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
     private fun wrapParams() {
         params.get("documentTemplate")?.let {
             wrappedParams = DocumentTemplateRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun instantiateProvidedDocumentTemplate() {
         providedDocumentTemplate = DocumentTemplateFactories.defaultCreate.create(wrappedParams)
         if (providedDocumentTemplate.id == null) {
-            failImmediately(UnprocessableEntryError())
+            failImmediately(BadRequestError())
             return
         }
         providedDocumentTemplate.documentTemplateToDocumentVariableLinks = providedDocumentTemplate.documentTemplateToDocumentVariableLinks ?: mutableListOf()
@@ -136,7 +136,7 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
     private fun initializeTemplateHandler() {
         val file = sourceDocumentTemplate.uploadedDocument!!.file.getFileItself()
         if (file == null) {
-            failImmediately(UnprocessableEntryError())
+            failImmediately(BadRequestError())
             return
         }
         templateHandler = DocxTemplateVariablesHandler(file)
@@ -171,7 +171,7 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
     fun runFinalValidation() {
         DocumentTemplateValidator(providedDocumentTemplate).arbitraryCreateScenario()
         if (!providedDocumentTemplate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -188,7 +188,7 @@ class DocumentTemplateArbitraryCreateComposer(val params: IParam) : ComposerBase
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         providedDocumentTemplate
                 )

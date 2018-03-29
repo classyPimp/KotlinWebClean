@@ -6,9 +6,9 @@ import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.contracttocounterpartylink.ContractToCounterPartyLinkRequestParametersWrapper
 import models.contracttocounterpartylink.ContractToCounterPartyLinkValidator
 import models.contracttocounterpartylink.factories.ContractToCounterPartyLinkFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractContractToCounterPartyLinkCreateComposer(
@@ -24,7 +24,7 @@ class ContractContractToCounterPartyLinkCreateComposer(
     lateinit var contract: Contract
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
         wrapParams()
         build()
         assignContract()
@@ -35,7 +35,7 @@ class ContractContractToCounterPartyLinkCreateComposer(
     private fun wrapParams() {
         params.get("contractToCounterPartyLink")?.let {
             wrappedParams = ContractToCounterPartyLinkRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun build() {
@@ -61,7 +61,7 @@ class ContractContractToCounterPartyLinkCreateComposer(
     private fun validate() {
         ContractToCounterPartyLinkValidator(contractToCounterPartyLinkToCreate).createScenario()
         if (!contractToCounterPartyLinkToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -71,7 +71,7 @@ class ContractContractToCounterPartyLinkCreateComposer(
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(contractToCounterPartyLinkToCreate)
             }
             else -> {

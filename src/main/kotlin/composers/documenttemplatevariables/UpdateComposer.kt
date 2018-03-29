@@ -6,9 +6,9 @@ import models.documenttemplatevariable.DocumentTemplateVariableValidator
 import models.documenttemplatevariable.daos.DocumentTemplateVariableDaos
 import models.documenttemplatevariable.updaters.DocumentTemplateVariableUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
@@ -20,7 +20,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var wrappedParams: DocumentTemplateVariableRequestParametersWrapper
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetDocumentTemplateVariableToUpdate()
         runUpdater()
@@ -30,7 +30,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     private fun wrapParams(){
         params.get("documentTemplateVariable")?.let {
             wrappedParams = DocumentTemplateVariableRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetDocumentTemplateVariableToUpdate() {
@@ -46,7 +46,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
     private fun validate() {
         DocumentTemplateVariableValidator(documentTemplateVariableToUpdate).updateScenario()
         if (!documentTemplateVariableToUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -63,7 +63,7 @@ class UpdateComposer(val params: IParam, val id: Long?) : ComposerBase() {
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         documentTemplateVariableToUpdate
                 )

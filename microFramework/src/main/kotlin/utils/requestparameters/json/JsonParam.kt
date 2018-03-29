@@ -65,6 +65,22 @@ class JsonParam(val jsonNode: JsonNode): IParam {
             return jsonNode.booleanValue()
         }
 
+    override val long: Long?
+        get() {
+            if (jsonNode.isNull) {
+                return null
+            }
+            return jsonNode.longValue()
+        }
+
+    override val int: Int?
+        get() {
+            if (jsonNode.isNull) {
+                return null
+            }
+            return jsonNode.intValue()
+        }
+
     override fun int(): Int? {
         return jsonNode.intValue()
     }

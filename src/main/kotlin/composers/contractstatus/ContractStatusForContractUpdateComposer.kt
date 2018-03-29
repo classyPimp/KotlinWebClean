@@ -6,10 +6,9 @@ import models.contractstatus.ContractStatusValidator
 import models.contractstatus.daos.ContractStatusDaos
 import models.contractstatus.updaters.ContractStatusUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
-import sun.security.x509.IPAddressName
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractStatusForContractUpdateComposer(
@@ -24,7 +23,7 @@ class ContractStatusForContractUpdateComposer(
     lateinit var wrappedParams: ContractStatusRequestParametersWrapper
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         findAndSetContractStatusToUpdate()
         wrapParams()
         runUpdater()
@@ -40,7 +39,7 @@ class ContractStatusForContractUpdateComposer(
     private fun wrapParams() {
         params.get("contractStatus")?.let {
             wrappedParams = ContractStatusRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun runUpdater() {
@@ -50,7 +49,7 @@ class ContractStatusForContractUpdateComposer(
     private fun validate() {
         ContractStatusValidator(contractStatusToUdpate).forContractUpdateScenario()
         if (!contractStatusToUdpate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -67,7 +66,7 @@ class ContractStatusForContractUpdateComposer(
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(contractStatusToUdpate)
             }
             else -> {

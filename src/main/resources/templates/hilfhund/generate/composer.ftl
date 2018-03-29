@@ -1,11 +1,12 @@
 package composers${composerPackage}
 
 import utils.composer.ComposerBase
+import models.${classNameLowerCase}.${className}
 
 class ${composerName} : ComposerBase() {
 
-    lateinit var onSuccess: ()->Unit
-    lateinit var onError: ()->Unit
+    lateinit var onSuccess: (${className})->Unit
+    lateinit var onError: (${className})->Unit
 
     override fun beforeCompose(){
 

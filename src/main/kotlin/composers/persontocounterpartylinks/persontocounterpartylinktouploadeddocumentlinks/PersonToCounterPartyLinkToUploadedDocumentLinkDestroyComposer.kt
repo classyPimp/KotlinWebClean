@@ -5,7 +5,7 @@ import models.persontocounterpartylinktouploadeddocumentlink.daos.PersonToCounte
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class PersonToCounterPartyLinkToUploadedDocumentLinkDestroyComposer(
         val personToCounterPartyLinkId: Long?,
@@ -19,7 +19,7 @@ class PersonToCounterPartyLinkToUploadedDocumentLinkDestroyComposer(
 
     override fun beforeCompose(){
         if (id == null || personToCounterPartyLinkId == null) {
-            failImmediately(UnprocessableEntryError())
+            failImmediately(BadRequestError())
         }
         findAndSetLinkToBeDestroyed()
     }

@@ -5,10 +5,10 @@ import models.contact.ContactRequestParametersWrapper
 import models.contact.ContactValidator
 import models.contact.factories.ContactFactories
 import models.counterpartytocontactlink.factories.CounterPartyToContactLinkFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class CounterPartiesContactsCreateComposer(val params: IParam, val counterPartyId: Long?) : ComposerBase() {
@@ -20,7 +20,7 @@ class CounterPartiesContactsCreateComposer(val params: IParam, val counterPartyI
     lateinit var contactWrappedParams: ContactRequestParametersWrapper
 
     override fun beforeCompose(){
-        counterPartyId ?: failImmediately(UnprocessableEntryError())
+        counterPartyId ?: failImmediately(BadRequestError())
         wrapParams()
         buildContact()
         buildCounterPartyToContactLink()
@@ -31,7 +31,7 @@ class CounterPartiesContactsCreateComposer(val params: IParam, val counterPartyI
     private fun wrapParams(){
         params.get("contact")?.let {
             contactWrappedParams = ContactRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun buildContact() {
@@ -50,7 +50,7 @@ class CounterPartiesContactsCreateComposer(val params: IParam, val counterPartyI
     private fun validate() {
         ContactValidator(contactBeingCreated).forCounterPartyCreateScenario()
         if (!contactBeingCreated.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -62,7 +62,7 @@ class CounterPartiesContactsCreateComposer(val params: IParam, val counterPartyI
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(contactBeingCreated)
             }
             else -> {

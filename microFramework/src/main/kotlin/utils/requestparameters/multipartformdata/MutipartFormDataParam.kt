@@ -123,6 +123,20 @@ class MultipartFormDataParam : IParam, ParamInParseModeTrait {
         }
     }
 
+    override val long: Long?
+        get() {
+            this.value?.let {
+                return (it as String).toLongOrNull()
+            } ?: return null
+        }
+
+    override val int: Int?
+        get() {
+            this.value?.let {
+                return (it as String).toIntOrNull()
+            } ?: return null
+        }
+
     override fun long(): Long? {
         this.value?.let {
             return (it as String).toLongOrNull()

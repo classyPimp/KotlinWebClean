@@ -5,7 +5,7 @@ import org.jooq.generated.Tables.COUNTER_PARTIES
 import orm.counterpartygeneratedrepository.CounterPartyRecord
 import orm.modelUtils.exceptions.ModelNotFoundError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class Destroy(val id: Long?) : ComposerBase() {
 
@@ -15,7 +15,7 @@ class Destroy(val id: Long?) : ComposerBase() {
     lateinit var counterPartyBeingDestroyed: CounterParty
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         findAndSetCounterPartyBeingDestroyed()
     }
 

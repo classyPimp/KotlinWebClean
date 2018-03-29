@@ -7,10 +7,10 @@ import models.persontocounterpartylinktouploadeddocumentlink.PersonToCounterPart
 import models.persontocounterpartylinktouploadeddocumentlink.PersonToCounterPartyLinkToUploadedDocumentLinkValidator
 import models.persontocounterpartylinktouploadeddocumentlink.factories.PersonToCounterPartyLinkToUploadedDocumentLinkFactories
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class PersonToCounterPartyLinkToUploadedDocumentLinkCreateComposer(val params: IParam, val personToCounterPartyLinkId: Long?) : ComposerBase() {
@@ -23,7 +23,7 @@ class PersonToCounterPartyLinkToUploadedDocumentLinkCreateComposer(val params: I
     lateinit var wrappedParams: PersonToCounterPartyLinkToUploadedDocumentLinkRequestParametersWrapper
 
     override fun beforeCompose(){
-        personToCounterPartyLinkId ?: failImmediately(UnprocessableEntryError())
+        personToCounterPartyLinkId ?: failImmediately(BadRequestError())
         findAndSetPersonToCounterPartyLink()
         wrapParams()
         build()
@@ -39,7 +39,7 @@ class PersonToCounterPartyLinkToUploadedDocumentLinkCreateComposer(val params: I
     private fun wrapParams() {
         params.get("personToCounterPartyLinkToUploadedDocumentLink")?.let {
             wrappedParams = PersonToCounterPartyLinkToUploadedDocumentLinkRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun build(){
@@ -52,7 +52,7 @@ class PersonToCounterPartyLinkToUploadedDocumentLinkCreateComposer(val params: I
     private fun validate() {
         PersonToCounterPartyLinkToUploadedDocumentLinkValidator(linkBeingCreated).createScenario()
         if (!linkBeingCreated.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -86,7 +86,7 @@ class PersonToCounterPartyLinkToUploadedDocumentLinkCreateComposer(val params: I
                        }
                )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         linkBeingCreated
                 )

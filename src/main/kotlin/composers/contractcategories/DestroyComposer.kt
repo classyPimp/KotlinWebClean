@@ -4,7 +4,7 @@ import models.contractcategory.ContractCategory
 import models.contractcategory.daos.ContractCategoryDaos
 import orm.modelUtils.exceptions.ModelNotFoundError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 
 class DestroyComposer(val id: Long?) : ComposerBase() {
 
@@ -14,7 +14,7 @@ class DestroyComposer(val id: Long?) : ComposerBase() {
     lateinit var contractCategoryToDestroy: ContractCategory
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         findAndSetContractCategoryToDestroy()
     }
 

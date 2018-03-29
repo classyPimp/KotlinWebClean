@@ -4,12 +4,12 @@ import docxtemplating.DocxTemplateVariablesHandler
 import models.documenttemplate.DocumentTemplate
 import models.documenttemplate.DocumentTemplateRequestParametersWrapper
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 import models.documenttemplatetodocumentvariablelink.DocumentTemplateToDocumentVariableLink
 import models.documenttemplatevariable.DocumentTemplateVariable
 import models.documenttemplatevariable.daos.DocumentTemplateVariableDaos
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.fileutils.FileNamingUtils
 import java.io.File
 
@@ -33,7 +33,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
 
         params.get("documentTemplate")?.let {
             wrappedParams = DocumentTemplateRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
 
         try {
             createTempfileForValidation()
@@ -58,7 +58,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
         } catch(error: Exception) {
             throw(error)
             documentTemplate.record.validationManager.addGeneralError("file invalid")
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -69,7 +69,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
         } catch (error: Exception) {
             throw (error)
             documentTemplate.record.validationManager.addGeneralError("file invalid")
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
             return
         }
 
@@ -147,7 +147,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
         }
 
         if (!documentTemplate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -158,7 +158,7 @@ class PrevalidationsCreateComposer(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         documentTemplate
                 )

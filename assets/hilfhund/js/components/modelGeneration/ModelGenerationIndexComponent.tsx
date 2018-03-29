@@ -18,6 +18,8 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
         this.state = {model}
     }
 
+    componentKeyTracker: number = 0
+
     render() {
         return <div>
             {this.renderErrorsIfAny()}
@@ -26,14 +28,18 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                     <PlainInputElement model={this.state.model} propertyName="className" registerInput={this.registerInput} optional={{ placeholder: "class name" }} />
                     <PlainInputElement model={this.state.model} propertyName="pluralClassname" registerInput={this.registerInput} optional={{ placeholder: "plural class name" }} />
                 </div>
-                {/*<div className="model-tableFields">
+                <div className="model-tableFields">
                     {this.state.model.tableFields.isNotEmpty() &&
                         <div>
                             {this.state.model.tableFields.map((tableField, index) => {
-                                return <div key={index}>
+                                return <div key={tableField.componentKey}>
+                                    <p>---------------------------------------</p>
                                     <PlainInputElement model={tableField} propertyName="name" registerInput={this.registerInput} optional={{ placeholder: "field name" }} />
                                     <PlainInputElement model={tableField} propertyName="isPrimaryKey" registerInput={this.registerInput} optional={{ placeholder: "is primary key" }} />
                                     <PlainInputElement model={tableField} propertyName="type" registerInput={this.registerInput} optional={{ placeholder: "field type" }} />
+                                    <button onClick={()=>{this.removeTableField(tableField)}}>
+                                      remove
+                                    </button>
                                 </div>
                             })}
                         </div>
@@ -41,17 +47,21 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                     <button onClick={this.addField}>
                         add field
                     </button>
-                </div>*/}
-                {/*<div className="model-associatedModels">
+                </div>
+                <div className="model-associatedModels">
                     {this.state.model.associatedModels &&
                         this.state.model.associatedModels.map((associatedModel, index) => {
-                            return <div key={index}>
+                            return <div key={associatedModel.componentKey}>
+                                <p>---------------------------------------</p>
                                 <PlainInputElement model={associatedModel} propertyName="className" registerInput={this.registerInput} optional={{ placeholder: "class name" }} />
                                 <PlainInputElement model={associatedModel} propertyName="associationType" registerInput={this.registerInput} optional={{ placeholder: "association type" }} />
                                 <PlainInputElement model={associatedModel} propertyName="fieldOnThis" registerInput={this.registerInput} optional={{ placeholder: "field on this" }} />
                                 <PlainInputElement model={associatedModel} propertyName="fieldOnThat" registerInput={this.registerInput} optional={{ placeholder: "field on that" }} />
                                 <PlainInputElement model={associatedModel} propertyName="pluralClassName" registerInput={this.registerInput} optional={{ placeholder: "plural class name" }} />
                                 <PlainInputElement model={associatedModel} propertyName="property" registerInput={this.registerInput} optional={{ placeholder: "property name" }} />
+                                <button onClick={()=>{this.removeAssociatedModel(associatedModel)}}>
+                                  remove
+                                </button>
                             </div>
 
                         })
@@ -59,7 +69,7 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
                     <button onClick={this.addAssociatedModel}>
                         add associated model
                   </button>
-                </div>*/}
+                </div>
                 <button onClick={this.generateModel}>
                     generate model
                 </button>
@@ -159,15 +169,35 @@ export class ModelGenerationIndexComponent extends MixinFormableTrait(BaseReactC
     @autobind
     addField(){
         let model = this.state.model
-        model.tableFields.push(new TableField())
+        let tableField = new TableField()
+        tableField.componentKey = this.componentKeyTracker += 1
+        model.tableFields.push(tableField)
         this.setState({model})
+    }
+
+    @autobind
+    removeTableField(tableField: TableField) {
+      this.state.model.tableFields.filter((it)=>{
+        return it !== tableField
+      })
+      this.forceUpdate()
     }
 
     @autobind
     addAssociatedModel(){
         let model = this.state.model
-        model.associatedModels.push(new AssociatedModel())
+        let associatedModel = new AssociatedModel()
+        associatedModel.componentKey = this.componentKeyTracker += 1
+        model.associatedModels.push(associatedModel)
         this.setState({model})
+    }
+
+    @autobind
+    removeAssociatedModel(associatedModel: AssociatedModel) {
+      this.state.model.associatedModels.filter((it)=>{
+        return it !== associatedModel
+      })
+      this.forceUpdate()
     }
 
     @autobind

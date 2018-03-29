@@ -7,9 +7,9 @@ import models.person.updaters.PersonUpdaters
 import org.jooq.generated.Tables.PEOPLE
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.persongeneratedrepository.PersonRecord
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Update(val params: IParam, val id: Long?) : ComposerBase() {
@@ -22,12 +22,12 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
 
     override fun beforeCompose(){
         if (id == null) {
-            failImmediately(UnprocessableEntryError("route param id is null"))
+            failImmediately(BadRequestError("route param id is null"))
         }
 
         params.get("person")?.let {
             wrappedPersonParams = PersonRequestParametersWrapper(it)
-       } ?: failImmediately(UnprocessableEntryError("no params under 'person' given"))
+       } ?: failImmediately(BadRequestError("no params under 'person' given"))
 
         PersonRecord.GET().where(PEOPLE.ID.eq(id!!)).execute().firstOrNull()?.let {
             personBeingUpdate = it
@@ -51,7 +51,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is UnprocessableEntryError -> {
+            is BadRequestError -> {
                 Person().let {
                     onError(it.also {it.record.validationManager.addGeneralError("unprocessable entry")})
                 }
@@ -63,7 +63,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
                 }
             }
 
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(personBeingUpdate)
             }
 

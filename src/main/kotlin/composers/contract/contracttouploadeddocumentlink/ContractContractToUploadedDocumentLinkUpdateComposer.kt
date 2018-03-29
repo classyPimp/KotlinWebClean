@@ -6,9 +6,9 @@ import models.contracttouploadeddocumentlink.ContractToUploadedDocumentLinkValid
 import models.contracttouploadeddocumentlink.daos.ContractToUploadedDocumentLinkDaos
 import models.contracttouploadeddocumentlink.updaters.ContractToUploadedDocumentLinkUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractContractToUploadedDocumentLinkUpdateComposer(
@@ -24,8 +24,8 @@ class ContractContractToUploadedDocumentLinkUpdateComposer(
     lateinit var wrappedParams: ContractToUploadedDocumentLinkRequestParametersWrapper
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetContractToUploadedDocumentLinkToUpdate()
         update()
@@ -51,7 +51,7 @@ class ContractContractToUploadedDocumentLinkUpdateComposer(
     private fun validate() {
         ContractToUploadedDocumentLinkValidator(contractToUploadedDocumentLinkToUpdate).updateScenario()
         if (!contractToUploadedDocumentLinkToUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -68,7 +68,7 @@ class ContractContractToUploadedDocumentLinkUpdateComposer(
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToUploadedDocumentLinkToUpdate
                 )

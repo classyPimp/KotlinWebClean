@@ -1,15 +1,14 @@
 package composers.persontocounterpartylinktouploadeddoclinkreasons
 
-import composers.contacttypes.Update
 import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReason
 import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReasonRequestParametersWrapper
 import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReasonValidator
 import models.persontocounterpartylinktouploadeddoclinkreason.daos.PersonToCounterPartyLinkToUploadedDocLinkReasonDaos
 import models.persontocounterpartylinktouploadeddoclinkreason.updaters.PersonToCounterPartyLinkToUploadedDocLinkReasonUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Update(val params: IParam, val id: Long?) : ComposerBase() {
@@ -21,7 +20,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     lateinit var wrappedParams: PersonToCounterPartyLinkToUploadedDocLinkReasonRequestParametersWrapper
 
     override fun beforeCompose(){
-        id ?: failImmediately(UnprocessableEntryError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetLinkReasonBeingUpdate()
         runUpdate()
@@ -31,7 +30,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun wrapParams() {
         params.get("personToCounterPartyLinkToUploadedDocLinkReason")?.let {
             wrappedParams = PersonToCounterPartyLinkToUploadedDocLinkReasonRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetLinkReasonBeingUpdate() {
@@ -47,7 +46,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
     private fun validate() {
         PersonToCounterPartyLinkToUploadedDocLinkReasonValidator(linkReasonBeingUpdate).updateScenario()
         if (!linkReasonBeingUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -64,7 +63,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         linkReasonBeingUpdate
                 )

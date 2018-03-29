@@ -7,10 +7,10 @@ import models.contact.factories.ContactFactories
 import models.person.Person
 import org.jooq.generated.Tables.PEOPLE
 import orm.persongeneratedrepository.PersonRecord
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContactsCreate(val params: IParam, val personId: Long?) : ComposerBase() {
@@ -23,7 +23,7 @@ class ContactsCreate(val params: IParam, val personId: Long?) : ComposerBase() {
     lateinit var contactParams: ContactRequestParametersWrapper
 
     override fun beforeCompose(){
-        personId ?: failImmediately(UnprocessableEntryError("no person id route param provided"))
+        personId ?: failImmediately(BadRequestError("no person id route param provided"))
 
         wrapContactParams()
 
@@ -38,7 +38,7 @@ class ContactsCreate(val params: IParam, val personId: Long?) : ComposerBase() {
     fun wrapContactParams(){
         params.get("contact")?.let {
             contactParams = ContactRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     class PersonNotFound : Throwable()
@@ -75,13 +75,13 @@ class ContactsCreate(val params: IParam, val personId: Long?) : ComposerBase() {
                     onError(it)
                 }
             }
-            is UnprocessableEntryError -> {
+            is BadRequestError -> {
                 Contact().let {
                     it.record.validationManager.addGeneralError("unprocessable entry")
                     onError(it)
                 }
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(contactBeingCreated)
             }
             else -> {

@@ -5,7 +5,7 @@ import models.contacttype.ContactType
 import models.contacttype.ContactTypeValidator
 import org.jooq.generated.Tables.CONTACT_TYPES
 import orm.contacttypegeneratedrepository.ContactTypeRecord
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
 import utils.requestparameters.IParam
 
@@ -43,7 +43,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
         }
 
         if (!contactType.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException("contact type invalid"))
+            failImmediately(ModelInvalidError("contact type invalid"))
         }
     }
 
@@ -69,7 +69,7 @@ class Update(val params: IParam, val id: Long?) : ComposerBase() {
                     onError(it)
                 }
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(contactType)
             }
             else -> {

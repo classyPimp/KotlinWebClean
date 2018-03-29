@@ -39,4 +39,15 @@ export class Approval extends BaseModel {
     @HasOne("Contract")
     contract: Contract
 
+    @Route("POST", {url: "/api/contracts/:contractId/approval"})
+    ofContractCreate: (options?: RequestOptions) => Promise<Approval>
+
+    beforeOfContractCreateRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterOfContractCreateRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
+
 }

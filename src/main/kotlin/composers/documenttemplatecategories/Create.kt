@@ -4,9 +4,9 @@ import models.documenttemplatecategory.DocumentTemplateCategory
 import models.documenttemplatecategory.DocumentTemplateCategoryRequestParametersWrapper
 import models.documenttemplatecategory.DocumentTemplateCategoryValidator
 import models.documenttemplatecategory.factories.DocumentTemplateCategoryFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Create(val params: IParam) : ComposerBase() {
@@ -26,7 +26,7 @@ class Create(val params: IParam) : ComposerBase() {
     private fun wrapParams() {
         params.get("documentTemplateCategory")?.let {
             wrappedParams = DocumentTemplateCategoryRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun build() {
@@ -36,7 +36,7 @@ class Create(val params: IParam) : ComposerBase() {
     private fun validate() {
         DocumentTemplateCategoryValidator(documentTemplateCategoryToCreate).createScenario()
         if (!documentTemplateCategoryToCreate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -46,7 +46,7 @@ class Create(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         documentTemplateCategoryToCreate
                 )

@@ -3,7 +3,7 @@ package composers.persons
 import models.person.Person
 import models.person.PersonValidator
 import models.person.factories.PersonFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
 import utils.composer.composerexceptions.InvalidRequestParametersError
 import utils.requestparameters.IParam
@@ -48,7 +48,7 @@ class Create(val params: IParam) : ComposerBase() {
                     )
                 }
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(personBeingCreated)
             }
             else -> {

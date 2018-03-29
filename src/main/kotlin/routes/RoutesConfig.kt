@@ -1,6 +1,7 @@
 package routes
 
 import controllers.HomeController
+import controllers.approval.ApprovalOfContractController
 import controllers.contacttypes.ContactTypesController
 import controllers.contract.ContractController
 import controllers.contractcategories.ContractCategoriesController
@@ -18,9 +19,6 @@ import controllers.persontocounterpartylinks.PersonToCounterPartyLinksController
 import controllers.persontocounterpartylinktouploadeddoclinkreasons.PersonToCounterPartyLinkToUploadedDocLinkReasonController
 import controllers.sessions.SessionsController
 import controllers.users.UsersController
-import models.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReason
-import models.persontocounterpartylinktouploadeddoclinkreason.PersonToCounterPartyLinkToUploadedDocLinkReason
-import org.w3c.dom.css.Counter
 import router.RoutesDrawer
 import router.src.Router
 import servletUtils.SimpleFileServer
@@ -58,6 +56,10 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
             namespace("/users") {
                 post("/create") {
                     UsersController(it).create()
+                }
+
+                get("/forSearchForm") {
+                    UsersController(it).forSearchFormIndex()
                 }
             }
 
@@ -561,6 +563,12 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                         get("") {
                             ContractController.manage.monetaryObligation(it).index()
                         }
+                    }
+                }
+
+                namespace("/:contractId/approval") {
+                    post("") {
+                        ApprovalOfContractController(it).create()
                     }
                 }
 

@@ -2,6 +2,7 @@ package models.user.factories
 
 import models.account.factories.AccountFactories
 import models.user.User
+import models.user.UserRequestParametersWrapper
 import utils.requestparameters.IParam
 
 object CreateFactory {
@@ -16,6 +17,13 @@ object CreateFactory {
 
         }
         return user
+    }
+
+    fun ofApprovalOfContractCreate(params: UserRequestParametersWrapper): User {
+        return User().also {
+            it.id = params.id
+            it.name = params.name
+        }
     }
 
 }

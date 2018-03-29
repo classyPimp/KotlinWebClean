@@ -4,9 +4,9 @@ import models.incorporationform.IncorporationForm
 import models.incorporationform.IncorporationFormRequestParametersWrapper
 import models.incorporationform.IncorporationFormValidator
 import models.incorporationform.factories.IncorporationFormFactories
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class Create(val params: IParam) : ComposerBase() {
@@ -26,7 +26,7 @@ class Create(val params: IParam) : ComposerBase() {
     private fun wrapParams() {
         params.get("incorporationForm")?.let {
             wrappedParams = IncorporationFormRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError("no incorporationForm parameters supplied"))
+        } ?: failImmediately(BadRequestError("no incorporationForm parameters supplied"))
     }
 
     private fun buildAndSetIncorporationFormBeingCreated() {
@@ -36,7 +36,7 @@ class Create(val params: IParam) : ComposerBase() {
     private fun validate() {
         IncorporationFormValidator(incorporationFormBeingCreated).createScenario()
         if (!incorporationFormBeingCreated.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException("incroporation form invalid"))
+            failImmediately(ModelInvalidError("incroporation form invalid"))
         }
     }
 
@@ -46,7 +46,7 @@ class Create(val params: IParam) : ComposerBase() {
 
     override fun fail(error: Throwable) {
         when(error) {
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(incorporationFormBeingCreated)
             }
             else -> {

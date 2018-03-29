@@ -6,9 +6,9 @@ import models.contact.ContactValidator
 import models.contact.daos.ContactDaos
 import models.contact.updaters.ContactUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class CounterPartiesContactsUpdateComposer(val params: IParam, val counterPartyId: Long?, val id: Long?) : ComposerBase() {
@@ -20,8 +20,8 @@ class CounterPartiesContactsUpdateComposer(val params: IParam, val counterPartyI
     lateinit var wrappedParams: ContactRequestParametersWrapper
 
     override fun beforeCompose(){
-        counterPartyId ?: failImmediately(UnprocessableEntryError())
-        id ?: failImmediately(UnprocessableEntryError())
+        counterPartyId ?: failImmediately(BadRequestError())
+        id ?: failImmediately(BadRequestError())
         wrapParams()
         findAndSetContactBeingUpdate()
         runUpdater()
@@ -32,7 +32,7 @@ class CounterPartiesContactsUpdateComposer(val params: IParam, val counterPartyI
     private fun wrapParams() {
         params.get("contact")?.let {
             wrappedParams = ContactRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun findAndSetContactBeingUpdate() {
@@ -55,7 +55,7 @@ class CounterPartiesContactsUpdateComposer(val params: IParam, val counterPartyI
     private fun validate() {
         ContactValidator(contactBeingUpdate).forCounterPartyUpdateScenario()
         if (!contactBeingUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -72,7 +72,7 @@ class CounterPartiesContactsUpdateComposer(val params: IParam, val counterPartyI
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contactBeingUpdate
                 )

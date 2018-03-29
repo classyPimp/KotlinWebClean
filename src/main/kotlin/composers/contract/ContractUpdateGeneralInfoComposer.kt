@@ -6,10 +6,10 @@ import models.contract.ContractValidator
 import models.contract.daos.ContractDaos
 import models.contract.updaters.ContractUpdaters
 import orm.modelUtils.exceptions.ModelNotFoundError
-import orm.services.ModelInvalidException
+import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import utils.composer.ComposerBase
-import utils.composer.composerexceptions.UnprocessableEntryError
+import utils.composer.composerexceptions.BadRequestError
 import utils.requestparameters.IParam
 
 class ContractUpdateGeneralInfoComposer(
@@ -24,7 +24,7 @@ class ContractUpdateGeneralInfoComposer(
     lateinit var wrappedParams: ContractRequestParametersWrapper
 
     override fun beforeCompose(){
-        contractId ?: failImmediately(UnprocessableEntryError())
+        contractId ?: failImmediately(BadRequestError())
         findAndSetContractToUpdate()
         wrapParams()
         runUpdater()
@@ -40,7 +40,7 @@ class ContractUpdateGeneralInfoComposer(
     private fun wrapParams() {
         params.get("contract")?.let {
             wrappedParams = ContractRequestParametersWrapper(it)
-        } ?: failImmediately(UnprocessableEntryError())
+        } ?: failImmediately(BadRequestError())
     }
 
     private fun runUpdater() {
@@ -50,7 +50,7 @@ class ContractUpdateGeneralInfoComposer(
     private fun validate() {
         ContractValidator(contractToUpdate).updateGeneralInfoScenario()
         if (!contractToUpdate.record.validationManager.isValid()) {
-            failImmediately(ModelInvalidException())
+            failImmediately(ModelInvalidError())
         }
     }
 
@@ -75,7 +75,7 @@ class ContractUpdateGeneralInfoComposer(
                         }
                 )
             }
-            is ModelInvalidException -> {
+            is ModelInvalidError -> {
                 onError(
                         contractToUpdate
                 )
