@@ -570,6 +570,10 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     post("") {
                         ApprovalOfContractController(it).create()
                     }
+
+                    get("") {
+                        ApprovalOfContractController(it).show()
+                    }
                 }
 
                 namespace("/:contractId/contractToCounterPartyLinks") {

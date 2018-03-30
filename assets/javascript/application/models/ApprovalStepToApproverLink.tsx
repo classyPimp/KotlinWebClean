@@ -4,6 +4,8 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
+import { User } from './User'
+import { ApprovalRejection } from './ApprovalRejection'
 
 export class ApprovalStepToApproverLink extends BaseModel {
 
@@ -17,5 +19,11 @@ export class ApprovalStepToApproverLink extends BaseModel {
 
     @Property
     createdAt: string
+
+    @HasOne("User")
+    user: User
+
+    @HasMany("ApprovalRejection")
+    approvalRejections: ModelCollection<ApprovalRejection>
 
 }

@@ -50,6 +50,8 @@ import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocumentLinks
 import org.jooq.generated.tables.PersonToCounterPartyLinks;
 import org.jooq.generated.tables.SchemaMigrations;
 import org.jooq.generated.tables.UploadedDocuments;
+import org.jooq.generated.tables.UserRoles;
+import org.jooq.generated.tables.UserToUserRoleLinks;
 import org.jooq.generated.tables.Users;
 import org.jooq.impl.SchemaImpl;
 
@@ -67,7 +69,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = 1129005667;
+    private static final long serialVersionUID = 540816881;
 
     /**
      * The reference instance of <code></code>
@@ -265,6 +267,16 @@ public class DefaultSchema extends SchemaImpl {
     public final UploadedDocuments UPLOADED_DOCUMENTS = org.jooq.generated.tables.UploadedDocuments.UPLOADED_DOCUMENTS;
 
     /**
+     * The table <code>user_roles</code>.
+     */
+    public final UserRoles USER_ROLES = org.jooq.generated.tables.UserRoles.USER_ROLES;
+
+    /**
+     * The table <code>user_to_user_role_links</code>.
+     */
+    public final UserToUserRoleLinks USER_TO_USER_ROLE_LINKS = org.jooq.generated.tables.UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS;
+
+    /**
      * The table <code>users</code>.
      */
     public final Users USERS = org.jooq.generated.tables.Users.USERS;
@@ -332,6 +344,8 @@ public class DefaultSchema extends SchemaImpl {
             PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS,
             SchemaMigrations.SCHEMA_MIGRATIONS,
             UploadedDocuments.UPLOADED_DOCUMENTS,
+            UserRoles.USER_ROLES,
+            UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS,
             Users.USERS);
     }
 }

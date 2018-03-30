@@ -50,4 +50,11 @@ export class Approval extends BaseModel {
       this.afterCreateRequest(options)
     }
 
+    @Route("GET", {url: "/api/contracts/:contractId/approval"})
+    static ofContractShow: (options?: RequestOptions) => Promise<Approval>
+
+    static afterOfContractShowRequest(options: RequestOptions) {
+      this.afterShowRequest(options)
+    }
+
 }

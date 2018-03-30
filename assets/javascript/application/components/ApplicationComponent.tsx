@@ -35,7 +35,6 @@ export class ApplicationComponent extends BaseReactComponent {
     }
 
     componentWillMount() {
-      console.log(this.props.match.url)
       if (!this.userIsLoggedIn() && this.props.match.url !== "/404") {
         this.props.history.push("/users/sessions/new")
       } else {

@@ -3,6 +3,9 @@ package models.user
 import models.account.Account
 import models.avatar.Avatar
 import models.discussion.Discussion
+import models.userrole.UserRole
+import models.usertouserrolelink.UserToUserRoleLink
+import org.jooq.generated.tables.UserToUserRoleLinks
 import org.jooq.generated.tables.Users
 import orm.annotations.*
 import orm.modelUtils.FileItemFileProperty
@@ -39,6 +42,11 @@ class User {
 
     @HasMany(model = Discussion::class, fieldOnThat = "USER_ID", fieldOnThis = "ID")
     var discussions: MutableList<Discussion>? = null
+
+    @HasMany(model = UserToUserRoleLink::class, fieldOnThat = "USER_ID", fieldOnThis = "ID")
+    var userToUserRoleLinks: MutableList<UserToUserRoleLink>? = null
+
+    var userRoles: MutableList<UserRole>? = null
 
 }
 

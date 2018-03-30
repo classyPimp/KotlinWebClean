@@ -14,8 +14,6 @@ fun main(args: Array<String>) {
     ApplicationBootstrapper.userDefinedApplicatinBootstrapper.add(RunOnApplicationBootstrap())
     ApplicationCloser.userDefinedApplicationCloser.add(RunOnApplicationShutdown())
     ApplicationBootstrapper.run()
-
-
 }
 
 

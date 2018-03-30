@@ -28,6 +28,9 @@ class ApprovalStepToApproverLink {
     @TableField(name = "UPDATED_AT")
     var updatedAt: Timestamp? = null
 
+    @TableField(name = "IS_APPROVED")
+    var isApproved: Timestamp? = null
+
     @BelongsTo(model = ApprovalStep::class, fieldOnThis = "APPROVAL_STEP_ID", fieldOnThat = "ID")
     var approvalStep: ApprovalStep? = null
 

@@ -44,6 +44,8 @@ import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocumentLinks
 import org.jooq.generated.tables.PersonToCounterPartyLinks;
 import org.jooq.generated.tables.SchemaMigrations;
 import org.jooq.generated.tables.UploadedDocuments;
+import org.jooq.generated.tables.UserRoles;
+import org.jooq.generated.tables.UserToUserRoleLinks;
 import org.jooq.generated.tables.Users;
 
 
@@ -249,6 +251,16 @@ public class Tables {
      * The table <code>uploaded_documents</code>.
      */
     public static final UploadedDocuments UPLOADED_DOCUMENTS = org.jooq.generated.tables.UploadedDocuments.UPLOADED_DOCUMENTS;
+
+    /**
+     * The table <code>user_roles</code>.
+     */
+    public static final UserRoles USER_ROLES = org.jooq.generated.tables.UserRoles.USER_ROLES;
+
+    /**
+     * The table <code>user_to_user_role_links</code>.
+     */
+    public static final UserToUserRoleLinks USER_TO_USER_ROLE_LINKS = org.jooq.generated.tables.UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS;
 
     /**
      * The table <code>users</code>.

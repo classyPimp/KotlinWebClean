@@ -28,6 +28,9 @@ class ApprovalToApproverLink {
     @TableField(name = "UPDATED_AT")
     var updatedAt: Timestamp? = null
 
+    @TableField(name = "IS_APPROVED")
+    var isApproved: Timestamp? = null
+
     @BelongsTo(model = Approval::class, fieldOnThis = "APPROVAL_ID", fieldOnThat = "ID")
     var approval: Approval? = null
 

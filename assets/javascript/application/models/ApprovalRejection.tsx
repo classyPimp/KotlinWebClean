@@ -31,7 +31,7 @@ export class ApprovalRejection extends BaseModel {
     approvalStepToApproverLink: ApprovalStepToApproverLink
 
     @HasMany("ApprovalRejectionToUploadedDocumentLink")
-    approvalRejectionToUploadedDocumentLinks: ApprovalRejectionToUploadedDocumentLink
+    approvalRejectionToUploadedDocumentLinks: ModelCollection<ApprovalRejectionToUploadedDocumentLink>
 
     @HasOne("Discussion")
     discussion: Discussion

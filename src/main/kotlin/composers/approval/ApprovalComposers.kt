@@ -1,6 +1,7 @@
 package composers.approval
 
 import composers.approval.ofcontract.ApprovalOfContractCreateComposer
+import utils.currentuser.ICurrentUser
 import utils.requestparameters.IParam
 
 /**
@@ -10,8 +11,8 @@ object ApprovalComposers {
 
     object OfContract {
 
-        fun create(contractId: Long?, params: IParam): ApprovalOfContractCreateComposer {
-            return ApprovalOfContractCreateComposer(contractId, params)
+        fun create(contractId: Long?, params: IParam, currentUser: ICurrentUser): ApprovalOfContractCreateComposer {
+            return ApprovalOfContractCreateComposer(contractId, params, currentUser)
         }
 
     }

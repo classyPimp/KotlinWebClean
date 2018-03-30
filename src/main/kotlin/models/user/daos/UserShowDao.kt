@@ -18,4 +18,12 @@ object UserShowDao {
         return user != null
     }
 
+    fun byId(id: Long): User? {
+        return UserRecord.GET()
+                .where(table.ID.eq(id))
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
 }

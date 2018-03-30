@@ -2,6 +2,7 @@ package controllers.approval
 
 import composers.approval.ApprovalComposers
 import composers.approval.ofcontract.ApprovalOfContractCreateComposer
+import controllers.ApplicationControllerBase
 import controllers.BaseController
 import models.approval.Approval
 import models.approval.daos.ApprovalDaos
@@ -11,13 +12,13 @@ import orm.approvalgeneratedrepository.ApprovalToJsonSerializer
 import router.src.ServletRequestContext
 import sun.plugin.dom.exception.InvalidStateException
 
-class ApprovalOfContractController(context: ServletRequestContext) : BaseController(context) {
+class ApprovalOfContractController(context: ServletRequestContext) : ApplicationControllerBase(context) {
 
     fun create() {
         val params = requestParams()
         val contractId = routeParams().get("contractId")?.toLongOrNull()
                 ?: throw InvalidStateException("no contractId supplied")
-        val composer = ApprovalComposers.OfContract.create(contractId, params)
+        val composer = ApprovalComposers.OfContract.create(contractId, params, currentUser)
         composer.onError = {
             renderJson(
                 ApprovalSerializers.OfContract.create.onError(it)

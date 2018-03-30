@@ -25,7 +25,7 @@ export class ApprovalStep extends BaseModel {
     approvalId: number
 
     @HasMany("ApprovalStepToApproverLink")
-    approvalStepToApproverLink: ApprovalStepToApproverLink
+    approvalStepToApproverLinks: ModelCollection<ApprovalStepToApproverLink>
 
     @HasMany("ApprovalStepToUploadedDocumentLink")
     approvalStepToUploadedDocumentLinks: ModelCollection<ApprovalStepToUploadedDocumentLink>

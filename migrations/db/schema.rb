@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180319091113) do
+ActiveRecord::Schema.define(version: 20180330075444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20180319091113) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "is_approved"
     t.index ["approval_step_id"], name: "index_approval_step_to_approver_links_on_approval_step_id"
     t.index ["user_id"], name: "index_approval_step_to_approver_links_on_user_id"
   end
@@ -73,6 +74,7 @@ ActiveRecord::Schema.define(version: 20180319091113) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "is_approved"
     t.index ["approval_id"], name: "index_approval_to_approver_links_on_approval_id"
     t.index ["user_id"], name: "index_approval_to_approver_links_on_user_id"
   end
@@ -358,6 +360,26 @@ ActiveRecord::Schema.define(version: 20180319091113) do
     t.index ["uploaded_document_id"], name: "index_uploaded_documents_on_uploaded_document_id"
   end
 
+  create_table "user_roles", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_specific"
+    t.string "specific_to_type"
+    t.bigint "specific_to_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_roles_on_user_id"
+  end
+
+  create_table "user_to_user_role_links", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "user_role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_to_user_role_links_on_user_id"
+    t.index ["user_role_id"], name: "index_user_to_user_role_links_on_user_role_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -407,4 +429,6 @@ ActiveRecord::Schema.define(version: 20180319091113) do
   add_foreign_key "person_to_counter_party_links", "people"
   add_foreign_key "person_to_counter_party_links", "person_to_counter_party_link_reasons"
   add_foreign_key "uploaded_documents", "uploaded_documents"
+  add_foreign_key "user_to_user_role_links", "user_roles"
+  add_foreign_key "user_to_user_role_links", "users"
 end

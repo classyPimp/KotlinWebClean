@@ -1,9 +1,9 @@
 package controllers${controllerPackage}
 
-import controllers.BaseController
+import controllers.ApplicationControllerBase
 import router.src.ServletRequestContext
 
-class ${controllerName}Controller(context: ServletRequestContext) : BaseController(context) {
+class ${controllerName}Controller(context: ServletRequestContext) : ApplicationControllerBase(context) {
 
 
 
