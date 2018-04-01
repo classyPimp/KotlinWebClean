@@ -5,8 +5,8 @@ import { User } from '../../../models/User';
 import { BaseReactComponent } from '../../../../reactUtils/BaseReactComponent';
 import { MixinFormableTrait } from '../../../../reactUtils/plugins/formable/MixinFormableTrait';
 import * as React from 'react';
-import { Account } from 'application/models/Account';
-import { Avatar } from 'application/models/Avatar'
+import { Account } from '../../../models/Account';
+import { Avatar } from '../../../models/Avatar'
 
 export class Create extends MixinFormableTrait(BaseReactComponent) {
 

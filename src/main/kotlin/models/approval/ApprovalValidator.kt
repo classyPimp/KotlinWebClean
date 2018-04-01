@@ -7,7 +7,6 @@ import models.contract.daos.ContractDaos
 import org.omg.CORBA.DynAnyPackage.Invalid
 import orm.approvalgeneratedrepository.ApprovalValidatorTrait
 import orm.contractgeneratedrepository.ContractRecord
-import sun.plugin.dom.exception.InvalidStateException
 
 class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.record.validationManager) {
 
@@ -22,7 +21,7 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
     private fun ofContractValidateApprovableId() {
         val approvableId = model.approvableId
         if (approvableId == null) {
-            throw InvalidStateException("no approvableId supplied")
+            throw IllegalStateException("no approvableId supplied")
         }
         if (!ContractDaos.show.exists(approvableId)) {
             validationManager.addGeneralError("contract does not exist")
@@ -33,7 +32,7 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
     private fun ofContractValidateApprovableType() {
         val approvableType = model.approvableType
         if (approvableType.isNullOrBlank() || approvableType != "Contract") {
-            throw InvalidStateException("approvble type was not set or is incorrect")
+            throw IllegalStateException("approvble type was not set or is incorrect")
         }
     }
 
@@ -54,7 +53,7 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
     private fun ofContractValidateApprovalSteps() {
         val approvalSteps = model.approvalSteps
         if (approvalSteps == null || approvalSteps.isEmpty() || approvalSteps.size > 1) {
-            throw InvalidStateException("no approval step was added")
+            throw IllegalStateException("no approval step was added")
         }
         approvalSteps.forEach {
             ApprovalStepValidator(it).ofContractCreateScenario()
@@ -71,7 +70,7 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
             return
         }
         if (approvalStepToApproverLinks.size != approvalStepToApproverLinks.size) {
-            throw InvalidStateException("no approver links duplicated on ApprovalStep")
+            throw IllegalStateException("no approver links duplicated on ApprovalStep")
         }
     }
 

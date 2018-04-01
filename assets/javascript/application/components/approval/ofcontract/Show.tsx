@@ -34,7 +34,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
 
     componentDidMount(){
       Approval.ofContractShow({wilds: {contractId: this.contractId}}).then((approval)=>{
-        let lastApprovalStep = this.getLastApprovalStep(approval)
+        let lastApprovalStep = this.getLastApprovalStep(approval)  
         this.setState({approval, lastApprovalStep})
       })
     }
@@ -44,10 +44,12 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
       return lastApprovalStep
     }
 
-
-
     render(){
-
+      if (!this.state.approval) {
+        return <div>
+          ...loading
+        </div>
+      }
       return <div>
         <div>
           <p>
@@ -69,9 +71,9 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
                 <p>
                   {approvalStepToApproverLink.user.name}
                 </p>
-                {(CurrentUser.instance.loggedInInstance.id == approvalStepToApproverLink.user.id) &&
+                {(this.currentUserIdMatchesId(approvalStepToApproverLink.user.id)) &&
                   <div>
-                    <button>
+                    <button onClick={this.approve}>
                       approve
                     </button>
                     <button>
@@ -102,6 +104,17 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
         </div>
       </div>  
        
+    }
+
+    @autobind
+    currentUserIdMatchesId(id: number): Boolean {
+      console.log(`current userId: ${CurrentUser.instance.loggedInInstance.id} - to test ${id}`)
+      return CurrentUser.instance.loggedInInstance.id == id
+    }
+
+    @autobind
+    approve() {
+      
     }
 
 

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Person } from '../../models/Person';
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { PersonsComponents } from './PersonsComponents'
-import { PersonToCounterPartyLinksComponents } from '../personToCounterPartyLinks/PersonToCounterPartyLinksComponents'
+import { PersonToCounterPartyLinksComponents } from '../persontocounterpartylinks/PersonToCounterPartyLinksComponents'
 
 export class ShowMain extends BaseReactComponent {
 

@@ -12,7 +12,7 @@ import { ApplicationComponent } from '../../ApplicationComponent';
 import { DropDownSelectServerFed } from '../../formelements/DropdownSelectServerFed'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { SelectThroughModalInput } from '../../formelements/SelectThroughModalInput'
-import { FormSelectIndex } from '../../counterParties/FormSelectIndex'
+import { FormSelectIndex } from '../../counterparties/FormSelectIndex'
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
 

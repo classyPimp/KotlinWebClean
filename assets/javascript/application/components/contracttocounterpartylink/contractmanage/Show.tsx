@@ -10,7 +10,7 @@ import { Modal } from '../../shared/Modal';
 import { ContractToCounterPartyLinkComponents } from '../ContractToCounterPartyLinkComponents'
 import { ContractToCounterPartyLink } from '../../../models/ContractToCounterPartyLink'
 
-import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServerFed'
+import { DropDownSelectServerFed } from '../../formelements/DropdownSelectServerFed'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 

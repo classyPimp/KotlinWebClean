@@ -5,7 +5,7 @@ import { MonetaryObligationPart } from '../../../../models/MonetaryObligationPar
 import { CounterParty } from '../../../../models/CounterParty'
 import { MixinFormableTrait } from '../../../../../reactUtils/plugins/formable/MixinFormableTrait';
 import { PlainInputElement } from '../../../../../reactUtils/plugins/formable/formElements/PlainInput'
-import { DropDownSelectServerFed } from '../../../formelements/DropDownSelectServerFed'
+import { DropDownSelectServerFed } from '../../../formelements/DropdownSelectServerFed'
 import autobind from 'autobind-decorator'
 import { ErrorsShow } from '../../../shared/ErrorsShow'
 import { ApplicationComponent } from '../../../ApplicationComponent';

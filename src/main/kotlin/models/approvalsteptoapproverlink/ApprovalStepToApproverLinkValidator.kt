@@ -2,7 +2,7 @@ package models.approvalsteptoapproverlink
 
 import models.user.daos.UserDaos
 import orm.approvalsteptoapproverlinkgeneratedrepository.ApprovalStepToApproverLinkValidatorTrait
-import sun.plugin.dom.exception.InvalidStateException
+
 
 class ApprovalStepToApproverLinkValidator(model: ApprovalStepToApproverLink) : ApprovalStepToApproverLinkValidatorTrait(model, model.record.validationManager) {
 
@@ -12,7 +12,7 @@ class ApprovalStepToApproverLinkValidator(model: ApprovalStepToApproverLink) : A
 
     private fun validateUserId() {
         val userId = model.userId
-        userId ?:  throw InvalidStateException("ApprovalStep ApprovalStepToApproverLink: no userId assigned")
+        userId ?:  throw IllegalStateException("ApprovalStep ApprovalStepToApproverLink: no userId assigned")
     }
 
 }

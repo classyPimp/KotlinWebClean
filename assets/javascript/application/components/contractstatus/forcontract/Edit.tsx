@@ -1,7 +1,7 @@
 import { BaseReactComponent } from "../../../../reactUtils/BaseReactComponent"
 import * as React from 'react'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
-import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServerFed'
+import { DropDownSelectServerFed } from '../../formelements/DropdownSelectServerFed'
 import { FlashMessageQueue } from '../../shared/FlashMessageQueue';
 import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput';
 import { MixinFormableTrait } from '../../../../reactUtils/plugins/formable/MixinFormableTrait';

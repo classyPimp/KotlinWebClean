@@ -4,7 +4,6 @@ import models.contractstatus.ContractStatusValidator
 import models.contracttocounterpartylink.ContractToCounterPartyLink
 import models.contracttocounterpartylink.ContractToCounterPartyLinkValidator
 import orm.contractgeneratedrepository.ContractValidatorTrait
-import sun.plugin.dom.exception.InvalidStateException
 
 class ContractValidator(model: Contract) : ContractValidatorTrait(model, model.record.validationManager) {
 
@@ -81,7 +80,7 @@ class ContractValidator(model: Contract) : ContractValidatorTrait(model, model.r
     private fun validateContractStatus() {
         val contractStatus = model.contractStatus
         if (contractStatus == null) {
-            throw InvalidStateException("no contract status initialized")
+            throw IllegalStateException("no contract status initialized")
         }
         ContractStatusValidator(contractStatus).forContractCreateScenario()
     }

@@ -54,7 +54,12 @@ export class Approval extends BaseModel {
     static ofContractShow: (options?: RequestOptions) => Promise<Approval>
 
     static afterOfContractShowRequest(options: RequestOptions) {
-      this.afterShowRequest(options)
+      console.log("calling afetAr")
+      try {
+        this.afterShowRequest(options)
+      } catch(error) {
+        console.log(error)
+      }
     }
 
 }

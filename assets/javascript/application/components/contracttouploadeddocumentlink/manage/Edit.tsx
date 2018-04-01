@@ -10,7 +10,7 @@ import { Modal } from '../../shared/Modal';
 import { ContractToUploadedDocumentLinkComponents } from '../ContractToUploadedDocumentLinkComponents'
 import { ContractToUploadedDocumentLink } from '../../../models/ContractToUploadedDocumentLink'
 import { Link } from 'react-router-dom';
-import { DropDownSelectServerFed } from '../../formelements/DropDownSelectServerFed'
+import { DropDownSelectServerFed } from '../../formelements/DropdownSelectServerFed'
 import { CounterParty } from '../../../models/CounterParty'
 
 export class Edit extends MixinFormableTrait(BaseReactComponent) {

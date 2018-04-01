@@ -10,14 +10,13 @@ import models.approval.tojsonserializers.ApprovalSerializers
 import models.approval.tojsonserializers.ofcontract.ApprovalOfContractShowJsonSerializer
 import orm.approvalgeneratedrepository.ApprovalToJsonSerializer
 import router.src.ServletRequestContext
-import sun.plugin.dom.exception.InvalidStateException
 
 class ApprovalOfContractController(context: ServletRequestContext) : ApplicationControllerBase(context) {
 
     fun create() {
         val params = requestParams()
         val contractId = routeParams().get("contractId")?.toLongOrNull()
-                ?: throw InvalidStateException("no contractId supplied")
+                ?: throw IllegalStateException("no contractId supplied")
         val composer = ApprovalComposers.OfContract.create(contractId, params, currentUser)
         composer.onError = {
             renderJson(
@@ -34,7 +33,7 @@ class ApprovalOfContractController(context: ServletRequestContext) : Application
 
     fun show() {
         val contractId = routeParams().get("contractId")?.toLongOrNull()
-        contractId ?: throw InvalidStateException("contractId param not supplied")
+        contractId ?: throw IllegalStateException("contractId param not supplied")
         val approval = ApprovalDaos.show.ofContract(contractId) as Approval?
 
         if (approval == null) {

@@ -49,22 +49,42 @@ class ApprovalOfContractCreateComposer(
 
     private fun build() {
         approvalToCreate = ApprovalFactories.ofContractDefault.create(wrappedParams)
+        handleCurrentUserInApproverLinks()
 
-        val approvalToApproverLinkWithCurrentUser = ApprovalToApproverLink().also {
+    }
+
+    private fun handleCurrentUserInApproverLinks() {
+        approvalToCreate.approvalToApproverLinks = approvalToCreate.approvalToApproverLinks
+            ?: mutableListOf()
+        approvalToCreate.approvalSteps!!.let {
+            val approvalStep = it.getOrNull(0)
+            if (approvalStep != null) {
+                approvalStep.approvalStepToApproverLinks = approvalStep.approvalStepToApproverLinks
+                    ?: mutableListOf()
+            }
+        }
+
+        val approvalToApproverLinks = approvalToCreate.approvalToApproverLinks!!
+        val approvalStepToApproverLinks = approvalToCreate.approvalSteps!!.get(0).approvalStepToApproverLinks!!
+
+        val currentUserId = currentUser.userModel!!.id!!
+
+        val approvalToApproverLinkWithCurrentUser  = approvalToApproverLinks.firstOrNull { it.userId == currentUserId }
+                ?: ApprovalToApproverLink().also {
+                    approvalToApproverLinks.add(it)
+                }
+        val approvalStepToApproverLinkWithCurrentUser = approvalStepToApproverLinks.firstOrNull { it.userId == currentUserId }
+                ?: ApprovalStepToApproverLink().also {
+                    approvalStepToApproverLinks.add(it)
+                }
+
+        approvalToApproverLinkWithCurrentUser.also {
             it.userId = currentUser.userModel!!.id!!
             it.isApproved = Timestamp(Instant.now().toEpochMilli())
         }
-        val approvalStepToApproverLinkWithCurrentUser = ApprovalStepToApproverLink().also {
+        approvalStepToApproverLinkWithCurrentUser.also {
             it.userId = currentUser.userModel!!.id!!
             it.isApproved = Timestamp(Instant.now().toEpochMilli())
-        }
-
-        approvalToCreate.approvalToApproverLinks = approvalToCreate.approvalToApproverLinks?.also { it.add(approvalToApproverLinkWithCurrentUser) }
-            ?: mutableListOf(approvalToApproverLinkWithCurrentUser)
-
-        approvalToCreate.approvalSteps?.getOrNull(0)?.let {
-            it.approvalStepToApproverLinks = it.approvalStepToApproverLinks?.also { it.add(approvalStepToApproverLinkWithCurrentUser) }
-                    ?: mutableListOf(approvalStepToApproverLinkWithCurrentUser)
         }
     }
 

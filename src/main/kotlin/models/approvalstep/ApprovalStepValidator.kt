@@ -4,7 +4,6 @@ import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLinkValidator
 import models.approvalsteptouploadeddocumentlink.ApprovalStepToUploadedDocumentLinkValidator
 import orm.approvalstepgeneratedrepository.ApprovalStepValidatorTrait
-import sun.plugin.dom.exception.InvalidStateException
 
 class ApprovalStepValidator(model: ApprovalStep) : ApprovalStepValidatorTrait(model, model.record.validationManager) {
 
@@ -16,7 +15,7 @@ class ApprovalStepValidator(model: ApprovalStep) : ApprovalStepValidatorTrait(mo
     private fun validateApprovalStepToApproverLinksOfContract() {
         val approvalStepToApproverLinks = model.approvalStepToApproverLinks
         if (approvalStepToApproverLinks == null || approvalStepToApproverLinks.isEmpty()) {
-            throw InvalidStateException("ApprovalStep: no links to approvers where added")
+            throw IllegalStateException("ApprovalStep: no links to approvers where added")
         }
         approvalStepToApproverLinks.forEach {
             ApprovalStepToApproverLinkValidator(it).ofContractCreateScenario()

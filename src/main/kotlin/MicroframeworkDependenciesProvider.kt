@@ -23,7 +23,7 @@ object MicroframeworkDependenciesProvider : IMicroFrameworkDependenciesProvider 
         JwtSessionHandler.let {
             it.algorithm = App.component.jwtHmacsAlgorithm()
             it.clientsJwtPlucker = JwtPlucker()
-            it.sessionIdentifyingKey = "userId"
+            it.sessionIdentifyingKey = "id"
             it.verifier = App.component.jwtVerifier()
         }
     }

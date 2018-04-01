@@ -6,7 +6,7 @@ import { CounterParty } from '../../models/CounterParty'
 import { ContractToCounterPartyLink } from '../../models/ContractToCounterPartyLink'
 import { MixinFormableTrait } from '../../../reactUtils/plugins/formable/MixinFormableTrait';
 import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElements/PlainInput'
-import { DropDownSelectServerFed } from '../formelements/DropDownSelectServerFed'
+import { DropDownSelectServerFed } from '../formelements/DropdownSelectServerFed'
 import { PlainDateAsTextInput } from '../formelements/PlainDateAsTextInput'
 import autobind from 'autobind-decorator'
 import { ErrorsShow } from '../shared/ErrorsShow'
