@@ -9,6 +9,7 @@ import { Modal } from '../shared/Modal'
 export class SelectThroughModalInput extends BaseReactComponent<IFormElementProps> implements IFormElement {
 
   id: number
+  cleanUpOnComponentWillUnmount: ()=>any
 
   props: {
     model: BaseModel,

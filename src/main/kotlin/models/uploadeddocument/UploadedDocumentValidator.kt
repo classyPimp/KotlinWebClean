@@ -5,7 +5,7 @@ import orm.uploadeddocumentgeneratedrepository.UploadedDocumentValidatorTrait
 class UploadedDocumentValidator(model: UploadedDocument) : UploadedDocumentValidatorTrait(model, model.record.validationManager) {
 
     fun createScenario(){
-        //
+        validateFile()
     }
 
     fun createForPersonToCounterPartyLinkToUploadedDocumentLink() {

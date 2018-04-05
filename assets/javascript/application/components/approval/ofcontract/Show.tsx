@@ -1,7 +1,7 @@
 import { BaseReactComponent } from "../../../../reactUtils/BaseReactComponent"
 import * as React from 'react'
 import { ApplicationComponent } from '../../ApplicationComponent';
-import { match } from 'react-router-dom';
+import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput';
 import { MixinFormableTrait } from '../../../../reactUtils/plugins/formable/MixinFormableTrait';
 import autobind from 'autobind-decorator';
@@ -9,9 +9,13 @@ import { FlashMessageQueue } from '../../shared/FlashMessageQueue';
 import { Modal } from '../../shared/Modal';
 import { Approval } from '../../../models/Approval'
 import { ApprovalStep } from '../../../models/ApprovalStep'
+import { ApprovalRejection } from '../../../models/ApprovalRejection'
 import { ModelCollection } from '../../../../modelLayer/ModelCollection'
 import { User } from '../../../models/User'
 import { CurrentUser } from '../../../services/CurrentUser'
+import { ApprovalStepToApproverLink } from '../../../models/ApprovalStepToApproverLink'
+import { ApprovalRejectionComponents } from '../../approvalrejection/ApprovalRejectionComponents'
+import { DiscussionComponents } from '../../discussion/DiscussionComponents'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 
@@ -51,6 +55,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
         </div>
       }
       return <div>
+        <Modal ref={(it)=>{this.modal = it}}/>
         <div>
           <p>
             documents to approve
@@ -71,23 +76,40 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
                 <p>
                   {approvalStepToApproverLink.user.name}
                 </p>
-                {(this.currentUserIdMatchesId(approvalStepToApproverLink.user.id)) &&
-                  <div>
-                    <button onClick={this.approve}>
-                      approve
-                    </button>
-                    <button>
-                      file rejection
-                    </button>
+
+                {approvalStepToApproverLink.isApproved 
+                  ? <div>
+                    {approvalStepToApproverLink.isApproved}
                   </div>
+                  : (this.currentUserIdMatchesId(approvalStepToApproverLink.user.id)) 
+                    ? <div>
+                      {!approvalStepToApproverLink.isApproved &&
+                        <div>
+                          <button onClick={()=>{this.approve(approvalStepToApproverLink)}}>
+                            approve
+                          </button>
+                          <button onClick={()=>{this.createRejection(approvalStepToApproverLink)}}>
+                            file rejection
+                          </button>
+                        </div>
+                      }
+                    </div>
+                    : <div>
+                      X
+                    </div>
                 }
-                {approvalStepToApproverLink.approvalRejections.forEach((approvalRejection)=>{
+                {(approvalStepToApproverLink.approvalRejections.array.length > 0) &&
+                  <p>
+                    filed rejections:
+                  </p>
+                }
+                {approvalStepToApproverLink.approvalRejections.map((approvalRejection)=>{
                   return <div key={approvalRejection.id}>
-                    <p>
+                    <Link to = {`/dashboards/contracts/${this.props.match.params.contractId}/approval/withRejectionDiscussion/${approvalRejection.discussion.id}`}>
                       {approvalRejection.reasonText}
-                    </p>
+                    </Link>
                     {approvalRejection.approvalRejectionToUploadedDocumentLinks.map((approvalRejectionToUploadedDocumentLink)=>{  
-                      return <div>
+                      return <div key = {approvalRejectionToUploadedDocumentLink.id}>
                         <p>
                           {approvalRejectionToUploadedDocumentLink.uploadedDocument.description}
                         </p>
@@ -102,6 +124,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
             })}
           </div>
         </div>
+        <Route path = {`/dashboards/contracts/${this.props.match.params.contractId}/approval/withRejectionDiscussion/:discussionId`} component = {DiscussionComponents.Show}/>
       </div>  
        
     }
@@ -113,8 +136,32 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
     }
 
     @autobind
-    approve() {
-      
+    approve(approvalStepToApproverLink: ApprovalStepToApproverLink) {
+       approvalStepToApproverLink.ofContractApprove().then((returnedApprovalStepToApproverLink)=>{
+         returnedApprovalStepToApproverLink.validate()
+         if (!returnedApprovalStepToApproverLink.isValid()) {
+           alert("invalid TODO: describe errors")
+         } else {
+           this.componentDidMount()
+         }
+       })
+    }
+
+    @autobind
+    createRejection(approvalStepToApproverLink: ApprovalStepToApproverLink) {
+      this.modal.open(
+        <ApprovalRejectionComponents.ofContract.New
+          approvalStepToApproverLinkId = {approvalStepToApproverLink.id}
+          onApprovalRejectionCreateSuccess = {(approvalRejection: ApprovalRejection)=>{this.onApprovalRejectionCreateSuccess(approvalRejection, approvalStepToApproverLink)}}
+        />
+      )
+    }
+
+    @autobind
+    onApprovalRejectionCreateSuccess(approvalRejection: ApprovalRejection, approvalStepToApproverLink: ApprovalStepToApproverLink) {
+      approvalStepToApproverLink.approvalRejections.push(approvalRejection)
+      this.modal.close()
+      this.componentDidMount()
     }
 
 

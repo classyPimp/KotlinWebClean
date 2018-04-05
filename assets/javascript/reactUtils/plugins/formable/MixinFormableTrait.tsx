@@ -20,7 +20,7 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
                 return
             }
             if (child.id) {
-
+              return
             } else {
                 this.inputElelementsId += 1
                 child.id = this.inputElelementsId   
@@ -28,7 +28,18 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
                   this.inputs[namespace] = {}
                 } 
                 this.inputs[namespace][child.id] = child
+                child.cleanUpOnComponentWillUnmount= ()=>{this.cleanChildFormable(child.id, namespace)}
             }
+        }
+
+        @autobind
+        cleanChildFormable(id: number, namespace: string) {
+          let inputs = this.inputs[namespace]
+          if (inputs) {
+            if (inputs[id]) {
+              delete inputs[id]
+            }
+          }
         }
 
         @autobind
@@ -59,7 +70,11 @@ export function MixinFormableTrait<TBase extends AnyConstructor>(Base: TBase) {
             for (let key of keys) {
                 let childInput = this.inputs[namespace][key as any]
                 if (childInput) {
-                    childInput.collect()
+                    try {
+                      childInput.collect()
+                    } catch(error) {
+                      console.log("warning: error when collecting inputs")
+                    }
                 }
             }
         }

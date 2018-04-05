@@ -25,6 +25,7 @@ export class PlainDateAsTextInput extends BaseReactComponent<
     } 
 
     id: number
+    cleanUpOnComponentWillUnmount: ()=>any
 
     isValid(): boolean {
         let errors = this.props.model.getErrorsFor(this.props.propertyName)

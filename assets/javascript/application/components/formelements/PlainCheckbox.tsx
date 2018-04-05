@@ -9,6 +9,7 @@ export class PlainCheckbox extends BaseReactComponent<
 > implements IFormElement {
 
     id: number
+    cleanUpOnComponentWillUnmount: ()=>any
 
     state: {
       checked: boolean

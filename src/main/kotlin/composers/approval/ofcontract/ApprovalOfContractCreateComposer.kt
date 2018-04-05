@@ -122,6 +122,9 @@ class ApprovalOfContractCreateComposer(
                 }
             }
 
+            approvalToCreate.lastStageId = approvalToCreate.approvalToApproverLinks?.lastOrNull()?.id
+            approvalToCreate.record.save(tx)
+
             approvalToCreate.approvalToApproverLinks?.forEach {approvalToApproverLink ->
                 approvalToApproverLink.approvalId = approvalToCreate.id
                 approvalToApproverLink.record.save(tx)

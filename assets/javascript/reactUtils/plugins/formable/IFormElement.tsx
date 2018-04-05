@@ -9,6 +9,7 @@ export interface  IFormElement extends BaseReactComponent {
     isValid: ()=>boolean
     collect: ()=>void
     clearInputs: ()=>void
+    cleanUpOnComponentWillUnmount: ()=>void
     id: number
 }
 

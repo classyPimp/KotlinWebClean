@@ -3,6 +3,7 @@ package models.approvalsteptoapproverlink
 import models.approvalrejection.ApprovalRejection
 import models.approvalstep.ApprovalStep
 import models.user.User
+import org.apache.commons.lang3.mutable.Mutable
 import org.jooq.generated.tables.ApprovalStepToApproverLinks
 import orm.annotations.*
 import orm.approvalsteptoapproverlinkgeneratedrepository.ApprovalStepToApproverLinkRecord
@@ -37,8 +38,8 @@ class ApprovalStepToApproverLink {
     @BelongsTo(model = User::class, fieldOnThat = "ID", fieldOnThis = "USER_ID")
     var user: User? = null
 
-    @HasOne(model = ApprovalRejection::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_STEP_TO_APPROVER_LINK_ID")
-    var approvalRejection: ApprovalRejection? = null
+    @HasMany(model = ApprovalRejection::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_STEP_TO_APPROVER_LINK_ID")
+    var approvalRejections: MutableList<ApprovalRejection>? = null
 
 }
 

@@ -20,10 +20,20 @@ export class ApprovalStepToApproverLink extends BaseModel {
     @Property
     createdAt: string
 
+    @Property
+    isApproved: string
+
     @HasOne("User")
     user: User
 
     @HasMany("ApprovalRejection")
     approvalRejections: ModelCollection<ApprovalRejection>
+
+    @Route("PUT", {url: "/api/approvalStepToApproverLink/ofContract/:id", defaultWilds: ["id"]})
+    ofContractApprove: (options?: RequestOptions) => Promise<ApprovalStepToApproverLink>
+
+    afterOfContractApproveRequest(options: RequestOptions) {
+      this.afterUpdateRequest(options)
+    }
 
 }

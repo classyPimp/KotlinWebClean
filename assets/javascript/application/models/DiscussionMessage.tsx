@@ -47,4 +47,17 @@ export class DiscussionMessage extends BaseModel {
     @HasOne("User")
     user: User
 
+    @Route("POST", {url: "/api/discussion/:discussionId/ofApprovalRejectionOfContract/discussionMessage"})
+    ofApprovalRejectionOfContractCreate: (options?: RequestOptions) => Promise<DiscussionMessage>
+
+    beforeOfApprovalRejectionOfContractCreateRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterOfApprovalRejectionOfContractCreateRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
+
+
+
 }

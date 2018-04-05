@@ -28,10 +28,12 @@ export class Main extends BaseReactComponent {
         let loaded = true
         approval.validate()
         if (approval.isValid()) {
+          console.log("isValid")
           this.setState({approval, loaded: true})
           return  
+        } else {
+          this.setState({loaded: true, approval: null})        
         }
-        this.setState({loaded: true, approval: null})        
       })
     }
 
@@ -59,7 +61,9 @@ export class Main extends BaseReactComponent {
           </div>
           <Switch>
               <Route path = { `/dashboards/contracts/:contractId/approval/new` } component = { ApprovalComponents.ofContract.New } />
-              <Route path = {`/dashboards/contracts/:contractId/approval`} component = { ApprovalComponents.ofContract.Show } />
+              {this.state.approval &&
+                <Route path = {`/dashboards/contracts/:contractId/approval`} component = { ApprovalComponents.ofContract.Show } />
+              }
           </Switch>
         </div>
     }

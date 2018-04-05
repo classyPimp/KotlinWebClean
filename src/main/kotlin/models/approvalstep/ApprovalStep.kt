@@ -1,6 +1,7 @@
 package models.approvalstep
 
 import models.approval.Approval
+import models.approvalrejection.ApprovalRejection
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
 import models.approvalsteptouploadeddocumentlink.ApprovalStepToUploadedDocumentLink
 import org.jooq.generated.tables.ApprovalSteps

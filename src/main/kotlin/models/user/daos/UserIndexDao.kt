@@ -1,5 +1,6 @@
 package models.user.daos
 
+import models.discussionmessage.DiscussionMessage
 import org.jooq.generated.tables.Users
 import orm.usergeneratedrepository.UserRecord
 import models.user.User
@@ -21,6 +22,21 @@ object UserIndexDao {
                         DSL.trueCondition()
                                 .and("{0} ~* {1}", table.NAME, DSL.`val`(query))
                 )
+                .execute()
+    }
+
+    fun indexAuthorsOfTheseDiscussionMessages(discussionMessages: MutableList<DiscussionMessage>?): MutableList<User> {
+        if (discussionMessages == null) {
+            return mutableListOf()
+        }
+        val idList = mutableListOf<Long>()
+        discussionMessages.forEach {
+            it.userId?.let {
+                idList.add(it)
+            }
+        }
+        return UserRecord.GET()
+                .where(table.ID.`in`(idList))
                 .execute()
     }
 

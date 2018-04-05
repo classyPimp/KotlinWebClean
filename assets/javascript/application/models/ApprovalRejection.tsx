@@ -27,6 +27,9 @@ export class ApprovalRejection extends BaseModel {
     @Property
     reasonText: string
 
+    @Property
+    isFullfilled: string
+
     @HasOne("ApprovalStepToApproverLink")
     approvalStepToApproverLink: ApprovalStepToApproverLink
 
@@ -35,5 +38,16 @@ export class ApprovalRejection extends BaseModel {
 
     @HasOne("Discussion")
     discussion: Discussion
+
+    @Route("POST", {url: "/api/approvalStepToApproverLink/ofContract/:approvalStepToApproverLinkId/approvalRejection"})
+    ofContractCreate: (options?: RequestOptions) => Promise<ApprovalRejection>
+
+    beforeOfContractCreateRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterOfContractCreateRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
 
 }

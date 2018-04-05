@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330075444) do
+ActiveRecord::Schema.define(version: 20180405100614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20180330075444) do
     t.string "reason_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "fulfilled"
     t.index ["approval_step_to_approver_link_id"], name: "index_approval_rejections_on_approval_step_to_approver_link_id"
   end
 

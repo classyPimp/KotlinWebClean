@@ -19,7 +19,7 @@ class JWTBasedCurrentUser(val session: JwtSessionHandler): ICurrentUser {
             }
             if (isLoggedIn()) {
                 field = User().also {
-                    it.id = session.getInt("userId")?.toLong()
+                    it.id = session.getInt("id")?.toLong()
                     it.userRoles = userRolesListInSession
                 }
                 return field
@@ -36,7 +36,7 @@ class JWTBasedCurrentUser(val session: JwtSessionHandler): ICurrentUser {
                 return field
             }
             if (isLoggedIn()) {
-                field =  UserDaos.show.byId(session.getInt("userId")?.toLong()!!)
+                field =  UserDaos.show.byId(session.getInt("id")?.toLong()!!)
                 return field
             }
             return null

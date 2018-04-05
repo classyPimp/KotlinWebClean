@@ -10,7 +10,8 @@ import { ModelCollection } from '../../../modelLayer/ModelCollection'
 export class DropDownSelectServerFed extends BaseReactComponent<IFormElementProps> implements IFormElement {
 
     id: number
-
+    cleanUpOnComponentWillUnmount: ()=>any
+    
     props: {
         model: BaseModel,
         propertyName: string,

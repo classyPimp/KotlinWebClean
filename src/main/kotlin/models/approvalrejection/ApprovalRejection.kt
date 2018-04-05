@@ -29,6 +29,9 @@ class ApprovalRejection {
     @TableField(name = "UPDATED_AT")
     var updatedAt: Timestamp? = null
 
+    @TableField(name = "FULFILLED")
+    var fullfilled: Timestamp? =  null
+
     @BelongsTo(model = ApprovalStepToApproverLink::class, fieldOnThat = "ID", fieldOnThis = "APPROVAL_STEP_TO_APPROVER_LINK_ID")
     var approvalStepToApproverLink: ApprovalStepToApproverLink? = null
 

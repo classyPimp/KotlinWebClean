@@ -19,10 +19,11 @@ object ApprovalOfContractShowJsonSerializer {
                 }
                 it.includeApprovalStepToApproverLinks() {
                     it.includeUser()
-                    it.includeApprovalRejection() {
+                    it.includeApprovalRejections() {
                         it.includeApprovalRejectionToUploadedDocumentLinks() {
                             it.includeUploadedDocument()
                         }
+                        it.includeDiscussion()
                     }
                 }
             }

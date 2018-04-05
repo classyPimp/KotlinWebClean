@@ -1,7 +1,10 @@
 package routes
 
+import composers.discussionmessage.DiscussionMessageCreateComposer
 import controllers.HomeController
 import controllers.approval.ApprovalOfContractController
+import controllers.approvalrejection.ApprovalRejectionOfApprovalStepToApprovalLinkOfContractController
+import controllers.approvalsteptoapproverlink.ApprovalStepToApproverLinkOfContractController
 import controllers.contacttypes.ContactTypesController
 import controllers.contract.ContractController
 import controllers.contractcategories.ContractCategoriesController
@@ -9,6 +12,8 @@ import controllers.contractstatus.ContractStatusForContractController
 import controllers.contracttocounterpartylink.ContractToCounterPartyLinkForContractController
 import controllers.contracttouploadeddocumentlinkreason.ContractToUploadedDocumentLinkReasonController
 import controllers.counterparties.CounterPartiesController
+import controllers.discussion.DiscussionController
+import controllers.discussionmessage.DiscussionMessageOfApprovalRejectionOfContractController
 import controllers.documenttemplatecategories.DocumentTemplateCategoriesController
 import controllers.documenttemplates.DocumentTemplatesController
 import controllers.documenttemplatevariables.DocumentTemplateVariablesController
@@ -661,6 +666,36 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 }
             }
 
+            namespace("/approvalStepToApproverLink/ofContract") {
+                put("/:approvalStepToApproverLinkId") {
+                    ApprovalStepToApproverLinkOfContractController(it).approve()
+                }
+
+                namespace("/:approvalStepToApproverLinkId") {
+                    post("/approvalRejection") {
+                        println("hit")
+                        ApprovalRejectionOfApprovalStepToApprovalLinkOfContractController(it).create()
+                    }
+                }
+            }
+
+            namespace("/discussion") {
+                get("/:discussionId") {
+                    DiscussionController(it).show()
+                }
+
+                namespace("/:discussionId") {
+                    namespace("/ofApprovalRejectionOfContract") {
+                        namespace("/discussionMessage") {
+                            post("") {
+                                DiscussionMessageOfApprovalRejectionOfContractController(it).create()
+                            }
+                        }
+                    }
+                }
+            }
+
+
         }
 
         namespace("/monetaryObligations") {
@@ -668,6 +703,8 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 ContractController.manage.monetaryObligation(it).update()
             }
         }
+
+
 
     }
 

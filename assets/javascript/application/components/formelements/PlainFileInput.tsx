@@ -9,6 +9,7 @@ import { ModelCollection } from '../../../modelLayer/ModelCollection'
 export class PlainFileInput extends BaseReactComponent<IFormElementProps> implements IFormElement {
 
   id: number
+  cleanUpOnComponentWillUnmount: ()=>any
 
   props: {
     model: BaseModel,
@@ -44,6 +45,7 @@ export class PlainFileInput extends BaseReactComponent<IFormElementProps> implem
   componentDidMount(){
     this.props.registerInput(this)
   }
+ 
 
   isValid(): boolean{
       return true
