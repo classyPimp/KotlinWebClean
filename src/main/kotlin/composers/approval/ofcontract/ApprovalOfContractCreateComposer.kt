@@ -101,28 +101,31 @@ class ApprovalOfContractCreateComposer(
             approvalToCreate.record.save(tx)
 
             approvalToCreate.approvalSteps?.forEach {approvalStep ->
-                approvalStep.approvalId = approvalToCreate.id
-                approvalStep.record.save(tx)
-
-                approvalStep.approvalStepToApproverLinks?.forEach {approvalStepToApproverLink ->
-                    approvalStepToApproverLink.approvalStepId = approvalStep.id
-                    approvalStepToApproverLink.record.save(tx)
-                }
 
                 approvalStep.approvalStepToUploadedDocumentLinks?.forEach {approvalStepToUploadedDocumentLink ->
-                    approvalStepToUploadedDocumentLink.approvalStepId = approvalStep.id
                     try {
                         approvalStepToUploadedDocumentLink.uploadedDocument?.record?.save(tx)
                     } finally {
                         approvalStepToUploadedDocumentLink.uploadedDocument?.file?.finalizeOperation()
                     }
-
                     approvalStepToUploadedDocumentLink.uploadedDocumentId = approvalStepToUploadedDocumentLink.uploadedDocument?.id
+                }
+
+                approvalStep.approvalId = approvalToCreate.id
+                approvalStep.record.save(tx)
+
+                approvalStep.approvalStepToUploadedDocumentLinks?.forEach {approvalStepToUploadedDocumentLink ->
+                    approvalStepToUploadedDocumentLink.approvalStepId = approvalStep.id
+                    approvalStepToUploadedDocumentLink.record.save(tx)
+                }
+
+                approvalStep.approvalStepToApproverLinks?.forEach {approvalStepToUploadedDocumentLink ->
+                    approvalStepToUploadedDocumentLink.approvalStepId = approvalStep.id
                     approvalStepToUploadedDocumentLink.record.save(tx)
                 }
             }
 
-            approvalToCreate.lastStageId = approvalToCreate.approvalToApproverLinks?.lastOrNull()?.id
+            approvalToCreate.record.lastStageId = approvalToCreate.approvalSteps?.lastOrNull()?.id!!
             approvalToCreate.record.save(tx)
 
             approvalToCreate.approvalToApproverLinks?.forEach {approvalToApproverLink ->

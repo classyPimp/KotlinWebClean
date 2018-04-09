@@ -176,34 +176,34 @@ class ${modelClass}Record(val model: ${modelClass}) {
         <#if ab.associationType == "HAS_ONE">
         model.${ab.propertyName}?.let {
             it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
-            it.record.save(dslContext)
+            it.record.saveCascade(dslContext)
         }
         <#elseif ab.associationType == "HAS_ONE_AS_POLYMORPHIC">
         model.${ab.propertyName}?.let {
             it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
             it.record.${ab.polymorphicTypeField.property} = "${modelClass}"
-            it.record.save(dslContext)
+            it.record.saveCascade(dslContext)
         }
         <#elseif ab.associationType == "HAS_MANY">
         model.${ab.propertyName}?.forEach {
             it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
-            it.record.save(dslContext)
+            it.record.saveCascade(dslContext)
         }
         <#elseif ab.associationType == "HAS_MANY_AS_POLYMORPHIC">
         model.${ab.propertyName}?.forEach {
             it.record.${ab.fieldOnThat.property} = model.${ab.fieldOnThis.property}
-            it.record.save(dslContext)
+            it.record.saveCascade(dslContext)
         }
         <#elseif ab.associationType == "BELONGS_TO">
         model.${ab.propertyName}?.let {
-            it.record.save(dslContext)
+            it.record.saveCascade(dslContext)
         }
         <#elseif ab.associationType == "BELONGS_TO_POLYMORPHIC">
         model.${ab.propertyName}?.let {
             when(it) {
                 <#list ab.associatedPolymorphicModelDataModels as associatedModelDataModel>
                 is ${associatedModelDataModel.modelClass} -> {
-                    it.record.save(dslContext)
+                    it.record.saveCascade(dslContext)
                 }
                 </#list>
             }

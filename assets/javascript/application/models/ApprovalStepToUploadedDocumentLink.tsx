@@ -11,6 +11,8 @@ export class ApprovalStepToUploadedDocumentLink extends BaseModel {
 
     static className = "approvalStepToUploadedDocumentLink"
 
+    reactComponentKey: number
+
     @Property
     id: number
 

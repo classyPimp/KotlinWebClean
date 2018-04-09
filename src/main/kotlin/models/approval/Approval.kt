@@ -1,5 +1,6 @@
 package models.approval
 
+import models.approvalrejection.ApprovalRejection
 import models.approvalstep.ApprovalStep
 import models.approvaltoapproverlink.ApprovalToApproverLink
 import models.contract.Contract
@@ -37,6 +38,9 @@ class Approval {
 
     @HasMany(model = ApprovalStep::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_ID")
     var approvalSteps: MutableList<ApprovalStep>? = null
+
+    @HasMany(model = ApprovalRejection::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_ID")
+    var approvalRejections: MutableList<ApprovalRejection>? = null
 
     @BelongsTo(model = Contract::class, fieldOnThat = "ID", fieldOnThis = "APPROVABLE_ID")
     var contract: Contract? = null

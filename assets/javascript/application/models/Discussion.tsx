@@ -64,7 +64,6 @@ export class Discussion extends BaseModel {
       let messagesToAssign = new ModelCollection<DiscussionMessage>()
 
       messages.forEach((it)=>{
-        console.log(it)
         idToMessageMap[it.id] = it
         if (it.nestLevel === 0) {
           messagesToAssign.array.push(it)

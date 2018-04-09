@@ -7,6 +7,8 @@ import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { ApprovalStepToApproverLink } from './ApprovalStepToApproverLink'
 import { ApprovalRejectionToUploadedDocumentLink } from './ApprovalRejectionToUploadedDocumentLink'
 import { Discussion } from './Discussion'
+import { Approval } from './Approval'
+import { User } from './User'
 
 export class ApprovalRejection extends BaseModel {
 
@@ -22,7 +24,10 @@ export class ApprovalRejection extends BaseModel {
     createdAt: string
 
     @Property
-    approvalStepToApproverLinkId: number
+    approvalId: number
+
+    @Property
+    userId: number
 
     @Property
     reasonText: string
@@ -30,16 +35,20 @@ export class ApprovalRejection extends BaseModel {
     @Property
     isFullfilled: string
 
-    @HasOne("ApprovalStepToApproverLink")
-    approvalStepToApproverLink: ApprovalStepToApproverLink
+
+    @HasOne("Approval")
+    approval: Approval
 
     @HasMany("ApprovalRejectionToUploadedDocumentLink")
     approvalRejectionToUploadedDocumentLinks: ModelCollection<ApprovalRejectionToUploadedDocumentLink>
 
+    @HasOne("User")
+    user: User
+
     @HasOne("Discussion")
     discussion: Discussion
 
-    @Route("POST", {url: "/api/approvalStepToApproverLink/ofContract/:approvalStepToApproverLinkId/approvalRejection"})
+    @Route("POST", {url: "/api/approval/ofContract/:approvalId/approvalRejection"})
     ofContractCreate: (options?: RequestOptions) => Promise<ApprovalRejection>
 
     beforeOfContractCreateRequest(options: RequestOptions) {

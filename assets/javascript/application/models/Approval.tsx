@@ -6,6 +6,7 @@ import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
 import { ApprovalToApproverLink } from './ApprovalToApproverLink'
 import { ApprovalStep } from './ApprovalStep'
+import { ApprovalRejection } from './ApprovalRejection'
 import { Contract } from './Contract'
 
 export class Approval extends BaseModel {
@@ -38,6 +39,9 @@ export class Approval extends BaseModel {
 
     @HasOne("Contract")
     contract: Contract
+
+    @HasMany("ApprovalRejection")
+    approvalRejections: ModelCollection<ApprovalRejection>
 
     @Route("POST", {url: "/api/contracts/:contractId/approval"})
     ofContractCreate: (options?: RequestOptions) => Promise<Approval>

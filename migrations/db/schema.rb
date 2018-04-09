@@ -35,12 +35,14 @@ ActiveRecord::Schema.define(version: 20180405100614) do
   end
 
   create_table "approval_rejections", force: :cascade do |t|
-    t.bigint "approval_step_to_approver_link_id"
+    t.bigint "approval_id"
+    t.bigint "user_id"
     t.string "reason_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "fulfilled"
-    t.index ["approval_step_to_approver_link_id"], name: "index_approval_rejections_on_approval_step_to_approver_link_id"
+    t.index ["approval_id"], name: "index_approval_rejections_on_approval_id"
+    t.index ["user_id"], name: "index_approval_rejections_on_user_id"
   end
 
   create_table "approval_step_to_approver_links", force: :cascade do |t|
@@ -390,7 +392,8 @@ ActiveRecord::Schema.define(version: 20180405100614) do
   add_foreign_key "accounts", "users"
   add_foreign_key "approval_rejection_to_uploaded_document_links", "approval_rejections"
   add_foreign_key "approval_rejection_to_uploaded_document_links", "uploaded_documents"
-  add_foreign_key "approval_rejections", "approval_step_to_approver_links"
+  add_foreign_key "approval_rejections", "approvals"
+  add_foreign_key "approval_rejections", "users"
   add_foreign_key "approval_step_to_approver_links", "approval_steps"
   add_foreign_key "approval_step_to_approver_links", "users"
   add_foreign_key "approval_step_to_uploaded_document_links", "approval_steps"

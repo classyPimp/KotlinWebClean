@@ -1,9 +1,9 @@
 package routes
 
-import composers.discussionmessage.DiscussionMessageCreateComposer
 import controllers.HomeController
 import controllers.approval.ApprovalOfContractController
-import controllers.approvalrejection.ApprovalRejectionOfApprovalStepToApprovalLinkOfContractController
+import controllers.approvalrejection.ApprovalRejectionOfApprovalOfContractController
+import controllers.approvalstep.ApprovalStepOfApprovalOfContractController
 import controllers.approvalsteptoapproverlink.ApprovalStepToApproverLinkOfContractController
 import controllers.contacttypes.ContactTypesController
 import controllers.contract.ContractController
@@ -671,12 +671,7 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     ApprovalStepToApproverLinkOfContractController(it).approve()
                 }
 
-                namespace("/:approvalStepToApproverLinkId") {
-                    post("/approvalRejection") {
-                        println("hit")
-                        ApprovalRejectionOfApprovalStepToApprovalLinkOfContractController(it).create()
-                    }
-                }
+
             }
 
             namespace("/discussion") {
@@ -691,6 +686,19 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                                 DiscussionMessageOfApprovalRejectionOfContractController(it).create()
                             }
                         }
+                    }
+                }
+            }
+
+            namespace("/approval/ofContract") {
+                namespace("/:approvalId/approvalStep") {
+                    post("") {
+                        ApprovalStepOfApprovalOfContractController(it).create()
+                    }
+                }
+                namespace("/:approvalId") {
+                    post("/approvalRejection") {
+                        ApprovalRejectionOfApprovalOfContractController(it).create()
                     }
                 }
             }

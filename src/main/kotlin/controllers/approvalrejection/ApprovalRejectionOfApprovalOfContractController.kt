@@ -5,13 +5,13 @@ import controllers.ApplicationControllerBase
 import models.approvalrejection.tojsonserializers.ofapprovalsteptoapproverlinkofcontract.ApprovalRejectionOfApprovalStepOfContractCreateSerializer
 import router.src.ServletRequestContext
 
-class ApprovalRejectionOfApprovalStepToApprovalLinkOfContractController(context: ServletRequestContext) : ApplicationControllerBase(context) {
+class ApprovalRejectionOfApprovalOfContractController(context: ServletRequestContext) : ApplicationControllerBase(context) {
 
     fun create() {
-        val approvalStepToApproverLinkId = routeParams().get("approvalStepToApproverLinkId")?.toLongOrNull()
+        val approvalId = routeParams().get("approvalId")?.toLongOrNull()
         val params = requestParams()
         val composer = ApprovalRejectionOfApprovalStepToApprovalLinkOfContractCreateComposer(
-                approvalStepToApproverLinkId,
+                approvalId,
                 params,
                 currentUser
         )

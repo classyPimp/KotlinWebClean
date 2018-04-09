@@ -1,17 +1,16 @@
 package composers.approvalrejection
 
+import models.approval.Approval
+import models.approval.daos.ApprovalDaos
 import utils.composer.ComposerBase
 import models.approvalrejection.ApprovalRejection
 import models.approvalrejection.ApprovalRejectionRequestParametersWrapper
 import models.approvalrejection.ApprovalRejectionValidator
 import models.approvalrejection.factories.ofapprovalsteptoapproverlinkofcontract.ApprovalRejectionOfApprovalStepToApproverLinkOfContractFactory
-import models.approvalstep.daos.ApprovalStepDaos
-import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
 import models.approvalsteptoapproverlink.daos.ApprovalStepToApproverLinkDaos
+import models.approvaltoapproverlink.daos.ApprovalToApproverLinkDaos
 import models.discussion.Discussion
-import models.uploadeddocument.UploadedDocument
 import org.jooq.DSLContext
-import orm.approvalrejectiongeneratedrepository.ApprovalRejectionDefaultAssociationsManager
 import orm.approvalrejectiontouploadeddocumentlinkgeneratedrepository.ApprovalRejectionToUploadedDocumentLinkDefaultAssociationsManager
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.services.ModelInvalidError
@@ -22,7 +21,7 @@ import utils.currentuser.ICurrentUser
 import utils.requestparameters.IParam
 
 class ApprovalRejectionOfApprovalStepToApprovalLinkOfContractCreateComposer(
-        val approvalStepToApproverLinkId: Long?,
+        val approvalId: Long?,
         val params: IParam,
         val currentUser: ICurrentUser
 ) : ComposerBase() {
@@ -31,21 +30,21 @@ class ApprovalRejectionOfApprovalStepToApprovalLinkOfContractCreateComposer(
     lateinit var onError: (ApprovalRejection)->Unit
 
     lateinit var approvalRejectionToCreate: ApprovalRejection
-    lateinit var approvalStepToApproverLink: ApprovalStepToApproverLink
+    lateinit var approval: Approval
     lateinit var wrappedParams: ApprovalRejectionRequestParametersWrapper
 
     override fun beforeCompose(){
-        approvalStepToApproverLinkId ?: failImmediately(BadRequestError())
-        findAndSetApprovalStepToApproverLink()
+        approvalId ?: failImmediately(BadRequestError())
+        finAndSetApproval()
         checkIfUserIsAuthorized()
         wrapParams()
         build()
         validate()
     }
 
-    private fun findAndSetApprovalStepToApproverLink() {
-        ApprovalStepToApproverLinkDaos.show.find(approvalStepToApproverLinkId!!)?.let {
-            approvalStepToApproverLink = it
+    private fun finAndSetApproval() {
+        ApprovalDaos.show.findForApprovalRejectionOfContractCreate(approvalId!!)?.let {
+            approval = it
         } ?: failImmediately(ModelNotFoundError())
     }
 
@@ -53,9 +52,11 @@ class ApprovalRejectionOfApprovalStepToApprovalLinkOfContractCreateComposer(
         if (!currentUser.isLoggedIn()) {
             failImmediately(CurrentUserUnauthorizedError())
         }
-        if (approvalStepToApproverLink.userId != currentUser.userModel!!.id!!) {
-            failImmediately(CurrentUserUnauthorizedError())
-        }
+        ApprovalToApproverLinkDaos.show.existsForUserAndApproval(
+                userId = currentUser.userModel!!.id!!,
+                approvalId = approval.id!!
+        ) ?: failImmediately(CurrentUserUnauthorizedError())
+
     }
 
     private fun wrapParams() {
@@ -67,7 +68,8 @@ class ApprovalRejectionOfApprovalStepToApprovalLinkOfContractCreateComposer(
     private fun build() {
         approvalRejectionToCreate = ApprovalRejectionOfApprovalStepToApproverLinkOfContractFactory.default(
                 params = wrappedParams,
-                approvalStepToApproverLinkId = approvalStepToApproverLink.id!!
+                approvalId = approvalId!!,
+                userId = currentUser.userModel!!.id!!
         )
     }
 

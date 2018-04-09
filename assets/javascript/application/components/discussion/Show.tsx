@@ -7,11 +7,13 @@ import { MixinFormableTrait } from '../../../reactUtils/plugins/formable/MixinFo
 import { PlainInputElement } from '../../../reactUtils/plugins/formable/formElements/PlainInput'
 import { ModelCollection } from '../../../modelLayer/ModelCollection'
 import autobind from 'autobind-decorator'
+import { Modal } from '../shared/Modal'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
       match: match<any>
+      history: any
     }
 
     state: {
@@ -37,23 +39,33 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
             ...loading
           </div>
         }
-        return <div>
-          <div>
-            <p>
-              topic: {this.state.discussion.topic}
-            </p>
-          </div>
-          <div>
-          {this.state.discussion.discussionMessages.map((discussionMessage)=>{
-            return this.renderMessage(discussionMessage)
-          })}  
-          </div>    
-          {!this.state.replyTo &&
+        return <Modal
+            isOpen = {true}
+            onClose = {this.onModalClose}
+          >
             <div>
-              {this.renderReplyBox()}
+              <div>
+                <p>
+                  topic: {this.state.discussion.topic}
+                </p>
+              </div>
+              <div>
+                {this.state.discussion.discussionMessages.map((discussionMessage)=>{
+                  return this.renderMessage(discussionMessage)
+                })}  
+              </div>    
+              {!this.state.replyTo &&
+                <div>
+                  {this.renderReplyBox()}
+                </div>
+              }    
             </div>
-          }    
-        </div>
+        </Modal>
+    }
+
+    @autobind
+    onModalClose() {
+      this.props.history.goBack()
     }
 
     @autobind

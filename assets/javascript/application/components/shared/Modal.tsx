@@ -7,6 +7,13 @@ export class Modal extends BaseReactComponent {
 
     static zIndexTracker = 1
 
+    props: {
+      isOpen?: Boolean
+      childDiv?: Boolean
+      onClose?: ()=>any
+      children?: any
+    }
+
     state: {
         zIndex?: number,
         isOpen: boolean
@@ -23,6 +30,16 @@ export class Modal extends BaseReactComponent {
 
     componentWillUnmount(){
 
+    }
+
+    constructor(...args: Array<any>) {
+      super(...args)
+      if (this.props.isOpen) {
+        this.state.isOpen = true
+      }
+      if (this.props.childDiv) {
+        this.state.childDiv = this.props.childDiv
+      }
     }
  
     @autobind
@@ -44,6 +61,7 @@ export class Modal extends BaseReactComponent {
                 </div>
                 <div className="modal-body">
                     {this.state.childDiv}
+                    {this.props.children}
                 </div>
             </div>
         </div>
@@ -58,6 +76,9 @@ export class Modal extends BaseReactComponent {
     close(){
         Modal.zIndexTracker -= 1
         this.setState({isOpen: false, childDiv: null})
+        if (this.props.onClose) {
+          this.props.onClose()
+        }
     }
 
 

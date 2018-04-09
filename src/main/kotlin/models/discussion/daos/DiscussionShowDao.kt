@@ -19,6 +19,7 @@ object DiscussionShowDao {
 
     fun forShow(id: Long?): Discussion? {
         return DiscussionRecord.GET()
+                .where(table.ID.eq(id))
                 .preload {
                     it.discussionMessages()
                 }

@@ -25,51 +25,33 @@ import { PlainFileInput } from '../../formelements/PlainFileInput'
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
     state: {
-      approval: Approval
+      approvalStep: ApprovalStep
     } = {
-      approval: null
+      approvalStep: new ApprovalStep()
     }
 
-    constructor(...args: Array<any>) {
-      super(...args)
-      let approvableId = this.props.match.params.contractId
-      let approvalSteps = new ModelCollection<ApprovalStep>(new ApprovalStep())
-      this.state.approval = new Approval({approvableId, approvalSteps})
+    props: {
+      match?: match<any>
+      onApprovalStepCreateSuccess: (approvalStep: ApprovalStep) => any
+      approvalId: number
     }
 
     modal: Modal = null
-    reactComponentKeyTracker: number = 1
+    componentKeyTracker: number = 1
 
     render(){
-        console.log(this.state.approval)
         return <div className="persontocounterpartylinkreasons-New">
           <Modal ref={(it)=>{this.modal = it}}/>
           <h2>
             initialize contract approval
           </h2>
-          {this.state.approval.getErrorsFor('general') &&
-              <ErrorsShow errors={this.state.approval.getErrorsFor('general')}/>
+          {this.state.approvalStep.getErrorsFor('general') &&
+              <ErrorsShow errors={this.state.approvalStep.getErrorsFor('general')}/>
           }
-          {this.state.approval.approvalToApproverLinks.map((approvalToApproverLink)=>{
-            return <div key = {approvalToApproverLink.userId}>
-              {approvalToApproverLink.errors &&
-                <ErrorsShow errors = {approvalToApproverLink.errors["userId"]}/>
-              }
-              <p>
-                {approvalToApproverLink.user.name}
-              </p>
-              <button onClick={()=>{this.removeApproverLink(approvalToApproverLink)}}>
-                -
-              </button>
-            </div>
-          })}
-          <button onClick={this.initApproverAddition}>
-            +
-          </button>
           <p>
-            attached documents:
+            documents to approve:
           </p>          
-          {this.state.approval.approvalSteps.array[0].approvalStepToUploadedDocumentLinks.map((approvalStepToUploadedDocumentLink)=>{
+          {this.state.approvalStep.approvalStepToUploadedDocumentLinks.map((approvalStepToUploadedDocumentLink)=>{
             return <div key ={approvalStepToUploadedDocumentLink.reactComponentKey}>
               <PlainInputElement
                 registerInput = {(it)=>{this.registerInput(it)}}
@@ -101,49 +83,29 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
         </div>
     }
 
+
+
     @autobind
-    removeApproverLink(link: ApprovalToApproverLink) {
-      this.state.approval.approvalToApproverLinks.filter((it)=>{
+    removeLinkToUploadedDocument(link: ApprovalStepToUploadedDocumentLink) {
+      this.state.approvalStep.approvalStepToUploadedDocumentLinks.filter((it)=>{
         return it !== link
       })
       this.forceUpdate()
     }
 
-    @autobind
-    removeLinkToUploadedDocument(link: ApprovalStepToUploadedDocumentLink) {
-      this.state.approval.approvalSteps.forEach((it)=>{
-        it.approvalStepToUploadedDocumentLinks.filter((it)=>{
-          return it !== link
-        })
-      })
-      this.forceUpdate()
-    }
-
-    @autobind
-    initApproverAddition() {
-      this.modal.open(
-        <UsersComponents.forsearchform.Index onUserSelected={this.addApprovalToApproverLinkWithUser}/>
-      )
-    }
-
-    @autobind
-    addApprovalToApproverLinkWithUser(user: User) {
-      let approvalToApproverLink = new ApprovalToApproverLink({userId: user.id, user})
-      this.state.approval.approvalToApproverLinks.push(approvalToApproverLink)
-      this.modal.close()
-      this.forceUpdate()
-    }
 
     @autobind
     addApprovalStepToUploadedDocumentLink() {
       let uploadedDocument = new UploadedDocument()
-      uploadedDocument.reactComponentKey = this.reactComponentKeyTracker += 1
-      let approvalStepToUploadedDocumentLink = new ApprovalStepToUploadedDocumentLink({
-        uploadedDocument: uploadedDocument
-      })
-      approvalStepToUploadedDocumentLink.reactComponentKey = this.reactComponentKeyTracker += 1
+      uploadedDocument.reactComponentKey = this.componentKeyTracker += 1
 
-      this.state.approval.approvalSteps.array[0].approvalStepToUploadedDocumentLinks.push(
+      let approvalStepToUploadedDocumentLink = new ApprovalStepToUploadedDocumentLink({
+        uploadedDocument
+      })
+
+      approvalStepToUploadedDocumentLink.reactComponentKey = this.componentKeyTracker += 1
+      
+      this.state.approvalStep.approvalStepToUploadedDocumentLinks.push(  
         approvalStepToUploadedDocumentLink
       )
       this.forceUpdate()
@@ -152,10 +114,10 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     @autobind
     submit(){
       this.collectInputs()
-      this.state.approval.validate()
-      let contractId = this.props.match.params.contractId as string
-      this.state.approval.ofContractCreate({wilds: {contractId}, serializeAsForm: true}).then((approval)=>{
-        if (approval.isValid()) {
+      this.state.approvalStep.validate()
+      let approvalId = this.props.approvalId as any
+      this.state.approvalStep.ofApprovalOfContractCreate({wilds: {approvalId}, serializeAsForm: true}).then((approval)=>{
+        if (!approval.isValid()) {
           this.setState({approval})
           return
         }

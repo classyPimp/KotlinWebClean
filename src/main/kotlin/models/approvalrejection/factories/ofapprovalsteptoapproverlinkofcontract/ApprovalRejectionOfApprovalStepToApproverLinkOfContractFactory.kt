@@ -6,15 +6,16 @@ import models.approvalrejectiontouploadeddocumentlink.ApprovalRejectionToUploade
 import models.approvalrejectiontouploadeddocumentlink.factories.approvalrejectiontouploadeddocumentlink.ApprovalRejectionToUploadedDocumentLinkFactory
 
 object ApprovalRejectionOfApprovalStepToApproverLinkOfContractFactory {
-    fun default(params: ApprovalRejectionRequestParametersWrapper, approvalStepToApproverLinkId: Long): ApprovalRejection {
+    fun default(params: ApprovalRejectionRequestParametersWrapper, approvalId: Long, userId: Long): ApprovalRejection {
         return  ApprovalRejection().also {
-            it.approvalStepToApproverLinkId = approvalStepToApproverLinkId
+            it.approvalId = approvalId
             it.reasonText = params.reasonText
             it.approvalRejectionToUploadedDocumentLinks = params.approvalRejectionToUploadedDocumentLinks?.let {
                 it.mapTo(mutableListOf<ApprovalRejectionToUploadedDocumentLink>()) {
                     ApprovalRejectionToUploadedDocumentLinkFactory.ofContractDefault(it)
                 }
             }
+            it.userId = userId
         }
     }
 

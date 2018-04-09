@@ -14,6 +14,8 @@ export class UploadedDocument extends BaseModel {
 
     static className = "uploadedDocument"
 
+    reactComponentKey: number
+
     @Property
     id: number
 

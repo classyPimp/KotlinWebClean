@@ -13,21 +13,22 @@ object ApprovalShowDao {
         val approval = ApprovalRecord.GET()
                 .where(table.APPROVABLE_ID.eq(contractId).and(table.APPROVABLE_TYPE.eq("Contract")))
                 .preload {
+                    it.approvalRejections() {
+                        it.preload {
+                            it.approvalRejectionToUploadedDocumentLinks() {
+                                it.preload {
+                                    it.uploadedDocument()
+                                }
+                            }
+                            it.user()
+                            it.discussion()
+                        }
+                    }
                     it.approvalSteps() {
                         it.preload {
                             it.approvalStepToApproverLinks() {
                                 it.preload {
                                     it.user()
-                                    it.approvalRejections() {
-                                        it.preload {
-                                            it.approvalRejectionToUploadedDocumentLinks() {
-                                                it.preload {
-                                                    it.uploadedDocument()
-                                                }
-                                            }
-                                            it.discussion()
-                                        }
-                                    }
                                 }
                             }
                             it.approvalStepToUploadedDocumentLinks() {
@@ -50,12 +51,17 @@ object ApprovalShowDao {
         return approval
     }
 
-    fun ofContractForApprovalStepCreate(id: Long, userId: Long): Approval? {
+    fun ofContractForApprovalStepCreate(id: Long): Approval? {
         val approval = ApprovalRecord.GET()
                 .where(table.ID.eq(id))
                 .preload {
-                    it.approvalToApproverLinks() {
-                        it.where(APPROVAL_TO_APPROVER_LINKS.USER_ID.eq(userId))
+                    it.approvalToApproverLinks()
+                    it.approvalRejections() {
+                        it.where(APPROVAL_REJECTIONS.FULFILLED.isNull)
+                        it.preload {
+                            it.approvalRejectionToUploadedDocumentLinks()
+                            it.discussion()
+                        }
                     }
                 }
                 .limit(1)
@@ -65,17 +71,19 @@ object ApprovalShowDao {
         if (approval != null) {
             approval.record.loadApprovalSteps {
                 it.where(APPROVAL_STEPS.ID.eq(approval.lastStageId!!)).preload {
-                    it.approvalStepToApproverLinks() {
-                        it.where(APPROVAL_STEP_TO_APPROVER_LINKS.USER_ID.eq(userId))
-                        it.preload {
-                            it.approvalRejections()
-                        }
-                    }
+                    it.approvalStepToApproverLinks()
                 }
-
             }
         }
         return approval
+    }
+
+    fun findForApprovalRejectionOfContractCreate(approvalId: Long): Approval? {
+        return ApprovalRecord.GET()
+                .where(table.ID.eq(approvalId))
+                .limit(1)
+                .execute()
+                .firstOrNull()
     }
 
 }

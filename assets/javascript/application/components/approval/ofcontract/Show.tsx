@@ -16,6 +16,7 @@ import { CurrentUser } from '../../../services/CurrentUser'
 import { ApprovalStepToApproverLink } from '../../../models/ApprovalStepToApproverLink'
 import { ApprovalRejectionComponents } from '../../approvalrejection/ApprovalRejectionComponents'
 import { DiscussionComponents } from '../../discussion/DiscussionComponents'
+import { ApprovalStepComponents } from '../../approvalStep/ApprovalStepComponents'
 
 export class Show extends MixinFormableTrait(BaseReactComponent) {
 
@@ -71,6 +72,11 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
             </div>
           })}
           <div>
+            <button onClick={this.initializeNewApprovalStep}>
+              initialize new approval step
+            </button>
+          </div>
+          <div>
             {this.state.lastApprovalStep.approvalStepToApproverLinks.map((approvalStepToApproverLink)=>{
               return <div key={approvalStepToApproverLink.id}>
                 <p>
@@ -98,35 +104,56 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
                       X
                     </div>
                 }
-                {(approvalStepToApproverLink.approvalRejections.array.length > 0) &&
-                  <p>
-                    filed rejections:
-                  </p>
-                }
-                {approvalStepToApproverLink.approvalRejections.map((approvalRejection)=>{
-                  return <div key={approvalRejection.id}>
-                    <Link to = {`/dashboards/contracts/${this.props.match.params.contractId}/approval/withRejectionDiscussion/${approvalRejection.discussion.id}`}>
-                      {approvalRejection.reasonText}
-                    </Link>
-                    {approvalRejection.approvalRejectionToUploadedDocumentLinks.map((approvalRejectionToUploadedDocumentLink)=>{  
-                      return <div key = {approvalRejectionToUploadedDocumentLink.id}>
-                        <p>
-                          {approvalRejectionToUploadedDocumentLink.uploadedDocument.description}
-                        </p>
-                        <a href={approvalRejectionToUploadedDocumentLink.uploadedDocument.fileUrl()}>  
-                          {approvalRejectionToUploadedDocumentLink.uploadedDocument.fileName}
-                        </a>
-                      </div>
-                    })}
+              </div>
+            })}
+          </div>
+          <div>
+            {(this.state.approval.approvalRejections.array.length > 0) &&
+              <p>
+                filed rejections:
+              </p>
+            }
+            {this.state.approval.approvalRejections.map((approvalRejection)=>{
+              return <div key={approvalRejection.id}>
+                <p>
+                  {approvalRejection.user.name}      
+                </p>
+                <Link to = {`/dashboards/contracts/${this.props.match.params.contractId}/approval/withRejectionDiscussion/${approvalRejection.discussion.id}`}>
+                  {approvalRejection.reasonText}
+                </Link>
+                {approvalRejection.approvalRejectionToUploadedDocumentLinks.map((approvalRejectionToUploadedDocumentLink)=>{  
+                  return <div key = {approvalRejectionToUploadedDocumentLink.id}>
+                    <p>
+                      {approvalRejectionToUploadedDocumentLink.uploadedDocument.description}
+                    </p>
+                    <a href={approvalRejectionToUploadedDocumentLink.uploadedDocument.fileUrl()}>  
+                      {approvalRejectionToUploadedDocumentLink.uploadedDocument.fileName}
+                    </a>
                   </div>
                 })}
               </div>
-            })}
+            })}           
           </div>
         </div>
         <Route path = {`/dashboards/contracts/${this.props.match.params.contractId}/approval/withRejectionDiscussion/:discussionId`} component = {DiscussionComponents.Show}/>
       </div>  
        
+    }
+
+    @autobind
+    initializeNewApprovalStep() {
+      this.modal.open(
+        <ApprovalStepComponents.ofContract.New
+          onApprovalStepCreateSuccess = {this.onApprovalStepCreateSuccess}
+          approvalId = {this.state.approval.id}
+        />
+      )
+    }
+
+    @autobind
+    onApprovalStepCreateSuccess(approvalStep: ApprovalStep) {
+      this.modal.close()
+      this.componentDidMount()
     }
 
     @autobind
@@ -151,7 +178,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
     createRejection(approvalStepToApproverLink: ApprovalStepToApproverLink) {
       this.modal.open(
         <ApprovalRejectionComponents.ofContract.New
-          approvalStepToApproverLinkId = {approvalStepToApproverLink.id}
+          approvalId = {this.state.approval.id}
           onApprovalRejectionCreateSuccess = {(approvalRejection: ApprovalRejection)=>{this.onApprovalRejectionCreateSuccess(approvalRejection, approvalStepToApproverLink)}}
         />
       )
@@ -159,7 +186,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     onApprovalRejectionCreateSuccess(approvalRejection: ApprovalRejection, approvalStepToApproverLink: ApprovalStepToApproverLink) {
-      approvalStepToApproverLink.approvalRejections.push(approvalRejection)
+      this.state.approval.approvalRejections.push(approvalRejection)
       this.modal.close()
       this.componentDidMount()
     }

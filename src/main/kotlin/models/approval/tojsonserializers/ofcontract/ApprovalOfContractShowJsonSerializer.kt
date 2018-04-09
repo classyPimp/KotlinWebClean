@@ -13,18 +13,20 @@ object ApprovalOfContractShowJsonSerializer {
             it.includeApprovalToApproverLinks() {
                 it.includeUser()
             }
+            it.includeApprovalRejections() {
+                it.includeApprovalRejectionToUploadedDocumentLinks() {
+                    it.includeUploadedDocument()
+                }
+                it.includeDiscussion()
+                it.includeUser()
+            }
             it.includeApprovalSteps() {
                 it.includeApprovalStepToUploadedDocumentLinks() {
                     it.includeUploadedDocument()
                 }
                 it.includeApprovalStepToApproverLinks() {
                     it.includeUser()
-                    it.includeApprovalRejections() {
-                        it.includeApprovalRejectionToUploadedDocumentLinks() {
-                            it.includeUploadedDocument()
-                        }
-                        it.includeDiscussion()
-                    }
+
                 }
             }
         }.serializeToString()

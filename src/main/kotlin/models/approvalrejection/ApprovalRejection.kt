@@ -1,8 +1,10 @@
 package models.approvalrejection
 
+import models.approval.Approval
 import models.approvalrejectiontouploadeddocumentlink.ApprovalRejectionToUploadedDocumentLink
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
 import models.discussion.Discussion
+import models.user.User
 import org.jooq.generated.tables.ApprovalRejections
 import orm.annotations.*
 import orm.approvalrejectiongeneratedrepository.ApprovalRejectionRecord
@@ -17,8 +19,11 @@ class ApprovalRejection {
     @IsPrimaryKey
     var id: Long? = null
 
-    @TableField(name = "APPROVAL_STEP_TO_APPROVER_LINK_ID")
-    var approvalStepToApproverLinkId: Long? = null
+    @TableField(name = "APPROVAL_ID")
+    var approvalId: Long? = null
+
+    @TableField(name = "USER_ID")
+    var userId: Long? = null
 
     @TableField(name = "REASON_TEXT")
     var reasonText: String? = null
@@ -32,8 +37,11 @@ class ApprovalRejection {
     @TableField(name = "FULFILLED")
     var fullfilled: Timestamp? =  null
 
-    @BelongsTo(model = ApprovalStepToApproverLink::class, fieldOnThat = "ID", fieldOnThis = "APPROVAL_STEP_TO_APPROVER_LINK_ID")
-    var approvalStepToApproverLink: ApprovalStepToApproverLink? = null
+    @BelongsTo(model = Approval::class, fieldOnThat = "ID", fieldOnThis = "APPROVAL_ID")
+    var approval: Approval? = null
+
+    @BelongsTo(model = User::class, fieldOnThat = "ID", fieldOnThis = "USER_ID")
+    var user: User? = null
 
     @HasMany(model = ApprovalRejectionToUploadedDocumentLink::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_REJECTION_ID")
     var approvalRejectionToUploadedDocumentLinks: MutableList<ApprovalRejectionToUploadedDocumentLink>? = null

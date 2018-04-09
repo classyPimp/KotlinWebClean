@@ -1,5 +1,6 @@
 package models.approvalstep
 
+import models.approval.Approval
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLinkValidator
 import models.approvalsteptouploadeddocumentlink.ApprovalStepToUploadedDocumentLinkValidator
@@ -8,6 +9,11 @@ import orm.approvalstepgeneratedrepository.ApprovalStepValidatorTrait
 class ApprovalStepValidator(model: ApprovalStep) : ApprovalStepValidatorTrait(model, model.record.validationManager) {
 
     fun ofContractCreateScenario(){
+        validateApprovalStepToApproverLinksOfContract()
+        validateApprovalStepToUploadedDocumentLinksOfContract()
+    }
+
+    fun ofContractCreateAfterFirstStep(approvalStepToCreate: ApprovalStep, approval: Approval) {
         validateApprovalStepToApproverLinksOfContract()
         validateApprovalStepToUploadedDocumentLinksOfContract()
     }

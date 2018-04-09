@@ -28,4 +28,15 @@ object ApprovalToApproverLinkShowDao {
                 .firstOrNull()
     }
 
+    fun existsForUserAndApproval(userId: Long, approvalId: Long): ApprovalToApproverLink? {
+        return ApprovalToApproverLinkRecord.GET()
+                .where(
+                        table.APPROVAL_ID.eq(approvalId)
+                                .and(table.USER_ID.eq(userId))
+                )
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
 }

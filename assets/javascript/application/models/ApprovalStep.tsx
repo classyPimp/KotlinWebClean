@@ -30,4 +30,15 @@ export class ApprovalStep extends BaseModel {
     @HasMany("ApprovalStepToUploadedDocumentLink")
     approvalStepToUploadedDocumentLinks: ModelCollection<ApprovalStepToUploadedDocumentLink>
 
+    @Route("POST", {url: "/api/approval/ofContract/:approvalId/approvalStep"})
+    ofApprovalOfContractCreate: (options?: RequestOptions) => Promise<ApprovalStep>
+
+    beforeOfApprovalOfContractCreateRequest(options: RequestOptions) {
+      this.beforeCreateRequest(options)
+    }
+
+    afterOfApprovalOfContractCreateRequest(options: RequestOptions) {
+      this.afterCreateRequest(options)
+    }
+
 }

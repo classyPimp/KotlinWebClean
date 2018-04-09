@@ -15,14 +15,14 @@ import { UploadedDocument } from '../../../models/UploadedDocument'
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
-      approvalStepToApproverLinkId: number
+      approvalId: number
       onApprovalRejectionCreateSuccess: (approvalRejection: ApprovalRejection)=>any
     }
 
     state: {
       approvalRejection: ApprovalRejection
     } = {
-      approvalRejection: new ApprovalRejection({approvalStepToApproverLinkId: this.props.approvalStepToApproverLinkId})
+      approvalRejection: new ApprovalRejection({approvalId: this.props.approvalId})
     }
 
     componentKeyTracker = 0
@@ -90,8 +90,8 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     @autobind
     submit() {
       this.collectInputs()
-      console.log(this.state.approvalRejection)
-      this.state.approvalRejection.ofContractCreate({serializeAsForm: true, wilds: {approvalStepToApproverLinkId: this.props.approvalStepToApproverLinkId.toString()}}).then((approvalRejection)=>{
+      let approvalId = this.props.approvalId as any
+      this.state.approvalRejection.ofContractCreate({serializeAsForm: true, wilds: {approvalId}}).then((approvalRejection)=>{
         if (approvalRejection.isValid()) {
           this.props.onApprovalRejectionCreateSuccess(approvalRejection)
           return

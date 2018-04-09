@@ -38,9 +38,6 @@ class ApprovalStepToApproverLink {
     @BelongsTo(model = User::class, fieldOnThat = "ID", fieldOnThis = "USER_ID")
     var user: User? = null
 
-    @HasMany(model = ApprovalRejection::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_STEP_TO_APPROVER_LINK_ID")
-    var approvalRejections: MutableList<ApprovalRejection>? = null
-
 }
 
 
