@@ -8,9 +8,9 @@ import models.approvaltoapproverlink.factories.ofcontract.ApprovalToApproverLink
 
 object ApprovalOfContractDefaultFactory {
 
-    fun create(params: ApprovalRequestParametersWrapper): Approval {
+    fun create(params: ApprovalRequestParametersWrapper, contractId: Long): Approval {
         return Approval().also {model ->
-            model.approvableId = params.approvableId
+            model.approvableId = contractId
             model.approvableType = "Contract"
             model.approvalToApproverLinks = ApprovalToApproverLinkOfContractDefaultFactory.create(params.approvalToApproverLinks)
             model.approvalSteps = params.approvalSteps?.let {

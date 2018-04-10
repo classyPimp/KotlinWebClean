@@ -62,10 +62,18 @@ export class Main extends BaseReactComponent {
           <Switch>
               <Route path = { `/dashboards/contracts/:contractId/approval/new` } component = { ApprovalComponents.ofContract.New } />
               {this.state.approval &&
-                <Route path = {`/dashboards/contracts/:contractId/approval`} component = { ApprovalComponents.ofContract.Show } />
+                <Route path = {`/dashboards/contracts/:contractId/approval`} component = { this.renderApprovalOfContractShow } />
               }
           </Switch>
         </div>
+    }
+
+    @autobind
+    renderApprovalOfContractShow(props: any) {
+      return <ApprovalComponents.ofContract.Show
+        approval = {this.state.approval}
+        {...props}
+      />
     }
 
 }

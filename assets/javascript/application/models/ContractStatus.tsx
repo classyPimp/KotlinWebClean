@@ -20,6 +20,12 @@ export class ContractStatus extends BaseModel {
     assignedNumber: number
 
     @Property
+    pendingApproval: string
+
+    @Property
+    isApproved: string
+
+    @Property
     formalDate: string
 
     @Property

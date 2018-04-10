@@ -9,6 +9,8 @@ import { ContractStatusComponents } from '../contractstatus/ContractStatusCompon
 import { ContractToCounterPartyLinkComponents } from '../contracttocounterpartylink/ContractToCounterPartyLinkComponents'
 import { ContractToUploadedDocumentLinkComponents } from '../contracttouploadeddocumentlink/ContractToUploadedDocumentLinkComponents'
 import { ApprovalComponents } from '../approval/ApprovalComponents'
+import { Contract } from '../../models/Contract'
+
 
 export class ShowMain extends BaseReactComponent {
 
@@ -16,10 +18,34 @@ export class ShowMain extends BaseReactComponent {
       match: match<any>
     }
 
+    state: {
+      contractWithGeneralInfo: Contract
+    } = {
+      contractWithGeneralInfo: null
+    }
+
+    componentDidMount() {
+      let contractId = this.props.match.params.contractId
+      Contract.showGeneralInfo({wilds: {contractId}}).then((contractWithGeneralInfo)=>{
+        this.setState({contractWithGeneralInfo})
+      })
+    }
+
+    componentWillReceiveProps(nextProps: any) {
+      let currentContractId = this.props.match.params.contractId
+      let nextContractId = nextProps.match.params.contractId
+      if (currentContractId != nextContractId) {
+        this.componentDidMount()
+      }
+    }
+
     render(){
         return <div>
           <h3>
-            contract
+            {this.state.contractWithGeneralInfo
+              ? <span>#{this.state.contractWithGeneralInfo.contractStatus.internalNumber}</span>
+              : <span>...loading</span>
+            }
           </h3>
           <div className="pure-menu pure-menu-horizontal">
             <ul className="pure-menu-list">
@@ -56,7 +82,7 @@ export class ShowMain extends BaseReactComponent {
             </ul>
           </div>
           <Switch>
-              <Route exact path={`/dashboards/contracts/:contractId`} component={ ContractComponents.ShowGeneralInfo }/>
+              <Route exact path={`/dashboards/contracts/:contractId`} component={ this.getContractGeneralInfo } />
               <Route exact path={`/dashboards/contracts/:contractId/status`} component={ ContractStatusComponents.ShowMain }/>
               <Route exact path={`/dashboards/contracts/:contractId/contractToCounterPartyLinks`} component = { ContractToCounterPartyLinkComponents.forContract.Index } />
               <Route exact path={`/dashboards/contracts/:contractId/contractToUploadedDocumentLinks`} component = { ContractToUploadedDocumentLinkComponents.forContract.Index } />
@@ -64,6 +90,14 @@ export class ShowMain extends BaseReactComponent {
               <Route path = "/dashboards/contracts/:contractId/approval" component = { ApprovalComponents.ofContract.Main } />
           </Switch>
         </div>
+    }
+
+    @autobind
+    getContractGeneralInfo(props: any): any {
+        return <ContractComponents.ShowGeneralInfo 
+          contract = {this.state.contractWithGeneralInfo}
+          {...props}
+        />
     }
 
 }

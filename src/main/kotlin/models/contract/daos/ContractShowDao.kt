@@ -160,4 +160,15 @@ object ContractShowDao {
             return true
         }
     }
+
+    fun byIdPreloadingContractStatus(contractId: Long): Contract? {
+        return ContractRecord.GET()
+                .where(table.ID.eq(contractId))
+                .preload {
+                    it.contractStatus()
+                }
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
 }

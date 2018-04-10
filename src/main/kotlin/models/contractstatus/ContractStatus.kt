@@ -4,6 +4,7 @@ import models.contract.Contract
 import org.jooq.generated.tables.ContractStatuses
 import orm.annotations.*
 import orm.contractstatusgeneratedrepository.ContractStatusRecord
+import java.sql.Time
 import java.sql.Timestamp
 import java.util.*
 
@@ -29,6 +30,12 @@ class ContractStatus {
     @TableField(name = "ID")
     @IsPrimaryKey
     var id: Long? = null
+
+    @TableField(name = "PENDING_APPROVAL")
+    var pendingApproval: Timestamp? = null
+
+    @TableField(name = "IS_APPROVED")
+    var isApproved: Timestamp? = null
 
     @TableField(name = "INTERNAL_NUMBER")
     var internalNumber: String? = null

@@ -22,6 +22,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
 
     props: {
       match: match<any>
+      approval: Approval
     }
 
     state: {
@@ -38,10 +39,21 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
     contractId = this.props.match.params.contractId as any
 
     componentDidMount(){
-      Approval.ofContractShow({wilds: {contractId: this.contractId}}).then((approval)=>{
-        let lastApprovalStep = this.getLastApprovalStep(approval)  
-        this.setState({approval, lastApprovalStep})
-      })
+      // Approval.ofContractShow({wilds: {contractId: this.contractId}}).then((approval)=>{
+      //   let lastApprovalStep = this.getLastApprovalStep(approval)  
+      //   this.setState({approval, lastApprovalStep})
+      // })
+      let approval = this.props.approval
+      let lastApprovalStep = this.getLastApprovalStep(approval)  
+      this.setState({approval, lastApprovalStep})
+    }
+
+    componentWillReceiveProps(nextProps: any) {
+      let currentApproval = this.state.approval
+      let nextApproval = nextProps.approval
+      if (currentApproval !== nextApproval) {
+        this.setState({approval: nextApproval})
+      }
     }
 
     getLastApprovalStep(approval: Approval): ApprovalStep {

@@ -6,6 +6,9 @@ import models.approval.ApprovalValidator
 import models.approval.factories.ApprovalFactories
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
 import models.approvaltoapproverlink.ApprovalToApproverLink
+import models.contract.Contract
+import models.contract.daos.ContractDaos
+import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import permissionsystem.ApprovalOfContractPermissions
@@ -26,12 +29,15 @@ class ApprovalOfContractCreateComposer(
 
     lateinit var approvalToCreate: Approval
     lateinit var wrappedParams: ApprovalRequestParametersWrapper
+    lateinit var contract: Contract
 
     override fun beforeCompose(){
         checkIfCurrentUserIsAuthorized()
         contractId ?: throw BadRequestError("no contract id in routeParams")
+        findAndSetContractPreloadingRequired()
         wrapParams()
         build()
+        updateContractStatus()
         validate()
     }
 
@@ -41,6 +47,12 @@ class ApprovalOfContractCreateComposer(
         }
     }
 
+    private fun findAndSetContractPreloadingRequired() {
+        ContractDaos.show.byIdPreloadingContractStatus(contractId!!)?.let {
+            contract = it
+        } ?: failImmediately(ModelNotFoundError())
+    }
+
     private fun wrapParams() {
         params.get("approval")?.let {
             wrappedParams = ApprovalRequestParametersWrapper(it)
@@ -48,9 +60,12 @@ class ApprovalOfContractCreateComposer(
     }
 
     private fun build() {
-        approvalToCreate = ApprovalFactories.ofContractDefault.create(wrappedParams)
+        approvalToCreate = ApprovalFactories.ofContractDefault.create(wrappedParams, contractId!!)
         handleCurrentUserInApproverLinks()
+    }
 
+    private fun updateContractStatus() {
+        contract.contractStatus!!.record.pendingApproval = Timestamp(Instant.now().toEpochMilli())
     }
 
     private fun handleCurrentUserInApproverLinks() {
@@ -99,6 +114,8 @@ class ApprovalOfContractCreateComposer(
         TransactionRunner.run {
             val tx = it.inTransactionDsl
             approvalToCreate.record.save(tx)
+
+            contract.contractStatus!!.record.save(tx)
 
             approvalToCreate.approvalSteps?.forEach {approvalStep ->
 
