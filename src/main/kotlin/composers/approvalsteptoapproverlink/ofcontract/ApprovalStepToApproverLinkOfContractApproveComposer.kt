@@ -1,21 +1,24 @@
 package composers.approvalsteptoapproverlink.ofcontract
 
+import models.approval.Approval
 import models.approval.daos.ApprovalDaos
 import utils.composer.ComposerBase
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
-import models.approvalsteptoapproverlink.daos.ApprovalStepToApproverLinkDaos
+import models.approvalsteptoapproverlink.ApprovalStepToApproverLinkValidator
 import models.approvalsteptoapproverlink.updaters.ApprovalStepToApproverLinkUpdaters
 import models.approvaltoapproverlink.ApprovalToApproverLink
-import models.approvaltoapproverlink.daos.ApprovalToApproverLinkDaos
 import models.approvaltoapproverlink.updaters.ApprovalToApproverLinkUpdaters
+import models.contract.Contract
+import models.contract.daos.ContractDaos
 import org.jooq.DSLContext
-import orm.approvalsteptoapproverlinkgeneratedrepository.ApprovalStepToApproverLinkDefaultUpdater
 import orm.modelUtils.exceptions.ModelNotFoundError
 import orm.services.ModelInvalidError
 import orm.utils.TransactionRunner
 import permissionsystem.CurrentUserUnauthorizedError
 import utils.composer.composerexceptions.BadRequestError
 import utils.currentuser.ICurrentUser
+import java.sql.Timestamp
+import java.time.Instant
 
 class ApprovalStepToApproverLinkOfContractApproveComposer(
         val approvalStepToApproverLinkId: Long?,
@@ -27,40 +30,70 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
 
     lateinit var approvalStepToApproverLinkToApprove: ApprovalStepToApproverLink
     lateinit var approvalToApproverLinkToApprove: ApprovalToApproverLink
+    lateinit var approval: Approval
 
     override fun beforeCompose(){
         approvalStepToApproverLinkId ?: failImmediately(BadRequestError())
-        findAndSetApprovalStepToApproverLinkToApprove()
-        findAndSetApprovalToApproverLinkToApprove()
-        checkIfUserIsAuthorized()
+        checkIfUserIsLoggedInAndThrowIfNot()
+        findAndSetApproval()
+        extractAndSetApprovalStepToApproverLinkToApprove()
+        extractAndSetApprovalToApproverLinkToApprove()
+        validateIfApprovalStepIsLastStepThrowIfNot()
+        checkIfUserIsAuthorizedAndThrowIfNot()
+        checkIfAlreadyApprovedAndThrowIfSo()
         update()
-        //validate()
+        validate()
     }
 
-    private fun findAndSetApprovalStepToApproverLinkToApprove() {
-        ApprovalStepToApproverLinkDaos.show.find(id = approvalStepToApproverLinkId!!)?.let {
-            approvalStepToApproverLinkToApprove = it
+    private fun checkIfUserIsLoggedInAndThrowIfNot() {
+        if (!currentUser.isLoggedIn()) {
+            failImmediately(CurrentUserUnauthorizedError())
+        }
+    }
+
+    private fun findAndSetApproval() {
+        ApprovalDaos.show.byApprovalStepForApprovalStepToApprovalLinkOfContractApprove(approvalStepToApproverLinkId!!)?.let {
+            approval = it
         } ?: failImmediately(ModelNotFoundError())
     }
 
-    private fun findAndSetApprovalToApproverLinkToApprove() {
-        ApprovalToApproverLinkDaos.show.whenApprovedByApprovalStepToApproverLinkId(
-                approvalStepToApproverLinkToApprove.id!!,
-                approvalStepToApproverLinkToApprove.userId!!
-        )?.let {
+    private fun extractAndSetApprovalStepToApproverLinkToApprove() {
+        approval.approvalSteps!!.firstOrNull()?.let {
+            it.approvalStepToApproverLinks!!.find {
+                it.userId == currentUser.userModel!!.id!!
+            }?.let {
+                approvalStepToApproverLinkToApprove = it
+            }
+        } ?: failImmediately(ModelNotFoundError())
+    }
+
+    private fun extractAndSetApprovalToApproverLinkToApprove() {
+        approval.approvalToApproverLinks?.find {
+            it.userId == currentUser.userModel!!.id!!
+        }?.let {
             approvalToApproverLinkToApprove = it
         } ?: failImmediately(ModelNotFoundError())
     }
 
-    private fun checkIfUserIsAuthorized() {
-        if (!currentUser.isLoggedIn()) {
+    private fun validateIfApprovalStepIsLastStepThrowIfNot() {
+        val lastStepId = approval.lastStageId!!
+        if (approvalStepToApproverLinkToApprove.approvalStepId!! != lastStepId) {
+            throw IllegalStateException()
+        }
+    }
+
+    private fun checkIfUserIsAuthorizedAndThrowIfNot() {
+        if (currentUser.userModel!!.id != approvalStepToApproverLinkToApprove.userId!!) {
             failImmediately(CurrentUserUnauthorizedError())
         }
-        val userIdOnApprovalStepToApproverLinkToUpdate = approvalStepToApproverLinkToApprove.userId
-        println("user check")
-        println("${currentUser.userModel!!.id} != ${approvalStepToApproverLinkToApprove.userId}")
-        if (currentUser.userModel!!.id != approvalStepToApproverLinkToApprove.userId) {
-            failImmediately(CurrentUserUnauthorizedError())
+    }
+
+    private fun checkIfAlreadyApprovedAndThrowIfSo() {
+        if (approvalToApproverLinkToApprove.isApproved != null) {
+            throw IllegalStateException()
+        }
+        if (approvalStepToApproverLinkToApprove.isApproved != null) {
+            throw IllegalStateException()
         }
     }
 
@@ -70,9 +103,12 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
     }
 
 
-//    private fun validate() {
-//
-//    }
+    private fun validate() {
+        ApprovalStepToApproverLinkValidator(approvalStepToApproverLinkToApprove)
+        if (!approvalStepToApproverLinkToApprove.record.validationManager.isValid()) {
+            failImmediately(ModelInvalidError())
+        }
+    }
 
 
     override fun compose(){
@@ -81,28 +117,52 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
             checkIfApprovedByAllIfSoMarkContractAsApproved(tx)
             approvalStepToApproverLinkToApprove.record.save(tx)
             approvalStepToApproverLinkToApprove.record.save(tx)
+            markCurrentUsersApprovalRejectionsAsFulfilled(tx)
         }
     }
 
-    private fun checkIfApprovedByAllIfSoMarkContractAsApproved(tx: DSLContext) {
-        ApprovalToApproverLinkDaos.index.byApprovalId(approvalToApproverLinkToApprove.approvalId!!)?.let {approvalToApproverLinks ->
-            var totalApproved = 0
-            approvalToApproverLinks.forEach {
-                if (it.isApproved != null) {
-                    totalApproved += 1
-                }
-            }
-            //assumed approved by current user
-            totalApproved += 1
-            if (totalApproved == approvalToApproverLinks.size) {
-                markContractAsApproved(tx)
-            }
+    private fun markCurrentUsersApprovalRejectionsAsFulfilled(transactionContext: DSLContext) {
+        val now = Timestamp(Instant.now().toEpochMilli())
+        approval.approvalRejections?.filter {
+            it.userId == currentUser.userModel!!.id
+        }?.forEach {
+            it.record.fullfilled = now
+            it.record.save(transactionContext)
         }
     }
 
-    private fun markContractAsApproved(tx: DSLContext) {
-        //TODO: complete this
+    private fun checkIfApprovedByAllIfSoMarkContractAsApproved(transactionContext: DSLContext) {
+        if (isApprovedByAll()) {
+            val contract = findContractToBeMarkedAsApproved()
+            markContractAsApproved(contract, transactionContext)
+        }
     }
+
+    private fun isApprovedByAll(): Boolean {
+        var approvedByAll = true
+        approval.approvalToApproverLinks?.find {
+            it.isApproved == null
+        }?.let {
+            approvedByAll = false
+        }
+        return approvedByAll
+    }
+
+    private fun findContractToBeMarkedAsApproved(): Contract {
+        ContractDaos.show.byIdForMarkingAsApproved(approval.approvableId!!)?.let {
+            return it
+        } ?: throw IllegalStateException()
+    }
+
+    private fun markContractAsApproved(contract: Contract, transactionContext: DSLContext) {
+        contract.contractStatus!!.record.also{
+            it.pendingApproval = null
+            it.isApproved = Timestamp(Instant.now().toEpochMilli())
+            it.save(transactionContext)
+        }
+
+    }
+
 
     override fun fail(error: Throwable) {
         when(error) {

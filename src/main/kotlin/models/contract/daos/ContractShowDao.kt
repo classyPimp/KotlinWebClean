@@ -154,14 +154,21 @@ object ContractShowDao {
                 .execute()
                 .firstOrNull()
 
-        if (contract == null) {
-            return false
-        } else {
-            return true
-        }
+        return (contract == null)
     }
 
     fun byIdPreloadingContractStatus(contractId: Long): Contract? {
+        return ContractRecord.GET()
+                .where(table.ID.eq(contractId))
+                .preload {
+                    it.contractStatus()
+                }
+                .limit(1)
+                .execute()
+                .firstOrNull()
+    }
+
+    fun byIdForMarkingAsApproved(contractId: Long): Contract? {
         return ContractRecord.GET()
                 .where(table.ID.eq(contractId))
                 .preload {

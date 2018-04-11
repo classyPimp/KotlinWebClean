@@ -86,4 +86,36 @@ object ApprovalShowDao {
                 .firstOrNull()
     }
 
+    fun byApprovalStepForApprovalStepToApprovalLinkOfContractApprove(approvalStepToApproverLinkId: Long): Approval? {
+        return ApprovalRecord.GET()
+                .preload {
+                    it.approvalToApproverLinks()
+                    it.approvalRejections()
+                    it.approvalSteps() {
+                        it.preload {
+                            it.approvalStepToApproverLinks()
+                        }
+                        .join {
+                            it.approvalStepToApproverLinks()
+                        }
+                        .where(
+                                APPROVAL_STEP_TO_APPROVER_LINKS.ID.eq(approvalStepToApproverLinkId)
+                        )
+                    }
+                }
+                .join {
+                    it.approvalSteps() {
+                        it.approvalStepToApproverLinks()
+                    }
+                }
+                .where(
+                        table.APPROVABLE_TYPE.eq("Contract")
+                        .and(APPROVAL_STEP_TO_APPROVER_LINKS.ID.eq(approvalStepToApproverLinkId))
+                )
+                .limit(1)
+                .execute()
+                .firstOrNull()
+
+    }
+
 }

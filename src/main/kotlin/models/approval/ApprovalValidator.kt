@@ -42,6 +42,9 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
             validationManager.addGeneralError("approvers should be added")
             return
         }
+        if (approvalToApproverLinks.size < 2) {
+            validationManager.addGeneralError("at least two approvers should be assigned")
+        }
         approvalToApproverLinks.forEach {
             ApprovalToApproverLinkValidator(it).ofContractCreateScenario()
             if (!it.record.validationManager.isValid()) {
