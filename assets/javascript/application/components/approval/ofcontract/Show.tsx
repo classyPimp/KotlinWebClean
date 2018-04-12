@@ -29,10 +29,12 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
       approval: Approval,
       lastApprovalStep: ApprovalStep
       users: ModelCollection<User>
+      currentStepInView: number
     } = {
       approval: null,
       lastApprovalStep: null,
       users: null,
+      currentStepInView: null
     }
 
     modal: Modal
@@ -44,15 +46,30 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
       //   this.setState({approval, lastApprovalStep})
       // })
       let approval = this.props.approval
-      let lastApprovalStep = this.getLastApprovalStep(approval)  
-      this.setState({approval, lastApprovalStep})
+      this.handlePassedApprovalFromProps(approval)
+    }
+
+    handlePassedApprovalFromProps(approval: Approval) {
+      let lastApprovalStep: ApprovalStep = this.getLastApprovalStep(approval)
+      let currentStepInView: number = null
+      for (let i = 0; i < approval.approvalSteps.array.length, i++;) {
+        let approvalStep: ApprovalStep = approval.approvalSteps.array[i] 
+        if (approvalStep.id === lastApprovalStep.id) {
+          currentStepInView = i
+          break
+        }
+      }
+      if (!currentStepInView) {
+        currentStepInView = approval.approvalSteps.array.length - 1
+      }
+      this.setState({approval, lastApprovalStep, currentStepInView})
     }
 
     componentWillReceiveProps(nextProps: any) {
       let currentApproval = this.state.approval
       let nextApproval = nextProps.approval
       if (currentApproval !== nextApproval) {
-        this.setState({approval: nextApproval})
+        this.handlePassedApprovalFromProps(nextApproval)
       }
     }
 
@@ -70,10 +87,20 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
       return <div>
         <Modal ref={(it)=>{this.modal = it}}/>
         <div>
+          <div>
+            {this.state.approval.approvalSteps.map((it, index)=>{
+              return <span onClick = {()=>{this.setApprovalStepInViewIndex(index)}}>
+                {(this.state.currentStepInView === index) 
+                  ? `>${index}<`
+                  : `${index}`
+                }
+              </span>
+            })}
+          </div>
           <p>
             documents to approve
           </p>
-          {this.state.lastApprovalStep.approvalStepToUploadedDocumentLinks.map((approvalStepToUploadedDocumentLink)=>{
+          {this.getCurrentStepInView().approvalStepToUploadedDocumentLinks.map((approvalStepToUploadedDocumentLink)=>{
             return <div key={approvalStepToUploadedDocumentLink.id}>
               <p>
                 {approvalStepToUploadedDocumentLink.uploadedDocument.description}
@@ -89,7 +116,7 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
             </button>
           </div>
           <div>
-            {this.state.lastApprovalStep.approvalStepToApproverLinks.map((approvalStepToApproverLink)=>{
+            {this.getCurrentStepInView().approvalStepToApproverLinks.map((approvalStepToApproverLink)=>{
               return <div key={approvalStepToApproverLink.id}>
                 <p>
                   {approvalStepToApproverLink.user.name}
@@ -126,6 +153,9 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
               </p>
             }
             {this.state.approval.approvalRejections.map((approvalRejection)=>{
+              if (!this.shouldRenderRejection(approvalRejection)) {
+                return null
+              }
               return <div key={approvalRejection.id}>
                 <p>
                   {approvalRejection.user.name}      
@@ -150,6 +180,41 @@ export class Show extends MixinFormableTrait(BaseReactComponent) {
         <Route path = {`/dashboards/contracts/${this.props.match.params.contractId}/approval/withRejectionDiscussion/:discussionId`} component = {DiscussionComponents.Show}/>
       </div>  
        
+    }
+
+    @autobind
+    getNextToCurrentApprovalStepsCreatedAt(): string {
+      let index = this.state.currentStepInView
+      let next = this.state.approval.approvalSteps.array[index + 1]
+      if (next) {
+        return next.createdAt
+      } 
+      return null
+    }
+
+    @autobind
+    shouldRenderRejection(approvalRejection: ApprovalRejection) {
+      let createdAt = approvalRejection.createdAt
+      let currentApprovalStepCreatedAt = this.getCurrentStepInView().createdAt
+      let nextApprovalStepCreatedAt = this.getNextToCurrentApprovalStepsCreatedAt()
+      if (nextApprovalStepCreatedAt === null) {
+        console.log("no next, should render")
+        return true
+      }
+      if (createdAt < nextApprovalStepCreatedAt) {
+        return true
+      }
+      return false
+    }
+
+    @autobind
+    getCurrentStepInView(): ApprovalStep {
+      return this.state.approval.approvalSteps.array[this.state.currentStepInView]
+    }
+
+    @autobind
+    setApprovalStepInViewIndex(index: number) {
+      this.setState({currentStepInView: index})
     }
 
     @autobind
