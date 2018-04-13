@@ -8,19 +8,17 @@ class ApprovalStepToApproverLinkValidator(model: ApprovalStepToApproverLink) : A
 
     fun ofContractCreateScenario(){
         validateUserId()
-        validateIsApproved()
     }
 
     private fun validateUserId() {
         val userId = model.userId
-        userId ?:  throw IllegalStateException("ApprovalStep ApprovalStepToApproverLink: no userId assigned")
-    }
 
-    private fun validateIsApproved() {
-        val isApproved = model.isApproved
-        if (isApproved == null) {
-            throw IllegalStateException()
+        userId ?:  throw IllegalStateException("ApprovalStep ApprovalStepToApproverLink: no userId assigned")
+
+        if (!UserDaos.show.isExists(userId)) {
+            validationManager.addUserIdError("no such user")
         }
     }
+
 
 }

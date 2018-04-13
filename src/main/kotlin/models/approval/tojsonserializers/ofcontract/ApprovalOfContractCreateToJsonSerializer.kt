@@ -15,9 +15,6 @@ object ApprovalOfContractCreateToJsonSerializer {
                     it.includeUploadedDocument()
                 }
             }
-            it.includeApprovalToApproverLinks() {
-                it.includeUser()
-            }
             return it.serializeToString()
         }
     }
@@ -35,12 +32,6 @@ object ApprovalOfContractCreateToJsonSerializer {
                     it.includeUploadedDocument() {
                         it.includeErrors()
                     }
-                }
-            }
-            it.includeApprovalToApproverLinks() {
-                it.includeErrors()
-                it.includeUser() {
-                    it.includeErrors()
                 }
             }
             return it.serializeToString()

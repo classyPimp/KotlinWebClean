@@ -2,7 +2,6 @@ package models.approval
 
 import models.approvalrejection.ApprovalRejection
 import models.approvalstep.ApprovalStep
-import models.approvaltoapproverlink.ApprovalToApproverLink
 import models.contract.Contract
 import org.jooq.generated.tables.Approvals
 import orm.annotations.*
@@ -33,9 +32,6 @@ class Approval {
     @TableField(name = "UPDATED_AT")
     var updatedAt: Timestamp? = null
 
-    @HasMany(model = ApprovalToApproverLink::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_ID")
-    var approvalToApproverLinks: MutableList<ApprovalToApproverLink>? = null
-
     @HasMany(model = ApprovalStep::class, fieldOnThis = "ID", fieldOnThat = "APPROVAL_ID")
     var approvalSteps: MutableList<ApprovalStep>? = null
 
@@ -44,6 +40,9 @@ class Approval {
 
     @BelongsTo(model = Contract::class, fieldOnThat = "ID", fieldOnThis = "APPROVABLE_ID")
     var contract: Contract? = null
+
+    @HasOne(model = ApprovalStep::class,  fieldOnThis = "LAST_STAGE_ID", fieldOnThat = "ID")
+    var approvalStep: ApprovalStep? = null
 
 }
 

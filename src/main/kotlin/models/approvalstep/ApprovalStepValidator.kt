@@ -23,6 +23,9 @@ class ApprovalStepValidator(model: ApprovalStep) : ApprovalStepValidatorTrait(mo
         if (approvalStepToApproverLinks == null || approvalStepToApproverLinks.isEmpty()) {
             throw IllegalStateException("ApprovalStep: no links to approvers where added")
         }
+        if (approvalStepToApproverLinks.size < 2) {
+            validationManager.addGeneralError("at least 1 approver needed")
+        }
         approvalStepToApproverLinks.forEach {
             ApprovalStepToApproverLinkValidator(it).ofContractCreateScenario()
             if (!it.record.validationManager.isValid()) {

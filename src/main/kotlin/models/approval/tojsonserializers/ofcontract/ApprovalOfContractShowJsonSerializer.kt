@@ -10,9 +10,6 @@ object ApprovalOfContractShowJsonSerializer {
 
     fun onSuccess(approval: Approval): String {
         return ApprovalToJsonSerializer(approval).also {
-            it.includeApprovalToApproverLinks() {
-                it.includeUser()
-            }
             it.includeApprovalRejections() {
                 it.includeApprovalRejectionToUploadedDocumentLinks() {
                     it.includeUploadedDocument()

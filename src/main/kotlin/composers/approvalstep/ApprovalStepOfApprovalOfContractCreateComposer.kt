@@ -50,7 +50,7 @@ class ApprovalStepOfApprovalOfContractCreateComposer(
         if (!currentUser.isLoggedIn()) {
             failImmediately(CurrentUserUnauthorizedError())
         }
-        approval.approvalToApproverLinks!!.find {
+        approval.approvalSteps!!.first().approvalStepToApproverLinks!!.find {
             it.userId == currentUser.userModel!!.id!!
         } ?: failImmediately(CurrentUserUnauthorizedError())
     }

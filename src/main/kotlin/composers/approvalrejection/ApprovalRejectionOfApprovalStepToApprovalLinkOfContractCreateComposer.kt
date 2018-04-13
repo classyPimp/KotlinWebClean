@@ -8,7 +8,6 @@ import models.approvalrejection.ApprovalRejectionRequestParametersWrapper
 import models.approvalrejection.ApprovalRejectionValidator
 import models.approvalrejection.factories.ofapprovalsteptoapproverlinkofcontract.ApprovalRejectionOfApprovalStepToApproverLinkOfContractFactory
 import models.approvalsteptoapproverlink.daos.ApprovalStepToApproverLinkDaos
-import models.approvaltoapproverlink.daos.ApprovalToApproverLinkDaos
 import models.discussion.Discussion
 import org.jooq.DSLContext
 import orm.approvalrejectiontouploadeddocumentlinkgeneratedrepository.ApprovalRejectionToUploadedDocumentLinkDefaultAssociationsManager
@@ -52,7 +51,7 @@ class ApprovalRejectionOfApprovalStepToApprovalLinkOfContractCreateComposer(
         if (!currentUser.isLoggedIn()) {
             failImmediately(CurrentUserUnauthorizedError())
         }
-        ApprovalToApproverLinkDaos.show.existsForUserAndApproval(
+        ApprovalStepToApproverLinkDaos.show.existsForUserAndApproval(
                 userId = currentUser.userModel!!.id!!,
                 approvalId = approval.id!!
         ) ?: failImmediately(CurrentUserUnauthorizedError())

@@ -5,7 +5,6 @@ import models.approval.ApprovalRequestParametersWrapper
 import models.approval.ApprovalValidator
 import models.approval.factories.ApprovalFactories
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
-import models.approvaltoapproverlink.ApprovalToApproverLink
 import models.contract.Contract
 import models.contract.daos.ContractDaos
 import orm.modelUtils.exceptions.ModelNotFoundError
@@ -35,6 +34,7 @@ class ApprovalOfContractCreateComposer(
         checkIfCurrentUserIsAuthorized()
         contractId ?: throw BadRequestError("no contract id in routeParams")
         findAndSetContractPreloadingRequired()
+        checkIfContractApprovedOrApprovalIsPendingAndThrowIfSo()
         wrapParams()
         build()
         updateContractStatus()
@@ -53,6 +53,17 @@ class ApprovalOfContractCreateComposer(
         } ?: failImmediately(ModelNotFoundError())
     }
 
+    private fun checkIfContractApprovedOrApprovalIsPendingAndThrowIfSo() {
+        contract.contractStatus!!.let {
+            if (it.pendingApproval != null) {
+                throw IllegalStateException()
+            }
+            if (it.isApproved != null) {
+                throw IllegalStateException()
+            }
+        }
+    }
+
     private fun wrapParams() {
         params.get("approval")?.let {
             wrappedParams = ApprovalRequestParametersWrapper(it)
@@ -69,34 +80,19 @@ class ApprovalOfContractCreateComposer(
     }
 
     private fun handleCurrentUserInApproverLinks() {
-        approvalToCreate.approvalToApproverLinks = approvalToCreate.approvalToApproverLinks
-            ?: mutableListOf()
-        approvalToCreate.approvalSteps!!.let {
-            val approvalStep = it.getOrNull(0)
-            if (approvalStep != null) {
-                approvalStep.approvalStepToApproverLinks = approvalStep.approvalStepToApproverLinks
-                    ?: mutableListOf()
-            }
-        }
+        val approvalStep = approvalToCreate.approvalSteps!!.first()
 
-        val approvalToApproverLinks = approvalToCreate.approvalToApproverLinks!!
-        val approvalStepToApproverLinks = approvalToCreate.approvalSteps!!.get(0).approvalStepToApproverLinks!!
+        approvalStep.approvalStepToApproverLinks = approvalStep.approvalStepToApproverLinks ?: mutableListOf()
+
+        val approvalStepToApproverLinks = approvalStep.approvalStepToApproverLinks!!
 
         val currentUserId = currentUser.userModel!!.id!!
 
-        val approvalToApproverLinkWithCurrentUser  = approvalToApproverLinks.firstOrNull { it.userId == currentUserId }
-                ?: ApprovalToApproverLink().also {
-                    approvalToApproverLinks.add(it)
-                }
-        val approvalStepToApproverLinkWithCurrentUser = approvalStepToApproverLinks.firstOrNull { it.userId == currentUserId }
+        val approvalStepToApproverLinkWithCurrentUser = approvalStepToApproverLinks.find { it.userId == currentUserId }
                 ?: ApprovalStepToApproverLink().also {
                     approvalStepToApproverLinks.add(it)
                 }
 
-        approvalToApproverLinkWithCurrentUser.also {
-            it.userId = currentUser.userModel!!.id!!
-            it.isApproved = Timestamp(Instant.now().toEpochMilli())
-        }
         approvalStepToApproverLinkWithCurrentUser.also {
             it.userId = currentUser.userModel!!.id!!
             it.isApproved = Timestamp(Instant.now().toEpochMilli())
@@ -145,10 +141,6 @@ class ApprovalOfContractCreateComposer(
             approvalToCreate.record.lastStageId = approvalToCreate.approvalSteps?.lastOrNull()?.id!!
             approvalToCreate.record.save(tx)
 
-            approvalToCreate.approvalToApproverLinks?.forEach {approvalToApproverLink ->
-                approvalToApproverLink.approvalId = approvalToCreate.id
-                approvalToApproverLink.record.save(tx)
-            }
         }
     }
 

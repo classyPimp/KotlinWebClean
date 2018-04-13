@@ -6,8 +6,6 @@ import utils.composer.ComposerBase
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLink
 import models.approvalsteptoapproverlink.ApprovalStepToApproverLinkValidator
 import models.approvalsteptoapproverlink.updaters.ApprovalStepToApproverLinkUpdaters
-import models.approvaltoapproverlink.ApprovalToApproverLink
-import models.approvaltoapproverlink.updaters.ApprovalToApproverLinkUpdaters
 import models.contract.Contract
 import models.contract.daos.ContractDaos
 import org.jooq.DSLContext
@@ -29,7 +27,6 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
     lateinit var onError: (ApprovalStepToApproverLink)->Unit
 
     lateinit var approvalStepToApproverLinkToApprove: ApprovalStepToApproverLink
-    lateinit var approvalToApproverLinkToApprove: ApprovalToApproverLink
     lateinit var approval: Approval
 
     override fun beforeCompose(){
@@ -37,7 +34,6 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
         checkIfUserIsLoggedInAndThrowIfNot()
         findAndSetApproval()
         extractAndSetApprovalStepToApproverLinkToApprove()
-        extractAndSetApprovalToApproverLinkToApprove()
         validateIfApprovalStepIsLastStepThrowIfNot()
         checkIfUserIsAuthorizedAndThrowIfNot()
         checkIfAlreadyApprovedAndThrowIfSo()
@@ -58,20 +54,12 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
     }
 
     private fun extractAndSetApprovalStepToApproverLinkToApprove() {
-        approval.approvalSteps!!.firstOrNull()?.let {
+        approval.approvalSteps!!.first().let {
             it.approvalStepToApproverLinks!!.find {
                 it.userId == currentUser.userModel!!.id!!
             }?.let {
                 approvalStepToApproverLinkToApprove = it
             }
-        } ?: failImmediately(ModelNotFoundError())
-    }
-
-    private fun extractAndSetApprovalToApproverLinkToApprove() {
-        approval.approvalToApproverLinks?.find {
-            it.userId == currentUser.userModel!!.id!!
-        }?.let {
-            approvalToApproverLinkToApprove = it
         } ?: failImmediately(ModelNotFoundError())
     }
 
@@ -89,9 +77,6 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
     }
 
     private fun checkIfAlreadyApprovedAndThrowIfSo() {
-        if (approvalToApproverLinkToApprove.isApproved != null) {
-            throw IllegalStateException()
-        }
         if (approvalStepToApproverLinkToApprove.isApproved != null) {
             throw IllegalStateException()
         }
@@ -99,7 +84,6 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
 
     private fun update() {
         ApprovalStepToApproverLinkUpdaters.OfContract.default.whenApproved(approvalStepToApproverLinkToApprove)
-        ApprovalToApproverLinkUpdaters.OfContract.default.whenApproved(approvalToApproverLinkToApprove)
     }
 
 
@@ -115,7 +99,6 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
         TransactionRunner.run {
             val tx = it.inTransactionDsl
             checkIfApprovedByAllIfSoMarkContractAsApproved(tx)
-            approvalStepToApproverLinkToApprove.record.save(tx)
             approvalStepToApproverLinkToApprove.record.save(tx)
             markCurrentUsersApprovalRejectionsAsFulfilled(tx)
         }
@@ -140,7 +123,7 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
 
     private fun isApprovedByAll(): Boolean {
         var approvedByAll = true
-        approval.approvalToApproverLinks?.find {
+        approval.approvalSteps!!.first().approvalStepToApproverLinks?.find {
             it.isApproved == null
         }?.let {
             approvedByAll = false
@@ -162,7 +145,6 @@ class ApprovalStepToApproverLinkOfContractApproveComposer(
         }
 
     }
-
 
     override fun fail(error: Throwable) {
         when(error) {

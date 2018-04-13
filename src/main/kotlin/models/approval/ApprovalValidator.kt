@@ -1,8 +1,6 @@
 package models.approval
 
 import models.approvalstep.ApprovalStepValidator
-import models.approvaltoapproverlink.ApprovalToApproverLink
-import models.approvaltoapproverlink.ApprovalToApproverLinkValidator
 import models.contract.daos.ContractDaos
 import org.omg.CORBA.DynAnyPackage.Invalid
 import orm.approvalgeneratedrepository.ApprovalValidatorTrait
@@ -13,9 +11,7 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
     fun ofContractCreateScenario(){
         ofContractValidateApprovableId()
         ofContractValidateApprovableType()
-        ofContractValidateApprovalToapproverLinks()
         ofContractValidateApprovalSteps()
-        validateSizeEqualityOfApproversAndApproversInStepSize()
     }
 
     private fun ofContractValidateApprovableId() {
@@ -36,22 +32,7 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
         }
     }
 
-    private fun ofContractValidateApprovalToapproverLinks() {
-        val approvalToApproverLinks = model.approvalToApproverLinks
-        if (approvalToApproverLinks == null || approvalToApproverLinks.isEmpty()) {
-            validationManager.addGeneralError("approvers should be added")
-            return
-        }
-        if (approvalToApproverLinks.size < 2) {
-            validationManager.addGeneralError("at least two approvers should be assigned")
-        }
-        approvalToApproverLinks.forEach {
-            ApprovalToApproverLinkValidator(it).ofContractCreateScenario()
-            if (!it.record.validationManager.isValid()) {
-                validationManager.markAsHasNestedErrors()
-            }
-        }
-    }
+
 
     private fun ofContractValidateApprovalSteps() {
         val approvalSteps = model.approvalSteps
@@ -66,15 +47,6 @@ class ApprovalValidator(model: Approval) : ApprovalValidatorTrait(model, model.r
         }
     }
 
-    private fun validateSizeEqualityOfApproversAndApproversInStepSize() {
-        val approvalToApproverLinks = model.approvalToApproverLinks
-        val approvalStepToApproverLinks = model.approvalSteps?.getOrNull(0)?.approvalStepToApproverLinks
-        if (approvalStepToApproverLinks == null || approvalToApproverLinks == null) {
-            return
-        }
-        if (approvalStepToApproverLinks.size != approvalStepToApproverLinks.size) {
-            throw IllegalStateException("no approver links duplicated on ApprovalStep")
-        }
-    }
+
 
 }
