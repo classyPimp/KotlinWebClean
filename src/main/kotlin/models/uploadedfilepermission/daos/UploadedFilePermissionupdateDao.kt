@@ -1,0 +1,11 @@
+package models.uploadedfilepermission.daos
+
+import org.jooq.generated.tables.UploadedFilePermissions
+import orm.uploadedfilepermissiongeneratedrepository.UploadedFilePermissionRecord
+import models.uploadedfilepermission.UploadedFilePermission
+
+object UploadedFilePermissionUpdateDao {
+
+
+
+}

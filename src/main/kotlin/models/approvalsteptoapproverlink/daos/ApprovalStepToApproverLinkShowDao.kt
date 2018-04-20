@@ -22,9 +22,9 @@ object ApprovalStepToApproverLinkShowDao {
         return ApprovalStepToApproverLinkRecord.GET()
                 .join {
                     it.approvalStep() {
-                        it.approval() {
-                            it.selectQuery.addJoin(APPROVALS, APPROVALS.LAST_STAGE_ID.eq(APPROVAL_STEPS.ID))
-                        }
+                        it.selectQuery.addJoin(
+                                APPROVALS, APPROVALS.LAST_STAGE_ID.eq(APPROVAL_STEPS.ID)
+                        )
                     }
                 }
                 .where(

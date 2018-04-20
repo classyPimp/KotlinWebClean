@@ -47,6 +47,9 @@ import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocumentLinks
 import org.jooq.generated.tables.PersonToCounterPartyLinks;
 import org.jooq.generated.tables.SchemaMigrations;
 import org.jooq.generated.tables.UploadedDocuments;
+import org.jooq.generated.tables.UploadedFilePermissions;
+import org.jooq.generated.tables.UploadedFiles;
+import org.jooq.generated.tables.UserDefinableRelationReasons;
 import org.jooq.generated.tables.UserRoles;
 import org.jooq.generated.tables.UserToUserRoleLinks;
 import org.jooq.generated.tables.Users;
@@ -88,6 +91,9 @@ import org.jooq.generated.tables.records.PersonToCounterPartyLinkToUploadedDocum
 import org.jooq.generated.tables.records.PersonToCounterPartyLinksRecord;
 import org.jooq.generated.tables.records.SchemaMigrationsRecord;
 import org.jooq.generated.tables.records.UploadedDocumentsRecord;
+import org.jooq.generated.tables.records.UploadedFilePermissionsRecord;
+import org.jooq.generated.tables.records.UploadedFilesRecord;
+import org.jooq.generated.tables.records.UserDefinableRelationReasonsRecord;
 import org.jooq.generated.tables.records.UserRolesRecord;
 import org.jooq.generated.tables.records.UserToUserRoleLinksRecord;
 import org.jooq.generated.tables.records.UsersRecord;
@@ -148,6 +154,9 @@ public class Keys {
     public static final Identity<PersonToCounterPartyLinkToUploadedDocumentLinksRecord, Long> IDENTITY_PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS = Identities0.IDENTITY_PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS;
     public static final Identity<PersonToCounterPartyLinksRecord, Long> IDENTITY_PERSON_TO_COUNTER_PARTY_LINKS = Identities0.IDENTITY_PERSON_TO_COUNTER_PARTY_LINKS;
     public static final Identity<UploadedDocumentsRecord, Long> IDENTITY_UPLOADED_DOCUMENTS = Identities0.IDENTITY_UPLOADED_DOCUMENTS;
+    public static final Identity<UploadedFilePermissionsRecord, Long> IDENTITY_UPLOADED_FILE_PERMISSIONS = Identities0.IDENTITY_UPLOADED_FILE_PERMISSIONS;
+    public static final Identity<UploadedFilesRecord, Long> IDENTITY_UPLOADED_FILES = Identities0.IDENTITY_UPLOADED_FILES;
+    public static final Identity<UserDefinableRelationReasonsRecord, Long> IDENTITY_USER_DEFINABLE_RELATION_REASONS = Identities0.IDENTITY_USER_DEFINABLE_RELATION_REASONS;
     public static final Identity<UserRolesRecord, Long> IDENTITY_USER_ROLES = Identities0.IDENTITY_USER_ROLES;
     public static final Identity<UserToUserRoleLinksRecord, Long> IDENTITY_USER_TO_USER_ROLE_LINKS = Identities0.IDENTITY_USER_TO_USER_ROLE_LINKS;
     public static final Identity<UsersRecord, Long> IDENTITY_USERS = Identities0.IDENTITY_USERS;
@@ -194,6 +203,9 @@ public class Keys {
     public static final UniqueKey<PersonToCounterPartyLinksRecord> PERSON_TO_COUNTER_PARTY_LINKS_PKEY = UniqueKeys0.PERSON_TO_COUNTER_PARTY_LINKS_PKEY;
     public static final UniqueKey<SchemaMigrationsRecord> SCHEMA_MIGRATIONS_PKEY = UniqueKeys0.SCHEMA_MIGRATIONS_PKEY;
     public static final UniqueKey<UploadedDocumentsRecord> UPLOADED_DOCUMENTS_PKEY = UniqueKeys0.UPLOADED_DOCUMENTS_PKEY;
+    public static final UniqueKey<UploadedFilePermissionsRecord> UPLOADED_FILE_PERMISSIONS_PKEY = UniqueKeys0.UPLOADED_FILE_PERMISSIONS_PKEY;
+    public static final UniqueKey<UploadedFilesRecord> UPLOADED_FILES_PKEY = UniqueKeys0.UPLOADED_FILES_PKEY;
+    public static final UniqueKey<UserDefinableRelationReasonsRecord> USER_DEFINABLE_RELATION_REASONS_PKEY = UniqueKeys0.USER_DEFINABLE_RELATION_REASONS_PKEY;
     public static final UniqueKey<UserRolesRecord> USER_ROLES_PKEY = UniqueKeys0.USER_ROLES_PKEY;
     public static final UniqueKey<UserToUserRoleLinksRecord> USER_TO_USER_ROLE_LINKS_PKEY = UniqueKeys0.USER_TO_USER_ROLE_LINKS_PKEY;
     public static final UniqueKey<UsersRecord> USERS_PKEY = UniqueKeys0.USERS_PKEY;
@@ -246,6 +258,10 @@ public class Keys {
     public static final ForeignKey<PersonToCounterPartyLinksRecord, CounterPartiesRecord> PERSON_TO_COUNTER_PARTY_LINKS__FK_RAILS_E8B1CE96A6 = ForeignKeys0.PERSON_TO_COUNTER_PARTY_LINKS__FK_RAILS_E8B1CE96A6;
     public static final ForeignKey<PersonToCounterPartyLinksRecord, PersonToCounterPartyLinkReasonsRecord> PERSON_TO_COUNTER_PARTY_LINKS__FK_RAILS_2B6C062B3F = ForeignKeys0.PERSON_TO_COUNTER_PARTY_LINKS__FK_RAILS_2B6C062B3F;
     public static final ForeignKey<UploadedDocumentsRecord, UploadedDocumentsRecord> UPLOADED_DOCUMENTS__FK_RAILS_9F9AD31F5E = ForeignKeys0.UPLOADED_DOCUMENTS__FK_RAILS_9F9AD31F5E;
+    public static final ForeignKey<UploadedFilePermissionsRecord, UploadedFilesRecord> UPLOADED_FILE_PERMISSIONS__FK_RAILS_2A2C0D93EC = ForeignKeys0.UPLOADED_FILE_PERMISSIONS__FK_RAILS_2A2C0D93EC;
+    public static final ForeignKey<UploadedFilePermissionsRecord, UserDefinableRelationReasonsRecord> UPLOADED_FILE_PERMISSIONS__FK_RAILS_764359C4D2 = ForeignKeys0.UPLOADED_FILE_PERMISSIONS__FK_RAILS_764359C4D2;
+    public static final ForeignKey<UploadedFilesRecord, UploadedFilesRecord> UPLOADED_FILES__FK_RAILS_F6D3933D09 = ForeignKeys0.UPLOADED_FILES__FK_RAILS_F6D3933D09;
+    public static final ForeignKey<UploadedFilesRecord, UploadedFilesRecord> UPLOADED_FILES__FK_RAILS_3E783601AF = ForeignKeys0.UPLOADED_FILES__FK_RAILS_3E783601AF;
     public static final ForeignKey<UserToUserRoleLinksRecord, UsersRecord> USER_TO_USER_ROLE_LINKS__FK_RAILS_7BE3A59248 = ForeignKeys0.USER_TO_USER_ROLE_LINKS__FK_RAILS_7BE3A59248;
     public static final ForeignKey<UserToUserRoleLinksRecord, UserRolesRecord> USER_TO_USER_ROLE_LINKS__FK_RAILS_81D43E60FB = ForeignKeys0.USER_TO_USER_ROLE_LINKS__FK_RAILS_81D43E60FB;
 
@@ -290,6 +306,9 @@ public class Keys {
         public static Identity<PersonToCounterPartyLinkToUploadedDocumentLinksRecord, Long> IDENTITY_PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS = createIdentity(PersonToCounterPartyLinkToUploadedDocumentLinks.PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS, PersonToCounterPartyLinkToUploadedDocumentLinks.PERSON_TO_COUNTER_PARTY_LINK_TO_UPLOADED_DOCUMENT_LINKS.ID);
         public static Identity<PersonToCounterPartyLinksRecord, Long> IDENTITY_PERSON_TO_COUNTER_PARTY_LINKS = createIdentity(PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS, PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS.ID);
         public static Identity<UploadedDocumentsRecord, Long> IDENTITY_UPLOADED_DOCUMENTS = createIdentity(UploadedDocuments.UPLOADED_DOCUMENTS, UploadedDocuments.UPLOADED_DOCUMENTS.ID);
+        public static Identity<UploadedFilePermissionsRecord, Long> IDENTITY_UPLOADED_FILE_PERMISSIONS = createIdentity(UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS, UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS.ID);
+        public static Identity<UploadedFilesRecord, Long> IDENTITY_UPLOADED_FILES = createIdentity(UploadedFiles.UPLOADED_FILES, UploadedFiles.UPLOADED_FILES.ID);
+        public static Identity<UserDefinableRelationReasonsRecord, Long> IDENTITY_USER_DEFINABLE_RELATION_REASONS = createIdentity(UserDefinableRelationReasons.USER_DEFINABLE_RELATION_REASONS, UserDefinableRelationReasons.USER_DEFINABLE_RELATION_REASONS.ID);
         public static Identity<UserRolesRecord, Long> IDENTITY_USER_ROLES = createIdentity(UserRoles.USER_ROLES, UserRoles.USER_ROLES.ID);
         public static Identity<UserToUserRoleLinksRecord, Long> IDENTITY_USER_TO_USER_ROLE_LINKS = createIdentity(UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS, UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS.ID);
         public static Identity<UsersRecord, Long> IDENTITY_USERS = createIdentity(Users.USERS, Users.USERS.ID);
@@ -334,6 +353,9 @@ public class Keys {
         public static final UniqueKey<PersonToCounterPartyLinksRecord> PERSON_TO_COUNTER_PARTY_LINKS_PKEY = createUniqueKey(PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS, "person_to_counter_party_links_pkey", PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS.ID);
         public static final UniqueKey<SchemaMigrationsRecord> SCHEMA_MIGRATIONS_PKEY = createUniqueKey(SchemaMigrations.SCHEMA_MIGRATIONS, "schema_migrations_pkey", SchemaMigrations.SCHEMA_MIGRATIONS.VERSION);
         public static final UniqueKey<UploadedDocumentsRecord> UPLOADED_DOCUMENTS_PKEY = createUniqueKey(UploadedDocuments.UPLOADED_DOCUMENTS, "uploaded_documents_pkey", UploadedDocuments.UPLOADED_DOCUMENTS.ID);
+        public static final UniqueKey<UploadedFilePermissionsRecord> UPLOADED_FILE_PERMISSIONS_PKEY = createUniqueKey(UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS, "uploaded_file_permissions_pkey", UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS.ID);
+        public static final UniqueKey<UploadedFilesRecord> UPLOADED_FILES_PKEY = createUniqueKey(UploadedFiles.UPLOADED_FILES, "uploaded_files_pkey", UploadedFiles.UPLOADED_FILES.ID);
+        public static final UniqueKey<UserDefinableRelationReasonsRecord> USER_DEFINABLE_RELATION_REASONS_PKEY = createUniqueKey(UserDefinableRelationReasons.USER_DEFINABLE_RELATION_REASONS, "user_definable_relation_reasons_pkey", UserDefinableRelationReasons.USER_DEFINABLE_RELATION_REASONS.ID);
         public static final UniqueKey<UserRolesRecord> USER_ROLES_PKEY = createUniqueKey(UserRoles.USER_ROLES, "user_roles_pkey", UserRoles.USER_ROLES.ID);
         public static final UniqueKey<UserToUserRoleLinksRecord> USER_TO_USER_ROLE_LINKS_PKEY = createUniqueKey(UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS, "user_to_user_role_links_pkey", UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS.ID);
         public static final UniqueKey<UsersRecord> USERS_PKEY = createUniqueKey(Users.USERS, "users_pkey", Users.USERS.ID);
@@ -384,6 +406,10 @@ public class Keys {
         public static final ForeignKey<PersonToCounterPartyLinksRecord, CounterPartiesRecord> PERSON_TO_COUNTER_PARTY_LINKS__FK_RAILS_E8B1CE96A6 = createForeignKey(org.jooq.generated.Keys.COUNTER_PARTIES_PKEY, PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS, "person_to_counter_party_links__fk_rails_e8b1ce96a6", PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS.COUNTER_PARTY_ID);
         public static final ForeignKey<PersonToCounterPartyLinksRecord, PersonToCounterPartyLinkReasonsRecord> PERSON_TO_COUNTER_PARTY_LINKS__FK_RAILS_2B6C062B3F = createForeignKey(org.jooq.generated.Keys.PERSON_TO_COUNTER_PARTY_LINK_REASONS_PKEY, PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS, "person_to_counter_party_links__fk_rails_2b6c062b3f", PersonToCounterPartyLinks.PERSON_TO_COUNTER_PARTY_LINKS.PERSON_TO_COUNTER_PARTY_LINK_REASON_ID);
         public static final ForeignKey<UploadedDocumentsRecord, UploadedDocumentsRecord> UPLOADED_DOCUMENTS__FK_RAILS_9F9AD31F5E = createForeignKey(org.jooq.generated.Keys.UPLOADED_DOCUMENTS_PKEY, UploadedDocuments.UPLOADED_DOCUMENTS, "uploaded_documents__fk_rails_9f9ad31f5e", UploadedDocuments.UPLOADED_DOCUMENTS.UPLOADED_DOCUMENT_ID);
+        public static final ForeignKey<UploadedFilePermissionsRecord, UploadedFilesRecord> UPLOADED_FILE_PERMISSIONS__FK_RAILS_2A2C0D93EC = createForeignKey(org.jooq.generated.Keys.UPLOADED_FILES_PKEY, UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS, "uploaded_file_permissions__fk_rails_2a2c0d93ec", UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS.UPLOADED_FILE_ID);
+        public static final ForeignKey<UploadedFilePermissionsRecord, UserDefinableRelationReasonsRecord> UPLOADED_FILE_PERMISSIONS__FK_RAILS_764359C4D2 = createForeignKey(org.jooq.generated.Keys.USER_DEFINABLE_RELATION_REASONS_PKEY, UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS, "uploaded_file_permissions__fk_rails_764359c4d2", UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS.USER_DEFINABLE_RELATION_REASON_ID);
+        public static final ForeignKey<UploadedFilesRecord, UploadedFilesRecord> UPLOADED_FILES__FK_RAILS_F6D3933D09 = createForeignKey(org.jooq.generated.Keys.UPLOADED_FILES_PKEY, UploadedFiles.UPLOADED_FILES, "uploaded_files__fk_rails_f6d3933d09", UploadedFiles.UPLOADED_FILES.FOLDER_ID);
+        public static final ForeignKey<UploadedFilesRecord, UploadedFilesRecord> UPLOADED_FILES__FK_RAILS_3E783601AF = createForeignKey(org.jooq.generated.Keys.UPLOADED_FILES_PKEY, UploadedFiles.UPLOADED_FILES, "uploaded_files__fk_rails_3e783601af", UploadedFiles.UPLOADED_FILES.SHORTCUT_TO_ID);
         public static final ForeignKey<UserToUserRoleLinksRecord, UsersRecord> USER_TO_USER_ROLE_LINKS__FK_RAILS_7BE3A59248 = createForeignKey(org.jooq.generated.Keys.USERS_PKEY, UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS, "user_to_user_role_links__fk_rails_7be3a59248", UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS.USER_ID);
         public static final ForeignKey<UserToUserRoleLinksRecord, UserRolesRecord> USER_TO_USER_ROLE_LINKS__FK_RAILS_81D43E60FB = createForeignKey(org.jooq.generated.Keys.USER_ROLES_PKEY, UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS, "user_to_user_role_links__fk_rails_81d43e60fb", UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS.USER_ROLE_ID);
     }

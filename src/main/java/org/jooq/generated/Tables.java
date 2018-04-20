@@ -44,6 +44,9 @@ import org.jooq.generated.tables.PersonToCounterPartyLinkToUploadedDocumentLinks
 import org.jooq.generated.tables.PersonToCounterPartyLinks;
 import org.jooq.generated.tables.SchemaMigrations;
 import org.jooq.generated.tables.UploadedDocuments;
+import org.jooq.generated.tables.UploadedFilePermissions;
+import org.jooq.generated.tables.UploadedFiles;
+import org.jooq.generated.tables.UserDefinableRelationReasons;
 import org.jooq.generated.tables.UserRoles;
 import org.jooq.generated.tables.UserToUserRoleLinks;
 import org.jooq.generated.tables.Users;
@@ -251,6 +254,21 @@ public class Tables {
      * The table <code>uploaded_documents</code>.
      */
     public static final UploadedDocuments UPLOADED_DOCUMENTS = org.jooq.generated.tables.UploadedDocuments.UPLOADED_DOCUMENTS;
+
+    /**
+     * The table <code>uploaded_file_permissions</code>.
+     */
+    public static final UploadedFilePermissions UPLOADED_FILE_PERMISSIONS = org.jooq.generated.tables.UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS;
+
+    /**
+     * The table <code>uploaded_files</code>.
+     */
+    public static final UploadedFiles UPLOADED_FILES = org.jooq.generated.tables.UploadedFiles.UPLOADED_FILES;
+
+    /**
+     * The table <code>user_definable_relation_reasons</code>.
+     */
+    public static final UserDefinableRelationReasons USER_DEFINABLE_RELATION_REASONS = org.jooq.generated.tables.UserDefinableRelationReasons.USER_DEFINABLE_RELATION_REASONS;
 
     /**
      * The table <code>user_roles</code>.

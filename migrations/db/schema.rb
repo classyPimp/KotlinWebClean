@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410050824) do
+ActiveRecord::Schema.define(version: 20180420092650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -365,6 +365,48 @@ ActiveRecord::Schema.define(version: 20180410050824) do
     t.index ["uploaded_document_id"], name: "index_uploaded_documents_on_uploaded_document_id"
   end
 
+  create_table "uploaded_file_permissions", force: :cascade do |t|
+    t.bigint "uploaded_file_id"
+    t.boolean "is_owner"
+    t.integer "permission_level"
+    t.string "permitted_to_type"
+    t.bigint "permitted_to_id"
+    t.string "access_hash_code"
+    t.string "primary_permitted_to_type"
+    t.bigint "primary_permitted_to_id"
+    t.string "hardcoded_relation_reason"
+    t.bigint "user_definable_relation_reason_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permitted_to_type", "permitted_to_id"], name: "apretoupdo_poly_peto"
+    t.index ["primary_permitted_to_type", "primary_permitted_to_id"], name: "apretoupdo_poly_prpeto"
+    t.index ["uploaded_file_id"], name: "index_uploaded_file_permissions_on_uploaded_file_id"
+    t.index ["user_definable_relation_reason_id"], name: "upfipe_usderere"
+  end
+
+  create_table "uploaded_files", force: :cascade do |t|
+    t.string "file_name"
+    t.bigint "file_size"
+    t.bigint "folder_id"
+    t.bigint "shortcut_to_id"
+    t.boolean "is_shortcut_to_folder"
+    t.datetime "soft_deleted_since"
+    t.string "file_mime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["folder_id"], name: "index_uploaded_files_on_folder_id"
+    t.index ["shortcut_to_id"], name: "index_uploaded_files_on_shortcut_to_id"
+  end
+
+  create_table "user_definable_relation_reasons", force: :cascade do |t|
+    t.string "reason_name"
+    t.string "for_type"
+    t.string "sub_identifier"
+    t.string "reason_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_roles", force: :cascade do |t|
     t.string "name"
     t.boolean "is_specific"
@@ -435,6 +477,10 @@ ActiveRecord::Schema.define(version: 20180410050824) do
   add_foreign_key "person_to_counter_party_links", "people"
   add_foreign_key "person_to_counter_party_links", "person_to_counter_party_link_reasons"
   add_foreign_key "uploaded_documents", "uploaded_documents"
+  add_foreign_key "uploaded_file_permissions", "uploaded_files"
+  add_foreign_key "uploaded_file_permissions", "user_definable_relation_reasons"
+  add_foreign_key "uploaded_files", "uploaded_files", column: "folder_id"
+  add_foreign_key "uploaded_files", "uploaded_files", column: "shortcut_to_id"
   add_foreign_key "user_to_user_role_links", "user_roles"
   add_foreign_key "user_to_user_role_links", "users"
 end

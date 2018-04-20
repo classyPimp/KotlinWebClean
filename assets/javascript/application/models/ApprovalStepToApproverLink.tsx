@@ -15,6 +15,9 @@ export class ApprovalStepToApproverLink extends BaseModel {
     id: number
 
     @Property
+    userId: number
+
+    @Property
     updatedAt: string
 
     @Property

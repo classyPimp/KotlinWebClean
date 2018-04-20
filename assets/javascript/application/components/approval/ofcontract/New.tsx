@@ -11,9 +11,9 @@ import autobind from 'autobind-decorator'
 import { ErrorsShow } from '../../shared/ErrorsShow'
 import { ApplicationComponent } from '../../ApplicationComponent';
 import { Approval } from '../../../models/Approval'
-import { ApprovalToApproverLink } from '../../../models/ApprovalToApproverLink'
 import { ApprovalStepToUploadedDocumentLink } from '../../../models/ApprovalStepToUploadedDocumentLink'
 import { ApprovalStep } from '../../../models/ApprovalStep'
+import { ApprovalStepToApproverLink } from '../../../models/ApprovalStepToApproverLink'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';
 import { ModelCollection } from '../../../../modelLayer/ModelCollection'
 import { Modal } from '../../shared/Modal'
@@ -50,15 +50,15 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
           {this.state.approval.getErrorsFor('general') &&
               <ErrorsShow errors={this.state.approval.getErrorsFor('general')}/>
           }
-          {this.state.approval.approvalToApproverLinks.map((approvalToApproverLink)=>{
-            return <div key = {approvalToApproverLink.userId}>
-              {approvalToApproverLink.errors &&
-                <ErrorsShow errors = {approvalToApproverLink.errors["userId"]}/>
+          {this.state.approval.approvalSteps.array[0].approvalStepToApproverLinks.map((approvalStepToApproverLink)=>{
+            return <div key = {approvalStepToApproverLink.userId}>
+              {approvalStepToApproverLink.errors &&
+                <ErrorsShow errors = {approvalStepToApproverLink.errors["userId"]}/>
               }
               <p>
-                {approvalToApproverLink.user.name}
+                {approvalStepToApproverLink.user.name}
               </p>
-              <button onClick={()=>{this.removeApproverLink(approvalToApproverLink)}}>
+              <button onClick={()=>{this.removeApproverLink(approvalStepToApproverLink)}}>
                 -
               </button>
             </div>
@@ -102,8 +102,8 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     }
 
     @autobind
-    removeApproverLink(link: ApprovalToApproverLink) {
-      this.state.approval.approvalToApproverLinks.filter((it)=>{
+    removeApproverLink(link: ApprovalStepToApproverLink) {
+      this.state.approval.approvalSteps.array[0].approvalStepToApproverLinks.filter((it)=>{
         return it !== link
       })
       this.forceUpdate()
@@ -128,8 +128,8 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
 
     @autobind
     addApprovalToApproverLinkWithUser(user: User) {
-      let approvalToApproverLink = new ApprovalToApproverLink({userId: user.id, user})
-      this.state.approval.approvalToApproverLinks.push(approvalToApproverLink)
+      let approvalToApproverLink = new ApprovalStepToApproverLink({userId: user.id, user})
+      this.state.approval.approvalSteps.array[0].approvalStepToApproverLinks.push(approvalToApproverLink)
       this.modal.close()
       this.forceUpdate()
     }

@@ -15,16 +15,38 @@ export class ShowMain extends BaseReactComponent {
 
     state: {
       person: Person
+      activeMenuItem: string
     } = {
-      person: null
+      person: null,
+      activeMenuItem: null
     }
 
     componentDidMount() {
       let id = this.props.match.params.id
+      let activeMenuItem = this.getActiveMenuItemName()
       Person.showMinimal({wilds: {id}}).then((person) => {
-        this.setState({person})
+        this.setState({person, activeMenuItem})
       })
     }
+
+    componentWillReceiveProps(newProps: any) {
+      this.updateActiveMenuItemIfNeeded()
+    }
+
+    @autobind
+    getActiveMenuItemName(): string {
+      let activeMenuItem = window.location.pathname.split("/")[4] || null
+      return activeMenuItem
+    }
+
+    @autobind
+    updateActiveMenuItemIfNeeded() {
+      let activePart = this.getActiveMenuItemName()
+      if (this.state.activeMenuItem !== activePart) {
+        this.setState({activeMenuItem: activePart})
+      }
+    }
+
 
     render(){
         return <div>
@@ -37,22 +59,22 @@ export class ShowMain extends BaseReactComponent {
           <div className="pure-menu pure-menu-horizontal">
             <ul className="pure-menu-list">
                 <li className="pure-menu-item">
-                  <Link to={`/dashboards/persons/${this.props.match.params.id}`} className="pure-menu-link">
+                  <Link to={`/dashboards/persons/${this.props.match.params.id}`} className={`pure-menu-link${this.isActiveMenuItem(null)}`}>
                     general info
                   </Link>
                 </li>
                 <li className="pure-menu-item">
-                  <Link to={`/dashboards/persons/${this.props.match.params.id}/contacts`} className="pure-menu-link">
+                  <Link to={`/dashboards/persons/${this.props.match.params.id}/contacts`} className={`pure-menu-link${this.isActiveMenuItem("contacts")}`}>
                     contacts
                   </Link>
                 </li>
                 <li className="pure-menu-item">
-                  <Link to={`/dashboards/persons/${this.props.match.params.id}/personToCounterPartyLinks`} className="pure-menu-link">
+                  <Link to={`/dashboards/persons/${this.props.match.params.id}/personToCounterPartyLinks`} className={`pure-menu-link${this.isActiveMenuItem("personToCounterPartyLinks")}`}>
                     linked counter parties
                   </Link>
                 </li>
                 <li className="pure-menu-item">
-                  <Link to={`/dashboards/persons/${this.props.match.params.id}/edit`} className="pure-menu-link">
+                  <Link to={`/dashboards/persons/${this.props.match.params.id}/edit`} className={`pure-menu-link${this.isActiveMenuItem("edit")}`}>
                     edit
                   </Link>
                 </li>
@@ -68,6 +90,17 @@ export class ShowMain extends BaseReactComponent {
               <Route exact path="/dashboards/persons/:id/edit" component={ PersonsComponents.Edit } />*/}
           </Switch>
         </div>
+    }
+
+    @autobind
+    isActiveMenuItem(partName: string): string {
+      console.log(partName)
+      console.log(this.state.activeMenuItem)
+      if (partName === this.state.activeMenuItem) {
+        console.log("MATCHES")
+        return " pure-menu-active"
+      }
+      return ""
     }
 
 }

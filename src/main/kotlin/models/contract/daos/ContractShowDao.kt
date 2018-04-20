@@ -154,7 +154,7 @@ object ContractShowDao {
                 .execute()
                 .firstOrNull()
 
-        return (contract == null)
+        return (contract != null)
     }
 
     fun byIdPreloadingContractStatus(contractId: Long): Contract? {
