@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180420092650) do
+ActiveRecord::Schema.define(version: 20180423044908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,6 +274,32 @@ ActiveRecord::Schema.define(version: 20180420092650) do
     t.index ["uploaded_document_id"], name: "index_document_templates_on_uploaded_document_id"
   end
 
+  create_table "generic_model_to_uploaded_file_relations", force: :cascade do |t|
+    t.string "related_model_type"
+    t.bigint "related_model_id"
+    t.string "primary_related_model_type"
+    t.bigint "primary_related_model_id"
+    t.integer "primary_hardcoded_relation_reason"
+    t.bigint "primary_user_definable_relation_reason_id"
+    t.boolean "uploaded_file_is_folder"
+    t.integer "hardcoded_relation_reason"
+    t.bigint "user_definable_relation_reason_id"
+    t.bigint "uploaded_file_id"
+    t.datetime "file_is_soft_deleted_since"
+    t.datetime "file_is_permanently_deleted_since"
+    t.integer "access_level"
+    t.string "access_hash_code"
+    t.string "sub_identifier"
+    t.string "arbitrary_text_information"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["primary_related_model_type", "primary_related_model_id"], name: "gemotoupfire_prremo"
+    t.index ["primary_user_definable_relation_reason_id"], name: "gemotoupfire_pr_usdere"
+    t.index ["related_model_type", "related_model_id"], name: "gemotoupfire_remoid"
+    t.index ["uploaded_file_id"], name: "gemotoupfire_upfi"
+    t.index ["user_definable_relation_reason_id"], name: "gemotoupfire_usderere"
+  end
+
   create_table "incorporation_forms", force: :cascade do |t|
     t.string "name"
     t.string "name_short"
@@ -391,6 +417,7 @@ ActiveRecord::Schema.define(version: 20180420092650) do
     t.bigint "shortcut_to_id"
     t.boolean "is_shortcut_to_folder"
     t.datetime "soft_deleted_since"
+    t.integer "hardcoded_category"
     t.string "file_mime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -466,6 +493,9 @@ ActiveRecord::Schema.define(version: 20180420092650) do
   add_foreign_key "document_template_to_document_variable_links", "document_templates"
   add_foreign_key "document_templates", "document_template_categories"
   add_foreign_key "document_templates", "uploaded_documents"
+  add_foreign_key "generic_model_to_uploaded_file_relations", "uploaded_files"
+  add_foreign_key "generic_model_to_uploaded_file_relations", "user_definable_relation_reasons"
+  add_foreign_key "generic_model_to_uploaded_file_relations", "user_definable_relation_reasons", column: "primary_user_definable_relation_reason_id"
   add_foreign_key "monetary_obligation_parts", "monetary_obligations"
   add_foreign_key "monetary_obligations", "contracts"
   add_foreign_key "person_to_contact_links", "contacts"

@@ -36,6 +36,7 @@ import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
+import org.jooq.generated.tables.GenericModelToUploadedFileRelations;
 import org.jooq.generated.tables.IncorporationForms;
 import org.jooq.generated.tables.MonetaryObligationParts;
 import org.jooq.generated.tables.MonetaryObligations;
@@ -80,6 +81,7 @@ import org.jooq.generated.tables.records.DocumentTemplateCategoriesRecord;
 import org.jooq.generated.tables.records.DocumentTemplateToDocumentVariableLinksRecord;
 import org.jooq.generated.tables.records.DocumentTemplateVariablesRecord;
 import org.jooq.generated.tables.records.DocumentTemplatesRecord;
+import org.jooq.generated.tables.records.GenericModelToUploadedFileRelationsRecord;
 import org.jooq.generated.tables.records.IncorporationFormsRecord;
 import org.jooq.generated.tables.records.MonetaryObligationPartsRecord;
 import org.jooq.generated.tables.records.MonetaryObligationsRecord;
@@ -144,6 +146,7 @@ public class Keys {
     public static final Identity<DocumentTemplateToDocumentVariableLinksRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS = Identities0.IDENTITY_DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS;
     public static final Identity<DocumentTemplateVariablesRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_VARIABLES = Identities0.IDENTITY_DOCUMENT_TEMPLATE_VARIABLES;
     public static final Identity<DocumentTemplatesRecord, Long> IDENTITY_DOCUMENT_TEMPLATES = Identities0.IDENTITY_DOCUMENT_TEMPLATES;
+    public static final Identity<GenericModelToUploadedFileRelationsRecord, Long> IDENTITY_GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS = Identities0.IDENTITY_GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS;
     public static final Identity<IncorporationFormsRecord, Long> IDENTITY_INCORPORATION_FORMS = Identities0.IDENTITY_INCORPORATION_FORMS;
     public static final Identity<MonetaryObligationPartsRecord, Long> IDENTITY_MONETARY_OBLIGATION_PARTS = Identities0.IDENTITY_MONETARY_OBLIGATION_PARTS;
     public static final Identity<MonetaryObligationsRecord, Long> IDENTITY_MONETARY_OBLIGATIONS = Identities0.IDENTITY_MONETARY_OBLIGATIONS;
@@ -192,6 +195,7 @@ public class Keys {
     public static final UniqueKey<DocumentTemplateToDocumentVariableLinksRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS_PKEY = UniqueKeys0.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS_PKEY;
     public static final UniqueKey<DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_VARIABLES_PKEY = UniqueKeys0.DOCUMENT_TEMPLATE_VARIABLES_PKEY;
     public static final UniqueKey<DocumentTemplatesRecord> DOCUMENT_TEMPLATES_PKEY = UniqueKeys0.DOCUMENT_TEMPLATES_PKEY;
+    public static final UniqueKey<GenericModelToUploadedFileRelationsRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS_PKEY = UniqueKeys0.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS_PKEY;
     public static final UniqueKey<IncorporationFormsRecord> INCORPORATION_FORMS_PKEY = UniqueKeys0.INCORPORATION_FORMS_PKEY;
     public static final UniqueKey<MonetaryObligationPartsRecord> MONETARY_OBLIGATION_PARTS_PKEY = UniqueKeys0.MONETARY_OBLIGATION_PARTS_PKEY;
     public static final UniqueKey<MonetaryObligationsRecord> MONETARY_OBLIGATIONS_PKEY = UniqueKeys0.MONETARY_OBLIGATIONS_PKEY;
@@ -247,6 +251,9 @@ public class Keys {
     public static final ForeignKey<DocumentTemplateToDocumentVariableLinksRecord, DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_93F70E3079 = ForeignKeys0.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_93F70E3079;
     public static final ForeignKey<DocumentTemplatesRecord, UploadedDocumentsRecord> DOCUMENT_TEMPLATES__FK_RAILS_FB7BAA7310 = ForeignKeys0.DOCUMENT_TEMPLATES__FK_RAILS_FB7BAA7310;
     public static final ForeignKey<DocumentTemplatesRecord, DocumentTemplateCategoriesRecord> DOCUMENT_TEMPLATES__FK_RAILS_6A26F12C1D = ForeignKeys0.DOCUMENT_TEMPLATES__FK_RAILS_6A26F12C1D;
+    public static final ForeignKey<GenericModelToUploadedFileRelationsRecord, UserDefinableRelationReasonsRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_C8019F08DA = ForeignKeys0.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_C8019F08DA;
+    public static final ForeignKey<GenericModelToUploadedFileRelationsRecord, UserDefinableRelationReasonsRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_9570AF231E = ForeignKeys0.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_9570AF231E;
+    public static final ForeignKey<GenericModelToUploadedFileRelationsRecord, UploadedFilesRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_C9A9753A4D = ForeignKeys0.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_C9A9753A4D;
     public static final ForeignKey<MonetaryObligationPartsRecord, MonetaryObligationsRecord> MONETARY_OBLIGATION_PARTS__FK_RAILS_E2721DAB62 = ForeignKeys0.MONETARY_OBLIGATION_PARTS__FK_RAILS_E2721DAB62;
     public static final ForeignKey<MonetaryObligationsRecord, ContractsRecord> MONETARY_OBLIGATIONS__FK_RAILS_CDDD7E86BD = ForeignKeys0.MONETARY_OBLIGATIONS__FK_RAILS_CDDD7E86BD;
     public static final ForeignKey<PersonToContactLinksRecord, PeopleRecord> PERSON_TO_CONTACT_LINKS__FK_RAILS_40531ED1F1 = ForeignKeys0.PERSON_TO_CONTACT_LINKS__FK_RAILS_40531ED1F1;
@@ -296,6 +303,7 @@ public class Keys {
         public static Identity<DocumentTemplateToDocumentVariableLinksRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS = createIdentity(DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS, DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS.ID);
         public static Identity<DocumentTemplateVariablesRecord, Long> IDENTITY_DOCUMENT_TEMPLATE_VARIABLES = createIdentity(DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES, DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES.ID);
         public static Identity<DocumentTemplatesRecord, Long> IDENTITY_DOCUMENT_TEMPLATES = createIdentity(DocumentTemplates.DOCUMENT_TEMPLATES, DocumentTemplates.DOCUMENT_TEMPLATES.ID);
+        public static Identity<GenericModelToUploadedFileRelationsRecord, Long> IDENTITY_GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS = createIdentity(GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS, GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS.ID);
         public static Identity<IncorporationFormsRecord, Long> IDENTITY_INCORPORATION_FORMS = createIdentity(IncorporationForms.INCORPORATION_FORMS, IncorporationForms.INCORPORATION_FORMS.ID);
         public static Identity<MonetaryObligationPartsRecord, Long> IDENTITY_MONETARY_OBLIGATION_PARTS = createIdentity(MonetaryObligationParts.MONETARY_OBLIGATION_PARTS, MonetaryObligationParts.MONETARY_OBLIGATION_PARTS.ID);
         public static Identity<MonetaryObligationsRecord, Long> IDENTITY_MONETARY_OBLIGATIONS = createIdentity(MonetaryObligations.MONETARY_OBLIGATIONS, MonetaryObligations.MONETARY_OBLIGATIONS.ID);
@@ -342,6 +350,7 @@ public class Keys {
         public static final UniqueKey<DocumentTemplateToDocumentVariableLinksRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS_PKEY = createUniqueKey(DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS, "document_template_to_document_variable_links_pkey", DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS.ID);
         public static final UniqueKey<DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_VARIABLES_PKEY = createUniqueKey(DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES, "document_template_variables_pkey", DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES.ID);
         public static final UniqueKey<DocumentTemplatesRecord> DOCUMENT_TEMPLATES_PKEY = createUniqueKey(DocumentTemplates.DOCUMENT_TEMPLATES, "document_templates_pkey", DocumentTemplates.DOCUMENT_TEMPLATES.ID);
+        public static final UniqueKey<GenericModelToUploadedFileRelationsRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS_PKEY = createUniqueKey(GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS, "generic_model_to_uploaded_file_relations_pkey", GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS.ID);
         public static final UniqueKey<IncorporationFormsRecord> INCORPORATION_FORMS_PKEY = createUniqueKey(IncorporationForms.INCORPORATION_FORMS, "incorporation_forms_pkey", IncorporationForms.INCORPORATION_FORMS.ID);
         public static final UniqueKey<MonetaryObligationPartsRecord> MONETARY_OBLIGATION_PARTS_PKEY = createUniqueKey(MonetaryObligationParts.MONETARY_OBLIGATION_PARTS, "monetary_obligation_parts_pkey", MonetaryObligationParts.MONETARY_OBLIGATION_PARTS.ID);
         public static final UniqueKey<MonetaryObligationsRecord> MONETARY_OBLIGATIONS_PKEY = createUniqueKey(MonetaryObligations.MONETARY_OBLIGATIONS, "monetary_obligations_pkey", MonetaryObligations.MONETARY_OBLIGATIONS.ID);
@@ -395,6 +404,9 @@ public class Keys {
         public static final ForeignKey<DocumentTemplateToDocumentVariableLinksRecord, DocumentTemplateVariablesRecord> DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS__FK_RAILS_93F70E3079 = createForeignKey(org.jooq.generated.Keys.DOCUMENT_TEMPLATE_VARIABLES_PKEY, DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS, "document_template_to_document_variable_links__fk_rails_93f70e3079", DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS.DOCUMENT_TEMPLATE_VARIABLE_ID);
         public static final ForeignKey<DocumentTemplatesRecord, UploadedDocumentsRecord> DOCUMENT_TEMPLATES__FK_RAILS_FB7BAA7310 = createForeignKey(org.jooq.generated.Keys.UPLOADED_DOCUMENTS_PKEY, DocumentTemplates.DOCUMENT_TEMPLATES, "document_templates__fk_rails_fb7baa7310", DocumentTemplates.DOCUMENT_TEMPLATES.UPLOADED_DOCUMENT_ID);
         public static final ForeignKey<DocumentTemplatesRecord, DocumentTemplateCategoriesRecord> DOCUMENT_TEMPLATES__FK_RAILS_6A26F12C1D = createForeignKey(org.jooq.generated.Keys.DOCUMENT_TEMPLATE_CATEGORIES_PKEY, DocumentTemplates.DOCUMENT_TEMPLATES, "document_templates__fk_rails_6a26f12c1d", DocumentTemplates.DOCUMENT_TEMPLATES.DOCUMENT_TEMPLATE_CATEGORY_ID);
+        public static final ForeignKey<GenericModelToUploadedFileRelationsRecord, UserDefinableRelationReasonsRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_C8019F08DA = createForeignKey(org.jooq.generated.Keys.USER_DEFINABLE_RELATION_REASONS_PKEY, GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS, "generic_model_to_uploaded_file_relations__fk_rails_c8019f08da", GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS.PRIMARY_USER_DEFINABLE_RELATION_REASON_ID);
+        public static final ForeignKey<GenericModelToUploadedFileRelationsRecord, UserDefinableRelationReasonsRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_9570AF231E = createForeignKey(org.jooq.generated.Keys.USER_DEFINABLE_RELATION_REASONS_PKEY, GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS, "generic_model_to_uploaded_file_relations__fk_rails_9570af231e", GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS.USER_DEFINABLE_RELATION_REASON_ID);
+        public static final ForeignKey<GenericModelToUploadedFileRelationsRecord, UploadedFilesRecord> GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS__FK_RAILS_C9A9753A4D = createForeignKey(org.jooq.generated.Keys.UPLOADED_FILES_PKEY, GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS, "generic_model_to_uploaded_file_relations__fk_rails_c9a9753a4d", GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS.UPLOADED_FILE_ID);
         public static final ForeignKey<MonetaryObligationPartsRecord, MonetaryObligationsRecord> MONETARY_OBLIGATION_PARTS__FK_RAILS_E2721DAB62 = createForeignKey(org.jooq.generated.Keys.MONETARY_OBLIGATIONS_PKEY, MonetaryObligationParts.MONETARY_OBLIGATION_PARTS, "monetary_obligation_parts__fk_rails_e2721dab62", MonetaryObligationParts.MONETARY_OBLIGATION_PARTS.MONETARY_OBLIGATION_ID);
         public static final ForeignKey<MonetaryObligationsRecord, ContractsRecord> MONETARY_OBLIGATIONS__FK_RAILS_CDDD7E86BD = createForeignKey(org.jooq.generated.Keys.CONTRACTS_PKEY, MonetaryObligations.MONETARY_OBLIGATIONS, "monetary_obligations__fk_rails_cddd7e86bd", MonetaryObligations.MONETARY_OBLIGATIONS.CONTRACT_ID);
         public static final ForeignKey<PersonToContactLinksRecord, PeopleRecord> PERSON_TO_CONTACT_LINKS__FK_RAILS_40531ED1F1 = createForeignKey(org.jooq.generated.Keys.PEOPLE_PKEY, PersonToContactLinks.PERSON_TO_CONTACT_LINKS, "person_to_contact_links__fk_rails_40531ed1f1", PersonToContactLinks.PERSON_TO_CONTACT_LINKS.PERSON_ID);

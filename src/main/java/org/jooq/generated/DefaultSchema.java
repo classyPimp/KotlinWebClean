@@ -39,6 +39,7 @@ import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
+import org.jooq.generated.tables.GenericModelToUploadedFileRelations;
 import org.jooq.generated.tables.IncorporationForms;
 import org.jooq.generated.tables.MonetaryObligationParts;
 import org.jooq.generated.tables.MonetaryObligations;
@@ -72,7 +73,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = -1340043702;
+    private static final long serialVersionUID = 761896973;
 
     /**
      * The reference instance of <code></code>
@@ -215,6 +216,11 @@ public class DefaultSchema extends SchemaImpl {
     public final DocumentTemplates DOCUMENT_TEMPLATES = org.jooq.generated.tables.DocumentTemplates.DOCUMENT_TEMPLATES;
 
     /**
+     * The table <code>generic_model_to_uploaded_file_relations</code>.
+     */
+    public final GenericModelToUploadedFileRelations GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS = org.jooq.generated.tables.GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS;
+
+    /**
      * The table <code>incorporation_forms</code>.
      */
     public final IncorporationForms INCORPORATION_FORMS = org.jooq.generated.tables.IncorporationForms.INCORPORATION_FORMS;
@@ -351,6 +357,7 @@ public class DefaultSchema extends SchemaImpl {
             DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS,
             DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES,
             DocumentTemplates.DOCUMENT_TEMPLATES,
+            GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS,
             IncorporationForms.INCORPORATION_FORMS,
             MonetaryObligationParts.MONETARY_OBLIGATION_PARTS,
             MonetaryObligations.MONETARY_OBLIGATIONS,

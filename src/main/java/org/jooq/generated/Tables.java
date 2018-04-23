@@ -33,6 +33,7 @@ import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
+import org.jooq.generated.tables.GenericModelToUploadedFileRelations;
 import org.jooq.generated.tables.IncorporationForms;
 import org.jooq.generated.tables.MonetaryObligationParts;
 import org.jooq.generated.tables.MonetaryObligations;
@@ -199,6 +200,11 @@ public class Tables {
      * The table <code>document_templates</code>.
      */
     public static final DocumentTemplates DOCUMENT_TEMPLATES = org.jooq.generated.tables.DocumentTemplates.DOCUMENT_TEMPLATES;
+
+    /**
+     * The table <code>generic_model_to_uploaded_file_relations</code>.
+     */
+    public static final GenericModelToUploadedFileRelations GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS = org.jooq.generated.tables.GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS;
 
     /**
      * The table <code>incorporation_forms</code>.

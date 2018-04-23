@@ -11,6 +11,10 @@ class UploadedFile {
 
     val record: UploadedFileRecord by lazy { UploadedFileRecord(this) }
 
+    val file: UploadedFileFileHandler by lazy { UploadedFileFileHandler(this) }
+        @DelegatesGetter
+        get
+
     @TableField(name = "ID")
     @IsPrimaryKey
     var id: Long? = null
@@ -23,6 +27,9 @@ class UploadedFile {
 
     @TableField(name = "FILE_NAME")
     var fileName: String? = null
+
+    @TableField(name = "HARDCODED_CATEGORY")
+    var hardcodedCategory: Int? = null
 
     @TableField(name = "FILE_SIZE")
     var fileSize: Long? = null
