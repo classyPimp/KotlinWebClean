@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180423044908) do
+ActiveRecord::Schema.define(version: 20180425061713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -300,11 +300,60 @@ ActiveRecord::Schema.define(version: 20180423044908) do
     t.index ["user_definable_relation_reason_id"], name: "gemotoupfire_usderere"
   end
 
+  create_table "generic_resource_access_permissions", force: :cascade do |t|
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.string "access_granted_to_type"
+    t.bigint "access_granted_to_id"
+    t.string "access_reason_code"
+    t.string "access_originating_from_type"
+    t.bigint "access_originating_from_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["access_granted_to_type", "access_granted_to_id"], name: "gereacpe_acgrto"
+    t.index ["access_originating_from_type", "access_originating_from_id"], name: "gereacpe_acorfr"
+    t.index ["resource_type", "resource_id"], name: "gereacpe_re"
+  end
+
   create_table "incorporation_forms", force: :cascade do |t|
     t.string "name"
     t.string "name_short"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "job_position_delegations", force: :cascade do |t|
+    t.bigint "delegated_position_id"
+    t.bigint "delegated_from_user_id"
+    t.bigint "delegated_to_user_id"
+    t.datetime "delegated_since"
+    t.datetime "delegated_till"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delegated_from_user_id"], name: "index_job_position_delegations_on_delegated_from_user_id"
+    t.index ["delegated_position_id"], name: "index_job_position_delegations_on_delegated_position_id"
+    t.index ["delegated_to_user_id"], name: "index_job_position_delegations_on_delegated_to_user_id"
+  end
+
+  create_table "job_position_to_user_links", force: :cascade do |t|
+    t.bigint "user_id"
+    t.boolean "is_delegated"
+    t.bigint "job_position_delegation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_position_delegation_id"], name: "index_job_position_to_user_links_on_job_position_delegation_id"
+    t.index ["user_id"], name: "index_job_position_to_user_links_on_user_id"
+  end
+
+  create_table "job_positions", force: :cascade do |t|
+    t.bigint "parent_job_position_id"
+    t.string "name"
+    t.boolean "is_department"
+    t.boolean "is_unique_position"
+    t.string "uniqueness_identifier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_job_position_id"], name: "index_job_positions_on_parent_job_position_id"
   end
 
   create_table "monetary_obligation_parts", force: :cascade do |t|
@@ -496,6 +545,12 @@ ActiveRecord::Schema.define(version: 20180423044908) do
   add_foreign_key "generic_model_to_uploaded_file_relations", "uploaded_files"
   add_foreign_key "generic_model_to_uploaded_file_relations", "user_definable_relation_reasons"
   add_foreign_key "generic_model_to_uploaded_file_relations", "user_definable_relation_reasons", column: "primary_user_definable_relation_reason_id"
+  add_foreign_key "job_position_delegations", "job_positions", column: "delegated_position_id"
+  add_foreign_key "job_position_delegations", "users", column: "delegated_from_user_id"
+  add_foreign_key "job_position_delegations", "users", column: "delegated_to_user_id"
+  add_foreign_key "job_position_to_user_links", "job_position_delegations"
+  add_foreign_key "job_position_to_user_links", "users"
+  add_foreign_key "job_positions", "job_positions", column: "parent_job_position_id"
   add_foreign_key "monetary_obligation_parts", "monetary_obligations"
   add_foreign_key "monetary_obligations", "contracts"
   add_foreign_key "person_to_contact_links", "contacts"

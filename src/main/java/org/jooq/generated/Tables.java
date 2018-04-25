@@ -34,7 +34,11 @@ import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
 import org.jooq.generated.tables.GenericModelToUploadedFileRelations;
+import org.jooq.generated.tables.GenericResourceAccessPermissions;
 import org.jooq.generated.tables.IncorporationForms;
+import org.jooq.generated.tables.JobPositionDelegations;
+import org.jooq.generated.tables.JobPositionToUserLinks;
+import org.jooq.generated.tables.JobPositions;
 import org.jooq.generated.tables.MonetaryObligationParts;
 import org.jooq.generated.tables.MonetaryObligations;
 import org.jooq.generated.tables.People;
@@ -207,9 +211,29 @@ public class Tables {
     public static final GenericModelToUploadedFileRelations GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS = org.jooq.generated.tables.GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS;
 
     /**
+     * The table <code>generic_resource_access_permissions</code>.
+     */
+    public static final GenericResourceAccessPermissions GENERIC_RESOURCE_ACCESS_PERMISSIONS = org.jooq.generated.tables.GenericResourceAccessPermissions.GENERIC_RESOURCE_ACCESS_PERMISSIONS;
+
+    /**
      * The table <code>incorporation_forms</code>.
      */
     public static final IncorporationForms INCORPORATION_FORMS = org.jooq.generated.tables.IncorporationForms.INCORPORATION_FORMS;
+
+    /**
+     * The table <code>job_position_delegations</code>.
+     */
+    public static final JobPositionDelegations JOB_POSITION_DELEGATIONS = org.jooq.generated.tables.JobPositionDelegations.JOB_POSITION_DELEGATIONS;
+
+    /**
+     * The table <code>job_position_to_user_links</code>.
+     */
+    public static final JobPositionToUserLinks JOB_POSITION_TO_USER_LINKS = org.jooq.generated.tables.JobPositionToUserLinks.JOB_POSITION_TO_USER_LINKS;
+
+    /**
+     * The table <code>job_positions</code>.
+     */
+    public static final JobPositions JOB_POSITIONS = org.jooq.generated.tables.JobPositions.JOB_POSITIONS;
 
     /**
      * The table <code>monetary_obligation_parts</code>.

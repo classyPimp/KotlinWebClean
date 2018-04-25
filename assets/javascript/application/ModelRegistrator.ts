@@ -36,7 +36,7 @@ import { ApprovalStepToApproverLink } from './models/ApprovalStepToApproverLink'
 import { ApprovalRejection } from './models/ApprovalRejection'
 import { ApprovalStepToUploadedDocumentLink } from './models/ApprovalStepToUploadedDocumentLink'  
 import { ApprovalRejectionToUploadedDocumentLink } from './models/ApprovalRejectionToUploadedDocumentLink'
-
+import { JobPosition } from './models/JobPosition'
 
 export class ModelRegistrator {
   //THIS UGLY HACK SOLVES SOME NASTY CIRCULAR DEPENDENCIES BUGS!
@@ -77,7 +77,8 @@ export class ModelRegistrator {
       ApprovalStepToApproverLink,
       ApprovalRejection,
       ApprovalStepToUploadedDocumentLink,
-      ApprovalRejectionToUploadedDocumentLink,     
+      ApprovalRejectionToUploadedDocumentLink, 
+      JobPosition,    
                   
     }
   }

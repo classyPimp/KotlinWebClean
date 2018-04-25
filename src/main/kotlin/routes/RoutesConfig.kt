@@ -18,6 +18,7 @@ import controllers.documenttemplatecategories.DocumentTemplateCategoriesControll
 import controllers.documenttemplates.DocumentTemplatesController
 import controllers.documenttemplatevariables.DocumentTemplateVariablesController
 import controllers.incorporationforms.IncorporationFormsController
+import controllers.jobposition.JobPositionController
 import controllers.persons.PersonsController
 import controllers.persontocounterpartylinkreasons.PersonToCounterPartyLinkReasonController
 import controllers.persontocounterpartylinks.PersonToCounterPartyLinksController
@@ -700,6 +701,12 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                     post("/approvalRejection") {
                         ApprovalRejectionOfApprovalOfContractController(it).create()
                     }
+                }
+            }
+
+            namespace("/jobPosition") {
+                post("") {
+                    JobPositionController(it).create()
                 }
             }
 

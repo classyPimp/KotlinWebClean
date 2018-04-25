@@ -1,0 +1,11 @@
+package models.genericmodeltouploadedfilerelation.daos
+
+import org.jooq.generated.tables.GenericModelToUploadedFileRelations
+import orm.genericmodeltouploadedfilerelationgeneratedrepository.GenericModelToUploadedFileRelationRecord
+import models.genericmodeltouploadedfilerelation.GenericModelToUploadedFileRelation
+
+object GenericModelToUploadedFileRelationUpdateDao {
+
+
+
+}
