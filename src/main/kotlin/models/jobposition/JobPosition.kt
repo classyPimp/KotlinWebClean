@@ -36,6 +36,9 @@ class JobPosition {
     @TableField(name = "UNIQUENESS_IDENTIFIER")
     var uniquenessIdentifier: String? = null
 
+    @TableField(name = "IS_DEPARTMENT_HEAD")
+    var isDepartmentHead: Boolean? = null
+
     @HasMany(model = JobPosition::class, fieldOnThis = "ID", fieldOnThat = "PARENT_JOB_POSITION_ID")
     var subordinatePositions: MutableList<JobPosition>? = null
 

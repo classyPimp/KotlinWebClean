@@ -15,9 +15,9 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
     }
 
     props: {
+      onCreateSuccess: (jobPosition: JobPosition)=>any
       parentJobPositionId?: number
       isUniquePosition?: boolean
-      onCreateSuccess: (jobPosition: JobPosition)=>any
     }
 
     constructor(...args: Array<any>) {

@@ -349,6 +349,7 @@ ActiveRecord::Schema.define(version: 20180425061713) do
     t.bigint "parent_job_position_id"
     t.string "name"
     t.boolean "is_department"
+    t.boolean "is_department_head"
     t.boolean "is_unique_position"
     t.string "uniqueness_identifier"
     t.datetime "created_at", null: false

@@ -11,7 +11,6 @@ import autobind from 'autobind-decorator'
 import { ErrorsShow } from '../../shared/ErrorsShow'
 import { ApplicationComponent } from '../../ApplicationComponent';
 import { Approval } from '../../../models/Approval'
-import { ApprovalToApproverLink } from '../../../models/ApprovalToApproverLink'
 import { ApprovalStepToUploadedDocumentLink } from '../../../models/ApprovalStepToUploadedDocumentLink'
 import { ApprovalStep } from '../../../models/ApprovalStep'
 import { Router, Route, Link, match, Switch } from 'react-router-dom';

@@ -11,14 +11,24 @@ import utils.requestparameters.IParam
 
 class JobPositionCreateComposer(val params: IParam) : ComposerBase() {
 
+    enum class JobPositionToCreateType {
+        DEPARTMENT,
+        DEPARTMENT_HEAD,
+        SUBORDINATE_DEPARTMENT_TO_DEPARTMENT,
+        SUBORDINATE_JOB_POSITION_TO_DEPARTMENT
+    }
+
     lateinit var onSuccess: (JobPosition)->Unit
     lateinit var onError: (JobPosition)->Unit
 
     lateinit var jobPositionToCreate: JobPosition
     lateinit var wrappedParams: JobPositionRequestParametersWrapper
+    lateinit var jobPositionToCreateType: JobPositionToCreateType
 
     override fun beforeCompose(){
         wrapParams()
+        setJobPositionToCreateType()
+        //createCorrectJobPositionDependingOnInputData()
         buildJobPositionToCreate()
         validate()
     }
@@ -29,13 +39,66 @@ class JobPositionCreateComposer(val params: IParam) : ComposerBase() {
         } ?: failImmediately(BadRequestError())
     }
 
+    private fun setJobPositionToCreateType() {
+        if (wrappedParams.isDepartment == true) {
+            if (wrappedParams.parentJobPositionId != null) {
+                jobPositionToCreateType = JobPositionToCreateType.SUBORDINATE_DEPARTMENT_TO_DEPARTMENT
+            } else {
+                jobPositionToCreateType = JobPositionToCreateType.DEPARTMENT
+            }
+            return
+        }
+
+        if (wrappedParams.isDepartmentHead == true) {
+            jobPositionToCreateType = JobPositionToCreateType.DEPARTMENT_HEAD
+            return
+        }
+
+        jobPositionToCreateType = JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT
+    }
+
+
     private fun buildJobPositionToCreate() {
-        jobPositionToCreate = JobPositionCreateFactory.create(wrappedParams)
+        when (jobPositionToCreateType) {
+            JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
+
+            }
+            JobPositionToCreateType.DEPARTMENT_HEAD -> {
+
+            }
+            JobPositionToCreateType.DEPARTMENT -> {
+
+            }
+            JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
+
+            }
+            else -> {
+                throw IllegalStateException()
+            }
+        }
+        //jobPositionToCreate = JobPositionCreateFactory.create(wrappedParams)
     }
 
 
     private fun validate() {
-        JobPositionValidator(jobPositionToCreate).createScenario()
+        when (jobPositionToCreateType) {
+            JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
+
+            }
+            JobPositionToCreateType.DEPARTMENT_HEAD -> {
+
+            }
+            JobPositionToCreateType.DEPARTMENT -> {
+
+            }
+            JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
+
+            }
+            else -> {
+                throw IllegalStateException()
+            }
+        }
+//        JobPositionValidator(jobPositionToCreate).createScenario()
         if (!jobPositionToCreate.record.validationManager.isValid()) {
             failImmediately(ModelInvalidError("incroporation form invalid"))
         }

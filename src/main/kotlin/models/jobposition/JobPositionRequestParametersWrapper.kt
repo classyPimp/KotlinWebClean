@@ -18,6 +18,7 @@ class JobPositionRequestParametersWrapper(val requestParameters: IParam) {
     val isDepartment: Boolean? by lazy { requestParameters.get("isDepartment")?.boolean }
     val isUniquePosition: Boolean? by lazy { requestParameters.get("isUniquePosition")?.boolean }
     val uniquenessIdentifier: String? by lazy { requestParameters.get("uniquenessIdentifier")?.string }
+    val isDepartmentHead: Boolean? by lazy { requestParameters.get("isDepartmentHead")?.boolean }
     val subordinatePositions: MutableList<JobPositionRequestParametersWrapper>? by lazy {
     requestParameters.get("subordinatePositions")?.paramList()?.let {
         it.mapTo(mutableListOf<JobPositionRequestParametersWrapper>()) {

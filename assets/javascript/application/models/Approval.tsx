@@ -4,7 +4,7 @@ import { HasOne } from '../../modelLayer/annotations/HasOne'
 import { HasMany } from '../../modelLayer/annotations/HasMany'
 import { ModelCollection } from '../../modelLayer/ModelCollection'
 import { RequestOptions, Route } from '../../modelLayer/annotations/ModelRoute'
-import { ApprovalToApproverLink } from './ApprovalToApproverLink'
+
 import { ApprovalStep } from './ApprovalStep'
 import { ApprovalRejection } from './ApprovalRejection'
 import { Contract } from './Contract'
@@ -30,9 +30,6 @@ export class Approval extends BaseModel {
 
     @Property
     lastStageId: number
-
-    @HasMany("ApprovalToApproverLink")
-    approvalToApproverLinks: ModelCollection<ApprovalToApproverLink>
 
     @HasMany("ApprovalStep")
     approvalSteps: ModelCollection<ApprovalStep>

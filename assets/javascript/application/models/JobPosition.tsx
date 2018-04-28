@@ -29,6 +29,9 @@ export class JobPosition extends BaseModel {
     isDepartment: string
 
     @Property
+    isDepartmentHead: boolean
+
+    @Property
     isUniquePosition: boolean
 
     @Property
@@ -65,24 +68,25 @@ export class JobPositionTreeBuilder {
   }
 
   private buildResultCollection() {
-    this.idToJobPositionMap()
+    this.buildIdToJobPositionMap()
     this.populateParentsWithChildren()
     this.populateResultExtractingJobPositionsWithNoParentJobPosition()    
   }
 
-  private idToJobPositionMap() {
+  private buildIdToJobPositionMap() {
     this.initialCollection.forEach((it)=>{
       this.idToJobPositionMap[it.id] = it
     })
   }
 
   private populateParentsWithChildren() {
-    Object.values(this.idToJobPositionMap).forEach((it)=>{
-      let parentJobPositionId = it.parentJobPositionId
+    Object.keys(this.idToJobPositionMap).forEach((key)=>{
+      let jobPositionAtKey = this.idToJobPositionMap[key as any]
+      let parentJobPositionId = jobPositionAtKey.parentJobPositionId
       if (parentJobPositionId) {
         let parentJobPosition = this.idToJobPositionMap[parentJobPositionId]
         if (parentJobPosition) {
-          parentJobPosition.subordinatePositions.push(it)
+          parentJobPosition.subordinatePositions.push(jobPositionAtKey)
         }
       }
     })
