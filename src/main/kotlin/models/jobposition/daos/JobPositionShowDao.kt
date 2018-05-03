@@ -1,5 +1,6 @@
 package models.jobposition.daos
 
+import models.jobposition.JobPosition
 import orm.jobpositiongeneratedrepository.JobPositionRecord
 import org.jooq.generated.Tables.JOB_POSITIONS
 
@@ -21,6 +22,14 @@ object JobPositionShowDao {
                 .limit(1)
                 .execute()
                 .firstOrNull() != null
+    }
+
+    fun byId(id: Long): JobPosition? {
+        return JobPositionRecord.GET()
+                .where(table.ID.eq(id))
+                .limit(1)
+                .execute()
+                .firstOrNull()
     }
 
 

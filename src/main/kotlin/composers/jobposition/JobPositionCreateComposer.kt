@@ -28,7 +28,6 @@ class JobPositionCreateComposer(val params: IParam) : ComposerBase() {
     override fun beforeCompose(){
         wrapParams()
         setJobPositionToCreateType()
-        //createCorrectJobPositionDependingOnInputData()
         buildJobPositionToCreate()
         validate()
     }
@@ -59,46 +58,29 @@ class JobPositionCreateComposer(val params: IParam) : ComposerBase() {
 
 
     private fun buildJobPositionToCreate() {
-        when (jobPositionToCreateType) {
-            JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
-
-            }
-            JobPositionToCreateType.DEPARTMENT_HEAD -> {
-
-            }
-            JobPositionToCreateType.DEPARTMENT -> {
-
-            }
-            JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
-
-            }
-            else -> {
-                throw IllegalStateException()
-            }
-        }
-        //jobPositionToCreate = JobPositionCreateFactory.create(wrappedParams)
+        jobPositionToCreate = JobPositionCreateFactory.create(wrappedParams)
     }
 
 
     private fun validate() {
+        val validator = JobPositionValidator(jobPositionToCreate)
         when (jobPositionToCreateType) {
             JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
-
+                validator.validateSubordinateJobPositionToDepartmentScenario()
             }
             JobPositionToCreateType.DEPARTMENT_HEAD -> {
-
+                validator.validateDepartmentHeadScenario()
             }
             JobPositionToCreateType.DEPARTMENT -> {
-
+                validator.validateDepartmentScenario()
             }
-            JobPositionToCreateType.SUBORDINATE_JOB_POSITION_TO_DEPARTMENT -> {
-
+            JobPositionToCreateType.SUBORDINATE_DEPARTMENT_TO_DEPARTMENT-> {
+                validator.validateSubordinateDeparmentToDeparmentScenario()
             }
             else -> {
                 throw IllegalStateException()
             }
         }
-//        JobPositionValidator(jobPositionToCreate).createScenario()
         if (!jobPositionToCreate.record.validationManager.isValid()) {
             failImmediately(ModelInvalidError("incroporation form invalid"))
         }

@@ -19,6 +19,7 @@ import { DocumentTemplateCategoriesComponents } from '../documenttemplatecategor
 import { ContractCategoryComponents } from '../contractcategories/ContractCategoryComponents'
 import { ContractToUploadedDocumentLinkReasonComponents } from '../contracttouploadeddocumentlinkreason/ContractToUploadedDocumentLinkReasonComponents';
 import { ContractComponents } from '../contract/ContractComponents'
+import { JobPositionComponents } from '../jobPosition/JobPositionComponents'
 
 export class Main extends BaseReactComponent {
 
@@ -112,6 +113,7 @@ export class Main extends BaseReactComponent {
                     <Route exact path={`${this.props.match.url}/contracts/manage/:id`} component={ContractComponents.manage.Show}/>
                     <Route path={`${this.props.match.url}/contracts`} component={ContractComponents.Main}/>
                     
+                    <Route path={`${this.props.match.url}/jobPosition`} component={JobPositionComponents.Main}/>
                 </Switch>
             </div>
         </div>

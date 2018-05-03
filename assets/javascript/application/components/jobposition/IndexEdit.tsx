@@ -11,18 +11,18 @@ export class IndexEdit extends BaseReactComponent {
 
     state: {
       initialJobPositions: ModelCollection<JobPosition>
-      jobPositionsToPreparedForRender: ModelCollection<JobPosition>
+      jobPositionsPreparedForRender: ModelCollection<JobPosition>
     } = {
       initialJobPositions: null,
-      jobPositionsToPreparedForRender: new ModelCollection()
+      jobPositionsPreparedForRender: new ModelCollection()
     }
 
     modal: Modal = null
 
     componentDidMount() {
-      JobPosition.index().then((initialJobPositions)=>{
-        let jobPositionsToPreparedForRender = this.buildTree(initialJobPositions)
-        this.setState({initialJobPositions, jobPositionsToPreparedForRender})
+      JobPosition.indexEdit().then((initialJobPositions)=>{
+        let jobPositionsPreparedForRender = this.buildTree(initialJobPositions)
+        this.setState({initialJobPositions, jobPositionsPreparedForRender})
       })
     }
 
@@ -39,12 +39,12 @@ export class IndexEdit extends BaseReactComponent {
         }
         return <div>
           <Modal ref={(it)=>{this.modal = it}}/>
-          {!this.state.jobPositionsToPreparedForRender.isNotEmpty() &&
+          {!this.state.jobPositionsPreparedForRender.isNotEmpty() &&
             <button onClick={this.initDeparmentCreate}>
               add top level department
             </button>
           }
-          {this.state.jobPositionsToPreparedForRender.map((jobPosition)=>{
+          {this.state.jobPositionsPreparedForRender.map((jobPosition)=>{
             return this.renderJobPosition(jobPosition)
           })}
         </div>
@@ -70,10 +70,11 @@ export class IndexEdit extends BaseReactComponent {
     }
 
     @autobind
-    renderDepartment(jobPosition: JobPosition) {
+    renderDepartment(jobPosition: JobPosition): any {
       let departmentHead: JobPosition = null
       let subordinateJobPositions = new ModelCollection<JobPosition>()
       let subordinateDepartments = new ModelCollection<JobPosition>()
+      
       jobPosition.subordinatePositions.forEach((it)=>{
         if (it.isDepartmentHead) {
           departmentHead = it
@@ -83,22 +84,35 @@ export class IndexEdit extends BaseReactComponent {
           subordinateJobPositions.push(it)
         }
       })
+
       return <div>
         <p>
           department head:
         </p>
         {departmentHead
-          ? {this.renderPlain(departmentHead)} 
-          : <div>
-            <button>
-              create department head position
-            <button>
-          </div>
+           ? <div>
+             {departmentHead.name}
+           </div>
+           : <div>
+             <button onClick={()=>{this.initDepartmentHeadCreate(jobPosition.id)}}>
+               add department head
+             </button>
+           </div>
         }
-
         <p>
           subordinates:
         </p>
+        <div>
+          <button onClick={()=>{this.initSubordinateJobPositionToDeparmentCreate(jobPosition.id)}}>
+            add subordinate
+          </button>
+          {subordinateJobPositions.map((subordinateJobPosition)=>{
+            return this.renderJobPosition(subordinateJobPosition)
+          })}
+        </div>
+        {!subordinateDepartments
+
+        }
       </div>
     }
 
@@ -111,18 +125,41 @@ export class IndexEdit extends BaseReactComponent {
 
 
     @autobind
+    initSubordinateJobPositionToDeparmentCreate(parentJobPositionId: number) {
+      this.modal.open(
+        <JobPositionComponents.New 
+          onCreateSuccess={this.onJobPositionCreateSuccess}
+          parentJobPositionId={parentJobPositionId}
+        />
+      )
+    }
+
+
+    @autobind
     initDeparmentCreate() {
        this.modal.open(
-         <JobPositionComponents.New onCreateSuccess={this.onJobPositionCreateSuccess}/>
+         <JobPositionComponents.New 
+           onCreateSuccess={this.onJobPositionCreateSuccess}
+         />
        )
+    }
+
+    @autobind
+    initDepartmentHeadCreate(parentJobPositionId: number) {
+      this.modal.open(
+        <JobPositionComponents.New 
+          onCreateSuccess={this.onJobPositionCreateSuccess}
+          parentJobPositionId={parentJobPositionId}
+        />
+      )
     }
 
     @autobind
     onJobPositionCreateSuccess(jobPosition: JobPosition) {
       let initialJobPositions = this.state.initialJobPositions
       initialJobPositions.push(jobPosition)
-      let jobPositionsToPreparedForRender = this.buildTree(this.state.initialJobPositions)
-      this.setState({initialJobPositions, jobPositionsToPreparedForRender})
+      let jobPositionsPreparedForRender = this.buildTree(this.state.initialJobPositions)
+      this.setState({initialJobPositions, jobPositionsPreparedForRender})
     }
 
 

@@ -2,7 +2,9 @@ package controllers.jobposition
 
 import composers.jobposition.JobPositionCreateComposer
 import controllers.ApplicationControllerBase
+import models.jobposition.daos.JobPositionDaos
 import models.jobposition.tojsonserializers.JobPositionCreateToJsonSerializer
+import models.jobposition.tojsonserializers.JobPositionIndexEditToJsonSerializer
 import router.src.ServletRequestContext
 
 class JobPositionController(context: ServletRequestContext) : ApplicationControllerBase(context) {
@@ -24,6 +26,14 @@ class JobPositionController(context: ServletRequestContext) : ApplicationControl
         }
 
         composer.run()
+    }
+
+    fun indexEdit() {
+        val jobPositions = JobPositionDaos.index.indexEdit()
+
+        renderJson(
+                JobPositionIndexEditToJsonSerializer.onSuccess(jobPositions)
+        )
     }
 
 

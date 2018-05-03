@@ -30,6 +30,11 @@ export class SideBar extends BaseReactComponent {
                         contracts
                     </Link>
                 </li>
+                <li className="pure-menu-item">
+                  <Link to="/dashboards/jobPosition">
+                    company structure
+                  </Link>
+                </li>
             </ul>
         </div>
     }

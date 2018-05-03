@@ -49,6 +49,13 @@ export class JobPosition extends BaseModel {
     @Route("GET", {url: "/api/jobPosition"})
     static index: (options?: RequestOptions) => Promise<ModelCollection<JobPosition>>
 
+    @Route("GET", {url: "/api/jobPosition/indexEdit"})
+    static indexEdit: (options?: RequestOptions) => Promise<ModelCollection<JobPosition>>
+
+    static afterIndexEditRequest(options: RequestOptions) {
+      this.afterIndexRequest(options)
+    }
+
 
 }
 

@@ -708,6 +708,9 @@ class RoutesConfig(override val router: Router): RoutesDrawer(router) {
                 post("") {
                     JobPositionController(it).create()
                 }
+                get("/indexEdit") {
+                    JobPositionController(it).indexEdit()
+                }
             }
 
 

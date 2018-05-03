@@ -15,6 +15,65 @@ class JobPositionValidator(model: JobPosition) : JobPositionValidatorTrait(model
         }
     }
 
+    fun validateSubordinateJobPositionToDepartmentScenario() {
+        validateName()
+        validateThatIsSubordinateToDeparment()
+        validateIsUniquePosition()
+    }
+
+    fun validateDepartmentHeadScenario() {
+        validateName()
+        validateThatIsSubordinateToDeparment()
+        validateThatIsDeparmentHead()
+        validateIsUniquePosition()
+    }
+
+    fun validateDepartmentScenario() {
+        validateName()
+        validateThatIsDepartment()
+        validateIsUniquePosition()
+    }
+
+    fun validateSubordinateDeparmentToDeparmentScenario() {
+        validateDepartmentScenario()
+        validateSubordinateJobPositionToDepartmentScenario()
+        validateIsUniquePosition()
+    }
+
+    private fun validateThatIsDepartment() {
+        val isDepartment = model.isDepartment
+        if (isDepartment == null) {
+            throw IllegalStateException()
+        }
+        if (isDepartment != true) {
+            throw IllegalStateException()
+        }
+    }
+
+    private fun validateThatIsDeparmentHead() {
+        val isDepartmentHead = model.isDepartmentHead
+        if (isDepartmentHead != true) {
+            throw IllegalStateException()
+        }
+        validateIsUniquePosition()
+    }
+
+    private fun validateThatIsSubordinateToDeparment() {
+        val parentJobPositionId = model.parentJobPositionId
+        if (parentJobPositionId == null) {
+            throw IllegalStateException()
+        }
+        val parentJobPosition = JobPositionDaos.show.byId(parentJobPositionId)
+        if (parentJobPosition == null) {
+            validationManager.addParentJobPositionIdError("no such parent position")
+            return
+        }
+        if (parentJobPosition.isDepartment != true) {
+            validationManager.addParentJobPositionIdError("parent position is not department")
+            return
+        }
+    }
+
     private fun validateName() {
         val name = model.name
         if (name == null) {
