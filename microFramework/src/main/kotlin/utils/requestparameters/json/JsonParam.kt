@@ -68,8 +68,10 @@ class JsonParam(val jsonNode: JsonNode): IParam {
     override val long: Long?
         get() {
             if (jsonNode.isNull) {
+                println("is null")
                 return null
             }
+            println("long is ${jsonNode.longValue()}")
             return jsonNode.longValue()
         }
 

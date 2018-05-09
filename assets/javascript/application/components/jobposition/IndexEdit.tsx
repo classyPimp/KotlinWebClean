@@ -1,6 +1,6 @@
 import { BaseReactComponent } from "../../../reactUtils/BaseReactComponent"
 import * as React from 'react'
-import { JobPosition } from '../../models/JobPosition'
+import { JobPosition } from '../../models/JobPosition';
 import { ModelCollection } from '../../../modelLayer/ModelCollection'
 import autobind from 'autobind-decorator'
 import { JobPositionTreeBuilder } from '../../models/JobPosition'
@@ -55,7 +55,7 @@ export class IndexEdit extends BaseReactComponent {
       if (jobPosition.isDepartment) {
         return this.renderDepartment(jobPosition)
       }
-      return <div>
+      return <div key={jobPosition.id}>
         <p>
           {jobPosition.name}
         </p>
@@ -85,7 +85,10 @@ export class IndexEdit extends BaseReactComponent {
         }
       })
 
-      return <div>
+      return <div key={jobPosition.id}>
+        <h3>
+          {jobPosition.name}
+        </h3>
         <p>
           department head:
         </p>
@@ -110,8 +113,13 @@ export class IndexEdit extends BaseReactComponent {
             return this.renderJobPosition(subordinateJobPosition)
           })}
         </div>
-        {!subordinateDepartments
-
+        <button onClick={()=>{this.initSubordinateDepartmentCreate(jobPosition.id)}}>  
+          add subordinate department
+        </button>
+        {subordinateDepartments &&
+          subordinateDepartments.map((subordinateDepartment)=>{
+            return this.renderJobPosition(subordinateDepartment)
+          })
         }
       </div>
     }
@@ -137,9 +145,11 @@ export class IndexEdit extends BaseReactComponent {
 
     @autobind
     initDeparmentCreate() {
+      console.log("initDeparmentCreate")
        this.modal.open(
          <JobPositionComponents.New 
            onCreateSuccess={this.onJobPositionCreateSuccess}
+           isDeparment = {true}
          />
        )
     }
@@ -150,6 +160,19 @@ export class IndexEdit extends BaseReactComponent {
         <JobPositionComponents.New 
           onCreateSuccess={this.onJobPositionCreateSuccess}
           parentJobPositionId={parentJobPositionId}
+          isDepartmentHead = {true}
+          isUniquePosition = {true}
+        />
+      )
+    }
+
+    @autobind
+    initSubordinateDepartmentCreate(parentJobPositionId: number) {
+      this.modal.open(
+        <JobPositionComponents.New
+          onCreateSuccess={this.onJobPositionCreateSuccess}
+          parentJobPositionId={parentJobPositionId}
+          isDeparment={true}        
         />
       )
     }
@@ -159,6 +182,7 @@ export class IndexEdit extends BaseReactComponent {
       let initialJobPositions = this.state.initialJobPositions
       initialJobPositions.push(jobPosition)
       let jobPositionsPreparedForRender = this.buildTree(this.state.initialJobPositions)
+      this.modal.close()
       this.setState({initialJobPositions, jobPositionsPreparedForRender})
     }
 

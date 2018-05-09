@@ -19,7 +19,7 @@ import { DocumentTemplateCategoriesComponents } from '../documenttemplatecategor
 import { ContractCategoryComponents } from '../contractcategories/ContractCategoryComponents'
 import { ContractToUploadedDocumentLinkReasonComponents } from '../contracttouploadeddocumentlinkreason/ContractToUploadedDocumentLinkReasonComponents';
 import { ContractComponents } from '../contract/ContractComponents'
-import { JobPositionComponents } from '../jobPosition/JobPositionComponents'
+import { JobPositionComponents } from '../jobposition/JobPositionComponents'
 
 export class Main extends BaseReactComponent {
 

@@ -18,16 +18,16 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
       onCreateSuccess: (jobPosition: JobPosition)=>any
       parentJobPositionId?: number
       isUniquePosition?: boolean
+      isDeparment?: boolean
+      isDepartmentHead?: boolean
     }
 
     constructor(...args: Array<any>) {
       super(...args)
-      if (this.props.isUniquePosition) {
-        this.state.jobPosition.isUniquePosition = this.props.isUniquePosition
-      }
-      if (this.props.parentJobPositionId) {
-        this.state.jobPosition.parentJobPositionId = this.props.parentJobPositionId
-      }
+      this.state.jobPosition.isUniquePosition = this.props.isUniquePosition
+      this.state.jobPosition.parentJobPositionId = this.props.parentJobPositionId
+      this.state.jobPosition.isDepartment = this.props.isDeparment
+      this.state.jobPosition.isDepartmentHead = this.props.isDepartmentHead
     }
 
     render(){

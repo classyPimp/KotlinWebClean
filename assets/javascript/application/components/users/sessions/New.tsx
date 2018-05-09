@@ -6,7 +6,7 @@ import { BaseReactComponent } from '../../../../reactUtils/BaseReactComponent';
 import { PlainInputElement } from '../../../../reactUtils/plugins/formable/formElements/PlainInput';
 import * as React from 'react';
 import { Account } from '../../../models/Account';
-
+import { UsersComponents } from '../UsersComponents';
 
 export class New extends MixinFormableTrait(BaseReactComponent) {
 
@@ -36,6 +36,13 @@ export class New extends MixinFormableTrait(BaseReactComponent) {
             <button onClick={this.submit}>
                 login
             </button>
+            <h1>
+                Or
+            </h1>
+            <div>
+                <UsersComponents.registration.create />
+            </div>
+
         </div>
     }
 

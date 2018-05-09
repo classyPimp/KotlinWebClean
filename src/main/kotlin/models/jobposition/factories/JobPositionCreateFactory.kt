@@ -10,7 +10,8 @@ object JobPositionCreateFactory {
             it.isDepartment = params.isDepartment
             it.isUniquePosition = params.isUniquePosition
             it.name = params.name
-            it.parentJobPositionId
+            it.parentJobPositionId = params.parentJobPositionId
+            it.isDepartmentHead = params.isDepartmentHead
         }
 
         return jobPosition

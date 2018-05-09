@@ -26,7 +26,7 @@ export class JobPosition extends BaseModel {
     name: string
 
     @Property
-    isDepartment: string
+    isDepartment: boolean
 
     @Property
     isDepartmentHead: boolean

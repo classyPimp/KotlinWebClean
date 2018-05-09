@@ -39,7 +39,9 @@ class JobPositionCreateComposer(val params: IParam) : ComposerBase() {
     }
 
     private fun setJobPositionToCreateType() {
+
         if (wrappedParams.isDepartment == true) {
+            println(wrappedParams.parentJobPositionId)
             if (wrappedParams.parentJobPositionId != null) {
                 jobPositionToCreateType = JobPositionToCreateType.SUBORDINATE_DEPARTMENT_TO_DEPARTMENT
             } else {
