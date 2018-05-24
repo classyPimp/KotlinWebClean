@@ -274,32 +274,6 @@ ActiveRecord::Schema.define(version: 20180425061713) do
     t.index ["uploaded_document_id"], name: "index_document_templates_on_uploaded_document_id"
   end
 
-  create_table "generic_model_to_uploaded_file_relations", force: :cascade do |t|
-    t.string "related_model_type"
-    t.bigint "related_model_id"
-    t.string "primary_related_model_type"
-    t.bigint "primary_related_model_id"
-    t.integer "primary_hardcoded_relation_reason"
-    t.bigint "primary_user_definable_relation_reason_id"
-    t.boolean "uploaded_file_is_folder"
-    t.integer "hardcoded_relation_reason"
-    t.bigint "user_definable_relation_reason_id"
-    t.bigint "uploaded_file_id"
-    t.datetime "file_is_soft_deleted_since"
-    t.datetime "file_is_permanently_deleted_since"
-    t.integer "access_level"
-    t.string "access_hash_code"
-    t.string "sub_identifier"
-    t.string "arbitrary_text_information"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["primary_related_model_type", "primary_related_model_id"], name: "gemotoupfire_prremo"
-    t.index ["primary_user_definable_relation_reason_id"], name: "gemotoupfire_pr_usdere"
-    t.index ["related_model_type", "related_model_id"], name: "gemotoupfire_remoid"
-    t.index ["uploaded_file_id"], name: "gemotoupfire_upfi"
-    t.index ["user_definable_relation_reason_id"], name: "gemotoupfire_usderere"
-  end
-
   create_table "generic_resource_access_permissions", force: :cascade do |t|
     t.string "resource_type"
     t.bigint "resource_id"
@@ -313,6 +287,32 @@ ActiveRecord::Schema.define(version: 20180425061713) do
     t.index ["access_granted_to_type", "access_granted_to_id"], name: "gereacpe_acgrto"
     t.index ["access_originating_from_type", "access_originating_from_id"], name: "gereacpe_acorfr"
     t.index ["resource_type", "resource_id"], name: "gereacpe_re"
+  end
+
+  create_table "generic_to_uploaded_file_links", force: :cascade do |t|
+    t.string "linked_model_type"
+    t.bigint "linked_model_id"
+    t.string "primary_linked_model_type"
+    t.bigint "primary_linked_model_id"
+    t.integer "primary_hardcoded_link_reason"
+    t.bigint "primary_user_definable_link_reason_id"
+    t.boolean "uploaded_file_is_folder"
+    t.integer "secondary_hardcoded_link_reason"
+    t.bigint "secondary_user_definable_link_reason_id"
+    t.bigint "uploaded_file_id"
+    t.datetime "file_is_soft_deleted_since"
+    t.datetime "file_is_permanently_deleted_since"
+    t.integer "access_level"
+    t.string "access_hash_code"
+    t.string "sub_identifier"
+    t.string "arbitrary_text_information"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["linked_model_type", "linked_model_id"], name: "gemotoupfire_remoid"
+    t.index ["primary_linked_model_type", "primary_linked_model_id"], name: "gemotoupfire_prremo"
+    t.index ["primary_user_definable_link_reason_id"], name: "gemotoupfire_pr_usdere"
+    t.index ["secondary_user_definable_link_reason_id"], name: "gemotoupfire_usderere"
+    t.index ["uploaded_file_id"], name: "gemotoupfire_upfi"
   end
 
   create_table "incorporation_forms", force: :cascade do |t|
@@ -450,14 +450,14 @@ ActiveRecord::Schema.define(version: 20180425061713) do
     t.string "access_hash_code"
     t.string "primary_permitted_to_type"
     t.bigint "primary_permitted_to_id"
-    t.string "hardcoded_relation_reason"
-    t.bigint "user_definable_relation_reason_id"
+    t.string "hardcoded_link_reason"
+    t.bigint "user_definable_link_reason_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["permitted_to_type", "permitted_to_id"], name: "apretoupdo_poly_peto"
     t.index ["primary_permitted_to_type", "primary_permitted_to_id"], name: "apretoupdo_poly_prpeto"
     t.index ["uploaded_file_id"], name: "index_uploaded_file_permissions_on_uploaded_file_id"
-    t.index ["user_definable_relation_reason_id"], name: "upfipe_usderere"
+    t.index ["user_definable_link_reason_id"], name: "upfipe_usderere"
   end
 
   create_table "uploaded_files", force: :cascade do |t|
@@ -475,7 +475,7 @@ ActiveRecord::Schema.define(version: 20180425061713) do
     t.index ["shortcut_to_id"], name: "index_uploaded_files_on_shortcut_to_id"
   end
 
-  create_table "user_definable_relation_reasons", force: :cascade do |t|
+  create_table "user_definable_link_reasons", force: :cascade do |t|
     t.string "reason_name"
     t.string "for_type"
     t.string "sub_identifier"
@@ -543,9 +543,9 @@ ActiveRecord::Schema.define(version: 20180425061713) do
   add_foreign_key "document_template_to_document_variable_links", "document_templates"
   add_foreign_key "document_templates", "document_template_categories"
   add_foreign_key "document_templates", "uploaded_documents"
-  add_foreign_key "generic_model_to_uploaded_file_relations", "uploaded_files"
-  add_foreign_key "generic_model_to_uploaded_file_relations", "user_definable_relation_reasons"
-  add_foreign_key "generic_model_to_uploaded_file_relations", "user_definable_relation_reasons", column: "primary_user_definable_relation_reason_id"
+  add_foreign_key "generic_to_uploaded_file_links", "uploaded_files"
+  add_foreign_key "generic_to_uploaded_file_links", "user_definable_link_reasons", column: "primary_user_definable_link_reason_id"
+  add_foreign_key "generic_to_uploaded_file_links", "user_definable_link_reasons", column: "secondary_user_definable_link_reason_id"
   add_foreign_key "job_position_delegations", "job_positions", column: "delegated_position_id"
   add_foreign_key "job_position_delegations", "users", column: "delegated_from_user_id"
   add_foreign_key "job_position_delegations", "users", column: "delegated_to_user_id"
@@ -564,7 +564,7 @@ ActiveRecord::Schema.define(version: 20180425061713) do
   add_foreign_key "person_to_counter_party_links", "person_to_counter_party_link_reasons"
   add_foreign_key "uploaded_documents", "uploaded_documents"
   add_foreign_key "uploaded_file_permissions", "uploaded_files"
-  add_foreign_key "uploaded_file_permissions", "user_definable_relation_reasons"
+  add_foreign_key "uploaded_file_permissions", "user_definable_link_reasons"
   add_foreign_key "uploaded_files", "uploaded_files", column: "folder_id"
   add_foreign_key "uploaded_files", "uploaded_files", column: "shortcut_to_id"
   add_foreign_key "user_to_user_role_links", "user_roles"

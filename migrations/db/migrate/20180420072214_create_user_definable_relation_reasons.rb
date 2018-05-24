@@ -1,6 +1,6 @@
 class CreateUserDefinableRelationReasons < ActiveRecord::Migration[5.1]
   def change
-    create_table :user_definable_relation_reasons do |t|
+    create_table :user_definable_link_reasons do |t|
       t.string :reason_name
       t.string :for_type
       t.string :sub_identifier

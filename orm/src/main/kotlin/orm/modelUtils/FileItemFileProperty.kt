@@ -250,6 +250,9 @@ abstract class FileItemFileProperty {
             OperationType.UNSET -> {
 
             }
+            else -> {
+
+            }
         }
     }
 
@@ -282,7 +285,7 @@ abstract class FileItemFileProperty {
                 move(depth + "/${file.name}", it)
             }
         } else if (file.isFile) {
-            val fileToRenameTo = File(depth).also {
+            File(depth).also {
                 if (!it.exists()) {
                     it.mkdirs()
                 }

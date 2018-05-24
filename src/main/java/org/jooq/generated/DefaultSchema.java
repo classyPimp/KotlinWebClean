@@ -39,8 +39,8 @@ import org.jooq.generated.tables.DocumentTemplateCategories;
 import org.jooq.generated.tables.DocumentTemplateToDocumentVariableLinks;
 import org.jooq.generated.tables.DocumentTemplateVariables;
 import org.jooq.generated.tables.DocumentTemplates;
-import org.jooq.generated.tables.GenericModelToUploadedFileRelations;
 import org.jooq.generated.tables.GenericResourceAccessPermissions;
+import org.jooq.generated.tables.GenericToUploadedFileLinks;
 import org.jooq.generated.tables.IncorporationForms;
 import org.jooq.generated.tables.JobPositionDelegations;
 import org.jooq.generated.tables.JobPositionToUserLinks;
@@ -57,7 +57,7 @@ import org.jooq.generated.tables.SchemaMigrations;
 import org.jooq.generated.tables.UploadedDocuments;
 import org.jooq.generated.tables.UploadedFilePermissions;
 import org.jooq.generated.tables.UploadedFiles;
-import org.jooq.generated.tables.UserDefinableRelationReasons;
+import org.jooq.generated.tables.UserDefinableLinkReasons;
 import org.jooq.generated.tables.UserRoles;
 import org.jooq.generated.tables.UserToUserRoleLinks;
 import org.jooq.generated.tables.Users;
@@ -77,7 +77,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = -41822035;
+    private static final long serialVersionUID = -15200499;
 
     /**
      * The reference instance of <code></code>
@@ -220,14 +220,14 @@ public class DefaultSchema extends SchemaImpl {
     public final DocumentTemplates DOCUMENT_TEMPLATES = org.jooq.generated.tables.DocumentTemplates.DOCUMENT_TEMPLATES;
 
     /**
-     * The table <code>generic_model_to_uploaded_file_relations</code>.
-     */
-    public final GenericModelToUploadedFileRelations GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS = org.jooq.generated.tables.GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS;
-
-    /**
      * The table <code>generic_resource_access_permissions</code>.
      */
     public final GenericResourceAccessPermissions GENERIC_RESOURCE_ACCESS_PERMISSIONS = org.jooq.generated.tables.GenericResourceAccessPermissions.GENERIC_RESOURCE_ACCESS_PERMISSIONS;
+
+    /**
+     * The table <code>generic_to_uploaded_file_links</code>.
+     */
+    public final GenericToUploadedFileLinks GENERIC_TO_UPLOADED_FILE_LINKS = org.jooq.generated.tables.GenericToUploadedFileLinks.GENERIC_TO_UPLOADED_FILE_LINKS;
 
     /**
      * The table <code>incorporation_forms</code>.
@@ -310,9 +310,9 @@ public class DefaultSchema extends SchemaImpl {
     public final UploadedFiles UPLOADED_FILES = org.jooq.generated.tables.UploadedFiles.UPLOADED_FILES;
 
     /**
-     * The table <code>user_definable_relation_reasons</code>.
+     * The table <code>user_definable_link_reasons</code>.
      */
-    public final UserDefinableRelationReasons USER_DEFINABLE_RELATION_REASONS = org.jooq.generated.tables.UserDefinableRelationReasons.USER_DEFINABLE_RELATION_REASONS;
+    public final UserDefinableLinkReasons USER_DEFINABLE_LINK_REASONS = org.jooq.generated.tables.UserDefinableLinkReasons.USER_DEFINABLE_LINK_REASONS;
 
     /**
      * The table <code>user_roles</code>.
@@ -381,8 +381,8 @@ public class DefaultSchema extends SchemaImpl {
             DocumentTemplateToDocumentVariableLinks.DOCUMENT_TEMPLATE_TO_DOCUMENT_VARIABLE_LINKS,
             DocumentTemplateVariables.DOCUMENT_TEMPLATE_VARIABLES,
             DocumentTemplates.DOCUMENT_TEMPLATES,
-            GenericModelToUploadedFileRelations.GENERIC_MODEL_TO_UPLOADED_FILE_RELATIONS,
             GenericResourceAccessPermissions.GENERIC_RESOURCE_ACCESS_PERMISSIONS,
+            GenericToUploadedFileLinks.GENERIC_TO_UPLOADED_FILE_LINKS,
             IncorporationForms.INCORPORATION_FORMS,
             JobPositionDelegations.JOB_POSITION_DELEGATIONS,
             JobPositionToUserLinks.JOB_POSITION_TO_USER_LINKS,
@@ -399,7 +399,7 @@ public class DefaultSchema extends SchemaImpl {
             UploadedDocuments.UPLOADED_DOCUMENTS,
             UploadedFilePermissions.UPLOADED_FILE_PERMISSIONS,
             UploadedFiles.UPLOADED_FILES,
-            UserDefinableRelationReasons.USER_DEFINABLE_RELATION_REASONS,
+            UserDefinableLinkReasons.USER_DEFINABLE_LINK_REASONS,
             UserRoles.USER_ROLES,
             UserToUserRoleLinks.USER_TO_USER_ROLE_LINKS,
             Users.USERS);

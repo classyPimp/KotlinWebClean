@@ -1,13 +1,11 @@
 package models.uploadedfilepermission
 
-import models.uploadedfilepermission.UploadedFilePermission
 import utils.requestparameters.IParam
 
 import java.sql.Timestamp
 
-import org.jooq.generated.tables.UserDefinableRelationReasons
-import models.userdefinablerelationreason.UserDefinableRelationReason
-import models.userdefinablerelationreason.UserDefinableRelationReasonRequestParametersWrapper
+import org.jooq.generated.tables.UserDefinableLinkReasons
+import models.userdefinablelinkreason.UserDefinableLinkReasonRequestParametersWrapper
 
 class UploadedFilePermissionRequestParametersWrapper(val requestParameters: IParam) {
 
@@ -22,11 +20,11 @@ class UploadedFilePermissionRequestParametersWrapper(val requestParameters: IPar
     val accessHashCode: String? by lazy { requestParameters.get("accessHashCode")?.string }
     val primaryPermittedToId: Long? by lazy { requestParameters.get("primaryPermittedToId")?.long }
     val primaryPermittedToType: String? by lazy { requestParameters.get("primaryPermittedToType")?.string }
-    val hardcodedRelationReason: String? by lazy { requestParameters.get("hardcodedRelationReason")?.string }
-    val userDefinableRelationReasonId: Long? by lazy { requestParameters.get("userDefinableRelationReasonId")?.long }
-    val userDefinableRelationReason: UserDefinableRelationReasonRequestParametersWrapper? by lazy {
-        requestParameters.get("userDefinableRelationReason")?.let {
-            UserDefinableRelationReasonRequestParametersWrapper(it)
+    val hardcodedLinkReason: String? by lazy { requestParameters.get("hardcodedLinkReason")?.string }
+    val userDefinableLinkReasonId: Long? by lazy { requestParameters.get("userDefinableLinkReasonId")?.long }
+    val userDefinableLinkReason: UserDefinableLinkReasonRequestParametersWrapper? by lazy {
+        requestParameters.get("userDefinableLinkReason")?.let {
+            UserDefinableLinkReasonRequestParametersWrapper(it)
         }
     }
 

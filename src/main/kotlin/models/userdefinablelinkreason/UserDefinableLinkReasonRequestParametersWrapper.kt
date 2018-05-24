@@ -1,12 +1,11 @@
-package models.userdefinablerelationreason
+package models.userdefinablelinkreason
 
-import models.userdefinablerelationreason.UserDefinableRelationReason
 import utils.requestparameters.IParam
 
 import java.sql.Timestamp
 
 
-class UserDefinableRelationReasonRequestParametersWrapper(val requestParameters: IParam) {
+class UserDefinableLinkReasonRequestParametersWrapper(val requestParameters: IParam) {
 
     val id: Long? by lazy { requestParameters.get("id")?.long }
     val createdAt: Timestamp? by lazy { requestParameters.get("createdAt")?.timestamp }

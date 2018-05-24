@@ -1,14 +1,14 @@
-package models.userdefinablerelationreason
+package models.userdefinablelinkreason
 
-import org.jooq.generated.tables.UserDefinableRelationReasons
+import org.jooq.generated.tables.UserDefinableLinkReasons
 import orm.annotations.*
-import orm.userdefinablerelationreasongeneratedrepository.UserDefinableRelationReasonRecord
+import orm.userdefinablelinkreasongeneratedrepository.UserDefinableLinkReasonRecord
 import java.sql.Timestamp
 
-@IsModel(jooqTable = UserDefinableRelationReasons::class)
-class UserDefinableRelationReason {
+@IsModel(jooqTable = UserDefinableLinkReasons::class)
+class UserDefinableLinkReason {
 
-    val record: UserDefinableRelationReasonRecord by lazy { UserDefinableRelationReasonRecord(this) }
+    val record: UserDefinableLinkReasonRecord by lazy { UserDefinableLinkReasonRecord(this) }
 
     @TableField(name = "ID")
     @IsPrimaryKey

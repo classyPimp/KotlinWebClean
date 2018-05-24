@@ -4,8 +4,8 @@ import org.jooq.generated.tables.UploadedFilePermissions
 import orm.annotations.*
 import orm.uploadedfilepermissiongeneratedrepository.UploadedFilePermissionRecord
 import java.sql.Timestamp
-import org.jooq.generated.tables.UserDefinableRelationReasons
-import models.userdefinablerelationreason.UserDefinableRelationReason
+import org.jooq.generated.tables.UserDefinableLinkReasons
+import models.userdefinablelinkreason.UserDefinableLinkReason
 
 @IsModel(jooqTable = UploadedFilePermissions::class)
 class UploadedFilePermission {
@@ -46,14 +46,14 @@ class UploadedFilePermission {
     @TableField(name = "PRIMARY_PERMITTED_TO_TYPE")
     var primaryPermittedToType: String? = null
 
-    @TableField(name = "HARDCODED_RELATION_REASON")
-    var hardcodedRelationReason: String? = null
+    @TableField(name = "HARDCODED_LINK_REASON")
+    var hardcodedLinkReason: String? = null
 
-    @TableField(name = "USER_DEFINABLE_RELATION_REASON_ID")
-    var userDefinableRelationReasonId: Long? = null
+    @TableField(name = "USER_DEFINABLE_LINK_REASON_ID")
+    var userDefinableLinkReasonId: Long? = null
 
-    @BelongsTo(model = UserDefinableRelationReason::class, fieldOnThis = "USER_DEFINABLE_RELATION_REASON_ID", fieldOnThat = "ID")
-    var userDefinableRelationReason: UserDefinableRelationReason? = null
+    @BelongsTo(model = UserDefinableLinkReason::class, fieldOnThis = "USER_DEFINABLE_LINK_REASON_ID", fieldOnThat = "ID")
+    var userDefinableLinkReason: UserDefinableLinkReason? = null
 
 
 }

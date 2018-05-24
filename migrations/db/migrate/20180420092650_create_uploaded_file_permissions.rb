@@ -7,8 +7,8 @@ class CreateUploadedFilePermissions < ActiveRecord::Migration[5.1]
       t.references :permitted_to, polymorphic: true, index: {name: "apretoupdo_poly_peto"}
       t.string :access_hash_code
       t.references :primary_permitted_to, polymorphic: true, index: {name: "apretoupdo_poly_prpeto"}
-      t.string :hardcoded_relation_reason
-      t.references :user_definable_relation_reason, foreign_key: true, index: {name: "upfipe_usderere"}
+      t.string :hardcoded_link_reason
+      t.references :user_definable_link_reason, foreign_key: true, index: {name: "upfipe_usderere"}
       t.timestamps
     end
   end
