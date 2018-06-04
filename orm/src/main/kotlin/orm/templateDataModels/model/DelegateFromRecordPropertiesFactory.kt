@@ -12,9 +12,6 @@ import javax.lang.model.element.ExecutableElement
  * Created by Муса on 16.11.2017.
  */
 
-object Foo {
-    val col = mutableListOf<String>()
-}
 class DelegateFromRecordPropertiesFactory {
 
     fun create(element: Element): MutableList<DelegateFromRecordPropertyBean> {
